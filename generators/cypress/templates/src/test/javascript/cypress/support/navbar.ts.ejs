@@ -1,0 +1,77 @@
+<%#
+ Copyright 2013-2022 the original author or authors from the JHipster project.
+
+ This file is part of the JHipster project, see https://www.jhipster.tech/
+ for more information.
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      https://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-%>
+/* eslint-disable @typescript-eslint/no-namespace */
+/* eslint-disable @typescript-eslint/no-use-before-define */
+
+import {
+  navbarSelector,
+  adminMenuSelector,
+  accountMenuSelector,
+  registerItemSelector,
+  loginItemSelector,
+  logoutItemSelector,
+  settingsItemSelector,
+  passwordItemSelector,
+  entityItemSelector,
+} from './commands';
+
+Cypress.Commands.add('clickOnLoginItem', () => {
+  return cy.get(navbarSelector).get(accountMenuSelector).click().get(loginItemSelector).click();
+});
+
+Cypress.Commands.add('clickOnLogoutItem', () => {
+  return cy.get(navbarSelector).get(accountMenuSelector).click().get(logoutItemSelector).click();
+});
+
+Cypress.Commands.add('clickOnRegisterItem', () => {
+  return cy.get(navbarSelector).get(accountMenuSelector).click().get(registerItemSelector).click();
+});
+
+Cypress.Commands.add('clickOnSettingsItem', () => {
+  return cy.get(navbarSelector).get(accountMenuSelector).click().get(settingsItemSelector).click();
+});
+
+Cypress.Commands.add('clickOnPasswordItem', () => {
+  return cy.get(navbarSelector).get(accountMenuSelector).click().get(passwordItemSelector).click();
+});
+
+Cypress.Commands.add('clickOnAdminMenuItem', (item: string) => {
+  return cy.get(navbarSelector).get(adminMenuSelector).click().get(`.dropdown-item[href="/admin/${item}"]`).click();
+});
+
+Cypress.Commands.add('clickOnEntityMenuItem', (entityName: string) => {
+  return cy.get(navbarSelector).get(entityItemSelector).click().get(`.dropdown-item[href="/${entityName}"]`).click();
+});
+
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      clickOnLoginItem(): Cypress.Chainable;
+      clickOnLogoutItem(): Cypress.Chainable;
+      clickOnRegisterItem(): Cypress.Chainable;
+      clickOnSettingsItem(): Cypress.Chainable;
+      clickOnPasswordItem(): Cypress.Chainable;
+      clickOnAdminMenuItem(item: string): Cypress.Chainable;
+      clickOnEntityMenuItem(entityName: string): Cypress.Chainable;
+    }
+  }
+}
+
+// Convert this to a module instead of script (allows import/export)
+export {};

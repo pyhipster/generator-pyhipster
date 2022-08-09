@@ -1,0 +1,153 @@
+{
+  "name": "generator-jhipster",
+  "version": "7.8.1",
+  "description": "Spring Boot + Angular/React/Vue in one handy generator",
+  "keywords": [
+    "yeoman-generator",
+    "Java",
+    "Spring",
+    "Spring Boot",
+    "Spring Security",
+    "JPA",
+    "Hibernate",
+    "React",
+    "Angular",
+    "Vue",
+    "Twitter Bootstrap",
+    "Webpack",
+    "Docker",
+    "JDL"
+  ],
+  "homepage": "https://www.jhipster.tech/",
+  "bugs": "https://github.com/jhipster/generator-jhipster/issues",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jhipster/generator-jhipster.git"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/generator-jhipster"
+  },
+  "license": "Apache-2.0",
+  "author": {
+    "name": "Julien Dubois",
+    "email": "",
+    "url": "https://github.com/jdubois"
+  },
+  "exports": {
+    ".": {
+      "import": "./lib/index.mjs",
+      "default": "./lib/index.js"
+    },
+    "./cli/": "./cli/",
+    "./generators/": "./generators/",
+    "./jdl/": "./jdl/",
+    "./lib/": "./lib/",
+    "./utils/": "./utils/",
+    "./package.json": "./package.json",
+    "./esm/cli": "./cli/index.mjs",
+    "./esm/generators/*": "./generators/*/esm.mjs",
+    "./esm/generators": "./lib/constants/generators.mjs",
+    "./esm/priorities": "./lib/constants/priorities.mjs",
+    "./esm/support": "./lib/support/index.cjs"
+  },
+  "main": "lib/index.js",
+  "bin": {
+    "jhipster": "cli/jhipster.js"
+  },
+  "files": [
+    "cli",
+    "generators",
+    "jdl",
+    "lib",
+    "utils",
+    "!**/__*",
+    "!**/*.snap",
+    "!**/*.spec.?(c|m)js"
+  ],
+  "scripts": {
+    "completion": "tabtab install --name jhipster --auto",
+    "ejs-lint": "mocha test/ejslint.js",
+    "ejslint": "ejslint",
+    "eslint": "eslint . --ext .js,.cjs,.mjs",
+    "jdl:test": "mocha test/jdl --no-insight --forbid-only -p",
+    "jdl:test-watch": "npm run jdl:test -- --watch",
+    "jsdoc": "jsdoc --configure jsdoc-conf.json",
+    "lint": "npm run eslint && npm run ejs-lint",
+    "lint-fix": "npm run prettier:format && npm run eslint -- --fix",
+    "prettier:check": "prettier --check \"{,**/}*.{js,cjs,mjs,json,md,yml,java}\"",
+    "prettier:format": "prettier --write \"{,**/}*.{js,cjs,mjs,json,md,yml,java}\"",
+    "pretest": "npm run lint",
+    "test": "mocha test generators --no-insight --forbid-only --parallel --max-old-space-size=4096",
+    "update-snapshot": "mocha --no-insight --no-parallel --updateSnapshot --",
+    "update-snapshots": "npm run update-snapshot -- test generators"
+  },
+  "dependencies": {
+    "@faker-js/faker": "5.5.3",
+    "aws-sdk": "2.1106.0",
+    "axios": "0.26.1",
+    "chalk": "4.1.2",
+    "chevrotain": "10.1.2",
+    "commander": "9.1.0",
+    "conf": "10.1.2",
+    "debug": "4.3.4",
+    "didyoumean": "1.2.2",
+    "ejs": "3.1.6",
+    "glob": "7.2.0",
+    "insight": "0.11.1",
+    "js-yaml": "4.1.0",
+    "lodash": "4.17.21",
+    "mem-fs-editor": "9.4.0",
+    "minimatch": "5.0.1",
+    "normalize-path": "3.0.0",
+    "os-locale": "5.0.0",
+    "p-queue": "6.6.2",
+    "p-transform": "1.3.0",
+    "parse-gitignore": "1.0.1",
+    "pluralize": "8.0.0",
+    "prettier": "2.6.2",
+    "prettier-plugin-java": "1.6.1",
+    "prettier-plugin-packagejson": "2.2.17",
+    "progress": "2.0.3",
+    "randexp": "0.5.3",
+    "semver": "7.3.5",
+    "shelljs": "0.8.5",
+    "simple-git": "3.5.0",
+    "then-request": "6.0.2",
+    "uuid": "8.3.2",
+    "winston": "3.6.0",
+    "yeoman-environment": "3.9.1",
+    "yeoman-generator": "5.6.1"
+  },
+  "devDependencies": {
+    "chai": "4.3.6",
+    "ejs-lint": "1.2.1",
+    "eslint": "8.12.0",
+    "eslint-config-airbnb-base": "15.0.0",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-chai-friendly": "0.7.2",
+    "eslint-plugin-import": "2.25.4",
+    "eslint-plugin-mocha": "10.0.3",
+    "eslint-plugin-prettier": "4.0.0",
+    "expect": "27.5.1",
+    "fs-extra": "10.0.1",
+    "jsdoc": "3.6.10",
+    "mocha": "9.2.2",
+    "mocha-expect-snapshot": "3.1.0",
+    "proxyquire": "2.1.3",
+    "sinon": "13.0.1",
+    "sinon-chai": "3.7.0",
+    "sort-keys": "4.2.0",
+    "yeoman-assert": "3.1.1",
+    "yeoman-test": "6.3.0"
+  },
+  "engines": {
+    "node": "^12.20.0 || ^14.13.1 || >=16.0.0",
+    "npm": ">=6.14.4"
+  },
+  "collective": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/generator-jhipster",
+    "logo": "https://opencollective.com/opencollective/logo.txt"
+  }
+}

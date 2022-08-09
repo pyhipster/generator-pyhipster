@@ -1,0 +1,11 @@
+Description:
+    Initializes a Heroku app and generates a JAR file that is ready to push to Heroku.
+
+Example:
+    jhipster heroku
+
+    This will create:
+        Procfile
+        system.properties
+        application-heroku.yml
+        gradle/heroku.gradle
