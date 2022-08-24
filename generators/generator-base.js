@@ -1538,7 +1538,7 @@ module.exports = class JHipsterBaseGenerator extends PrivateBase {
    */
   composeWithJHipster(generator, args, options, once = false) {
     assert(typeof generator === 'string', 'generator should to be a string');
-    const namespace = generator.includes(':') ? generator : `jhipster:${generator}`;
+    const namespace = generator.includes(':') ? generator : `pyhipster:${generator}`;
     let immediately = false;
     if (typeof once === 'object') {
       immediately = once.immediately;

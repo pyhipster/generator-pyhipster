@@ -1,0 +1,256 @@
+<%#
+ Copyright 2013-2022 the original author or authors from the JHipster project.
+
+ This file is part of the JHipster project, see https://www.jhipster.tech/
+ for more information.
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      https://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-%>
+# ===================================================================
+# Spring Boot configuration.
+#
+# This configuration is used for unit/integration tests.
+#
+# More information on profiles: https://www.jhipster.tech/profiles/
+# More information on configuration properties: https://www.jhipster.tech/common-application-properties/
+# ===================================================================
+
+# ===================================================================
+# Standard Spring Boot properties.
+# Full reference is available at:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+
+<%_ if (databaseTypeNeo4j) { _%>
+org:
+  neo4j:
+    migrations:
+      locations-to-scan:
+      packages-to-scan: <%= packageName %>.config.neo4j
+      installed-by: <%= baseName %>
+<%_ } _%>
+
+<%_ if (serviceDiscoveryEureka) { _%>
+eureka:
+  client:
+    enabled: false
+  instance:
+    appname: <%= baseName %>
+    instanceId: <%= baseName %>:${spring.application.instance-id:${random.value}}
+<%_ } _%>
+
+<%_ if (databaseTypeMongodb) { _%>
+mongock:
+  migration-scan-package:
+    - <%= packageName %>.config.dbmigrations
+  mongo-db:
+    read-concern: local
+    write-concern:
+      journal: false
+
+<%_ } _%>
+spring:
+<%_ if (databaseTypeSql && devDatabaseTypeH2Any) { _%>
+  profiles:
+    # Uncomment the following line to enable tests against production database type rather than H2, using Testcontainers
+    #active: testcontainers
+<%_ } _%>
+  application:
+    name: <%= baseName %>
+<%_ if (applicationTypeGateway && reactive) { _%>
+  autoconfigure:
+    exclude:
+      - org.springframework.cloud.gateway.config.GatewayMetricsAutoConfiguration
+<%_ } _%>
+<%_ if (serviceDiscoveryEureka || serviceDiscoveryConsul || messageBrokerKafka) { _%>
+  cloud:
+<%_ } _%>
+<%_ if (serviceDiscoveryEureka) { _%>
+    config:
+      enabled: false
+<%_ } _%>
+<%_ if (serviceDiscoveryConsul) { _%>
+    consul:
+      discovery:
+        enabled: false
+        instanceId: ${spring.application.name}:${spring.application.instance-id:${random.value}}
+      config:
+        enabled: false
+      enabled: false
+<%_ } _%>
+<%_ if (messageBrokerKafka) { _%>
+    stream:
+      kafka:
+        binder:
+          replicationFactor: 1
+          auto-create-topics: true
+        bindings:
+          binding-in-sse:
+            destination: sse-topic
+            content-type: text/plain
+            group: <%= dasherizedBaseName %>
+          binding-out-sse:
+            destination: sse-topic
+            content-type: text/plain
+            group: <%= dasherizedBaseName %>
+<%_ } _%>
+
+<%_ if (databaseTypeSql && !reactive) { _%>
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: <%- getJDBCUrl('h2Memory', { databaseName: lowercaseBaseName }) %>
+    name:
+    username:
+    password:
+    hikari:
+      auto-commit: false
+<%_ } _%>
+  jackson:
+    serialization:
+      write-durations-as-timestamps: false
+<%_ if (databaseTypeSql && !reactive) { _%>
+  jpa:
+    database-platform: tech.jhipster.domain.util.FixedH2Dialect
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+    properties:
+      hibernate.id.new_generator_mappings: true
+      hibernate.connection.provider_disables_autocommit: true
+      hibernate.cache.use_second_level_cache: false
+      hibernate.cache.use_query_cache: false
+      hibernate.generate_statistics: false
+      hibernate.hbm2ddl.auto: validate
+      hibernate.jdbc.time_zone: UTC
+      hibernate.query.fail_on_pagination_over_collection_fetch: true
+<%_ } _%>
+<%_ if (databaseTypeMongodb || databaseTypeCassandra) { _%>
+  data:
+<%_ } _%>
+<%_ if (databaseTypeCassandra) { _%>
+    cassandra:
+      compression: NONE
+<%_ } _%>
+<%_ if (databaseTypeCouchbase) { _%>
+  couchbase:
+    bucket:
+      name: jhipster
+      password: password
+<%_ } _%>
+<%_ if (databaseTypeSql) { _%>
+  liquibase:
+    contexts: test
+  <%_ if (reactive) { _%>
+    url: <%- getJDBCUrl('h2Memory', { databaseName: lowercaseBaseName }) %>
+  <%_ } _%>
+<%_ } _%>
+  mail:
+    host: localhost
+  main:
+    allow-bean-definition-overriding: true
+<%_ if (!reactive) { _%>
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+<%_ } _%>
+  messages:
+    basename: i18n/messages
+<%_ if (databaseTypeSql && reactive) { _%>
+  r2dbc:
+    url: <%- getR2DBCUrl('h2Memory', { databaseName: lowercaseBaseName }) %>
+    username: r2dbc
+    password:
+<%_ } _%>
+<%_ if (skipUserManagement && (applicationTypeMonolith || applicationTypeGateway) && authenticationTypeJwt) { _%>
+  security:
+    user:
+      name: test
+      password: test
+<%_ } _%>
+  task:
+    execution:
+      thread-name-prefix: <%= dasherizedBaseName %>-task-
+      pool:
+        core-size: 1
+        max-size: 50
+        queue-capacity: 10000
+    scheduling:
+      thread-name-prefix: <%= dasherizedBaseName %>-scheduling-
+      pool:
+        size: 20
+  thymeleaf:
+    mode: HTML
+<%_ if (authenticationTypeOauth2) { _%>
+  # Allow SecurityConfiguration to initialize w/o specifying an empty issuer-uri is OK
+  security:
+    oauth2:
+      client:
+        provider:
+          oidc:
+            issuer-uri: http://DO_NOT_CALL:9080/auth/realms/jhipster
+<%_ } _%>
+
+server:
+  port: 10344
+  address: localhost
+
+# ===================================================================
+# JHipster specific properties
+#
+# Full reference is available at: https://www.jhipster.tech/common-application-properties/
+# ===================================================================
+jhipster:
+  clientApp:
+    name: "<%= frontendAppName %>"
+  logging:
+    # To test json console appender
+    use-json-format: false
+    logstash:
+      enabled: false
+      host: localhost
+      port: 5000
+      queue-size: 512
+<%_ if (!skipUserManagement || authenticationTypeOauth2) { _%>
+  mail:
+    from: test@localhost
+    base-url: http://127.0.0.1:8080
+<%_ } _%>
+<%_ if (authenticationTypeJwt) { _%>
+  security:
+    authentication:
+      jwt:
+        # This token must be encoded using Base64 (you can type `echo 'secret-key'|base64` on your command line)
+        base64-secret: <%= jwtSecretKey %>
+        # Token is valid 24 hours
+        token-validity-in-seconds: 86400
+<%_ } _%>
+<%_ if (authenticationTypeSession && !reactive) { _%>
+  security:
+    remember-me:
+      # security key (this key should be unique for your application, and kept secret)
+      key: <%= rememberMeKey %>
+<%_ } _%>
+
+# ===================================================================
+# Application specific properties
+# Add your own application properties here, see the ApplicationProperties class
+# to have type-safe configuration, like in the JHipsterProperties above
+#
+# More documentation is available at:
+# https://www.jhipster.tech/common-application-properties/
+# ===================================================================
+
+# application:

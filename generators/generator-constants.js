@@ -26,6 +26,10 @@ const commonPackageJson = require('./common/templates/package.json');
 const JAVA_VERSION = '11';
 const JAVA_COMPATIBLE_VERSIONS = ['11', '12', '13', '14', '15', '16', '17', '18'];
 
+// Version of Java
+const PYTHON_VERSION = '3';
+const PYTHON_COMPATIBLE_VERSIONS = ['3.7', '3.8', '3.9', '3.10'];
+
 // Version of Node, NPM
 const NODE_VERSION = '16.14.0';
 const NPM_VERSION = commonPackageJson.devDependencies.npm;
@@ -326,6 +330,8 @@ const LANGUAGES = [
 const constants = {
   GENERATOR_JHIPSTER: 'generator-jhipster',
   JHIPSTER_CONFIG_DIR: '.jhipster',
+  GENERATOR_PYHIPSTER: 'generator-pyhipster',
+  PYHIPSTER_CONFIG_DIR: '.pyhipster',
   INTERPOLATE_REGEX: /<%:([\s\S]+?)%>/g, // so that tags in templates do not get mistreated as _ templates
   DOCKER_DIR: `${MAIN_DIR}docker/`,
   LINE_LENGTH: 180,
@@ -347,9 +353,9 @@ const constants = {
   REACT_DIR: `${MAIN_DIR}webapp/app/`,
   VUE_DIR: `${MAIN_DIR}webapp/app/`,
 
-  SERVER_MAIN_SRC_DIR: `${MAIN_DIR}java/`,
+  SERVER_MAIN_SRC_DIR: `${MAIN_DIR}python/`,
   SERVER_MAIN_RES_DIR: `${MAIN_DIR}resources/`,
-  SERVER_TEST_SRC_DIR: `${TEST_DIR}java/`,
+  SERVER_TEST_SRC_DIR: `${TEST_DIR}python/`,
   SERVER_TEST_RES_DIR: `${TEST_DIR}resources/`,
 
   // server related
@@ -389,7 +395,9 @@ const constants = {
   JAVA_COMPATIBLE_VERSIONS,
   KAFKA_VERSION,
   GRADLE_VERSION,
-
+  PYTHON_VERSION,
+  PYTHON_COMPATIBLE_VERSIONS,
+  
   // Libraries
   JIB_VERSION,
   JHIPSTER_DEPENDENCIES_VERSION,

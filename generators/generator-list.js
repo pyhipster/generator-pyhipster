@@ -62,6 +62,7 @@ const Generators = {
   GENERATOR_PAGE: 'page',
   GENERATOR_PROJECT_NAME: 'project-name',
   GENERATOR_SERVER: 'server',
+  GENERATOR_SERVER_FLASK: 'server-flask',
   GENERATOR_SPRING_BOOT: 'spring-boot',
   GENERATOR_SPRING_CONTROLLER: 'spring-controller',
   GENERATOR_SPRING_SERVICE: 'spring-service',
