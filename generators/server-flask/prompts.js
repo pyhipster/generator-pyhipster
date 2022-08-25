@@ -82,17 +82,17 @@ function askForServerSideOpts() {
         'As you are running in a microservice architecture, on which port would like your server to run? It should be unique to avoid port conflicts.',
       default: defaultPort,
     },
-    {
-      type: 'input',
-      name: PACKAGE_NAME,
-      validate: input =>
-        /^([a-z_]{1}[a-z0-9_]*(\.[a-z_]{1}[a-z0-9_]*)*)$/.test(input)
-          ? true
-          : 'The package name you have provided is not a valid Java package name.',
-      message: 'What is your default Java package name?',
-      default: serverDefaultConfig.packageName,
-      store: true,
-    },
+    // {
+    //   type: 'input',
+    //   name: PACKAGE_NAME,
+    //   validate: input =>
+    //     /^([a-z_]{1}[a-z0-9_]*(\.[a-z_]{1}[a-z0-9_]*)*)$/.test(input)
+    //       ? true
+    //       : 'The package name you have provided is not a valid Java package name.',
+    //   message: 'What is your default Java package name?',
+    //   default: serverDefaultConfig.packageName,
+    //   store: true,
+    // },
     {
       when: () => applicationType === 'gateway' || applicationType === 'microservice',
       type: 'list',

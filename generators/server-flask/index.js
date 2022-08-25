@@ -351,10 +351,10 @@ module.exports = class JHipsterServerGenerator extends BaseBlueprintGenerator {
         this.jhiTablePrefix = this.getTableName(this.jhiPrefix);
 
         this.mainJavaDir = SERVER_MAIN_SRC_DIR;
-        this.mainJavaPackageDir = `${SERVER_MAIN_SRC_DIR}${this.packageFolder}/`;
+        this.mainJavaPackageDir = `${SERVER_MAIN_SRC_DIR}/`;
         this.mainJavaResourceDir = SERVER_MAIN_RES_DIR;
         this.testJavaDir = SERVER_TEST_SRC_DIR;
-        this.testJavaPackageDir = `${SERVER_TEST_SRC_DIR}${this.packageFolder}/`;
+        this.testJavaPackageDir = `${SERVER_TEST_SRC_DIR}/`;
         this.testResourceDir = SERVER_TEST_RES_DIR;
         this.srcMainDir = MAIN_DIR;
         this.srcTestDir = TEST_DIR;

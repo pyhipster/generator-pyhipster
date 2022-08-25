@@ -28,7 +28,7 @@ const JAVA_TEST_DIR = 'src/test/java/';
 
 const PACKAGE_NAME = 'packageName';
 const PACKAGE_NAME_DESCRIPTION = 'Package name';
-const PACKAGE_NAME_DEFAULT_VALUE = 'com.mycompany.myapp';
+const PACKAGE_NAME_DEFAULT_VALUE = ''; // No [package name required]
 
 const PRETTIER_JAVA_INDENT = 'prettierJavaIndent';
 const PRETTIER_JAVA_INDENT_DEFAULT_VALUE = 4;

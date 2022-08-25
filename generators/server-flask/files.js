@@ -1898,8 +1898,8 @@ const serverFiles = mergeSections(
 function writeFiles() {
   return {
     setUp() {
-      this.javaDir = `${this.packageFolder}/`;
-      this.testDir = `${this.packageFolder}/`;
+      this.javaDir = ''; // `${this.packageFolder}/`;
+      this.testDir = ''; //`${this.packageFolder}/`;
 
       this.generateKeyStore();
     },
