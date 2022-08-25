@@ -1,0 +1,24 @@
+
+
+class <%= asEntity('User') %>(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    login = db.Column(db.String(80), unique=True, nullable=False)
+    password = db.Column(db.String(80), unique=True, nullable=False)
+    firstName = db.Column(db.String(80), unique=True, nullable=False)
+    lastName = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    activated = db.Column(db.Boolean, unique=True, nullable=False)
+    langKey = db.Column(db.String(80), unique=True, nullable=False)
+    imageUrl = db.Column(db.String(80), unique=True, nullable=True)
+    activationKey = db.Column(db.String(80), unique=True, nullable=True)
+    resetKey = db.Column(db.String(80), unique=True, nullable=True)
+    resetDate = db.Column(db.DateTime, unique=True, nullable=False)
+
+    def get_id():
+        return id
+
+    def set_id(Integer _id):
+        id = _id
+        
+    def __repr__(self):
+        return '<User %r>' % self.username

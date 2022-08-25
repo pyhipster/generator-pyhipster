@@ -840,6 +840,12 @@ const baseServerFiles = {
       templates: ['config/bootstrap.yml', 'config/bootstrap-prod.yml'],
     },
   ],
+  serverPythonApp: [
+    {
+      path: SERVER_MAIN_SRC_DIR,
+      templates: [{ file: 'package/application.py', renameTo: generator => `${generator.javaDir}${generator.mainClass}.py` }],
+    }
+  ],
   serverJavaApp: [
     {
       path: SERVER_MAIN_SRC_DIR,
@@ -1515,6 +1521,18 @@ const baseServerFiles = {
         },
       ],
     },
+  ],
+  serverPythonUserManagement: [
+    {
+      condition: generator => generator.isUsingBuiltInUser(),
+      path: SERVER_MAIN_SRC_DIR,
+      templates: [
+        {
+          file: 'package/domain/user.py',
+          renameTo: generator => `${generator.javaDir}domain/${generator.asEntity('User')}.py`,
+        },
+      ],
+    }
   ],
   serverJavaUserManagement: [
     {
