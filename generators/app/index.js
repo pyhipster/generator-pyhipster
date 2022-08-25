@@ -574,7 +574,7 @@ module.exports = class JHipsterAppGenerator extends BaseBlueprintGenerator {
         }
         this.log(
           chalk.green(
-            `\nIf you find JHipster useful consider sponsoring the project ${chalk.yellow('https://www.jhipster.tech/sponsors/')}`
+            `\nIf you find PyHipster useful consider sponsoring the project ${chalk.yellow('https://github.com/sudeephazra/generator-pyhipster')}`
           )
         );
       },
