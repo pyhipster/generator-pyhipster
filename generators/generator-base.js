@@ -2785,7 +2785,7 @@ templates: ${JSON.stringify(existingTemplates, null, 2)}`;
     dest.isDebugEnabled = config.isDebugEnabled;
     dest.experimental = config.experimental;
     dest.logo = config.logo;
-    config.backendName = config.backendName || 'Java';
+    config.backendName = config.backendName || 'Python';
     dest.backendName = config.backendName;
 
     config.nodeDependencies = config.nodeDependencies || {
