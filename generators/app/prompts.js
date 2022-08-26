@@ -54,14 +54,14 @@ async function askForApplicationType() {
       value: MONOLITH,
       name: 'Monolithic application (recommended for simple projects)',
     },
-    {
-      value: GATEWAY,
-      name: 'Gateway application',
-    },
-    {
-      value: MICROSERVICE,
-      name: 'Microservice application',
-    },
+    // {
+    //   value: GATEWAY,
+    //   name: 'Gateway application',
+    // },
+    // {
+    //   value: MICROSERVICE,
+    //   name: 'Microservice application',
+    // },
   ];
 
   const answers = await this.prompt([
