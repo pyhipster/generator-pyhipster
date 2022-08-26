@@ -1,5 +1,15 @@
+from flask import Flask
+from flask_cors import CORS
 from flask import Flask, render_template
+
 app = Flask(__name__)
+db.init_app(app)
+rest_api.init_app(app)
+CORS(app)
+
+@app.before_first_request
+def initialize_database():
+    db.create_all()
 
 @app.route("/api/register")
 def index():

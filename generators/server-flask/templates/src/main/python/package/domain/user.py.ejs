@@ -1,6 +1,29 @@
+<%#
+ Copyright 2022 the original author or authors from the PyHipster project.
 
+ This file is part of the PyHipster project, see https://github.com/sudeephazra/generator-pyhipster
+ for more information.
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      https://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-%>
+from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
+import json
+
+db = SQLAlchemy()
 
 class <%= asEntity('User') %>(db.Model):
+    __tablename__ = "<%= user.entityTableName %>"
     id = db.Column(db.Integer, primary_key=True)
     login = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=True, nullable=False)
@@ -14,11 +37,102 @@ class <%= asEntity('User') %>(db.Model):
     resetKey = db.Column(db.String(80), unique=True, nullable=True)
     resetDate = db.Column(db.DateTime, unique=True, nullable=False)
 
-    def get_id():
-        return id
+    def set_id(self, _id):
+        self.id = _id
 
-    def set_id(Integer _id):
-        id = _id
+    def get_id(self):
+        return self.id
+
+    def set_login(self, _login):
+        self.login = _login
+
+    def get_login(self):
+        return self.login
+        
+    def set_password(self, _password):
+        self.password = _password
+
+    def get_password(self):
+        return self.password
+
+    def set_firstName(self, _firstName):
+        self.firstName = _firstName
+        
+    def get_firstName(self):
+        return self.firstName
+
+    def set_lastName(self, _lastName):
+        self.lastName = _lastName
+        
+    def get_lastName(self):
+        return self.lastName
+
+    def set_email(self, _email):
+        self.email = _email
+        
+    def get_email(self):
+        return self.email
+
+    def set_activated(self, _activated):
+        self.activated = _activated
+        
+    def get_activated(self):
+        return self.activated
+
+    def set_langKey(self, _langKey):
+        self.langKey = _langKey
+        
+    def get_langKey(self):
+        return self.langKey
+
+    def set_imageUrl(self, imageUrl):
+        self.login = _imageUrl
+        
+    def get_imageUrl(self):
+        return self.imageUrl
+
+    def set_activationKey(self, _activationKey):
+        self.activationKey = _activationKey
+        
+    def get_activationKey(self):
+        return self.activationKey
+
+    def set_resetKey(self, _resetKey):
+        self.resetKey = _resetKey
+        
+    def get_resetKey(self):
+        return self.resetKey
+
+    def set_resetDate(self, _resetDate):
+        self.resetDate = _resetDate
+        
+    def get_resetDate(self):
+        return self.resetDate
         
     def __repr__(self):
-        return '<User %r>' % self.username
+        return '<User %r>' % self.login
+
+    @classmethod
+    def get_by_id(cls, id):
+        return cls.query.get_or_404(id)
+
+    @classmethod
+    def get_by_email(cls, email):
+        return cls.query.filter_by(email=email).first()
+
+    def to_dict(self):
+        cls_dict = {}
+        cls_dict['_id'] = self.id
+        cls_dict['login'] = self.login
+        cls_dict['email'] = self.email
+        cls_dict['firstName'] = self.firstName
+        cls_dict['lastName'] = self.lastName
+        cls_dict['activated'] = self.activated
+        cls_dict['langKey'] = self.langKey
+        cls_dict['imageUrl'] = self.imageUrl
+        return cls_dict
+
+    def toJSON(self):
+        return self.to_dict()
+        
+        

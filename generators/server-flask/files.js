@@ -1029,18 +1029,30 @@ const baseServerFiles = {
       ],
     },
   ],
-  serverJavaDomain: [
-    {
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [{ file: 'package/domain/package-info.java', renameTo: generator => `${generator.javaDir}domain/package-info.java` }],
-    },
+  // serverJavaDomain: [
+  //   {
+  //     path: SERVER_MAIN_SRC_DIR,
+  //     templates: [{ file: 'package/domain/package-info.java', renameTo: generator => `${generator.javaDir}domain/package-info.java` }],
+  //   },
+  //   {
+  //     condition: generator => [SQL, MONGODB, NEO4J, COUCHBASE].includes(generator.databaseType),
+  //     path: SERVER_MAIN_SRC_DIR,
+  //     templates: [
+  //       {
+  //         file: 'package/domain/AbstractAuditingEntity.java',
+  //         renameTo: generator => `${generator.javaDir}domain/AbstractAuditingEntity.java`,
+  //       },
+  //     ],
+  //   },
+  // ],
+  serverPythonDomain : [
     {
       condition: generator => [SQL, MONGODB, NEO4J, COUCHBASE].includes(generator.databaseType),
       path: SERVER_MAIN_SRC_DIR,
       templates: [
         {
-          file: 'package/domain/AbstractAuditingEntity.java',
-          renameTo: generator => `${generator.javaDir}domain/AbstractAuditingEntity.java`,
+          file: 'package/domain/AbstractAuditingEntity.py',
+          renameTo: generator => `${generator.javaDir}domain/AbstractAuditingEntity.py`,
         },
       ],
     },
@@ -1505,7 +1517,7 @@ const baseServerFiles = {
       condition: generator => generator.isUsingBuiltInAuthority(),
       path: SERVER_MAIN_SRC_DIR,
       templates: [
-        { file: 'package/domain/authority.py', renameTo: generator => `${generator.javaDir}domain/authority.py` },
+        { file: 'package/domain/authority.py', renameTo: generator => `${generator.javaDir}domain/Authority.py` },
         {
           file: 'package/repository/authority_repository.py',
           renameTo: generator => `${generator.javaDir}repository/authority_repository.py`,
@@ -1514,27 +1526,27 @@ const baseServerFiles = {
     },
   ],
   serverJavaUserManagement: [
-    {
-      condition: generator => generator.isUsingBuiltInUser(),
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/domain/User.java',
-          renameTo: generator => `${generator.javaDir}domain/${generator.asEntity('User')}.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => generator.isUsingBuiltInAuthority(),
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        { file: 'package/domain/Authority.java', renameTo: generator => `${generator.javaDir}domain/Authority.java` },
-        {
-          file: 'package/repository/AuthorityRepository.java',
-          renameTo: generator => `${generator.javaDir}repository/AuthorityRepository.java`,
-        },
-      ],
-    },
+    // {
+    //   condition: generator => generator.isUsingBuiltInUser(),
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/domain/User.java',
+    //       renameTo: generator => `${generator.javaDir}domain/${generator.asEntity('User')}.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => generator.isUsingBuiltInAuthority(),
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     { file: 'package/domain/Authority.java', renameTo: generator => `${generator.javaDir}domain/Authority.java` },
+    //     {
+    //       file: 'package/repository/AuthorityRepository.java',
+    //       renameTo: generator => `${generator.javaDir}repository/AuthorityRepository.java`,
+    //     },
+    //   ],
+    // },
     {
       condition: generator =>
         (generator.authenticationType === OAUTH2 && generator.applicationType !== MICROSERVICE) ||
@@ -1549,52 +1561,54 @@ const baseServerFiles = {
       path: SERVER_MAIN_RES_DIR,
       templates: ['config/liquibase/data/authority.csv', 'config/liquibase/data/user_authority.csv'],
     },
-    {
-      condition: generator => generator.authenticationType === OAUTH2,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        { file: 'package/config/Constants.java', renameTo: generator => `${generator.javaDir}config/Constants.java` },
-        { file: 'package/service/UserService.java', renameTo: generator => `${generator.javaDir}service/UserService.java` },
-        {
-          file: 'package/service/dto/package-info.java',
-          renameTo: generator => `${generator.javaDir}service/dto/package-info.java`,
-        },
-        {
-          file: 'package/service/dto/AdminUserDTO.java',
-          renameTo: generator => `${generator.javaDir}service/dto/${generator.asDto('AdminUser')}.java`,
-        },
-        {
-          file: 'package/service/dto/UserDTO.java',
-          renameTo: generator => `${generator.javaDir}service/dto/${generator.asDto('User')}.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => generator.authenticationType === OAUTH2 && generator.databaseType !== NO_DATABASE,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/service/mapper/package-info.java',
-          renameTo: generator => `${generator.javaDir}service/mapper/package-info.java`,
-        },
-        {
-          file: 'package/service/mapper/UserMapper.java',
-          renameTo: generator => `${generator.javaDir}service/mapper/UserMapper.java`,
-        },
-        {
-          file: 'package/repository/UserRepository.java',
-          renameTo: generator => `${generator.javaDir}repository/UserRepository.java`,
-        },
-        {
-          file: 'package/web/rest/PublicUserResource.java',
-          renameTo: generator => `${generator.javaDir}web/rest/PublicUserResource.java`,
-        },
-        {
-          file: 'package/web/rest/vm/ManagedUserVM.java',
-          renameTo: generator => `${generator.javaDir}web/rest/vm/ManagedUserVM.java`,
-        },
-      ],
-    },
+    // FIXME: OAuth2 is not supported now
+    // {
+    //   condition: generator => generator.authenticationType === OAUTH2,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     { file: 'package/config/Constants.java', renameTo: generator => `${generator.javaDir}config/Constants.java` },
+    //     { file: 'package/service/UserService.java', renameTo: generator => `${generator.javaDir}service/UserService.java` },
+    //     {
+    //       file: 'package/service/dto/package-info.java',
+    //       renameTo: generator => `${generator.javaDir}service/dto/package-info.java`,
+    //     },
+    //     {
+    //       file: 'package/service/dto/AdminUserDTO.java',
+    //       renameTo: generator => `${generator.javaDir}service/dto/${generator.asDto('AdminUser')}.java`,
+    //     },
+    //     {
+    //       file: 'package/service/dto/UserDTO.java',
+    //       renameTo: generator => `${generator.javaDir}service/dto/${generator.asDto('User')}.java`,
+    //     },
+    //   ],
+    // },
+    // FIXME: OAuth2 is not supported now
+    // {
+    //   condition: generator => generator.authenticationType === OAUTH2 && generator.databaseType !== NO_DATABASE,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/service/mapper/package-info.java',
+    //       renameTo: generator => `${generator.javaDir}service/mapper/package-info.java`,
+    //     },
+    //     {
+    //       file: 'package/service/mapper/UserMapper.java',
+    //       renameTo: generator => `${generator.javaDir}service/mapper/UserMapper.java`,
+    //     },
+    //     {
+    //       file: 'package/repository/UserRepository.java',
+    //       renameTo: generator => `${generator.javaDir}repository/UserRepository.java`,
+    //     },
+    //     {
+    //       file: 'package/web/rest/PublicUserResource.java',
+    //       renameTo: generator => `${generator.javaDir}web/rest/PublicUserResource.java`,
+    //     },
+    //     {
+    //       file: 'package/web/rest/vm/ManagedUserVM.java',
+    //       renameTo: generator => `${generator.javaDir}web/rest/vm/ManagedUserVM.java`,
+    //     },
+    //   ],
+    // },
     {
       condition: generator => generator.skipUserManagement && [MONOLITH, GATEWAY].includes(generator.applicationType),
       path: SERVER_MAIN_SRC_DIR,

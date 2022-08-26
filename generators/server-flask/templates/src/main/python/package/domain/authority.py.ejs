@@ -1,7 +1,29 @@
+<%#
+ Copyright 2022 the original author or authors from the PyHipster project.
 
+ This file is part of the PyHipster project, see https://github.com/sudeephazra/generator-pyhipster
+ for more information.
 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
 
-class <%= asEntity('User') %>(db.Model):
+      https://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-%>
+from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
+import json
+
+db = SQLAlchemy()
+
+class <%= asEntity('Authority') %>(db.Model):
+    __tablename__ = "<%= jhiTablePrefix %>_authority"
     name = db.Column(db.String(80), unique=True, nullable=False)
 
     def get_name():
@@ -11,4 +33,16 @@ class <%= asEntity('User') %>(db.Model):
         name = _name
         
     def __repr__(self):
-        return '<User %r>' % self.name
+        return '<Authority %r>' % self.name
+
+    @classmethod
+    def get_by_name(cls, name):
+        return cls.query.get_or_404(name)
+
+    def to_dict(self):
+        cls_dict = {}
+        cls_dict['name'] = self.name
+        return cls_dict
+
+    def toJSON(self):
+        return self.to_dict()
