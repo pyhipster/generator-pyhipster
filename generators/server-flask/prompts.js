@@ -22,11 +22,11 @@ const chalk = require('chalk');
 const constants = require('../generator-constants');
 const { serverDefaultConfig } = require('../generator-defaults');
 const { GATEWAY, MICROSERVICE, MONOLITH } = require('../../jdl/jhipster/application-types');
-const { CAFFEINE, EHCACHE, HAZELCAST, INFINISPAN, MEMCACHED, REDIS } = require('../../jdl/jhipster/cache-types');
+const { SIMPLE_CACHE, FILESYSTEM_CACHE, MEMCACHED, REDIS } = require('../../jdl/jhipster/cache-types');
 const cacheProviderTypes = require('../../jdl/jhipster/cache-types');
 const { JWT, OAUTH2, SESSION } = require('../../jdl/jhipster/authentication-types');
 const { GRADLE, MAVEN } = require('../../jdl/jhipster/build-tool-types');
-const { CASSANDRA, H2_DISK, H2_MEMORY, MONGODB, NEO4J, SQL, COUCHBASE } = require('../../jdl/jhipster/database-types');
+const { CASSANDRA, SQLITE_DISK, SQLITE_MEMORY, MONGODB, NEO4J, SQL, COUCHBASE } = require('../../jdl/jhipster/database-types');
 const databaseTypes = require('../../jdl/jhipster/database-types');
 const { CONSUL, EUREKA } = require('../../jdl/jhipster/service-discovery-types');
 const serviceDiscoveryTypes = require('../../jdl/jhipster/service-discovery-types');
@@ -51,7 +51,8 @@ const NO_CACHE_PROVIDER = cacheProviderTypes.NO;
 module.exports = {
   askForModuleName,
   askForServerSideOpts,
-  askForOptionalItems,
+  // FIXME: To be enabled in upcoming releases
+  // askForOptionalItems,
 };
 
 function askForModuleName() {
@@ -66,13 +67,13 @@ function askForServerSideOpts() {
   const applicationType = this.jhipsterConfig.applicationType;
   const defaultPort = applicationType === GATEWAY ? '8080' : '8081';
   const prompts = [
-    {
-      when: () => [MONOLITH, MICROSERVICE].includes(applicationType),
-      type: 'confirm',
-      name: REACTIVE,
-      message: 'Do you want to make it reactive with Spring WebFlux?',
-      default: serverDefaultConfig.reactive,
-    },
+    // {
+    //   when: () => [MONOLITH, MICROSERVICE].includes(applicationType),
+    //   type: 'confirm',
+    //   name: REACTIVE,
+    //   message: 'Do you want to make it reactive with Spring WebFlux?',
+    //   default: serverDefaultConfig.reactive,
+    // },
     {
       when: () => applicationType === GATEWAY || applicationType === MICROSERVICE,
       type: 'input',
@@ -150,32 +151,34 @@ function askForServerSideOpts() {
         if (!answers.reactive) {
           opts.push({
             value: SQL,
-            name: 'SQL (H2, PostgreSQL, MySQL, MariaDB, Oracle, MSSQL)',
+            name: 'SQL (SQLite, PostgreSQL, MySQL, MariaDB, Oracle, MSSQL)',
           });
         } else {
           opts.push({
             value: SQL,
-            name: 'SQL (H2, PostgreSQL, MySQL, MariaDB, MSSQL)',
+            name: 'SQL (SQLite, PostgreSQL, MySQL, MariaDB, MSSQL)',
           });
         }
-        opts.push({
-          value: MONGODB,
-          name: 'MongoDB',
-        });
-        if (answers.authenticationType !== OAUTH2) {
-          opts.push({
-            value: CASSANDRA,
-            name: 'Cassandra',
-          });
-        }
-        opts.push({
-          value: 'couchbase',
-          name: '[BETA] Couchbase',
-        });
-        opts.push({
-          value: NEO4J,
-          name: '[BETA] Neo4j',
-        });
+        // TODO: Disabling NoSQL temporarily till it can be developed
+        // FIXME: To be enabled in upcoming releases
+        // opts.push({
+        //   value: MONGODB,
+        //   name: 'MongoDB',
+        // });
+        // if (answers.authenticationType !== OAUTH2) {
+        //   opts.push({
+        //     value: CASSANDRA,
+        //     name: 'Cassandra',
+        //   });
+        // }
+        // opts.push({
+        //   value: 'couchbase',
+        //   name: '[BETA] Couchbase',
+        // });
+        // opts.push({
+        //   value: NEO4J,
+        //   name: '[BETA] Neo4j',
+        // });
         opts.push({
           value: NO_DATABASE,
           name: 'No database',
@@ -200,12 +203,12 @@ function askForServerSideOpts() {
       choices: response =>
         [
           {
-            value: H2_DISK,
-            name: 'H2 with disk-based persistence',
+            value: SQLITE_DISK,
+            name: 'SQLite with disk-based persistence',
           },
           {
-            value: H2_MEMORY,
-            name: 'H2 with in-memory persistence',
+            value: SQLITE_MEMORY,
+            name: 'SQLite with in-memory persistence',
           },
         ].concat(constants.SQL_DB_OPTIONS.find(it => it.value === response.prodDatabaseType)),
       default: serverDefaultConfig.devDatabaseType,
@@ -214,27 +217,35 @@ function askForServerSideOpts() {
       when: answers => !answers.reactive,
       type: 'list',
       name: CACHE_PROVIDER,
-      message: 'Which cache do you want to use? (Spring cache abstraction)',
+      message: 'Which cache do you want to use?',
       choices: [
+        // {
+        //   value: EHCACHE,
+        //   name: 'Ehcache (local cache, for a single node)',
+        // },
+        // {
+        //   value: CAFFEINE,
+        //   name: 'Caffeine (local cache, for a single node)',
+        // },
+        // {
+        //   value: HAZELCAST,
+        //   name: 'Hazelcast (distributed cache, for multiple nodes, supports rate-limiting for gateway applications)',
+        // },
+        // {
+        //   value: INFINISPAN,
+        //   name: 'Infinispan (hybrid cache, for multiple nodes)',
+        // },
         {
-          value: EHCACHE,
-          name: 'Ehcache (local cache, for a single node)',
+          value: SIMPLE_CACHE,
+          name: 'SimpleCache (local cache, for a single node)',
         },
         {
-          value: CAFFEINE,
-          name: 'Caffeine (local cache, for a single node)',
-        },
-        {
-          value: HAZELCAST,
-          name: 'Hazelcast (distributed cache, for multiple nodes, supports rate-limiting for gateway applications)',
-        },
-        {
-          value: INFINISPAN,
-          name: 'Infinispan (hybrid cache, for multiple nodes)',
+          value: FILESYSTEM_CACHE,
+          name: 'FileSystem cache (local cache, for a single node)',
         },
         {
           value: MEMCACHED,
-          name: 'Memcached (distributed cache) - Warning, when using an SQL database, this will disable the Hibernate 2nd level cache!',
+          name: 'Memcached (distributed cache)',
         },
         {
           value: REDIS,
@@ -242,68 +253,68 @@ function askForServerSideOpts() {
         },
         {
           value: NO_CACHE_PROVIDER,
-          name: 'No cache - Warning, when using an SQL database, this will disable the Hibernate 2nd level cache!',
+          name: 'No cache',
         },
       ],
       default: applicationType === MICROSERVICE ? 2 : serverDefaultConfig.cacheProvider,
     },
-    {
-      when: answers =>
-        ((answers.cacheProvider !== NO_CACHE_PROVIDER && answers.cacheProvider !== MEMCACHED) || applicationType === GATEWAY) &&
-        answers.databaseType === SQL &&
-        !answers.reactive,
-      type: 'confirm',
-      name: 'enableHibernateCache',
-      message: 'Do you want to use Hibernate 2nd level cache?',
-      default: serverDefaultConfig.enableHibernateCache,
-    },
-    {
-      type: 'list',
-      name: BUILD_TOOL,
-      message: 'Would you like to use Maven or Gradle for building the backend?',
-      choices: [
-        {
-          value: MAVEN,
-          name: 'Maven',
-        },
-        {
-          value: GRADLE,
-          name: 'Gradle',
-        },
-      ],
-      default: serverDefaultConfig.buildTool,
-    },
-    {
-      when: answers => answers.buildTool === GRADLE && this.options.experimental,
-      type: 'confirm',
-      name: 'enableGradleEnterprise',
-      message: 'Do you want to enable Gradle Enterprise integration?',
-      default: serverDefaultConfig.enableGradleEnterprise,
-    },
-    {
-      when: answers => answers.enableGradleEnterprise,
-      type: 'input',
-      name: 'gradleEnterpriseHost',
-      message: 'Enter your Gradle Enterprise host',
-      validate: input => (input.length === 0 ? 'Please enter your Gradle Enterprise host' : true),
-    },
-    {
-      when: applicationType === MONOLITH,
-      type: 'list',
-      name: SERVICE_DISCOVERY_TYPE,
-      message: 'Do you want to use the JHipster Registry to configure, monitor and scale your application?',
-      choices: [
-        {
-          value: NO_SERVICE_DISCOVERY,
-          name: 'No',
-        },
-        {
-          value: EUREKA,
-          name: 'Yes',
-        },
-      ],
-      default: serverDefaultConfig.serviceDiscoveryType,
-    },
+    // {
+    //   when: answers =>
+    //     ((answers.cacheProvider !== NO_CACHE_PROVIDER && answers.cacheProvider !== MEMCACHED) || applicationType === GATEWAY) &&
+    //     answers.databaseType === SQL &&
+    //     !answers.reactive,
+    //   type: 'confirm',
+    //   name: 'enableHibernateCache',
+    //   message: 'Do you want to use Hibernate 2nd level cache?',
+    //   default: serverDefaultConfig.enableHibernateCache,
+    // },
+    // {
+    //   type: 'list',
+    //   name: BUILD_TOOL,
+    //   message: 'Would you like to use Maven or Gradle for building the backend?',
+    //   choices: [
+    //     {
+    //       value: MAVEN,
+    //       name: 'Maven',
+    //     },
+    //     {
+    //       value: GRADLE,
+    //       name: 'Gradle',
+    //     },
+    //   ],
+    //   default: serverDefaultConfig.buildTool,
+    // },
+    // {
+    //   when: answers => answers.buildTool === GRADLE && this.options.experimental,
+    //   type: 'confirm',
+    //   name: 'enableGradleEnterprise',
+    //   message: 'Do you want to enable Gradle Enterprise integration?',
+    //   default: serverDefaultConfig.enableGradleEnterprise,
+    // },
+    // {
+    //   when: answers => answers.enableGradleEnterprise,
+    //   type: 'input',
+    //   name: 'gradleEnterpriseHost',
+    //   message: 'Enter your Gradle Enterprise host',
+    //   validate: input => (input.length === 0 ? 'Please enter your Gradle Enterprise host' : true),
+    // },
+    // {
+    //   when: applicationType === MONOLITH,
+    //   type: 'list',
+    //   name: SERVICE_DISCOVERY_TYPE,
+    //   message: 'Do you want to use the JHipster Registry to configure, monitor and scale your application?',
+    //   choices: [
+    //     {
+    //       value: NO_SERVICE_DISCOVERY,
+    //       name: 'No',
+    //     },
+    //     {
+    //       value: EUREKA,
+    //       name: 'Yes',
+    //     },
+    //   ],
+    //   default: serverDefaultConfig.serviceDiscoveryType,
+    // },
   ];
 
   return this.prompt(prompts).then(answers => {
@@ -331,70 +342,72 @@ function askForServerSideOpts() {
   });
 }
 
-function askForOptionalItems() {
-  if (this.existingProject) return undefined;
+//TODO: Disabling till the backend can be arranged
+//FIXME: Will be utilized in the upcoming releases
+// function askForOptionalItems() {
+//   if (this.existingProject) return undefined;
 
-  const applicationType = this.jhipsterConfig.applicationType;
-  const reactive = this.jhipsterConfig.reactive;
-  const databaseType = this.jhipsterConfig.databaseType;
+//   const applicationType = this.jhipsterConfig.applicationType;
+//   const reactive = this.jhipsterConfig.reactive;
+//   const databaseType = this.jhipsterConfig.databaseType;
 
-  const choices = [];
-  const defaultChoice = [];
-  if ([SQL, MONGODB, NEO4J].includes(databaseType)) {
-    choices.push({
-      name: 'Elasticsearch as search engine',
-      value: 'searchEngine:elasticsearch',
-    });
-  }
-  if (databaseType === COUCHBASE) {
-    choices.push({
-      name: 'Couchbase FTS as search engine',
-      value: 'searchEngine:couchbase',
-    });
-  }
-  if (!reactive) {
-    if (applicationType === MONOLITH || applicationType === GATEWAY) {
-      choices.push({
-        name: 'WebSockets using Spring Websocket',
-        value: 'websocket:spring-websocket',
-      });
-    }
-  }
-  choices.push({
-    name: 'Apache Kafka as asynchronous messages broker',
-    value: 'messageBroker:kafka',
-  });
-  choices.push({
-    name: 'API first development using OpenAPI-generator',
-    value: 'enableSwaggerCodegen:true',
-  });
+//   const choices = [];
+//   const defaultChoice = [];
+//   if ([SQL, MONGODB, NEO4J].includes(databaseType)) {
+//     choices.push({
+//       name: 'Elasticsearch as search engine',
+//       value: 'searchEngine:elasticsearch',
+//     });
+//   }
+//   if (databaseType === COUCHBASE) {
+//     choices.push({
+//       name: 'Couchbase FTS as search engine',
+//       value: 'searchEngine:couchbase',
+//     });
+//   }
+//   if (!reactive) {
+//     if (applicationType === MONOLITH || applicationType === GATEWAY) {
+//       choices.push({
+//         name: 'WebSockets using Spring Websocket',
+//         value: 'websocket:spring-websocket',
+//       });
+//     }
+//   }
+//   choices.push({
+//     name: 'Apache Kafka as asynchronous messages broker',
+//     value: 'messageBroker:kafka',
+//   });
+//   choices.push({
+//     name: 'API first development using OpenAPI-generator',
+//     value: 'enableSwaggerCodegen:true',
+//   });
 
-  const PROMPTS = {
-    type: 'checkbox',
-    name: 'serverSideOptions',
-    message: 'Which other technologies would you like to use?',
-    choices,
-    default: defaultChoice,
-  };
+//   const PROMPTS = {
+//     type: 'checkbox',
+//     name: 'serverSideOptions',
+//     message: 'Which other technologies would you like to use?',
+//     choices,
+//     default: defaultChoice,
+//   };
 
-  if (choices.length > 0) {
-    return this.prompt(PROMPTS).then(answers => {
-      this.serverSideOptions = this.jhipsterConfig.serverSideOptions = answers.serverSideOptions;
-      this.websocket = this.jhipsterConfig.websocket = this.getOptionFromArray(answers.serverSideOptions, 'websocket');
-      this.searchEngine = this.jhipsterConfig.searchEngine = this.getOptionFromArray(answers.serverSideOptions, 'searchEngine');
-      this.messageBroker = this.jhipsterConfig.messageBroker = this.getOptionFromArray(answers.serverSideOptions, 'messageBroker');
-      this.enableSwaggerCodegen = this.jhipsterConfig.enableSwaggerCodegen = this.getOptionFromArray(
-        answers.serverSideOptions,
-        'enableSwaggerCodegen'
-      );
-      // Only set this option if it hasn't been set in a previous question, as it's only optional for monoliths
-      if (!this.jhipsterConfig.serviceDiscoveryType) {
-        this.serviceDiscoveryType = this.jhipsterConfig.serviceDiscoveryType = this.getOptionFromArray(
-          answers.serverSideOptions,
-          'serviceDiscoveryType'
-        );
-      }
-    });
-  }
-  return undefined;
-}
+//   if (choices.length > 0) {
+//     return this.prompt(PROMPTS).then(answers => {
+//       this.serverSideOptions = this.jhipsterConfig.serverSideOptions = answers.serverSideOptions;
+//       this.websocket = this.jhipsterConfig.websocket = this.getOptionFromArray(answers.serverSideOptions, 'websocket');
+//       this.searchEngine = this.jhipsterConfig.searchEngine = this.getOptionFromArray(answers.serverSideOptions, 'searchEngine');
+//       this.messageBroker = this.jhipsterConfig.messageBroker = this.getOptionFromArray(answers.serverSideOptions, 'messageBroker');
+//       this.enableSwaggerCodegen = this.jhipsterConfig.enableSwaggerCodegen = this.getOptionFromArray(
+//         answers.serverSideOptions,
+//         'enableSwaggerCodegen'
+//       );
+//       // Only set this option if it hasn't been set in a previous question, as it's only optional for monoliths
+//       if (!this.jhipsterConfig.serviceDiscoveryType) {
+//         this.serviceDiscoveryType = this.jhipsterConfig.serviceDiscoveryType = this.getOptionFromArray(
+//           answers.serverSideOptions,
+//           'serviceDiscoveryType'
+//         );
+//       }
+//     });
+//   }
+//   return undefined;
+// }

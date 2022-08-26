@@ -24,25 +24,27 @@ const { GATEWAY, MONOLITH, MICROSERVICE } = require('../../jdl/jhipster/applicat
 const { GATLING, CUCUMBER, PROTRACTOR, CYPRESS } = require('../../jdl/jhipster/test-framework-types');
 
 module.exports = {
-  askForInsightOptIn,
+  // askForInsightOptIn,
   askForApplicationType,
   askForModuleName,
   askForTestOpts,
-  askForMoreModules,
+  // askForMoreModules,
 };
 
-async function askForInsightOptIn() {
-  if (!statistics.shouldWeAskForOptIn()) return;
-  const answers = await this.prompt({
-    type: 'confirm',
-    name: 'insight',
-    message: `May ${chalk.cyan('JHipster')} anonymously report usage statistics to improve the tool over time?`,
-    default: true,
-  });
-  if (answers.insight !== undefined) {
-    statistics.setOptOutStatus(!answers.insight);
-  }
-}
+// TODO: Disabling insights till the backed can be setup to receive insights
+// FIXME: To be enabled in upcoming releases
+// async function askForInsightOptIn() {
+//   if (!statistics.shouldWeAskForOptIn()) return;
+//   const answers = await this.prompt({
+//     type: 'confirm',
+//     name: 'insight',
+//     message: `May ${chalk.cyan('JHipster')} anonymously report usage statistics to improve the tool over time?`,
+//     default: true,
+//   });
+//   if (answers.insight !== undefined) {
+//     statistics.setOptOutStatus(!answers.insight);
+//   }
+// }
 
 async function askForApplicationType() {
   if (this.existingProject) return;
@@ -86,7 +88,7 @@ async function askForTestOpts() {
   if (!this.skipClient) {
     // all client side test frameworks should be added here
     choices.push({ name: 'Cypress', value: CYPRESS });
-    choices.push({ name: '[DEPRECATED] Protractor', value: PROTRACTOR });
+    // choices.push({ name: '[DEPRECATED] Protractor', value: PROTRACTOR });
   }
   if (!this.skipServer) {
     // all server side test frameworks should be added here
@@ -95,7 +97,7 @@ async function askForTestOpts() {
   const PROMPT = {
     type: 'checkbox',
     name: 'testFrameworks',
-    message: 'Besides JUnit and Jest, which testing frameworks would you like to use?',
+    message: 'Besides unittest and Jest, which testing frameworks would you like to use?',
     choices,
     default: appDefaultConfig.testFrameworks,
   };
@@ -105,69 +107,72 @@ async function askForTestOpts() {
   return answers;
 }
 
-function askForMoreModules() {
-  if (this.existingProject) {
-    return undefined;
-  }
+// TODO: Disabling additional modules to be installed 
+// FIXME: To be enabled in upcoming releases
+// function askForMoreModules() {
+//   if (this.existingProject) {
+//     return undefined;
+//   }
 
-  return this.prompt({
-    type: 'confirm',
-    name: 'installModules',
-    message: 'Would you like to install other generators from the JHipster Marketplace?',
-    default: false,
-  }).then(answers => {
-    if (answers.installModules) {
-      return new Promise(resolve => askModulesToBeInstalled(resolve, this));
-    }
-    return undefined;
-  });
-}
+//   return this.prompt({
+//     type: 'confirm',
+//     name: 'installModules',
+//     message: 'Would you like to install other generators from the JHipster Marketplace?',
+//     default: false,
+//   }).then(answers => {
+//     if (answers.installModules) {
+//       return new Promise(resolve => askModulesToBeInstalled(resolve, this));
+//     }
+//     return undefined;
+//   });
+// }
 
-function askModulesToBeInstalled(done, generator) {
-  const jHipsterMajorVersion = packagejs.version.match(/^(\d+)/g);
+// FIXME: To be enabled in upcoming releases
+// function askModulesToBeInstalled(done, generator) {
+//   const jHipsterMajorVersion = packagejs.version.match(/^(\d+)/g);
 
-  generator.httpsGet(
-    `https://api.npms.io/v2/search?q=keywords:jhipster-module+jhipster-${jHipsterMajorVersion}&from=0&size=50`,
-    body => {
-      try {
-        const moduleResponse = JSON.parse(body);
-        const choices = [];
-        moduleResponse.results.forEach(modDef => {
-          choices.push({
-            value: { name: modDef.package.name, version: modDef.package.version },
-            name: `(${modDef.package.name}-${modDef.package.version}) ${modDef.package.description}`,
-          });
-        });
-        if (choices.length > 0) {
-          generator
-            .prompt({
-              type: 'checkbox',
-              name: 'otherModules',
-              message: 'Which other modules would you like to use?',
-              choices,
-              default: [],
-            })
-            .then(answers => {
-              // [ {name: [moduleName], version:[version]}, ...]
-              answers.otherModules.forEach(module => {
-                generator.otherModules.push({ name: module.name, version: module.version });
-              });
-              generator.jhipsterConfig.otherModules = generator.otherModules;
-              done();
-            });
-        } else {
-          done();
-        }
-      } catch (err) {
-        generator.warning(`Error while parsing. Please install the modules manually or try again later. ${err.message}`);
-        generator.debug('Error:', err);
-        done();
-      }
-    },
-    error => {
-      generator.warning(`Unable to contact server to fetch additional modules: ${error.message}`);
-      generator.debug('Error:', error);
-      done();
-    }
-  );
-}
+//   generator.httpsGet(
+//     `https://api.npms.io/v2/search?q=keywords:jhipster-module+jhipster-${jHipsterMajorVersion}&from=0&size=50`,
+//     body => {
+//       try {
+//         const moduleResponse = JSON.parse(body);
+//         const choices = [];
+//         moduleResponse.results.forEach(modDef => {
+//           choices.push({
+//             value: { name: modDef.package.name, version: modDef.package.version },
+//             name: `(${modDef.package.name}-${modDef.package.version}) ${modDef.package.description}`,
+//           });
+//         });
+//         if (choices.length > 0) {
+//           generator
+//             .prompt({
+//               type: 'checkbox',
+//               name: 'otherModules',
+//               message: 'Which other modules would you like to use?',
+//               choices,
+//               default: [],
+//             })
+//             .then(answers => {
+//               // [ {name: [moduleName], version:[version]}, ...]
+//               answers.otherModules.forEach(module => {
+//                 generator.otherModules.push({ name: module.name, version: module.version });
+//               });
+//               generator.jhipsterConfig.otherModules = generator.otherModules;
+//               done();
+//             });
+//         } else {
+//           done();
+//         }
+//       } catch (err) {
+//         generator.warning(`Error while parsing. Please install the modules manually or try again later. ${err.message}`);
+//         generator.debug('Error:', err);
+//         done();
+//       }
+//     },
+//     error => {
+//       generator.warning(`Unable to contact server to fetch additional modules: ${error.message}`);
+//       generator.debug('Error:', error);
+//       done();
+//     }
+//   );
+// }
