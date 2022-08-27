@@ -1,0 +1,32 @@
+<%#
+ Copyright 2022 the original author or authors from the PyHipster project.
+
+ This file is part of the PyHipster project, see https://github.com/sudeephazra/generator-pyhipster
+ for more information.
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      https://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-%>
+
+import os
+from datetime import timedelta
+
+BASE_DIR = os.path.dirname(os.path.realpath(__file__))
+
+class BaseConfig():
+
+    # FIXME: Need to have dev and prod database connections here
+    SQLALCHEMY_DATABASE_URI = '<%_ if (devDatabaseTypeSQLiteAny) { _%>sqlite://<%_ if (devDatabaseTypeSQLiteDisk) { _%>/pyhipster.db3<%_ } _%><%_ if (devDatabaseTypeSQLiteMemory) { _%>:memory:<%_ } _%><%_ } _%>'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SECRET_KEY = "flask-app-secret-key-change-it"
+    JWT_SECRET_KEY = "jwt-app-secret-key-change-it"
+    JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=1)

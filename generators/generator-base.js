@@ -74,7 +74,7 @@ const GENERATOR_JHIPSTER = 'generator-jhipster';
 
 const SERVER_MAIN_RES_DIR = constants.SERVER_MAIN_RES_DIR;
 
-const { ORACLE, MYSQL, POSTGRESQL, MARIADB, MSSQL, SQL, MONGODB, COUCHBASE, NEO4J, CASSANDRA, H2_MEMORY, H2_DISK } = databaseTypes;
+const { ORACLE, MYSQL, POSTGRESQL, MARIADB, MSSQL, SQL, MONGODB, COUCHBASE, NEO4J, CASSANDRA, H2_MEMORY, H2_DISK, SQLITE_DISK, SQLITE_MEMORY } = databaseTypes;
 const NO_DATABASE = databaseTypes.NO;
 
 const { GENERATOR_BOOTSTRAP } = require('./generator-list');
@@ -3012,6 +3012,9 @@ templates: ${JSON.stringify(existingTemplates, null, 2)}`;
     dest.devDatabaseTypeH2Disk = dest.devDatabaseType === H2_DISK;
     dest.devDatabaseTypeH2Memory = dest.devDatabaseType === H2_MEMORY;
     dest.devDatabaseTypeH2Any = dest.devDatabaseTypeH2Disk || dest.devDatabaseTypeH2Memory;
+    dest.devDatabaseTypeSQLiteDisk = dest.devDatabaseType === SQLITE_DISK;
+    dest.devDatabaseTypeSQLiteMemory = dest.devDatabaseType === SQLITE_MEMORY;
+    dest.devDatabaseTypeSQLiteAny = dest.devDatabaseTypeSQLiteDisk || dest.devDatabaseTypeSQLiteMemory;
     dest.devDatabaseTypeCouchbase = dest.devDatabaseType === COUCHBASE;
     dest.devDatabaseTypeMariadb = dest.devDatabaseType === MARIADB;
     dest.devDatabaseTypeMssql = dest.devDatabaseType === MSSQL;

@@ -372,6 +372,12 @@ const baseServerFiles = {
       ],
     },
     {
+      condition: generator => generator.databaseTypeSql && generator.devDatabaseTypeSQLiteDisk ,
+      templates: [
+        { file: 'pyhipster.db3', method: 'copy', noEjs: true },
+      ],
+    },
+    {
       condition: generator => !generator.skipClient,
       templates: [
         { file: 'npmw', method: 'copy', noEjs: true },
@@ -419,12 +425,16 @@ const baseServerFiles = {
       templates: [
         // Thymeleaf templates
         { file: 'templates/error.html', method: 'copy' },
-        'logback-spring.xml',
-        'config/application.yml',
-        'config/application-dev.yml',
-        'config/application-tls.yml',
-        'config/application-prod.yml',
+        // 'logback-spring.xml',
+        // 'config/application.yml',
+        // 'config/application-dev.yml',
+        // 'config/application-tls.yml',
+        // 'config/application-prod.yml',
         'i18n/messages.properties',
+        {
+          file: 'config/base-config.py',
+          renameTo: generator => `${generator.javaDir}config/BaseConfig.py`,
+        },
       ],
     },
   ],
@@ -468,16 +478,16 @@ const baseServerFiles = {
         },
       ],
     },
-    {
-      condition: generator => generator.reactive,
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/security/SecurityUtilsUnitTest_reactive.java',
-          renameTo: generator => `${generator.testDir}security/SecurityUtilsUnitTest.java`,
-        },
-      ],
-    },
+    // {
+    //   condition: generator => generator.reactive,
+    //   path: SERVER_TEST_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/security/SecurityUtilsUnitTest_reactive.java',
+    //       renameTo: generator => `${generator.testDir}security/SecurityUtilsUnitTest.java`,
+    //     },
+    //   ],
+    // },
     {
       condition: generator => generator.authenticationType === JWT,
       path: SERVER_MAIN_SRC_DIR,
@@ -506,16 +516,16 @@ const baseServerFiles = {
         },
       ],
     },
-    {
-      condition: generator => generator.reactive && generator.applicationType === GATEWAY && generator.authenticationType === JWT,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/security/jwt/JWTRelayGatewayFilterFactory.java',
-          renameTo: generator => `${generator.testDir}security/jwt/JWTRelayGatewayFilterFactory.java`,
-        },
-      ],
-    },
+    // {
+    //   condition: generator => generator.reactive && generator.applicationType === GATEWAY && generator.authenticationType === JWT,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/security/jwt/JWTRelayGatewayFilterFactory.java',
+    //       renameTo: generator => `${generator.testDir}security/jwt/JWTRelayGatewayFilterFactory.java`,
+    //     },
+    //   ],
+    // },
     {
       condition: generator => !generator.reactive,
       path: SERVER_MAIN_SRC_DIR,
@@ -815,79 +825,79 @@ const baseServerFiles = {
     }
   ],
   serverJavaApp: [
-    {
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [{ file: 'package/Application.java', renameTo: generator => `${generator.javaDir}${generator.mainClass}.java` }],
-    },
-    {
-      condition: generator => !generator.reactive,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [{ file: 'package/ApplicationWebXml.java', renameTo: generator => `${generator.javaDir}ApplicationWebXml.java` }],
-    },
-    {
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/TechnicalStructureTest.java',
-          renameTo: generator => `${generator.testDir}TechnicalStructureTest.java`,
-        },
-      ],
-    },
-    {
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/IntegrationTest.java',
-          renameTo: generator => `${generator.testDir}/IntegrationTest.java`,
-        },
-      ],
-    },
-    {
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/GeneratedByJHipster.java',
-          renameTo: generator => `${generator.javaDir}GeneratedByJHipster.java`,
-        },
-      ],
-    },
+    // {
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [{ file: 'package/Application.java', renameTo: generator => `${generator.javaDir}${generator.mainClass}.java` }],
+    // },
+    // {
+    //   condition: generator => !generator.reactive,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [{ file: 'package/ApplicationWebXml.java', renameTo: generator => `${generator.javaDir}ApplicationWebXml.java` }],
+    // },
+    // {
+    //   path: SERVER_TEST_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/TechnicalStructureTest.java',
+    //       renameTo: generator => `${generator.testDir}TechnicalStructureTest.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   path: SERVER_TEST_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/IntegrationTest.java',
+    //       renameTo: generator => `${generator.testDir}/IntegrationTest.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/GeneratedByJHipster.java',
+    //       renameTo: generator => `${generator.javaDir}GeneratedByJHipster.java`,
+    //     },
+    //   ],
+    // },
   ],
   serverJavaConfig: [
-    {
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/aop/logging/LoggingAspect.java',
-          renameTo: generator => `${generator.javaDir}aop/logging/LoggingAspect.java`,
-        },
-        { file: 'package/config/package-info.java', renameTo: generator => `${generator.javaDir}config/package-info.java` },
-        {
-          file: 'package/config/AsyncConfiguration.java',
-          renameTo: generator => `${generator.javaDir}config/AsyncConfiguration.java`,
-        },
-        {
-          file: 'package/config/DateTimeFormatConfiguration.java',
-          renameTo: generator => `${generator.javaDir}config/DateTimeFormatConfiguration.java`,
-        },
-        {
-          file: 'package/config/LoggingConfiguration.java',
-          renameTo: generator => `${generator.javaDir}config/LoggingConfiguration.java`,
-        },
-        {
-          file: 'package/config/ApplicationProperties.java',
-          renameTo: generator => `${generator.javaDir}config/ApplicationProperties.java`,
-        },
-        {
-          file: 'package/config/JacksonConfiguration.java',
-          renameTo: generator => `${generator.javaDir}config/JacksonConfiguration.java`,
-        },
-        {
-          file: 'package/config/LoggingAspectConfiguration.java',
-          renameTo: generator => `${generator.javaDir}config/LoggingAspectConfiguration.java`,
-        },
-        { file: 'package/config/WebConfigurer.java', renameTo: generator => `${generator.javaDir}config/WebConfigurer.java` },
-      ],
-    },
+    // {
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/aop/logging/LoggingAspect.java',
+    //       renameTo: generator => `${generator.javaDir}aop/logging/LoggingAspect.java`,
+    //     },
+    //     { file: 'package/config/package-info.java', renameTo: generator => `${generator.javaDir}config/package-info.java` },
+    //     {
+    //       file: 'package/config/AsyncConfiguration.java',
+    //       renameTo: generator => `${generator.javaDir}config/AsyncConfiguration.java`,
+    //     },
+    //     {
+    //       file: 'package/config/DateTimeFormatConfiguration.java',
+    //       renameTo: generator => `${generator.javaDir}config/DateTimeFormatConfiguration.java`,
+    //     },
+    //     {
+    //       file: 'package/config/LoggingConfiguration.java',
+    //       renameTo: generator => `${generator.javaDir}config/LoggingConfiguration.java`,
+    //     },
+    //     {
+    //       file: 'package/config/ApplicationProperties.java',
+    //       renameTo: generator => `${generator.javaDir}config/ApplicationProperties.java`,
+    //     },
+    //     {
+    //       file: 'package/config/JacksonConfiguration.java',
+    //       renameTo: generator => `${generator.javaDir}config/JacksonConfiguration.java`,
+    //     },
+    //     {
+    //       file: 'package/config/LoggingAspectConfiguration.java',
+    //       renameTo: generator => `${generator.javaDir}config/LoggingAspectConfiguration.java`,
+    //     },
+    //     { file: 'package/config/WebConfigurer.java', renameTo: generator => `${generator.javaDir}config/WebConfigurer.java` },
+    //   ],
+    // },
     {
       condition: generator => !generator.skipClient && !generator.reactive,
       path: SERVER_MAIN_SRC_DIR,
@@ -913,20 +923,20 @@ const baseServerFiles = {
         },
       ],
     },
-    {
-      condition: generator => generator.reactive,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/config/ReactorConfiguration.java',
-          renameTo: generator => `${generator.javaDir}config/ReactorConfiguration.java`,
-        },
-        {
-          file: 'package/config/LocaleConfiguration_reactive.java',
-          renameTo: generator => `${generator.javaDir}config/LocaleConfiguration.java`,
-        },
-      ],
-    },
+    // {
+    //   condition: generator => generator.reactive,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/config/ReactorConfiguration.java',
+    //       renameTo: generator => `${generator.javaDir}config/ReactorConfiguration.java`,
+    //     },
+    //     {
+    //       file: 'package/config/LocaleConfiguration_reactive.java',
+    //       renameTo: generator => `${generator.javaDir}config/LocaleConfiguration.java`,
+    //     },
+    //   ],
+    // },
     {
       condition: generator =>
         [EHCACHE, CAFFEINE, HAZELCAST, INFINISPAN, MEMCACHED, REDIS].includes(generator.cacheProvider) ||
@@ -939,16 +949,16 @@ const baseServerFiles = {
         },
       ],
     },
-    {
-      condition: generator => generator.cacheProvider === INFINISPAN,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/config/CacheFactoryConfiguration.java',
-          renameTo: generator => `${generator.javaDir}config/CacheFactoryConfiguration.java`,
-        },
-      ],
-    },
+    // {
+    //   condition: generator => generator.cacheProvider === INFINISPAN,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/config/CacheFactoryConfiguration.java',
+    //       renameTo: generator => `${generator.javaDir}config/CacheFactoryConfiguration.java`,
+    //     },
+    //   ],
+    // },
     {
       condition: generator => generator.cacheProvider === REDIS,
       path: SERVER_TEST_SRC_DIR,
@@ -979,45 +989,45 @@ const baseServerFiles = {
         },
       ],
     },
-    {
-      condition: generator => generator.databaseType === SQL && generator.reactive,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/repository/rowmapper/ColumnConverter.java',
-          renameTo: generator => `${generator.javaDir}repository/rowmapper/ColumnConverter.java`,
-        },
-        {
-          file: 'package/repository/EntityManager.java',
-          renameTo: generator => `${generator.javaDir}repository/EntityManager.java`,
-        },
-      ],
-    },
-    {
-      condition: generator =>
-        generator.databaseType === SQL && generator.reactive && (!generator.skipUserManagement || generator.authenticationType === OAUTH2),
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/repository/rowmapper/UserRowMapper.java',
-          renameTo: generator => `${generator.javaDir}repository/rowmapper/UserRowMapper.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => generator.websocket === SPRING_WEBSOCKET,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/config/WebsocketConfiguration.java',
-          renameTo: generator => `${generator.javaDir}config/WebsocketConfiguration.java`,
-        },
-        {
-          file: 'package/config/WebsocketSecurityConfiguration.java',
-          renameTo: generator => `${generator.javaDir}config/WebsocketSecurityConfiguration.java`,
-        },
-      ],
-    },
+    // {
+    //   condition: generator => generator.databaseType === SQL && generator.reactive,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/repository/rowmapper/ColumnConverter.java',
+    //       renameTo: generator => `${generator.javaDir}repository/rowmapper/ColumnConverter.java`,
+    //     },
+    //     {
+    //       file: 'package/repository/EntityManager.java',
+    //       renameTo: generator => `${generator.javaDir}repository/EntityManager.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator =>
+    //     generator.databaseType === SQL && generator.reactive && (!generator.skipUserManagement || generator.authenticationType === OAUTH2),
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/repository/rowmapper/UserRowMapper.java',
+    //       renameTo: generator => `${generator.javaDir}repository/rowmapper/UserRowMapper.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => generator.websocket === SPRING_WEBSOCKET,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/config/WebsocketConfiguration.java',
+    //       renameTo: generator => `${generator.javaDir}config/WebsocketConfiguration.java`,
+    //     },
+    //     {
+    //       file: 'package/config/WebsocketSecurityConfiguration.java',
+    //       renameTo: generator => `${generator.javaDir}config/WebsocketSecurityConfiguration.java`,
+    //     },
+    //   ],
+    // },
     {
       condition: generator => generator.searchEngine === ELASTICSEARCH,
       path: SERVER_MAIN_SRC_DIR,
@@ -1902,7 +1912,7 @@ const baseServerFiles = {
 
 const serverFiles = mergeSections(
   baseServerFiles,
-  addSectionsCondition(h2Files, context => context.devDatabaseTypeH2Any),
+  // addSectionsCondition(h2Files, context => context.devDatabaseTypeH2Any),
   addSectionsCondition(liquibaseFiles, context => context.databaseTypeSql),
   addSectionsCondition(mongoDbFiles, context => context.databaseTypeMongodb),
   addSectionsCondition(neo4jFiles, context => context.databaseTypeNeo4j),
