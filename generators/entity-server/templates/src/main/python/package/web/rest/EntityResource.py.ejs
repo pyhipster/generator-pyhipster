@@ -1,0 +1,128 @@
+<%#
+ Copyright 2022 the original author or authors from the PyHipster project.
+
+ This file is part of the PyHipster project, see https://github.com/sudeephazra/generator-pyhipster
+ for more information.
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      https://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-%>
+
+from flask import request
+from flask_restx import Api, Resource, fields
+
+@rest_api.route("/api")
+class <%= entityClass %>Resource(Resource):
+
+<%_
+const instanceName = restInstance;
+const entityLowercase = _.lowerCase(entityClass);
+const entitiesLowercase = _.lowerCase(entityInstancePlural);
+_%>
+
+    ###
+    # {@code POST  /<%= entityApiUrl %>} : Create a new <%= entityInstance %>.
+    #
+    # @param <%= instanceName %> the <%= instanceName %> to create.
+    # @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new <%= instanceName %>, or with status {@code 400 (Bad Request)} if the <%= entityInstance %> has already an ID.
+    # @throws URISyntaxException if the Location URI syntax is incorrect.
+    ###
+    @rest_api.route("/<%= entityApiUrl %>", methods=['POST'])
+    def create_<%= entityLowercase %>(self):
+
+
+    ###
+    # {@code PUT  /<%= entityApiUrl %>/<int:<%= primaryKey.name %>>} : Updates an existing <%= entityInstance %>.
+    #
+    # @param <%= primaryKey.name %> the id of the <%= instanceName %> to save.
+    # @param <%= instanceName %> the <%= instanceName %> to update.
+    # @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated <%= instanceName %>,
+    # or with status {@code 400 (Bad Request)} if the <%= instanceName %> is not valid,
+    # or with status {@code 500 (Internal Server Error)} if the <%= instanceName %> couldn't be updated.
+    # @throws URISyntaxException if the Location URI syntax is incorrect.
+    ###
+    @rest_api.route("/<%= entityApiUrl %>/<int:<%= primaryKey.name %>>", methods=['PUT'])
+    def update_<%= entityLowercase %>(self, <%= primaryKey.name %>):
+
+
+    ###
+    # {@code PATCH  /<%= entityApiUrl %>/<int:<%= primaryKey.name %>>} : Partial updates given fields of an existing <%= entityInstance %>, field will ignore if it is null
+    #
+    # @param <%= primaryKey.name %> the id of the <%= instanceName %> to save.
+    # @param <%= instanceName %> the <%= instanceName %> to update.
+    # @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated <%= instanceName %>,
+    # or with status {@code 400 (Bad Request)} if the <%= instanceName %> is not valid,
+    # or with status {@code 404 (Not Found)} if the <%= instanceName %> is not found,
+    # or with status {@code 500 (Internal Server Error)} if the <%= instanceName %> couldn't be updated.
+    # @throws URISyntaxException if the Location URI syntax is incorrect.
+    ###
+    @rest_api.route("/<%= entityApiUrl %>/<int:<%= primaryKey.name %>>", methods=['PATCH'])
+    def partial_update_<%= entityLowercase %>(self, <%= primaryKey.name %>):
+
+
+    ###
+    # {@code GET  /<%= entityApiUrl %>} : get all the <%= entityInstancePlural %>.
+    #
+<%_ if (!paginationNo) { _%>
+    # @param pageable the pagination information.
+  <%_ if (reactive) { _%>
+    # @param request a {@link ServerHttpRequest} request.
+  <%_ } _%>
+<%_ } _%>
+<%_ if (!jpaMetamodelFiltering && implementsEagerLoadApis) { _%>
+    # @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
+<%_ } _%>
+<%_ if (jpaMetamodelFiltering) { _%>
+    # @param criteria the criteria which the requested entities should match.
+<%_ } else if (fieldsContainNoOwnerOneToOne) { _%>
+    # @param filter the filter of the request.
+<%_ } _%>
+    # @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of <%= entityInstancePlural %> in body.
+    ###
+    @rest_api.route("/<%= entityApiUrl %>", methods=['GET'])
+    def get_all_<%= entitiesLowercase %>(self):
+
+
+    ###
+    # {@code GET  /<%= entityApiUrl %>/<int:<%= primaryKey.name %>>} : get the "id" <%= entityInstance %>.
+    #
+    # @param id the id of the <%= instanceName %> to retrieve.
+    # @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the <%= instanceName %>, or with status {@code 404 (Not Found)}.
+    ###
+    @rest_api.route("/<%= entityApiUrl %>/<int:<%= primaryKey.name %>>", methods=['GET'])
+    def get_<%= entityLowercase %>(self, <%= primaryKey.name %>):
+
+    
+
+    ###
+    # {@code DELETE  /<%= entityApiUrl %>/<int:<%= primaryKey.name %>>} : delete the "id" <%= entityInstance %>.
+    #
+    # @param id the id of the <%= instanceName %> to delete.
+    # @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
+    ###
+    @rest_api.route("/<%= entityApiUrl %>/<int:<%= primaryKey.name %>>", methods=['DELETE'])
+    def delete_<%= entityLowercase %>(self, <%= primaryKey.name %>):
+
+
+    ###
+    # {@code SEARCH  /_search/<%= entityApiUrl %>?query=:query} : search for the <%= entityInstance %> corresponding
+    # to the query.
+    #
+    # @param query the query of the <%= entityInstance %> search.
+  <%_ if (!paginationNo) { _%>
+    # @param pageable the pagination information.
+    <%_ if (reactive) { _%>
+    # @param request a {@link ServerHttpRequest} request.
+    <%_ } _%>
+  <%_ } _%>
+    # @return the result of the search.
+    ###

@@ -58,315 +58,333 @@ const serverFiles = {
     {
       path: SERVER_MAIN_SRC_DIR,
       templates: [
+        // {
+        //   file: 'package/domain/Entity.java.jhi',
+        //   renameTo: generator => `${generator.entityAbsoluteFolder}/domain/${generator.persistClass}.java.jhi`,
+        // },
         {
-          file: 'package/domain/Entity.java.jhi',
-          renameTo: generator => `${generator.entityAbsoluteFolder}/domain/${generator.persistClass}.java.jhi`,
+          file: 'package/domain/Entity.py.jhi',
+          renameTo: generator => `domain/${generator.persistClass}.py.jhi`,
         },
-        {
-          file: 'package/domain/Entity.java.jhi.javax_validation',
-          renameTo: generator => `${generator.entityAbsoluteFolder}/domain/${generator.persistClass}.java.jhi.javax_validation`,
-        },
+        // {
+        //   file: 'package/domain/Entity.java.jhi.javax_validation',
+        //   renameTo: generator => `${generator.entityAbsoluteFolder}/domain/${generator.persistClass}.java.jhi.javax_validation`,
+        // },
       ],
     },
-    {
-      condition: generator => generator.databaseTypeSql && generator.reactive,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/domain/Entity.java.jhi.spring_data_reactive',
-          renameTo: generator => `${generator.entityAbsoluteFolder}/domain/${generator.persistClass}.java.jhi.spring_data_reactive`,
-        },
-      ],
-    },
-    {
-      condition: generator => generator.databaseTypeSql && generator.requiresPersistableImplementation,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/domain/Entity.java.jhi.spring_data_persistable',
-          renameTo: generator => `${generator.entityAbsoluteFolder}/domain/${generator.persistClass}.java.jhi.spring_data_persistable`,
-        },
-      ],
-    },
-    {
-      condition: generator => generator.databaseTypeSql && generator.reactive && generator.requiresPersistableImplementation,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/domain/EntityCallback.java',
-          renameTo: generator => `${generator.entityAbsoluteFolder}/domain/${generator.persistClass}Callback.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => generator.databaseTypeSql && !generator.reactive && generator.requiresPersistableImplementation,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/domain/Entity.java.jhi.javax_lifecycle_events',
-          renameTo: generator => `${generator.entityAbsoluteFolder}/domain/${generator.persistClass}.java.jhi.javax_lifecycle_events`,
-        },
-      ],
-    },
-    {
-      condition: generator => generator.databaseTypeCassandra,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/domain/Entity.java.jhi.spring_data_cassandra',
-          renameTo: generator => `${generator.entityAbsoluteFolder}/domain/${generator.persistClass}.java.jhi.spring_data_cassandra`,
-        },
-      ],
-    },
-    {
-      condition: generator => generator.databaseTypeNeo4j,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/domain/Entity.java.jhi.spring_data_neo4j',
-          renameTo: generator => `${generator.entityAbsoluteFolder}/domain/${generator.persistClass}.java.jhi.spring_data_neo4j`,
-        },
-      ],
-    },
-    {
-      condition: generator => generator.databaseTypeSql && !generator.reactive,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/domain/Entity.java.jhi.javax_persistence',
-          renameTo: generator => `${generator.entityAbsoluteFolder}/domain/${generator.persistClass}.java.jhi.javax_persistence`,
-        },
-      ],
-    },
-    {
-      condition: generator => generator.databaseTypeMongodb,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/domain/Entity.java.jhi.spring_data_mongodb',
-          renameTo: generator => `${generator.entityAbsoluteFolder}/domain/${generator.persistClass}.java.jhi.spring_data_mongodb`,
-        },
-      ],
-    },
-    {
-      condition: generator => generator.databaseTypeSql && !generator.reactive && generator.enableHibernateCache,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/domain/Entity.java.jhi.hibernate_cache',
-          renameTo: generator => `${generator.entityAbsoluteFolder}/domain/${generator.persistClass}.java.jhi.hibernate_cache`,
-        },
-      ],
-    },
-    {
-      condition: generator => generator.searchEngineElasticsearch,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/domain/Entity.java.jhi.elastic_search',
-          renameTo: generator => `${generator.entityAbsoluteFolder}/domain/${generator.persistClass}.java.jhi.elastic_search`,
-        },
-      ],
-    },
+    // {
+    //   condition: generator => generator.databaseTypeSql && generator.reactive,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/domain/Entity.java.jhi.spring_data_reactive',
+    //       renameTo: generator => `${generator.entityAbsoluteFolder}/domain/${generator.persistClass}.java.jhi.spring_data_reactive`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => generator.databaseTypeSql && generator.requiresPersistableImplementation,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/domain/Entity.java.jhi.spring_data_persistable',
+    //       renameTo: generator => `${generator.entityAbsoluteFolder}/domain/${generator.persistClass}.java.jhi.spring_data_persistable`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => generator.databaseTypeSql && generator.reactive && generator.requiresPersistableImplementation,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/domain/EntityCallback.java',
+    //       renameTo: generator => `${generator.entityAbsoluteFolder}/domain/${generator.persistClass}Callback.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => generator.databaseTypeSql && !generator.reactive && generator.requiresPersistableImplementation,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/domain/Entity.java.jhi.javax_lifecycle_events',
+    //       renameTo: generator => `${generator.entityAbsoluteFolder}/domain/${generator.persistClass}.java.jhi.javax_lifecycle_events`,
+    //     },
+    //   ],
+    // },
+    // FIXME: To be enabled in later releases
+    // {
+    //   condition: generator => generator.databaseTypeCassandra,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/domain/Entity.java.jhi.spring_data_cassandra',
+    //       renameTo: generator => `${generator.entityAbsoluteFolder}/domain/${generator.persistClass}.java.jhi.spring_data_cassandra`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => generator.databaseTypeNeo4j,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/domain/Entity.java.jhi.spring_data_neo4j',
+    //       renameTo: generator => `${generator.entityAbsoluteFolder}/domain/${generator.persistClass}.java.jhi.spring_data_neo4j`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => generator.databaseTypeSql && !generator.reactive,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/domain/Entity.java.jhi.javax_persistence',
+    //       renameTo: generator => `${generator.entityAbsoluteFolder}/domain/${generator.persistClass}.java.jhi.javax_persistence`,
+    //     },
+    //   ],
+    // },
+    // FIXME: To be enabled in later releases
+    // {
+    //   condition: generator => generator.databaseTypeMongodb,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/domain/Entity.java.jhi.spring_data_mongodb',
+    //       renameTo: generator => `${generator.entityAbsoluteFolder}/domain/${generator.persistClass}.java.jhi.spring_data_mongodb`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => generator.databaseTypeSql && !generator.reactive && generator.enableHibernateCache,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/domain/Entity.java.jhi.hibernate_cache',
+    //       renameTo: generator => `${generator.entityAbsoluteFolder}/domain/${generator.persistClass}.java.jhi.hibernate_cache`,
+    //     },
+    //   ],
+    // },
+    // FIXME: To be enabled in later releases
+    // {
+    //   condition: generator => generator.searchEngineElasticsearch,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/domain/Entity.java.jhi.elastic_search',
+    //       renameTo: generator => `${generator.entityAbsoluteFolder}/domain/${generator.persistClass}.java.jhi.elastic_search`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => !generator.embedded,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/web/rest/EntityResource.java',
+    //       renameTo: generator => `${generator.entityAbsoluteFolder}/web/rest/${generator.entityClass}Resource.java`,
+    //     },
+    //   ],
+    // },
     {
       condition: generator => !generator.embedded,
       path: SERVER_MAIN_SRC_DIR,
       templates: [
         {
-          file: 'package/web/rest/EntityResource.java',
-          renameTo: generator => `${generator.entityAbsoluteFolder}/web/rest/${generator.entityClass}Resource.java`,
+          file: 'package/web/rest/EntityResource.py',
+          renameTo: generator => `web/rest/${generator.entityClass}Resource.py`,
         },
       ],
     },
-    {
-      condition: generator => generator.jpaMetamodelFiltering,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/service/criteria/EntityCriteria.java',
-          renameTo: generator => `${generator.entityAbsoluteFolder}/service/criteria/${generator.entityClass}Criteria.java`,
-        },
-        {
-          file: 'package/service/EntityQueryService.java',
-          renameTo: generator => `${generator.entityAbsoluteFolder}/service/${generator.entityClass}QueryService.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => generator.searchEngine === ELASTICSEARCH && !generator.embedded,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/repository/search/EntitySearchRepository.java',
-          renameTo: generator => `${generator.entityAbsoluteFolder}/repository/search/${generator.entityClass}SearchRepository.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => !generator.reactive && !generator.embedded && generator.databaseType !== COUCHBASE,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/repository/EntityRepository.java',
-          renameTo: generator => `${generator.entityAbsoluteFolder}/repository/${generator.entityClass}Repository.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => !generator.reactive && generator.databaseTypeSql && !generator.embedded && generator.containsBagRelationships,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/repository/EntityRepositoryWithBagRelationships.java',
-          renameTo: generator => `${generator.packageFolder}/repository/${generator.entityClass}RepositoryWithBagRelationships.java`,
-        },
-        {
-          file: 'package/repository/EntityRepositoryWithBagRelationshipsImpl.java',
-          renameTo: generator => `${generator.packageFolder}/repository/${generator.entityClass}RepositoryWithBagRelationshipsImpl.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => generator.reactive && !generator.embedded && generator.databaseType !== COUCHBASE,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/repository/EntityRepository_reactive.java',
-          renameTo: generator => `${generator.entityAbsoluteFolder}/repository/${generator.entityClass}Repository.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => generator.reactive && generator.databaseType === SQL && !generator.embedded,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/repository/EntityRepositoryInternalImpl_reactive.java',
-          renameTo: generator => `${generator.entityAbsoluteFolder}/repository/${generator.entityClass}RepositoryInternalImpl.java`,
-        },
-        {
-          file: 'package/repository/EntitySqlHelper_reactive.java',
-          renameTo: generator => `${generator.entityAbsoluteFolder}/repository/${generator.entityClass}SqlHelper.java`,
-        },
-        {
-          file: 'package/repository/rowmapper/EntityRowMapper.java',
-          renameTo: generator => `${generator.entityAbsoluteFolder}/repository/rowmapper/${generator.entityClass}RowMapper.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => generator.service === SERVICE_IMPL && !generator.embedded,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/service/EntityService.java',
-          renameTo: generator => `${generator.entityAbsoluteFolder}/service/${generator.entityClass}Service.java`,
-        },
-        {
-          file: 'package/service/impl/EntityServiceImpl.java',
-          renameTo: generator => `${generator.entityAbsoluteFolder}/service/impl/${generator.entityClass}ServiceImpl.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => generator.service === SERVICE_CLASS && !generator.embedded,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/service/impl/EntityServiceImpl.java',
-          renameTo: generator => `${generator.entityAbsoluteFolder}/service/${generator.entityClass}Service.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => generator.dto === MAPSTRUCT,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/service/dto/EntityDTO.java',
-          renameTo: generator => `${generator.entityAbsoluteFolder}/service/dto/${generator.asDto(generator.entityClass)}.java`,
-        },
-        {
-          file: 'package/service/mapper/BaseEntityMapper.java',
-          renameTo: generator => `${generator.entityAbsoluteFolder}/service/mapper/EntityMapper.java`,
-        },
-        {
-          file: 'package/service/mapper/EntityMapper.java',
-          renameTo: generator => `${generator.entityAbsoluteFolder}/service/mapper/${generator.entityClass}Mapper.java`,
-        },
-      ],
-    },
+    // {
+    //   condition: generator => generator.jpaMetamodelFiltering,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/service/criteria/EntityCriteria.java',
+    //       renameTo: generator => `${generator.entityAbsoluteFolder}/service/criteria/${generator.entityClass}Criteria.java`,
+    //     },
+    //     {
+    //       file: 'package/service/EntityQueryService.java',
+    //       renameTo: generator => `${generator.entityAbsoluteFolder}/service/${generator.entityClass}QueryService.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => generator.searchEngine === ELASTICSEARCH && !generator.embedded,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/repository/search/EntitySearchRepository.java',
+    //       renameTo: generator => `${generator.entityAbsoluteFolder}/repository/search/${generator.entityClass}SearchRepository.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => !generator.reactive && !generator.embedded && generator.databaseType !== COUCHBASE,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/repository/EntityRepository.java',
+    //       renameTo: generator => `${generator.entityAbsoluteFolder}/repository/${generator.entityClass}Repository.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => !generator.reactive && generator.databaseTypeSql && !generator.embedded && generator.containsBagRelationships,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/repository/EntityRepositoryWithBagRelationships.java',
+    //       renameTo: generator => `${generator.packageFolder}/repository/${generator.entityClass}RepositoryWithBagRelationships.java`,
+    //     },
+    //     {
+    //       file: 'package/repository/EntityRepositoryWithBagRelationshipsImpl.java',
+    //       renameTo: generator => `${generator.packageFolder}/repository/${generator.entityClass}RepositoryWithBagRelationshipsImpl.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => generator.reactive && !generator.embedded && generator.databaseType !== COUCHBASE,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/repository/EntityRepository_reactive.java',
+    //       renameTo: generator => `${generator.entityAbsoluteFolder}/repository/${generator.entityClass}Repository.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => generator.reactive && generator.databaseType === SQL && !generator.embedded,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/repository/EntityRepositoryInternalImpl_reactive.java',
+    //       renameTo: generator => `${generator.entityAbsoluteFolder}/repository/${generator.entityClass}RepositoryInternalImpl.java`,
+    //     },
+    //     {
+    //       file: 'package/repository/EntitySqlHelper_reactive.java',
+    //       renameTo: generator => `${generator.entityAbsoluteFolder}/repository/${generator.entityClass}SqlHelper.java`,
+    //     },
+    //     {
+    //       file: 'package/repository/rowmapper/EntityRowMapper.java',
+    //       renameTo: generator => `${generator.entityAbsoluteFolder}/repository/rowmapper/${generator.entityClass}RowMapper.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => generator.service === SERVICE_IMPL && !generator.embedded,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/service/EntityService.java',
+    //       renameTo: generator => `${generator.entityAbsoluteFolder}/service/${generator.entityClass}Service.java`,
+    //     },
+    //     {
+    //       file: 'package/service/impl/EntityServiceImpl.java',
+    //       renameTo: generator => `${generator.entityAbsoluteFolder}/service/impl/${generator.entityClass}ServiceImpl.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => generator.service === SERVICE_CLASS && !generator.embedded,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/service/impl/EntityServiceImpl.java',
+    //       renameTo: generator => `${generator.entityAbsoluteFolder}/service/${generator.entityClass}Service.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => generator.dto === MAPSTRUCT,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/service/dto/EntityDTO.java',
+    //       renameTo: generator => `${generator.entityAbsoluteFolder}/service/dto/${generator.asDto(generator.entityClass)}.java`,
+    //     },
+    //     {
+    //       file: 'package/service/mapper/BaseEntityMapper.java',
+    //       renameTo: generator => `${generator.entityAbsoluteFolder}/service/mapper/EntityMapper.java`,
+    //     },
+    //     {
+    //       file: 'package/service/mapper/EntityMapper.java',
+    //       renameTo: generator => `${generator.entityAbsoluteFolder}/service/mapper/${generator.entityClass}Mapper.java`,
+    //     },
+    //   ],
+    // },
   ],
+  // FIXME: To be enabled in later releases
   test: [
-    {
-      condition: generator => !generator.embedded,
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/web/rest/EntityResourceIT.java',
-          options: {
-            context: {
-              _,
-              chalkRed: chalk.red,
-              fs,
-              SERVER_TEST_SRC_DIR,
-            },
-          },
-          renameTo: generator => `${generator.entityAbsoluteFolder}/web/rest/${generator.entityClass}ResourceIT.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => generator.searchEngine === ELASTICSEARCH && !generator.embedded,
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/repository/search/EntitySearchRepositoryMockConfiguration.java',
-          renameTo: generator =>
-            `${generator.entityAbsoluteFolder}/repository/search/${generator.entityClass}SearchRepositoryMockConfiguration.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => generator.gatlingTests,
-      path: TEST_DIR,
-      templates: [
-        {
-          file: 'gatling/user-files/simulations/EntityGatlingTest.scala',
-          options: { interpolate: INTERPOLATE_REGEX },
-          renameTo: generator => `gatling/user-files/simulations/${generator.entityClass}GatlingTest.scala`,
-        },
-      ],
-    },
-    {
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/domain/EntityTest.java',
-          renameTo: generator => `${generator.entityAbsoluteFolder}/domain/${generator.persistClass}Test.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => generator.dto === MAPSTRUCT,
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/service/dto/EntityDTOTest.java',
-          renameTo: generator => `${generator.entityAbsoluteFolder}/service/dto/${generator.asDto(generator.entityClass)}Test.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => generator.dto === MAPSTRUCT && [SQL, MONGODB, COUCHBASE, NEO4J].includes(generator.databaseType),
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/service/mapper/EntityMapperTest.java',
-          renameTo: generator => `${generator.entityAbsoluteFolder}/service/mapper/${generator.entityClass}MapperTest.java`,
-        },
-      ],
-    },
+    // {
+    //   condition: generator => !generator.embedded,
+    //   path: SERVER_TEST_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/web/rest/EntityResourceIT.java',
+    //       options: {
+    //         context: {
+    //           _,
+    //           chalkRed: chalk.red,
+    //           fs,
+    //           SERVER_TEST_SRC_DIR,
+    //         },
+    //       },
+    //       renameTo: generator => `${generator.entityAbsoluteFolder}/web/rest/${generator.entityClass}ResourceIT.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => generator.searchEngine === ELASTICSEARCH && !generator.embedded,
+    //   path: SERVER_TEST_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/repository/search/EntitySearchRepositoryMockConfiguration.java',
+    //       renameTo: generator =>
+    //         `${generator.entityAbsoluteFolder}/repository/search/${generator.entityClass}SearchRepositoryMockConfiguration.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => generator.gatlingTests,
+    //   path: TEST_DIR,
+    //   templates: [
+    //     {
+    //       file: 'gatling/user-files/simulations/EntityGatlingTest.scala',
+    //       options: { interpolate: INTERPOLATE_REGEX },
+    //       renameTo: generator => `gatling/user-files/simulations/${generator.entityClass}GatlingTest.scala`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   path: SERVER_TEST_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/domain/EntityTest.java',
+    //       renameTo: generator => `${generator.entityAbsoluteFolder}/domain/${generator.persistClass}Test.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => generator.dto === MAPSTRUCT,
+    //   path: SERVER_TEST_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/service/dto/EntityDTOTest.java',
+    //       renameTo: generator => `${generator.entityAbsoluteFolder}/service/dto/${generator.asDto(generator.entityClass)}Test.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => generator.dto === MAPSTRUCT && [SQL, MONGODB, COUCHBASE, NEO4J].includes(generator.databaseType),
+    //   path: SERVER_TEST_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/service/mapper/EntityMapperTest.java',
+    //       renameTo: generator => `${generator.entityAbsoluteFolder}/service/mapper/${generator.entityClass}MapperTest.java`,
+    //     },
+    //   ],
+    // },
   ],
 };
 
@@ -400,14 +418,17 @@ function writeFiles() {
           packageName: this.packageName,
           entityAbsolutePackage: this.entityAbsolutePackage || this.packageName,
         };
+        // FIXME: To be enabled in later releases
         // eslint-disable-next-line no-console
         if (!this.skipServer) {
           const pathToTemplateFile = `${this.fetchFromInstalledJHipster(
             'entity-server/templates'
-          )}/${SERVER_MAIN_SRC_DIR}package/domain/enumeration/Enum.java.ejs`;
+          // )}/${SERVER_MAIN_SRC_DIR}package/domain/enumeration/Enum.java.ejs`;
+          )}/${SERVER_MAIN_SRC_DIR}package/domain/enumeration/Enum.py.ejs`;
           this.template(
             pathToTemplateFile,
-            `${SERVER_MAIN_SRC_DIR}${this.entityAbsoluteFolder}/domain/enumeration/${fieldType}.java`,
+            // `${SERVER_MAIN_SRC_DIR}${this.entityAbsoluteFolder}/domain/enumeration/${fieldType}.java`,
+            `${SERVER_MAIN_SRC_DIR}/domain/enumeration/${fieldType}.py`,
             this,
             {},
             enumInfo
