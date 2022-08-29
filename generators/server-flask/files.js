@@ -500,10 +500,10 @@ const baseServerFiles = {
           file: 'package/security/jwt/JWTFilter.java',
           renameTo: generator => `${generator.javaDir}security/jwt/JWTFilter.java`,
         },
-        {
-          file: 'package/management/SecurityMetersService.java',
-          renameTo: generator => `${generator.javaDir}management/SecurityMetersService.java`,
-        },
+        // {
+        //   file: 'package/management/SecurityMetersService.java',
+        //   renameTo: generator => `${generator.javaDir}management/SecurityMetersService.java`,
+        // },
       ],
     },
     {
@@ -1785,10 +1785,10 @@ const baseServerFiles = {
       condition: generator => generator.authenticationType === JWT,
       path: SERVER_TEST_SRC_DIR,
       templates: [
-        {
-          file: 'package/management/SecurityMetersServiceTests.java',
-          renameTo: generator => `${generator.testDir}management/SecurityMetersServiceTests.java`,
-        },
+        // {
+        //   file: 'package/management/SecurityMetersServiceTests.java',
+        //   renameTo: generator => `${generator.testDir}management/SecurityMetersServiceTests.java`,
+        // },
         {
           file: 'package/security/jwt/TokenProviderTest.java',
           renameTo: generator => `${generator.testDir}security/jwt/TokenProviderTest.java`,

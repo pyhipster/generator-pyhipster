@@ -19,6 +19,7 @@
 
 from flask import request
 from flask_restx import Api, Resource, fields
+from ../domain/<%= persistClass %> import <%= persistClass %>
 
 @rest_api.route("/api")
 class <%= entityClass %>Resource(Resource):
