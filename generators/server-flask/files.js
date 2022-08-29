@@ -633,20 +633,20 @@ const baseServerFiles = {
         },
       ],
     },
-    {
-      condition: generator => generator.applicationType !== MICROSERVICE && generator.authenticationType === JWT,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/web/rest/vm/LoginVM.java',
-          renameTo: generator => `${generator.javaDir}web/rest/vm/LoginVM.java`,
-        },
-        {
-          file: 'package/web/rest/UserJWTController.java',
-          renameTo: generator => `${generator.javaDir}web/rest/UserJWTController.java`,
-        },
-      ],
-    },
+    // {
+    //   condition: generator => generator.applicationType !== MICROSERVICE && generator.authenticationType === JWT,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/web/rest/vm/LoginVM.java',
+    //       renameTo: generator => `${generator.javaDir}web/rest/vm/LoginVM.java`,
+    //     },
+    //     {
+    //       file: 'package/web/rest/UserJWTController.java',
+    //       renameTo: generator => `${generator.javaDir}web/rest/UserJWTController.java`,
+    //     },
+    //   ],
+    // },
     {
       condition: generator => !!generator.enableSwaggerCodegen,
       path: SERVER_MAIN_SRC_DIR,
@@ -679,28 +679,28 @@ const baseServerFiles = {
     },
   ],
   serverJavaGateway: [
-    {
-      condition: generator => generator.applicationType === GATEWAY && generator.serviceDiscoveryType,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        { file: 'package/web/rest/vm/RouteVM.java', renameTo: generator => `${generator.javaDir}web/rest/vm/RouteVM.java` },
-        {
-          file: 'package/web/rest/GatewayResource.java',
-          renameTo: generator => `${generator.javaDir}web/rest/GatewayResource.java`,
-        },
-      ],
-    },
-    {
-      condition: generator =>
-        generator.authenticationType === OAUTH2 && (generator.applicationType === MONOLITH || generator.applicationType === GATEWAY),
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/web/rest/AuthInfoResource.java',
-          renameTo: generator => `${generator.javaDir}web/rest/AuthInfoResource.java`,
-        },
-      ],
-    },
+    // {
+    //   condition: generator => generator.applicationType === GATEWAY && generator.serviceDiscoveryType,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     { file: 'package/web/rest/vm/RouteVM.java', renameTo: generator => `${generator.javaDir}web/rest/vm/RouteVM.java` },
+    //     {
+    //       file: 'package/web/rest/GatewayResource.java',
+    //       renameTo: generator => `${generator.javaDir}web/rest/GatewayResource.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator =>
+    //     generator.authenticationType === OAUTH2 && (generator.applicationType === MONOLITH || generator.applicationType === GATEWAY),
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/web/rest/AuthInfoResource.java',
+    //       renameTo: generator => `${generator.javaDir}web/rest/AuthInfoResource.java`,
+    //     },
+    //   ],
+    // },
     {
       condition: generator =>
         generator.authenticationType === OAUTH2 &&
@@ -710,23 +710,23 @@ const baseServerFiles = {
       templates: [
         {
           file: 'package/web/rest/LogoutResource.java',
-          renameTo: generator => `${generator.javaDir}web/rest/LogoutResource.java`,
+          renameTo: generator => `${generator.javaDir}rest/LogoutResource.java`,
         },
       ],
     },
-    {
-      condition: generator =>
-        generator.authenticationType === OAUTH2 &&
-        generator.reactive &&
-        (generator.applicationType === MONOLITH || generator.applicationType === GATEWAY),
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/web/rest/LogoutResource_reactive.java',
-          renameTo: generator => `${generator.javaDir}web/rest/LogoutResource.java`,
-        },
-      ],
-    },
+    // {
+    //   condition: generator =>
+    //     generator.authenticationType === OAUTH2 &&
+    //     generator.reactive &&
+    //     (generator.applicationType === MONOLITH || generator.applicationType === GATEWAY),
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/web/rest/LogoutResource_reactive.java',
+    //       renameTo: generator => `${generator.javaDir}web/rest/LogoutResource.java`,
+    //     },
+    //   ],
+    // },
     {
       condition: generator => generator.applicationType === GATEWAY && generator.serviceDiscoveryType && generator.reactive,
       path: SERVER_MAIN_SRC_DIR,
@@ -1126,128 +1126,128 @@ const baseServerFiles = {
     },
   ],
   serverJavaWebError: [
-    {
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/web/rest/errors/package-info.java',
-          renameTo: generator => `${generator.javaDir}web/rest/errors/package-info.java`,
-        },
-        {
-          file: 'package/web/rest/errors/BadRequestAlertException.java',
-          renameTo: generator => `${generator.javaDir}web/rest/errors/BadRequestAlertException.java`,
-        },
-        {
-          file: 'package/web/rest/errors/ErrorConstants.java',
-          renameTo: generator => `${generator.javaDir}web/rest/errors/ErrorConstants.java`,
-        },
-        {
-          file: 'package/web/rest/errors/ExceptionTranslator.java',
-          renameTo: generator => `${generator.javaDir}web/rest/errors/ExceptionTranslator.java`,
-        },
-        {
-          file: 'package/web/rest/errors/FieldErrorVM.java',
-          renameTo: generator => `${generator.javaDir}web/rest/errors/FieldErrorVM.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => !generator.skipUserManagement,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/web/rest/errors/EmailAlreadyUsedException.java',
-          renameTo: generator => `${generator.javaDir}web/rest/errors/EmailAlreadyUsedException.java`,
-        },
-        {
-          file: 'package/web/rest/errors/InvalidPasswordException.java',
-          renameTo: generator => `${generator.javaDir}web/rest/errors/InvalidPasswordException.java`,
-        },
-        {
-          file: 'package/web/rest/errors/LoginAlreadyUsedException.java',
-          renameTo: generator => `${generator.javaDir}web/rest/errors/LoginAlreadyUsedException.java`,
-        },
-      ],
-    },
+    // {
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/web/rest/errors/package-info.java',
+    //       renameTo: generator => `${generator.javaDir}web/rest/errors/package-info.java`,
+    //     },
+    //     {
+    //       file: 'package/web/rest/errors/BadRequestAlertException.java',
+    //       renameTo: generator => `${generator.javaDir}web/rest/errors/BadRequestAlertException.java`,
+    //     },
+    //     {
+    //       file: 'package/web/rest/errors/ErrorConstants.java',
+    //       renameTo: generator => `${generator.javaDir}web/rest/errors/ErrorConstants.java`,
+    //     },
+    //     {
+    //       file: 'package/web/rest/errors/ExceptionTranslator.java',
+    //       renameTo: generator => `${generator.javaDir}web/rest/errors/ExceptionTranslator.java`,
+    //     },
+    //     {
+    //       file: 'package/web/rest/errors/FieldErrorVM.java',
+    //       renameTo: generator => `${generator.javaDir}web/rest/errors/FieldErrorVM.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => !generator.skipUserManagement,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/web/rest/errors/EmailAlreadyUsedException.java',
+    //       renameTo: generator => `${generator.javaDir}web/rest/errors/EmailAlreadyUsedException.java`,
+    //     },
+    //     {
+    //       file: 'package/web/rest/errors/InvalidPasswordException.java',
+    //       renameTo: generator => `${generator.javaDir}web/rest/errors/InvalidPasswordException.java`,
+    //     },
+    //     {
+    //       file: 'package/web/rest/errors/LoginAlreadyUsedException.java',
+    //       renameTo: generator => `${generator.javaDir}web/rest/errors/LoginAlreadyUsedException.java`,
+    //     },
+    //   ],
+    // },
   ],
   serverJavaWeb: [
-    {
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/web/rest/vm/package-info.java',
-          renameTo: generator => `${generator.javaDir}web/rest/vm/package-info.java`,
-        },
-        {
-          file: 'package/web/rest/package-info.java',
-          renameTo: generator => `${generator.javaDir}web/rest/package-info.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => !generator.skipClient && !generator.reactive,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/web/rest/ClientForwardController.java',
-          renameTo: generator => `${generator.javaDir}web/rest/ClientForwardController.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => !generator.skipClient && generator.reactive,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/web/filter/SpaWebFilter.java',
-          renameTo: generator => `${generator.javaDir}web/filter/SpaWebFilter.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => generator.messageBroker === KAFKA && generator.reactive,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/web/rest/KafkaResource_reactive.java',
-          renameTo: generator => `${generator.javaDir}web/rest/${generator.upperFirstCamelCase(generator.baseName)}KafkaResource.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => generator.messageBroker === KAFKA && !generator.reactive,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/web/rest/KafkaResource.java',
-          renameTo: generator => `${generator.javaDir}web/rest/${generator.upperFirstCamelCase(generator.baseName)}KafkaResource.java`,
-        },
-      ],
-    },
+    // {
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/web/rest/vm/package-info.java',
+    //       renameTo: generator => `${generator.javaDir}web/rest/vm/package-info.java`,
+    //     },
+    //     {
+    //       file: 'package/web/rest/package-info.java',
+    //       renameTo: generator => `${generator.javaDir}web/rest/package-info.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => !generator.skipClient && !generator.reactive,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/web/rest/ClientForwardController.java',
+    //       renameTo: generator => `${generator.javaDir}web/rest/ClientForwardController.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => !generator.skipClient && generator.reactive,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/web/filter/SpaWebFilter.java',
+    //       renameTo: generator => `${generator.javaDir}web/filter/SpaWebFilter.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => generator.messageBroker === KAFKA && generator.reactive,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/web/rest/KafkaResource_reactive.java',
+    //       renameTo: generator => `${generator.javaDir}web/rest/${generator.upperFirstCamelCase(generator.baseName)}KafkaResource.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => generator.messageBroker === KAFKA && !generator.reactive,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/web/rest/KafkaResource.java',
+    //       renameTo: generator => `${generator.javaDir}web/rest/${generator.upperFirstCamelCase(generator.baseName)}KafkaResource.java`,
+    //     },
+    //   ],
+    // },
   ],
   serverJavaWebsocket: [
-    {
-      condition: generator => generator.websocket === SPRING_WEBSOCKET,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/web/websocket/package-info.java',
-          renameTo: generator => `${generator.javaDir}web/websocket/package-info.java`,
-        },
-        {
-          file: 'package/web/websocket/ActivityService.java',
-          renameTo: generator => `${generator.javaDir}web/websocket/ActivityService.java`,
-        },
-        {
-          file: 'package/web/websocket/dto/package-info.java',
-          renameTo: generator => `${generator.javaDir}web/websocket/dto/package-info.java`,
-        },
-        {
-          file: 'package/web/websocket/dto/ActivityDTO.java',
-          renameTo: generator => `${generator.javaDir}web/websocket/dto/ActivityDTO.java`,
-        },
-      ],
-    },
+    // {
+    //   condition: generator => generator.websocket === SPRING_WEBSOCKET,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/web/websocket/package-info.java',
+    //       renameTo: generator => `${generator.javaDir}web/websocket/package-info.java`,
+    //     },
+    //     {
+    //       file: 'package/web/websocket/ActivityService.java',
+    //       renameTo: generator => `${generator.javaDir}web/websocket/ActivityService.java`,
+    //     },
+    //     {
+    //       file: 'package/web/websocket/dto/package-info.java',
+    //       renameTo: generator => `${generator.javaDir}web/websocket/dto/package-info.java`,
+    //     },
+    //     {
+    //       file: 'package/web/websocket/dto/ActivityDTO.java',
+    //       renameTo: generator => `${generator.javaDir}web/websocket/dto/ActivityDTO.java`,
+    //     },
+    //   ],
+    // },
   ],
   serverTestReactive: [
     {
@@ -1296,46 +1296,46 @@ const baseServerFiles = {
     },
   ],
   serverTestFw: [
-    {
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        { file: 'package/web/rest/TestUtil.java', renameTo: generator => `${generator.testDir}web/rest/TestUtil.java` },
-        {
-          file: 'package/web/rest/errors/ExceptionTranslatorTestController.java',
-          renameTo: generator => `${generator.testDir}web/rest/errors/ExceptionTranslatorTestController.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => !generator.reactive,
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/web/rest/errors/ExceptionTranslatorIT.java',
-          renameTo: generator => `${generator.testDir}web/rest/errors/ExceptionTranslatorIT.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => generator.reactive,
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/web/rest/errors/ExceptionTranslatorIT_reactive.java',
-          renameTo: generator => `${generator.testDir}web/rest/errors/ExceptionTranslatorIT.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => !generator.skipClient && !generator.reactive,
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/web/rest/ClientForwardControllerTest.java',
-          renameTo: generator => `${generator.testDir}web/rest/ClientForwardControllerTest.java`,
-        },
-      ],
-    },
+    // {
+    //   path: SERVER_TEST_SRC_DIR,
+    //   templates: [
+    //     { file: 'package/web/rest/TestUtil.java', renameTo: generator => `${generator.testDir}web/rest/TestUtil.java` },
+    //     {
+    //       file: 'package/web/rest/errors/ExceptionTranslatorTestController.java',
+    //       renameTo: generator => `${generator.testDir}web/rest/errors/ExceptionTranslatorTestController.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => !generator.reactive,
+    //   path: SERVER_TEST_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/web/rest/errors/ExceptionTranslatorIT.java',
+    //       renameTo: generator => `${generator.testDir}web/rest/errors/ExceptionTranslatorIT.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => generator.reactive,
+    //   path: SERVER_TEST_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/web/rest/errors/ExceptionTranslatorIT_reactive.java',
+    //       renameTo: generator => `${generator.testDir}web/rest/errors/ExceptionTranslatorIT.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => !generator.skipClient && !generator.reactive,
+    //   path: SERVER_TEST_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/web/rest/ClientForwardControllerTest.java',
+    //       renameTo: generator => `${generator.testDir}web/rest/ClientForwardControllerTest.java`,
+    //     },
+    //   ],
+    // },
     {
       condition: generator => generator.databaseType === SQL && !generator.reactive,
       path: SERVER_TEST_SRC_DIR,
@@ -1416,7 +1416,7 @@ const baseServerFiles = {
       templates: [
         {
           file: 'package/web/rest/LogoutResourceIT.java',
-          renameTo: generator => `${generator.testDir}web/rest/LogoutResourceIT.java`,
+          renameTo: generator => `${generator.testDir}rest/LogoutResourceIT.java`,
         },
       ],
     },
@@ -1479,26 +1479,26 @@ const baseServerFiles = {
         },
       ],
     },
-    {
-      condition: generator => generator.messageBroker === KAFKA && !generator.reactive,
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/web/rest/KafkaResourceIT.java',
-          renameTo: generator => `${generator.testDir}web/rest/${generator.upperFirstCamelCase(generator.baseName)}KafkaResourceIT.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => generator.messageBroker === KAFKA && generator.reactive,
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/web/rest/KafkaResourceIT_reactive.java',
-          renameTo: generator => `${generator.testDir}web/rest/${generator.upperFirstCamelCase(generator.baseName)}KafkaResourceIT.java`,
-        },
-      ],
-    },
+    // {
+    //   condition: generator => generator.messageBroker === KAFKA && !generator.reactive,
+    //   path: SERVER_TEST_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/web/rest/KafkaResourceIT.java',
+    //       renameTo: generator => `${generator.testDir}web/rest/${generator.upperFirstCamelCase(generator.baseName)}KafkaResourceIT.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => generator.messageBroker === KAFKA && generator.reactive,
+    //   path: SERVER_TEST_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/web/rest/KafkaResourceIT_reactive.java',
+    //       renameTo: generator => `${generator.testDir}web/rest/${generator.upperFirstCamelCase(generator.baseName)}KafkaResourceIT.java`,
+    //     },
+    //   ],
+    // },
     {
       condition: generator => generator.messageBroker === KAFKA,
       path: SERVER_TEST_RES_DIR,
@@ -1625,7 +1625,7 @@ const baseServerFiles = {
       templates: [
         {
           file: 'package/web/rest/AccountResource.java',
-          renameTo: generator => `${generator.javaDir}web/rest/AccountResource.java`,
+          renameTo: generator => `${generator.javaDir}rest/AccountResource.java`,
         },
       ],
     },
@@ -1649,11 +1649,11 @@ const baseServerFiles = {
         },
         {
           file: 'package/web/rest/PublicUserResourceIT.java',
-          renameTo: generator => `${generator.testDir}web/rest/PublicUserResourceIT.java`,
+          renameTo: generator => `${generator.testDir}rest/PublicUserResourceIT.java`,
         },
         {
           file: 'package/web/rest/UserResourceIT.java',
-          renameTo: generator => `${generator.testDir}web/rest/UserResourceIT.java`,
+          renameTo: generator => `${generator.testDir}rest/UserResourceIT.java`,
         },
       ],
     },
@@ -1664,7 +1664,7 @@ const baseServerFiles = {
       templates: [
         {
           file: 'package/web/rest/AccountResourceIT_skipUserManagement.java',
-          renameTo: generator => `${generator.testDir}web/rest/AccountResourceIT.java`,
+          renameTo: generator => `${generator.testDir}rest/AccountResourceIT.java`,
         },
       ],
     },
@@ -1675,7 +1675,7 @@ const baseServerFiles = {
       templates: [
         {
           file: 'package/web/rest/AccountResourceIT_oauth2.java',
-          renameTo: generator => `${generator.testDir}web/rest/AccountResourceIT.java`,
+          renameTo: generator => `${generator.testDir}rest/AccountResourceIT.java`,
         },
       ],
     },
@@ -1734,23 +1734,23 @@ const baseServerFiles = {
           file: 'package/service/dto/PasswordChangeDTO.java',
           renameTo: generator => `${generator.javaDir}service/dto/PasswordChangeDTO.java`,
         },
-        {
-          file: 'package/web/rest/vm/ManagedUserVM.java',
-          renameTo: generator => `${generator.javaDir}web/rest/vm/ManagedUserVM.java`,
-        },
-        {
-          file: 'package/web/rest/AccountResource.java',
-          renameTo: generator => `${generator.javaDir}web/rest/AccountResource.java`,
-        },
-        { file: 'package/web/rest/UserResource.java', renameTo: generator => `${generator.javaDir}web/rest/UserResource.java` },
-        {
-          file: 'package/web/rest/PublicUserResource.java',
-          renameTo: generator => `${generator.javaDir}web/rest/PublicUserResource.java`,
-        },
-        {
-          file: 'package/web/rest/vm/KeyAndPasswordVM.java',
-          renameTo: generator => `${generator.javaDir}web/rest/vm/KeyAndPasswordVM.java`,
-        },
+        // {
+        //   file: 'package/web/rest/vm/ManagedUserVM.java',
+        //   renameTo: generator => `${generator.javaDir}web/rest/vm/ManagedUserVM.java`,
+        // },
+        // {
+        //   file: 'package/web/rest/AccountResource.java',
+        //   renameTo: generator => `${generator.javaDir}web/rest/AccountResource.java`,
+        // },
+        // { file: 'package/web/rest/UserResource.java', renameTo: generator => `${generator.javaDir}web/rest/UserResource.java` },
+        // {
+        //   file: 'package/web/rest/PublicUserResource.java',
+        //   renameTo: generator => `${generator.javaDir}web/rest/PublicUserResource.java`,
+        // },
+        // {
+        //   file: 'package/web/rest/vm/KeyAndPasswordVM.java',
+        //   renameTo: generator => `${generator.javaDir}web/rest/vm/KeyAndPasswordVM.java`,
+        // },
         {
           file: 'package/service/mapper/package-info.java',
           renameTo: generator => `${generator.javaDir}service/mapper/package-info.java`,
@@ -1803,16 +1803,16 @@ const baseServerFiles = {
         },
       ],
     },
-    {
-      condition: generator => generator.applicationType !== MICROSERVICE && generator.authenticationType === JWT,
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/web/rest/UserJWTControllerIT.java',
-          renameTo: generator => `${generator.testDir}web/rest/UserJWTControllerIT.java`,
-        },
-      ],
-    },
+    // {
+    //   condition: generator => generator.applicationType !== MICROSERVICE && generator.authenticationType === JWT,
+    //   path: SERVER_TEST_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/web/rest/UserJWTControllerIT.java',
+    //       renameTo: generator => `${generator.testDir}web/rest/UserJWTControllerIT.java`,
+    //     },
+    //   ],
+    // },
     {
       condition: generator =>
         !generator.skipUserManagement && generator.cucumberTests && !generator.databaseTypeMongodb && !generator.databaseTypeCassandra,
@@ -1868,45 +1868,45 @@ const baseServerFiles = {
           file: 'package/config/NoOpMailConfiguration.java',
           renameTo: generator => `${generator.testDir}config/NoOpMailConfiguration.java`,
         },
-        {
-          file: 'package/web/rest/PublicUserResourceIT.java',
-          renameTo: generator => `${generator.testDir}web/rest/PublicUserResourceIT.java`,
-        },
-        {
-          file: 'package/web/rest/UserResourceIT.java',
-          renameTo: generator => `${generator.testDir}web/rest/UserResourceIT.java`,
-        },
+        // {
+        //   file: 'package/web/rest/PublicUserResourceIT.java',
+        //   renameTo: generator => `${generator.testDir}web/rest/PublicUserResourceIT.java`,
+        // },
+        // {
+        //   file: 'package/web/rest/UserResourceIT.java',
+        //   renameTo: generator => `${generator.testDir}web/rest/UserResourceIT.java`,
+        // },
       ],
     },
-    {
-      condition: generator => !generator.skipUserManagement && generator.authenticationType !== OAUTH2,
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/web/rest/AccountResourceIT.java',
-          renameTo: generator => `${generator.testDir}web/rest/AccountResourceIT.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => !generator.skipUserManagement && generator.authenticationType === OAUTH2,
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/web/rest/AccountResourceIT_oauth2.java',
-          renameTo: generator => `${generator.testDir}web/rest/AccountResourceIT.java`,
-        },
-      ],
-    },
-    {
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/web/rest/WithUnauthenticatedMockUser.java',
-          renameTo: generator => `${generator.testDir}web/rest/WithUnauthenticatedMockUser.java`,
-        },
-      ],
-    },
+    // {
+    //   condition: generator => !generator.skipUserManagement && generator.authenticationType !== OAUTH2,
+    //   path: SERVER_TEST_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/web/rest/AccountResourceIT.java',
+    //       renameTo: generator => `${generator.testDir}web/rest/AccountResourceIT.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => !generator.skipUserManagement && generator.authenticationType === OAUTH2,
+    //   path: SERVER_TEST_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/web/rest/AccountResourceIT_oauth2.java',
+    //       renameTo: generator => `${generator.testDir}web/rest/AccountResourceIT.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   path: SERVER_TEST_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/web/rest/WithUnauthenticatedMockUser.java',
+    //       renameTo: generator => `${generator.testDir}web/rest/WithUnauthenticatedMockUser.java`,
+    //     },
+    //   ],
+    // },
   ],
 };
 
@@ -1931,7 +1931,8 @@ function writeFiles() {
     cleanupFiles() {
       if (this.isJhipsterVersionLessThan('7.6.1')) {
         if (this.authenticationTypeOauth2 && !this.databaseTypeNo) {
-          this.removeFile(`${this.mainJavaPackageDir}web/rest/UserResource.java`);
+          // this.removeFile(`${this.mainJavaPackageDir}web/rest/UserResource.java`);
+          this.removeFile(`${this.mainJavaPackageDir}rest/UserResource.py`);
         }
       }
     },

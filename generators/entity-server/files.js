@@ -191,7 +191,7 @@ const serverFiles = {
       templates: [
         {
           file: 'package/web/rest/EntityResource.py',
-          renameTo: generator => `web/rest/${generator.entityClass}Resource.py`,
+          renameTo: generator => `rest/${generator.entityClass}Resource.py`,
         },
       ],
     },
