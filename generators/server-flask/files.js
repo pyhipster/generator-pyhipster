@@ -85,15 +85,15 @@ const mongoDbFiles = {
     },
   ],
   serverResource: [
-    {
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/config/dbmigrations/package-info.java',
-          renameTo: generator => `${generator.javaDir}config/dbmigrations/package-info.java`,
-        },
-      ],
-    },
+    // {
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/config/dbmigrations/package-info.java',
+    //       renameTo: generator => `${generator.javaDir}config/dbmigrations/package-info.java`,
+    //     },
+    //   ],
+    // },
     {
       condition: generator => !generator.skipUserManagement || (generator.skipUserManagement && generator.authenticationType === OAUTH2),
       path: SERVER_MAIN_SRC_DIR,
@@ -151,10 +151,10 @@ const neo4jFiles = {
           file: 'package/config/neo4j/Neo4jMigrations.java',
           renameTo: generator => `${generator.javaDir}config/neo4j/Neo4jMigrations.java`,
         },
-        {
-          file: 'package/config/neo4j/package-info.java',
-          renameTo: generator => `${generator.javaDir}config/neo4j/package-info.java`,
-        },
+        // {
+        //   file: 'package/config/neo4j/package-info.java',
+        //   renameTo: generator => `${generator.javaDir}config/neo4j/package-info.java`,
+        // },
       ],
     },
     {
@@ -462,10 +462,10 @@ const baseServerFiles = {
           file: 'package/security/AuthoritiesConstants.java',
           renameTo: generator => `${generator.javaDir}security/AuthoritiesConstants.java`,
         },
-        {
-          file: 'package/security/package-info.java',
-          renameTo: generator => `${generator.javaDir}security/package-info.java`,
-        },
+        // {
+        //   file: 'package/security/package-info.java',
+        //   renameTo: generator => `${generator.javaDir}security/package-info.java`,
+        // },
       ],
     },
     {
@@ -633,20 +633,24 @@ const baseServerFiles = {
         },
       ],
     },
-    // {
-    //   condition: generator => generator.applicationType !== MICROSERVICE && generator.authenticationType === JWT,
-    //   path: SERVER_MAIN_SRC_DIR,
-    //   templates: [
+    {
+      condition: generator => generator.applicationType !== MICROSERVICE && generator.authenticationType === JWT,
+      path: SERVER_MAIN_SRC_DIR,
+      templates: [
     //     {
     //       file: 'package/web/rest/vm/LoginVM.java',
     //       renameTo: generator => `${generator.javaDir}web/rest/vm/LoginVM.java`,
     //     },
-    //     {
-    //       file: 'package/web/rest/UserJWTController.java',
-    //       renameTo: generator => `${generator.javaDir}web/rest/UserJWTController.java`,
-    //     },
-    //   ],
-    // },
+        // {
+        //   file: 'package/web/rest/UserJWTController.java',
+        //   renameTo: generator => `${generator.javaDir}web/rest/UserJWTController.java`,
+        // },
+        {
+          file: 'package/web/rest/UserJWTController.py',
+          renameTo: generator => `${generator.javaDir}rest/UserJWTController.py`,
+        },
+      ],
+    },
     {
       condition: generator => !!generator.enableSwaggerCodegen,
       path: SERVER_MAIN_SRC_DIR,
@@ -708,9 +712,13 @@ const baseServerFiles = {
         (generator.applicationType === MONOLITH || generator.applicationType === GATEWAY),
       path: SERVER_MAIN_SRC_DIR,
       templates: [
+        // {
+        //   file: 'package/web/rest/LogoutResource.java',
+        //   renameTo: generator => `${generator.javaDir}rest/LogoutResource.java`,
+        // },
         {
-          file: 'package/web/rest/LogoutResource.java',
-          renameTo: generator => `${generator.javaDir}rest/LogoutResource.java`,
+          file: 'package/web/rest/LogoutResource.py',
+          renameTo: generator => `${generator.javaDir}rest/LogoutResource.py`,
         },
       ],
     },
@@ -1072,18 +1080,18 @@ const baseServerFiles = {
       condition: generator => generator.searchEngine === ELASTICSEARCH,
       path: SERVER_MAIN_SRC_DIR,
       templates: [
-        {
-          file: 'package/repository/search/package-info.java',
-          renameTo: generator => `${generator.javaDir}repository/search/package-info.java`,
-        },
+        // {
+        //   file: 'package/repository/search/package-info.java',
+        //   renameTo: generator => `${generator.javaDir}repository/search/package-info.java`,
+        // },
       ],
     },
-    {
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        { file: 'package/repository/package-info.java', renameTo: generator => `${generator.javaDir}repository/package-info.java` },
-      ],
-    },
+    // {
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     { file: 'package/repository/package-info.java', renameTo: generator => `${generator.javaDir}repository/package-info.java` },
+    //   ],
+    // },
   ],
   serverJavaServiceError: [
     {
@@ -1106,10 +1114,10 @@ const baseServerFiles = {
     },
   ],
   serverJavaService: [
-    {
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [{ file: 'package/service/package-info.java', renameTo: generator => `${generator.javaDir}service/package-info.java` }],
-    },
+    // {
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [{ file: 'package/service/package-info.java', renameTo: generator => `${generator.javaDir}service/package-info.java` }],
+    // },
     {
       condition: generator => generator.messageBroker === KAFKA,
       path: SERVER_MAIN_SRC_DIR,
@@ -1593,10 +1601,10 @@ const baseServerFiles = {
     //   ],
     // },
     // FIXME: OAuth2 is not supported now
-    // {
-    //   condition: generator => generator.authenticationType === OAUTH2 && generator.databaseType !== NO_DATABASE,
-    //   path: SERVER_MAIN_SRC_DIR,
-    //   templates: [
+    {
+      condition: generator => generator.authenticationType === OAUTH2 && generator.databaseType !== NO_DATABASE,
+      path: SERVER_MAIN_SRC_DIR,
+      templates: [
     //     {
     //       file: 'package/service/mapper/package-info.java',
     //       renameTo: generator => `${generator.javaDir}service/mapper/package-info.java`,
@@ -1609,16 +1617,20 @@ const baseServerFiles = {
     //       file: 'package/repository/UserRepository.java',
     //       renameTo: generator => `${generator.javaDir}repository/UserRepository.java`,
     //     },
-    //     {
-    //       file: 'package/web/rest/PublicUserResource.java',
-    //       renameTo: generator => `${generator.javaDir}web/rest/PublicUserResource.java`,
-    //     },
+        {
+          file: 'package/web/rest/PublicUserResource.py',
+          renameTo: generator => `${generator.javaDir}rest/PublicUserResource.py`,
+        },
+    {
+      file: 'package/web/rest/UserRepository.py',
+      renameTo: generator => `${generator.javaDir}rest/UserRepository.py`,
+    },
     //     {
     //       file: 'package/web/rest/vm/ManagedUserVM.java',
     //       renameTo: generator => `${generator.javaDir}web/rest/vm/ManagedUserVM.java`,
     //     },
-    //   ],
-    // },
+      ],
+    },
     {
       condition: generator => generator.skipUserManagement && [MONOLITH, GATEWAY].includes(generator.applicationType),
       path: SERVER_MAIN_SRC_DIR,
@@ -1626,6 +1638,10 @@ const baseServerFiles = {
         {
           file: 'package/web/rest/AccountResource.java',
           renameTo: generator => `${generator.javaDir}rest/AccountResource.java`,
+        },
+        {
+          file: 'package/web/rest/AccountResource.py',
+          renameTo: generator => `${generator.javaDir}rest/AccountResource.py`,
         },
       ],
     },
@@ -1718,10 +1734,10 @@ const baseServerFiles = {
         { file: 'package/service/MailService.java', renameTo: generator => `${generator.javaDir}service/MailService.java` },
 
         /* User management java web files */
-        {
-          file: 'package/service/dto/package-info.java',
-          renameTo: generator => `${generator.javaDir}service/dto/package-info.java`,
-        },
+        // {
+        //   file: 'package/service/dto/package-info.java',
+        //   renameTo: generator => `${generator.javaDir}service/dto/package-info.java`,
+        // },
         {
           file: 'package/service/dto/AdminUserDTO.java',
           renameTo: generator => `${generator.javaDir}service/dto/${generator.asDto('AdminUser')}.java`,
@@ -1742,19 +1758,28 @@ const baseServerFiles = {
         //   file: 'package/web/rest/AccountResource.java',
         //   renameTo: generator => `${generator.javaDir}web/rest/AccountResource.java`,
         // },
+        {
+          file: 'package/web/rest/AccountResource.py',
+          renameTo: generator => `${generator.javaDir}rest/AccountResource.py`,
+        },
         // { file: 'package/web/rest/UserResource.java', renameTo: generator => `${generator.javaDir}web/rest/UserResource.java` },
+        { file: 'package/web/rest/UserResource.py', renameTo: generator => `${generator.javaDir}rest/UserResource.py` },
         // {
         //   file: 'package/web/rest/PublicUserResource.java',
         //   renameTo: generator => `${generator.javaDir}web/rest/PublicUserResource.java`,
         // },
+        {
+          file: 'package/web/rest/PublicUserResource.py',
+          renameTo: generator => `${generator.javaDir}rest/PublicUserResource.py`,
+        },
         // {
         //   file: 'package/web/rest/vm/KeyAndPasswordVM.java',
         //   renameTo: generator => `${generator.javaDir}web/rest/vm/KeyAndPasswordVM.java`,
         // },
-        {
-          file: 'package/service/mapper/package-info.java',
-          renameTo: generator => `${generator.javaDir}service/mapper/package-info.java`,
-        },
+        // {
+        //   file: 'package/service/mapper/package-info.java',
+        //   renameTo: generator => `${generator.javaDir}service/mapper/package-info.java`,
+        // },
         {
           file: 'package/service/mapper/UserMapper.java',
           renameTo: generator => `${generator.javaDir}service/mapper/UserMapper.java`,
@@ -1931,8 +1956,8 @@ function writeFiles() {
     cleanupFiles() {
       if (this.isJhipsterVersionLessThan('7.6.1')) {
         if (this.authenticationTypeOauth2 && !this.databaseTypeNo) {
-          // this.removeFile(`${this.mainJavaPackageDir}web/rest/UserResource.java`);
-          this.removeFile(`${this.mainJavaPackageDir}rest/UserResource.py`);
+          this.removeFile(`${this.mainJavaPackageDir}web/rest/UserResource.java`);
+          // this.removeFile(`${this.mainJavaPackageDir}rest/UserResource.py`);
         }
       }
     },
