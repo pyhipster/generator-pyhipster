@@ -458,9 +458,13 @@ const baseServerFiles = {
           file: 'package/security/SecurityUtils.java',
           renameTo: generator => `${generator.javaDir}security/SecurityUtils.java`,
         },
+        // {
+        //   file: 'package/security/AuthoritiesConstants.java',
+        //   renameTo: generator => `${generator.javaDir}security/AuthoritiesConstants.java`,
+        // },
         {
-          file: 'package/security/AuthoritiesConstants.java',
-          renameTo: generator => `${generator.javaDir}security/AuthoritiesConstants.java`,
+          file: 'package/security/AuthoritiesConstants.py',
+          renameTo: generator => `${generator.javaDir}security/AuthoritiesConstants.py`,
         },
         // {
         //   file: 'package/security/package-info.java',
@@ -648,6 +652,10 @@ const baseServerFiles = {
         {
           file: 'package/web/rest/UserJWTController.py',
           renameTo: generator => `${generator.javaDir}rest/UserJWTController.py`,
+        },
+        {
+          file: 'package/web/rest/__init__.py',
+          renameTo: generator => `${generator.javaDir}rest/__init__.py`,
         },
       ],
     },

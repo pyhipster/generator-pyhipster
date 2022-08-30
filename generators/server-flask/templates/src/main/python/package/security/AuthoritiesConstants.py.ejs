@@ -16,8 +16,12 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
-from flask import Blueprint
-import logging
 
-bp = Blueprint('account-resource',__name__,url_prefix='/api')
+class AuthoritiesConstants():
 
+    ADMIN = "ROLE_ADMIN"
+    USER = "ROLE_USER"
+    ANONYMOUS = "ROLE_ANONYMOUS"
+
+    def __init__(self):
+        return self
