@@ -329,7 +329,7 @@ const LANGUAGES = [
 
 const constants = {
   GENERATOR_JHIPSTER: 'generator-jhipster',
-  JHIPSTER_CONFIG_DIR: '.jhipster',
+  JHIPSTER_CONFIG_DIR: '.pyhipster',
   GENERATOR_PYHIPSTER: 'generator-pyhipster',
   PYHIPSTER_CONFIG_DIR: '.pyhipster',
   INTERPOLATE_REGEX: /<%:([\s\S]+?)%>/g, // so that tags in templates do not get mistreated as _ templates
