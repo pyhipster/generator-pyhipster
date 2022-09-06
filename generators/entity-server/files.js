@@ -185,6 +185,16 @@ const serverFiles = {
     //     },
     //   ],
     // },
+    // {
+    //   condition: generator => !generator.embedded,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/web/rest/__init__.py',
+    //       renameTo: () => 'rest/__init__.py',
+    //     },
+    //   ],
+    // },
     {
       condition: generator => !generator.embedded,
       path: SERVER_MAIN_SRC_DIR,
@@ -445,5 +455,6 @@ function customizeFiles() {
     if ([EHCACHE, CAFFEINE, INFINISPAN, REDIS].includes(this.cacheProvider) && this.enableHibernateCache) {
       this.addEntityToCache(this.entityAbsoluteClass, this.relationships, this.packageName, this.packageFolder, this.cacheProvider);
     }
+    this.addEntitiesToAPIList(this.entityClass);
   }
 }

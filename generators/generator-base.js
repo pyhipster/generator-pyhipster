@@ -821,6 +821,11 @@ module.exports = class JHipsterBaseGenerator extends PrivateBase {
     this.needleApi.serverCache.addEntityToCache(entityClass, relationships, packageName, packageFolder, cacheProvider);
   }
 
+  addEntitiesToAPIList(entityClass) {
+    console.log(`Running function addEntitiesToAPIList to utilize needle API for entity ${entityClass}.`);
+    this.needleApi.serverEntities.addEntitiesToAPIList(entityClass);
+  }
+
   /**
    * Add a new entry to the chosen cache provider in CacheConfiguration.java
    *

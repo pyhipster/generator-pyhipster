@@ -25,6 +25,7 @@ def create_app(test_config=None):
     app.config.from_mapping(SECRET_KEY='dev')
 
     from rest import AccountResource, UserResource, UserJWTController, PublicUserResource
+    # pyhipster-needle-rest-api-list-add-entry-import
 
     logging.basicConfig(level=logging.DEBUG)
     # apply the blueprints to the app
@@ -32,4 +33,5 @@ def create_app(test_config=None):
     app.register_blueprint(UserResource.bp)
     app.register_blueprint(UserJWTController.bp)
     app.register_blueprint(PublicUserResource.bp)
+    # pyhipster-needle-rest-api-list-add-entry
     return app
