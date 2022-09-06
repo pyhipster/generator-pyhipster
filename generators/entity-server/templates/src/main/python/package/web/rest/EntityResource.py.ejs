@@ -22,7 +22,11 @@ import logging
 const instanceName = restInstance;
 const entityLowercase = _.lowerCase(entityClass);
 const entitiesLowercase = _.lowerCase(entityInstancePlural);
+const entitiesCamelCase = _.camelCase(instanceName)
+const entityMethod = _.replace(entityApiUrl, '-', '_');
 _%>
+from domain.<%= entityClass %> import <%= entityClass %>
+
 
 bp = Blueprint('<%= instanceName %>',__name__,url_prefix='/api')
 
@@ -34,7 +38,7 @@ bp = Blueprint('<%= instanceName %>',__name__,url_prefix='/api')
 # @throws URISyntaxException if the Location URI syntax is incorrect.
 ###
 @bp.route("/<%= entityApiUrl %>", methods=['POST'])
-def create_<%= entityLowercase %>():
+def create_<%= entityMethod %>():
     logging.info('POST /api/<%= entityApiUrl %>')
     return 'POST <%= entityApiUrl %>'
 
@@ -49,7 +53,7 @@ def create_<%= entityLowercase %>():
 # @throws URISyntaxException if the Location URI syntax is incorrect.
 ###
 @bp.route("/<%= entityApiUrl %>/<int:<%= primaryKey.name %>>", methods=['PUT'])
-def update_<%= entityLowercase %>(<%= primaryKey.name %>):
+def update_<%= entityMethod %>(<%= primaryKey.name %>):
     logging.info('PUT /api/<%= entityApiUrl %>')
     return 'PUT <%= entityApiUrl %>'
 
@@ -66,7 +70,7 @@ def update_<%= entityLowercase %>(<%= primaryKey.name %>):
 # @throws URISyntaxException if the Location URI syntax is incorrect.
 ###
 @bp.route("/<%= entityApiUrl %>/<int:<%= primaryKey.name %>>", methods=['PATCH'])
-def partial_update_<%= entityLowercase %>(<%= primaryKey.name %>):
+def partial_update_<%= entityMethod %>(<%= primaryKey.name %>):
     logging.info('PATCH /api/<%= entityApiUrl %>')
     return 'PATCH <%= entityApiUrl %>'
 
@@ -91,7 +95,7 @@ def partial_update_<%= entityLowercase %>(<%= primaryKey.name %>):
 # @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of <%= entityInstancePlural %> in body.
 ###
 @bp.route("/<%= entityApiUrl %>", methods=['GET'])
-def get_all_<%= entitiesLowercase %>():
+def get_all_<%= entityMethod %>():
     logging.info('GET ALL /api/<%= entityApiUrl %>')
     return 'GET ALL <%= entityApiUrl %>'
 
@@ -103,7 +107,7 @@ def get_all_<%= entitiesLowercase %>():
 # @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the <%= instanceName %>, or with status {@code 404 (Not Found)}.
 ###
 @bp.route("/<%= entityApiUrl %>/<int:<%= primaryKey.name %>>", methods=['GET'])
-def get_<%= entityLowercase %>(<%= primaryKey.name %>):
+def get_<%= entityMethod %>(<%= primaryKey.name %>):
     logging.info('GET /api/<%= entityApiUrl %>')
     return 'GET <%= entityApiUrl %>'
 
@@ -116,6 +120,6 @@ def get_<%= entityLowercase %>(<%= primaryKey.name %>):
 # @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
 ###
 @bp.route("/<%= entityApiUrl %>/<int:<%= primaryKey.name %>>", methods=['DELETE'])
-def delete_<%= entityLowercase %>(<%= primaryKey.name %>):
+def delete_<%= entityMethod %>(<%= primaryKey.name %>):
     logging.info('DELETE /api/<%= entityApiUrl %>')
     return 'DELETE <%= entityApiUrl %>'
