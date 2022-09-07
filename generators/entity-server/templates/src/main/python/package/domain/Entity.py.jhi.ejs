@@ -37,6 +37,7 @@ from domain.enumeration.<%= element %> import <%= element %>
 %> 
 db = SQLAlchemy()
 
+
 class <%= persistClass %>(db.Model):
     __tablename__ = "<%= persistClass %>"
     <%_ if (!embedded && primaryKey) { _%>
@@ -51,7 +52,6 @@ class <%= persistClass %>(db.Model):
 
     # FIXME: Add relationships
     
-
     # Getters and setters
     <%_ for (const field of fields.filter(field => !field.transient && (embedded || !field.id || !primaryKey.composite))) { _%>
     def get_<%= _.replace(_.lowerCase(field.fieldInJavaBeanMethod), ' ', '_') %>(self):
@@ -61,8 +61,7 @@ class <%= persistClass %>(db.Model):
         self.<%= field.fieldName %> = <%= _.replace(_.lowerCase(field.fieldName), ' ', '_') %>
     
     <%_ } _%>
-    
-    # FIXME: Add __repr__ and __str__ methods
+    # __repr__ and __str__ methods
     def __repr__(self):
         return f"<%= persistClass %>(" + \
         <%_ if (!embedded) { _%>
@@ -85,7 +84,7 @@ class <%= persistClass %>(db.Model):
         <%_ } _%>
         <%_ } _%>
                     ")" 
-        
+
     def __str__(self):
         return f"<%= persistClass %>(" + \
         <%_ if (!embedded) { _%>
