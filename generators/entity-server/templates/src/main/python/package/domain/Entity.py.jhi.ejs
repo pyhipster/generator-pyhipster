@@ -46,7 +46,7 @@ class <%= persistClass %>(db.Model):
     <%= field.fieldName %> = db.Column(db.<%= javaFieldMapping[field.javaFieldType] || field.javaFieldType %><% if (field.fieldValidationRequired) { %>, nullable = False<% } %><% if (field.fieldValidationUnique) { %>, unique = True<% } %>)
     <%_ } _%>
     <%_ for (const field of fields.filter(field => !field.transient && field.fieldIsEnum)) { _%>
-    <%= field.fieldName %> = db.Column(Enum(<%= field.javaFieldType %>)<% if (field.fieldValidationRequired) { %>, nullable = False<% } %><% if (field.fieldValidationUnique) { %>, unique = True<% } %>)
+    <%= field.fieldName %> = db.Enum(<%= field.javaFieldType %><% if (field.fieldValidationRequired) { %>, nullable = False<% } %><% if (field.fieldValidationUnique) { %>, unique = True<% } %>)
     <%_ } _%>
 
     # FIXME: Add relationships
