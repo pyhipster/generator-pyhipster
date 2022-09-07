@@ -19,13 +19,30 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import json
-
+<%_ Object.keys(uniqueEnums).forEach(function(element) { _%>
+from domain.enumeration.<%= element %> import <%= element %>
+<%_ }); _%>
+<% 
+    const javaFieldMapping = {
+        "Long": "Integer",
+        "Instant": "DateTime",
+        "Duration": "Interval",
+        "Double": "Float",
+        "Blob": "LargeBinary",
+        "AnyBlob": "LargeBinary",
+        "ImageBlob": "LargeBinary",
+        "TextBlob": "UnicodeText"
+    }
+%> 
 db = SQLAlchemy()
 
 class <%= persistClass %>(db.Model):
     __tablename__ = "<%= persistClass %>"
-    <%_ for (const field of fields.filter(field => !field.transient && (embedded || !field.id || !primaryKey.composite))) { _%>
-    <%= field.fieldName %> = db.Column(db.<%= field.javaFieldType %><% if (field.fieldValidationRequired) { %>, nullable = false<% } %>)
+    <%_ if (!embedded && primaryKey) { _%>
+    <%= primaryKey.name %> = db.Column(db.<%= javaFieldMapping[primaryKey.type] %>, primary_key = True)
+    <%_ } _%>
+    <%_ for (const field of fields.filter(field => !field.transient && !field.id )) { _%>
+    <%= field.fieldName %> = db.Column(db.<%= javaFieldMapping[field.javaFieldType] || field.javaFieldType %><% if (field.fieldValidationRequired) { %>, nullable = false<% } %><% if (field.fieldValidationUnique) { %>, unique = True<% } %>)
     <%_ } _%>
 
     # FIXME: Add relationships
