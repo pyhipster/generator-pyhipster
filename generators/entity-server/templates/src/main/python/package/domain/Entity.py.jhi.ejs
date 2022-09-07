@@ -19,6 +19,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import json
+from enum import Enum
 <%_ Object.keys(uniqueEnums).forEach(function(element) { _%>
 from domain.enumeration.<%= element %> import <%= element %>
 <%_ }); _%>
@@ -41,8 +42,11 @@ class <%= persistClass %>(db.Model):
     <%_ if (!embedded && primaryKey) { _%>
     <%= primaryKey.name %> = db.Column(db.<%= javaFieldMapping[primaryKey.type] %>, primary_key = True)
     <%_ } _%>
-    <%_ for (const field of fields.filter(field => !field.transient && !field.id )) { _%>
-    <%= field.fieldName %> = db.Column(db.<%= javaFieldMapping[field.javaFieldType] || field.javaFieldType %><% if (field.fieldValidationRequired) { %>, nullable = false<% } %><% if (field.fieldValidationUnique) { %>, unique = True<% } %>)
+    <%_ for (const field of fields.filter(field => !field.transient && !field.id && !field.fieldIsEnum)) { _%>
+    <%= field.fieldName %> = db.Column(db.<%= javaFieldMapping[field.javaFieldType] || field.javaFieldType %><% if (field.fieldValidationRequired) { %>, nullable = False<% } %><% if (field.fieldValidationUnique) { %>, unique = True<% } %>)
+    <%_ } _%>
+    <%_ for (const field of fields.filter(field => !field.transient && field.fieldIsEnum)) { _%>
+    <%= field.fieldName %> = db.Column(Enum(<%= field.javaFieldType %>)<% if (field.fieldValidationRequired) { %>, nullable = False<% } %><% if (field.fieldValidationUnique) { %>, unique = True<% } %>)
     <%_ } _%>
 
     # FIXME: Add relationships
