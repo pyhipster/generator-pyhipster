@@ -52,7 +52,7 @@ class <%= persistClass %>(db.Model):
     # FIXME: Add relationships
     
 
-    # FIXME: Add getters and setters
+    # Getters and setters
     <%_ for (const field of fields.filter(field => !field.transient && (embedded || !field.id || !primaryKey.composite))) { _%>
     def get_<%= _.replace(_.lowerCase(field.fieldInJavaBeanMethod), ' ', '_') %>(self):
         return self.<%= field.fieldName %>
@@ -61,9 +61,50 @@ class <%= persistClass %>(db.Model):
         self.<%= field.fieldName %> = <%= _.replace(_.lowerCase(field.fieldName), ' ', '_') %>
     
     <%_ } _%>
+    
     # FIXME: Add __repr__ and __str__ methods
     def __repr__(self):
-        return r
+        return f"<%= persistClass %>(" + \
+        <%_ if (!embedded) { _%>
+                    "<%= primaryKey.name %>=" + {self.<%= primaryKey.name %>} + \
+        <%_ } _%>
+        <%_ for (const field of fields.filter(field => !field.id && !field.transient)) {
+        const isNumeric = field.fieldTypeNumeric; _%>
+                    ", <%= field.fieldName %>=<% if (! isNumeric) { %>'<% } %>" + <% if ( !field.fieldTypeString ) { %>{self.<%= field.fieldName %>}<% } else { %>{self.<%= field.fieldName %>}<% } %><% if (! isNumeric) { %> + "'" <% } %> + \
+        <%_ if (field.fieldWithContentType) { _%>
+                    ", <%= field.fieldName %>ContentType='" + self.<%= field.fieldName %>ContentType + "'" + \
+        <%_ } _%>
+        <%_ } _%>
+        <%_ for (const relationship of relationships) { _%>
+        <%_ if (relationship.otherEntity.embedded) {
+            if (relationship.relationshipManyToOne) { _%>
+                    ", <%= relationship.relationshipFieldName %>='" + get<%= relationship.relationshipNameCapitalized %>() + "'" + \
+            <%_ } else if (relationship.relationshipOneToOne && relationship.ownerSide) { _%>
+                    ", <%= relationship.relationshipFieldName %>='" + get<%= relationship.relationshipNameCapitalized %>() + "'" + \
+            <%_ } _%>
+        <%_ } _%>
+        <%_ } _%>
+                    ")" 
         
     def __str__(self):
-        return s 
+        return f"<%= persistClass %>(" + \
+        <%_ if (!embedded) { _%>
+                    "<%= primaryKey.name %>=" + str(self.<%= primaryKey.name %>) + \
+        <%_ } _%>
+        <%_ for (const field of fields.filter(field => !field.id && !field.transient)) {
+        const isNumeric = field.fieldTypeNumeric; _%>
+                    ", <%= field.fieldName %>=<% if (! isNumeric) { %>'<% } %>" + <% if ( !field.fieldTypeString ) { %>str(self.<%= field.fieldName %>)<% } else { %>self.<%= field.fieldName %><% } %><% if (! isNumeric) { %>+ "'" <% } %> + \
+        <%_ if (field.fieldWithContentType) { _%>
+                    ", <%= field.fieldName %>ContentType='" + self.<%= field.fieldName %>ContentType + "'" + \
+        <%_ } _%>
+        <%_ } _%>
+        <%_ for (const relationship of relationships) { _%>
+        <%_ if (relationship.otherEntity.embedded) {
+            if (relationship.relationshipManyToOne) { _%>
+                    ", <%= relationship.relationshipFieldName %>='" + get<%= relationship.relationshipNameCapitalized %>() + "'" + \
+            <%_ } else if (relationship.relationshipOneToOne && relationship.ownerSide) { _%>
+                    ", <%= relationship.relationshipFieldName %>='" + get<%= relationship.relationshipNameCapitalized %>() + "'" + \
+            <%_ } _%>
+        <%_ } _%>
+        <%_ } _%>
+                    ")" 
