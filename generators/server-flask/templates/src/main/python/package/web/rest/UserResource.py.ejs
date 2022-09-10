@@ -18,30 +18,37 @@
 -%>
 from flask import Blueprint
 import logging
+from flask_jwt_extended import jwt_required
 
 bp = Blueprint('user-resource',__name__,url_prefix='/api/admin')
 
+
 @bp.route("/users", methods=['POST'])
+@jwt_required
 def create_users():
     logging.info('POST /api/admin/users')
     return 'POST /api/admin/users'
 
 @bp.route("/users", methods=['PUT'])
+@jwt_required
 def update_users():
     logging.info('PUT /api/admin/users')
     return 'PUT /api/admin/users'
 
 @bp.route("/users", methods=['GET'])
+@jwt_required
 def get_all_users():
     logging.info('GET ALL /api/admin/users')
     return 'GET all /api/admin/users'
 
 @bp.route("/users/<string:login>", methods=['GET'])
+@jwt_required
 def get_user_by_login(login):
     logging.info('GET /api/admin/users/<string:login>')
     return 'GET /api/admin/users/<string:login>'
 
 @bp.route("/users/<string:login>", methods=['DELETE'])
+@jwt_required
 def delete_user_by_login(login):
     logging.info('DELETE /api/admin/users/<string:login>')
     return 'DELETE /api/admin/users/<string:login>'

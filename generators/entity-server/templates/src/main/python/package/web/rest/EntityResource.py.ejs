@@ -26,9 +26,11 @@ const entitiesCamelCase = _.camelCase(instanceName)
 const entityMethod = _.replace(entityApiUrl, '-', '_');
 _%>
 from domain.<%= entityClass %> import <%= entityClass %>
+from flask_jwt_extended import jwt_required
 
 
-bp = Blueprint('<%= instanceName %>',__name__,url_prefix='/api')
+bp = Blueprint('<%= instanceName %>', __name__, url_prefix='/api')
+
 
 ###
 # {@code POST  /<%= entityApiUrl %>} : Create a new <%= entityInstance %>.
@@ -38,9 +40,11 @@ bp = Blueprint('<%= instanceName %>',__name__,url_prefix='/api')
 # @throws URISyntaxException if the Location URI syntax is incorrect.
 ###
 @bp.route("/<%= entityApiUrl %>", methods=['POST'])
+@jwt_required
 def create_<%= entityMethod %>():
     logging.info('POST /api/<%= entityApiUrl %>')
     return 'POST <%= entityApiUrl %>'
+
 
 ###
 # {@code PUT  /<%= entityApiUrl %>/<int:<%= primaryKey.name %>>} : Updates an existing <%= entityInstance %>.
@@ -53,6 +57,7 @@ def create_<%= entityMethod %>():
 # @throws URISyntaxException if the Location URI syntax is incorrect.
 ###
 @bp.route("/<%= entityApiUrl %>/<int:<%= primaryKey.name %>>", methods=['PUT'])
+@jwt_required
 def update_<%= entityMethod %>(<%= primaryKey.name %>):
     logging.info('PUT /api/<%= entityApiUrl %>')
     return 'PUT <%= entityApiUrl %>'
@@ -70,6 +75,7 @@ def update_<%= entityMethod %>(<%= primaryKey.name %>):
 # @throws URISyntaxException if the Location URI syntax is incorrect.
 ###
 @bp.route("/<%= entityApiUrl %>/<int:<%= primaryKey.name %>>", methods=['PATCH'])
+@jwt_required
 def partial_update_<%= entityMethod %>(<%= primaryKey.name %>):
     logging.info('PATCH /api/<%= entityApiUrl %>')
     return 'PATCH <%= entityApiUrl %>'
@@ -95,6 +101,7 @@ def partial_update_<%= entityMethod %>(<%= primaryKey.name %>):
 # @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of <%= entityInstancePlural %> in body.
 ###
 @bp.route("/<%= entityApiUrl %>", methods=['GET'])
+@jwt_required
 def get_all_<%= entityMethod %>():
     logging.info('GET ALL /api/<%= entityApiUrl %>')
     return 'GET ALL <%= entityApiUrl %>'
@@ -107,6 +114,7 @@ def get_all_<%= entityMethod %>():
 # @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the <%= instanceName %>, or with status {@code 404 (Not Found)}.
 ###
 @bp.route("/<%= entityApiUrl %>/<int:<%= primaryKey.name %>>", methods=['GET'])
+@jwt_required
 def get_<%= entityMethod %>(<%= primaryKey.name %>):
     logging.info('GET /api/<%= entityApiUrl %>')
     return 'GET <%= entityApiUrl %>'
@@ -120,6 +128,7 @@ def get_<%= entityMethod %>(<%= primaryKey.name %>):
 # @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
 ###
 @bp.route("/<%= entityApiUrl %>/<int:<%= primaryKey.name %>>", methods=['DELETE'])
+@jwt_required
 def delete_<%= entityMethod %>(<%= primaryKey.name %>):
     logging.info('DELETE /api/<%= entityApiUrl %>')
     return 'DELETE <%= entityApiUrl %>'

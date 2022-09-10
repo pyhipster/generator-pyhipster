@@ -23,8 +23,11 @@ const instanceName = restInstance;
 const entityLowercase = _.lowerCase(entityClass);
 const entitiesLowercase = _.lowerCase(entityInstancePlural);
 _%>
+from flask_jwt_extended import jwt_required
 
-bp = Blueprint('logout',__name__,url_prefix='/api')
+
+bp = Blueprint('logout', __name__, url_prefix='/api')
+
 
 ###
 # {@code POST  /api/logout : Create a new <%= entityInstance %>.
@@ -34,6 +37,7 @@ bp = Blueprint('logout',__name__,url_prefix='/api')
 # @throws URISyntaxException if the Location URI syntax is incorrect.
 ###
 @bp.route("/logout", methods=['POST'])
+@jwt_required
 def authorize():
     logging.info('POST /api/logout')
     return 'POST /api/logout'

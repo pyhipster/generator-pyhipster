@@ -19,7 +19,9 @@
 from flask import Blueprint
 import logging
 
-bp = Blueprint('user-jwt-controller',__name__,url_prefix='/api')
+
+bp = Blueprint('user-jwt-controller', __name__, url_prefix='/api')
+
 
 @bp.route("/authenticate", methods=['POST'])
 def authorize():
