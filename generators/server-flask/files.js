@@ -914,31 +914,31 @@ const baseServerFiles = {
     //     { file: 'package/config/WebConfigurer.java', renameTo: generator => `${generator.javaDir}config/WebConfigurer.java` },
     //   ],
     // },
-    {
-      condition: generator => !generator.skipClient && !generator.reactive,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/config/StaticResourcesWebConfiguration.java',
-          renameTo: generator => `${generator.javaDir}config/StaticResourcesWebConfiguration.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => !generator.skipUserManagement || [SQL, MONGODB, COUCHBASE, NEO4J].includes(generator.databaseType),
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [{ file: 'package/config/Constants.java', renameTo: generator => `${generator.javaDir}config/Constants.java` }],
-    },
-    {
-      condition: generator => !generator.reactive,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/config/LocaleConfiguration.java',
-          renameTo: generator => `${generator.javaDir}config/LocaleConfiguration.java`,
-        },
-      ],
-    },
+    // {
+    //   condition: generator => !generator.skipClient && !generator.reactive,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/config/StaticResourcesWebConfiguration.java',
+    //       renameTo: generator => `${generator.javaDir}config/StaticResourcesWebConfiguration.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => !generator.skipUserManagement || [SQL, MONGODB, COUCHBASE, NEO4J].includes(generator.databaseType),
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [{ file: 'package/config/Constants.java', renameTo: generator => `${generator.javaDir}config/Constants.java` }],
+    // },
+    // {
+    //   condition: generator => !generator.reactive,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/config/LocaleConfiguration.java',
+    //       renameTo: generator => `${generator.javaDir}config/LocaleConfiguration.java`,
+    //     },
+    //   ],
+    // },
     // {
     //   condition: generator => generator.reactive,
     //   path: SERVER_MAIN_SRC_DIR,
@@ -953,18 +953,18 @@ const baseServerFiles = {
     //     },
     //   ],
     // },
-    {
-      condition: generator =>
-        [EHCACHE, CAFFEINE, HAZELCAST, INFINISPAN, MEMCACHED, REDIS].includes(generator.cacheProvider) ||
-        generator.applicationType === GATEWAY,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/config/CacheConfiguration.java',
-          renameTo: generator => `${generator.javaDir}config/CacheConfiguration.java`,
-        },
-      ],
-    },
+    // {
+    //   condition: generator =>
+    //     [EHCACHE, CAFFEINE, HAZELCAST, INFINISPAN, MEMCACHED, REDIS].includes(generator.cacheProvider) ||
+    //     generator.applicationType === GATEWAY,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/config/CacheConfiguration.java',
+    //       renameTo: generator => `${generator.javaDir}config/CacheConfiguration.java`,
+    //     },
+    //   ],
+    // },
     // {
     //   condition: generator => generator.cacheProvider === INFINISPAN,
     //   path: SERVER_MAIN_SRC_DIR,
@@ -975,36 +975,36 @@ const baseServerFiles = {
     //     },
     //   ],
     // },
-    {
-      condition: generator => generator.cacheProvider === REDIS,
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/RedisTestContainerExtension.java',
-          renameTo: generator => `${generator.testDir}RedisTestContainerExtension.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => generator.databaseType !== NO_DATABASE,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: generator => `package/config/DatabaseConfiguration_${generator.databaseType}.java`,
-          renameTo: generator => `${generator.javaDir}config/DatabaseConfiguration.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => generator.databaseType === SQL,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/config/LiquibaseConfiguration.java',
-          renameTo: generator => `${generator.javaDir}config/LiquibaseConfiguration.java`,
-        },
-      ],
-    },
+    // {
+    //   condition: generator => generator.cacheProvider === REDIS,
+    //   path: SERVER_TEST_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/RedisTestContainerExtension.java',
+    //       renameTo: generator => `${generator.testDir}RedisTestContainerExtension.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => generator.databaseType !== NO_DATABASE,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: generator => `package/config/DatabaseConfiguration_${generator.databaseType}.java`,
+    //       renameTo: generator => `${generator.javaDir}config/DatabaseConfiguration.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => generator.databaseType === SQL,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/config/LiquibaseConfiguration.java',
+    //       renameTo: generator => `${generator.javaDir}config/LiquibaseConfiguration.java`,
+    //     },
+    //   ],
+    // },
     // {
     //   condition: generator => generator.databaseType === SQL && generator.reactive,
     //   path: SERVER_MAIN_SRC_DIR,
@@ -1044,16 +1044,16 @@ const baseServerFiles = {
     //     },
     //   ],
     // },
-    {
-      condition: generator => generator.searchEngine === ELASTICSEARCH,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/config/ElasticsearchConfiguration.java',
-          renameTo: generator => `${generator.javaDir}config/ElasticsearchConfiguration.java`,
-        },
-      ],
-    },
+    // {
+    //   condition: generator => generator.searchEngine === ELASTICSEARCH,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/config/ElasticsearchConfiguration.java',
+    //       renameTo: generator => `${generator.javaDir}config/ElasticsearchConfiguration.java`,
+    //     },
+    //   ],
+    // },
   ],
   // serverJavaDomain: [
   //   {
