@@ -1102,24 +1102,24 @@ const baseServerFiles = {
     // },
   ],
   serverJavaServiceError: [
-    {
-      condition: generator => !generator.skipUserManagement,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/service/EmailAlreadyUsedException.java',
-          renameTo: generator => `${generator.javaDir}service/EmailAlreadyUsedException.java`,
-        },
-        {
-          file: 'package/service/InvalidPasswordException.java',
-          renameTo: generator => `${generator.javaDir}service/InvalidPasswordException.java`,
-        },
-        {
-          file: 'package/service/UsernameAlreadyUsedException.java',
-          renameTo: generator => `${generator.javaDir}service/UsernameAlreadyUsedException.java`,
-        },
-      ],
-    },
+    // {
+    //   condition: generator => !generator.skipUserManagement,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/service/EmailAlreadyUsedException.java',
+    //       renameTo: generator => `${generator.javaDir}service/EmailAlreadyUsedException.java`,
+    //     },
+    //     {
+    //       file: 'package/service/InvalidPasswordException.java',
+    //       renameTo: generator => `${generator.javaDir}service/InvalidPasswordException.java`,
+    //     },
+    //     {
+    //       file: 'package/service/UsernameAlreadyUsedException.java',
+    //       renameTo: generator => `${generator.javaDir}service/UsernameAlreadyUsedException.java`,
+    //     },
+    //   ],
+    // },
   ],
   serverJavaService: [
     // {
@@ -1653,34 +1653,34 @@ const baseServerFiles = {
         },
       ],
     },
-    {
-      condition: generator => generator.authenticationType === OAUTH2,
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/service/UserServiceIT.java',
-          renameTo: generator => `${generator.testDir}service/UserServiceIT.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => generator.authenticationType === OAUTH2 && generator.databaseType !== NO_DATABASE,
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/service/mapper/UserMapperTest.java',
-          renameTo: generator => `${generator.testDir}service/mapper/UserMapperTest.java`,
-        },
-        {
-          file: 'package/web/rest/PublicUserResourceIT.java',
-          renameTo: generator => `${generator.testDir}rest/PublicUserResourceIT.java`,
-        },
-        {
-          file: 'package/web/rest/UserResourceIT.java',
-          renameTo: generator => `${generator.testDir}rest/UserResourceIT.java`,
-        },
-      ],
-    },
+    // {
+    //   condition: generator => generator.authenticationType === OAUTH2,
+    //   path: SERVER_TEST_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/service/UserServiceIT.java',
+    //       renameTo: generator => `${generator.testDir}service/UserServiceIT.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => generator.authenticationType === OAUTH2 && generator.databaseType !== NO_DATABASE,
+    //   path: SERVER_TEST_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/service/mapper/UserMapperTest.java',
+    //       renameTo: generator => `${generator.testDir}service/mapper/UserMapperTest.java`,
+    //     },
+    //     {
+    //       file: 'package/web/rest/PublicUserResourceIT.java',
+    //       renameTo: generator => `${generator.testDir}rest/PublicUserResourceIT.java`,
+    //     },
+    //     {
+    //       file: 'package/web/rest/UserResourceIT.java',
+    //       renameTo: generator => `${generator.testDir}rest/UserResourceIT.java`,
+    //     },
+    //   ],
+    // },
     {
       condition: generator =>
         generator.skipUserManagement && generator.authenticationType !== OAUTH2 && [MONOLITH, GATEWAY].includes(generator.applicationType),
@@ -1738,26 +1738,26 @@ const baseServerFiles = {
         },
 
         /* User management java service files */
-        { file: 'package/service/UserService.java', renameTo: generator => `${generator.javaDir}service/UserService.java` },
-        { file: 'package/service/MailService.java', renameTo: generator => `${generator.javaDir}service/MailService.java` },
+        // { file: 'package/service/UserService.java', renameTo: generator => `${generator.javaDir}service/UserService.java` },
+        // { file: 'package/service/MailService.java', renameTo: generator => `${generator.javaDir}service/MailService.java` },
 
         /* User management java web files */
         // {
         //   file: 'package/service/dto/package-info.java',
         //   renameTo: generator => `${generator.javaDir}service/dto/package-info.java`,
         // },
-        {
-          file: 'package/service/dto/AdminUserDTO.java',
-          renameTo: generator => `${generator.javaDir}service/dto/${generator.asDto('AdminUser')}.java`,
-        },
-        {
-          file: 'package/service/dto/UserDTO.java',
-          renameTo: generator => `${generator.javaDir}service/dto/${generator.asDto('User')}.java`,
-        },
-        {
-          file: 'package/service/dto/PasswordChangeDTO.java',
-          renameTo: generator => `${generator.javaDir}service/dto/PasswordChangeDTO.java`,
-        },
+        // {
+        //   file: 'package/service/dto/AdminUserDTO.java',
+        //   renameTo: generator => `${generator.javaDir}service/dto/${generator.asDto('AdminUser')}.java`,
+        // },
+        // {
+        //   file: 'package/service/dto/UserDTO.java',
+        //   renameTo: generator => `${generator.javaDir}service/dto/${generator.asDto('User')}.java`,
+        // },
+        // {
+        //   file: 'package/service/dto/PasswordChangeDTO.java',
+        //   renameTo: generator => `${generator.javaDir}service/dto/PasswordChangeDTO.java`,
+        // },
         // {
         //   file: 'package/web/rest/vm/ManagedUserVM.java',
         //   renameTo: generator => `${generator.javaDir}web/rest/vm/ManagedUserVM.java`,
@@ -1788,10 +1788,10 @@ const baseServerFiles = {
         //   file: 'package/service/mapper/package-info.java',
         //   renameTo: generator => `${generator.javaDir}service/mapper/package-info.java`,
         // },
-        {
-          file: 'package/service/mapper/UserMapper.java',
-          renameTo: generator => `${generator.javaDir}service/mapper/UserMapper.java`,
-        },
+        // {
+        //   file: 'package/service/mapper/UserMapper.java',
+        //   renameTo: generator => `${generator.javaDir}service/mapper/UserMapper.java`,
+        // },
       ],
     },
     {
@@ -1885,22 +1885,22 @@ const baseServerFiles = {
       condition: generator => !generator.skipUserManagement,
       path: SERVER_TEST_SRC_DIR,
       templates: [
-        {
-          file: 'package/service/MailServiceIT.java',
-          renameTo: generator => `${generator.testDir}service/MailServiceIT.java`,
-        },
-        {
-          file: 'package/service/UserServiceIT.java',
-          renameTo: generator => `${generator.testDir}service/UserServiceIT.java`,
-        },
-        {
-          file: 'package/service/mapper/UserMapperTest.java',
-          renameTo: generator => `${generator.testDir}service/mapper/UserMapperTest.java`,
-        },
-        {
-          file: 'package/config/NoOpMailConfiguration.java',
-          renameTo: generator => `${generator.testDir}config/NoOpMailConfiguration.java`,
-        },
+        // {
+        //   file: 'package/service/MailServiceIT.java',
+        //   renameTo: generator => `${generator.testDir}service/MailServiceIT.java`,
+        // },
+        // {
+        //   file: 'package/service/UserServiceIT.java',
+        //   renameTo: generator => `${generator.testDir}service/UserServiceIT.java`,
+        // },
+        // {
+        //   file: 'package/service/mapper/UserMapperTest.java',
+        //   renameTo: generator => `${generator.testDir}service/mapper/UserMapperTest.java`,
+        // },
+        // {
+        //   file: 'package/config/NoOpMailConfiguration.java',
+        //   renameTo: generator => `${generator.testDir}config/NoOpMailConfiguration.java`,
+        // },
         // {
         //   file: 'package/web/rest/PublicUserResourceIT.java',
         //   renameTo: generator => `${generator.testDir}web/rest/PublicUserResourceIT.java`,
