@@ -22,3 +22,51 @@ import logging
 
 bp = Blueprint('account-resource', __name__, url_prefix='/api')
 
+
+@bp.route("/register", methods=['POST'])
+def register():
+    logging.info('GET ALL /api/register')
+    return 'GET all /api/register'
+
+
+@bp.route("/authenticate", methods=['GET'])
+def authenticate():
+    logging.info('GET ALL /api/authenticate')
+    return 'GET all /api/authenticate'
+
+
+@bp.route("/account", methods=['POST'])
+def create_account():
+    logging.info('POST ALL /api/account')
+    return 'POST all /api/account'
+
+
+@bp.route("/account", methods=['GET'])
+def get_account():
+    logging.info('GET ALL /api/account')
+    return 'GET all /api/account'
+
+
+@bp.route("/account/reset-password/init", methods=['POST'])
+def password_reset_init():
+    logging.info('POST ALL /api/account/reset-password/init')
+    return 'POST all /api/account/reset-password/init'
+
+
+@bp.route("/account/reset-password/finish", methods=['POST'])
+def password_reset_finish():
+    logging.info('POST ALL /api/reset-password/finish')
+    return 'POST all /api/reset-password/finish'
+
+
+@bp.route("/account/change-password", methods=['POST'])
+def change_password():
+    logging.info('POST ALL /api/change-password')
+    return 'POST all /api/change-password'
+
+
+@bp.route("/activate", methods=['GET'])
+def activate():
+    logging.info('GET ALL /api/activate')
+    return 'GET all /api/activate'
+
