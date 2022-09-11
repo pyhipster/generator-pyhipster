@@ -20,6 +20,7 @@
 from flask import Flask, render_template
 from rest import create_app
 
+
 if __name__ == '__main__':
-   app = create_app()
-   app.run(debug = True, port=<%= serverPort %>)
+    app = create_app()
+    app.run(debug = True, port=<%= serverPort %>)
