@@ -19,12 +19,14 @@
 from flask import Blueprint
 import logging
 
-bp = Blueprint('public-user-resource',__name__,url_prefix='/api')
+bp = Blueprint('public-user-resource', __name__, url_prefix='/api')
+
 
 @bp.route("/users", methods=['GET'])
 def get_all_users():
     logging.info('GET ALL /api/users')
     return 'GET all /api/users'
+
 
 @bp.route("/authorities", methods=['GET'])
 def get_all_authorities():

@@ -530,26 +530,26 @@ const baseServerFiles = {
     //     },
     //   ],
     // },
-    {
-      condition: generator => !generator.reactive,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/config/SecurityConfiguration.java',
-          renameTo: generator => `${generator.javaDir}config/SecurityConfiguration.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => generator.reactive,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/config/SecurityConfiguration_reactive.java',
-          renameTo: generator => `${generator.javaDir}config/SecurityConfiguration.java`,
-        },
-      ],
-    },
+    // {
+    //   condition: generator => !generator.reactive,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/config/SecurityConfiguration.java',
+    //       renameTo: generator => `${generator.javaDir}config/SecurityConfiguration.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => generator.reactive,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/config/SecurityConfiguration_reactive.java',
+    //       renameTo: generator => `${generator.javaDir}config/SecurityConfiguration.java`,
+    //     },
+    //   ],
+    // },
     {
       condition: generator => !shouldSkipUserManagement(generator) && generator.authenticationType === SESSION && !generator.reactive,
       path: SERVER_MAIN_SRC_DIR,

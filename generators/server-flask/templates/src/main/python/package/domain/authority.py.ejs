@@ -22,15 +22,16 @@ import json
 
 db = SQLAlchemy()
 
+
 class <%= asEntity('Authority') %>(db.Model):
     __tablename__ = "<%= jhiTablePrefix %>_authority"
     name = db.Column(db.String(80), unique=True, nullable=False)
 
-    def get_name():
-        return name
+    def get_name(self):
+        return self.name
 
-    def set_name(_name):
-        name = _name
+    def set_name(self, _name):
+        self.name = _name
         
     def __repr__(self):
         return '<Authority %r>' % self.name
@@ -40,9 +41,8 @@ class <%= asEntity('Authority') %>(db.Model):
         return cls.query.get_or_404(name)
 
     def to_dict(self):
-        cls_dict = {}
-        cls_dict['name'] = self.name
+        cls_dict = {'name': self.name}
         return cls_dict
 
-    def toJSON(self):
+    def to_json(self):
         return self.to_dict()

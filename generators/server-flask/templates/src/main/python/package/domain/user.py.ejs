@@ -22,6 +22,7 @@ import json
 
 db = SQLAlchemy()
 
+
 class <%= asEntity('User') %>(db.Model):
     __tablename__ = "<%= user.entityTableName %>"
     id = db.Column(db.Integer, primary_key=True)
@@ -55,16 +56,16 @@ class <%= asEntity('User') %>(db.Model):
     def get_password(self):
         return self.password
 
-    def set_firstName(self, _firstName):
+    def set_first_name(self, _firstName):
         self.firstName = _firstName
         
-    def get_firstName(self):
+    def get_first_name(self):
         return self.firstName
 
-    def set_lastName(self, _lastName):
+    def set_last_name(self, _lastName):
         self.lastName = _lastName
         
-    def get_lastName(self):
+    def get_last_name(self):
         return self.lastName
 
     def set_email(self, _email):
@@ -79,34 +80,34 @@ class <%= asEntity('User') %>(db.Model):
     def get_activated(self):
         return self.activated
 
-    def set_langKey(self, _langKey):
+    def set_lang_key(self, _langKey):
         self.langKey = _langKey
         
-    def get_langKey(self):
+    def get_lang_key(self):
         return self.langKey
 
-    def set_imageUrl(self, imageUrl):
-        self.login = _imageUrl
+    def set_image_url(self, _imageUrl):
+        self.imageUrl = _imageUrl
         
-    def get_imageUrl(self):
+    def get_image_url(self):
         return self.imageUrl
 
-    def set_activationKey(self, _activationKey):
+    def set_activation_key(self, _activationKey):
         self.activationKey = _activationKey
         
-    def get_activationKey(self):
+    def get_activation_key(self):
         return self.activationKey
 
-    def set_resetKey(self, _resetKey):
+    def set_reset_key(self, _resetKey):
         self.resetKey = _resetKey
         
-    def get_resetKey(self):
+    def get_reset_key(self):
         return self.resetKey
 
-    def set_resetDate(self, _resetDate):
+    def set_reset_date(self, _resetDate):
         self.resetDate = _resetDate
         
-    def get_resetDate(self):
+    def get_reset_date(self):
         return self.resetDate
         
     def __repr__(self):
@@ -121,18 +122,12 @@ class <%= asEntity('User') %>(db.Model):
         return cls.query.filter_by(email=email).first()
 
     def to_dict(self):
-        cls_dict = {}
-        cls_dict['_id'] = self.id
-        cls_dict['login'] = self.login
-        cls_dict['email'] = self.email
-        cls_dict['firstName'] = self.firstName
-        cls_dict['lastName'] = self.lastName
-        cls_dict['activated'] = self.activated
-        cls_dict['langKey'] = self.langKey
-        cls_dict['imageUrl'] = self.imageUrl
+        cls_dict = {'_id': self.id, 'login': self.login, 'email': self.email, 'firstName': self.firstName,
+                    'lastName': self.lastName, 'activated': self.activated, 'langKey': self.langKey,
+                    'imageUrl': self.imageUrl}
         return cls_dict
 
-    def toJSON(self):
+    def to_json(self):
         return self.to_dict()
         
         
