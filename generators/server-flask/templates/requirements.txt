@@ -32,3 +32,5 @@ Werkzeug <= 2.1.2
 WTForms==3.0.1
 zipp==3.8.1
 flask-restx >= 0.5.1
+jsonpickle~=2.2.0
+setuptools~=47.1.0
