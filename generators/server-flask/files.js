@@ -564,20 +564,20 @@ const baseServerFiles = {
         },
       ],
     },
-    {
-      condition: generator =>
-        !shouldSkipUserManagement(generator) &&
-        generator.authenticationType === SESSION &&
-        !generator.reactive &&
-        generator.databaseType !== COUCHBASE,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/repository/PersistentTokenRepository.java',
-          renameTo: generator => `${generator.javaDir}repository/PersistentTokenRepository.java`,
-        },
-      ],
-    },
+    // {
+    //   condition: generator =>
+    //     !shouldSkipUserManagement(generator) &&
+    //     generator.authenticationType === SESSION &&
+    //     !generator.reactive &&
+    //     generator.databaseType !== COUCHBASE,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/repository/PersistentTokenRepository.java',
+    //       renameTo: generator => `${generator.javaDir}repository/PersistentTokenRepository.java`,
+    //     },
+    //   ],
+    // },
     {
       condition: generator => generator.authenticationType === OAUTH2,
       path: SERVER_MAIN_SRC_DIR,
@@ -1084,16 +1084,16 @@ const baseServerFiles = {
     },
   ],
   serverJavaPackageInfo: [
-    {
-      condition: generator => generator.searchEngine === ELASTICSEARCH,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        // {
-        //   file: 'package/repository/search/package-info.java',
-        //   renameTo: generator => `${generator.javaDir}repository/search/package-info.java`,
-        // },
-      ],
-    },
+    // {
+    //   condition: generator => generator.searchEngine === ELASTICSEARCH,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/repository/search/package-info.java',
+    //       renameTo: generator => `${generator.javaDir}repository/search/package-info.java`,
+    //     },
+    //   ],
+    // },
     // {
     //   path: SERVER_MAIN_SRC_DIR,
     //   templates: [
@@ -1352,24 +1352,24 @@ const baseServerFiles = {
     //     },
     //   ],
     // },
-    {
-      condition: generator => generator.databaseType === SQL && !generator.reactive,
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/config/timezone/HibernateTimeZoneIT.java',
-          renameTo: generator => `${generator.testDir}config/timezone/HibernateTimeZoneIT.java`,
-        },
-        {
-          file: 'package/repository/timezone/DateTimeWrapper.java',
-          renameTo: generator => `${generator.testDir}repository/timezone/DateTimeWrapper.java`,
-        },
-        {
-          file: 'package/repository/timezone/DateTimeWrapperRepository.java',
-          renameTo: generator => `${generator.testDir}repository/timezone/DateTimeWrapperRepository.java`,
-        },
-      ],
-    },
+    // {
+    //   condition: generator => generator.databaseType === SQL && !generator.reactive,
+    //   path: SERVER_TEST_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/config/timezone/HibernateTimeZoneIT.java',
+    //       renameTo: generator => `${generator.testDir}config/timezone/HibernateTimeZoneIT.java`,
+    //     },
+    //     {
+    //       file: 'package/repository/timezone/DateTimeWrapper.java',
+    //       renameTo: generator => `${generator.testDir}repository/timezone/DateTimeWrapper.java`,
+    //     },
+    //     {
+    //       file: 'package/repository/timezone/DateTimeWrapperRepository.java',
+    //       renameTo: generator => `${generator.testDir}repository/timezone/DateTimeWrapperRepository.java`,
+    //     },
+    //   ],
+    // },
     {
       path: SERVER_TEST_RES_DIR,
       templates: ['config/application.yml', 'logback.xml', 'junit-platform.properties'],
@@ -1539,17 +1539,17 @@ const baseServerFiles = {
         },
       ],
     },
-    {
-      condition: generator => generator.isUsingBuiltInAuthority(),
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        { file: 'package/domain/authority.py', renameTo: generator => `${generator.javaDir}domain/Authority.py` },
-        {
-          file: 'package/repository/authority_repository.py',
-          renameTo: generator => `${generator.javaDir}repository/authority_repository.py`,
-        },
-      ],
-    },
+    // {
+    //   condition: generator => generator.isUsingBuiltInAuthority(),
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     { file: 'package/domain/authority.py', renameTo: generator => `${generator.javaDir}domain/Authority.py` },
+    //     {
+    //       file: 'package/repository/authority_repository.py',
+    //       renameTo: generator => `${generator.javaDir}repository/authority_repository.py`,
+    //     },
+    //   ],
+    // },
   ],
   serverJavaUserManagement: [
     // {
@@ -1703,26 +1703,26 @@ const baseServerFiles = {
         },
       ],
     },
-    {
-      condition: generator => generator.authenticationType === OAUTH2 && generator.searchEngine === ELASTICSEARCH,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/repository/search/UserSearchRepository.java',
-          renameTo: generator => `${generator.javaDir}repository/search/UserSearchRepository.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => generator.authenticationType === OAUTH2 && generator.searchEngine === ELASTICSEARCH,
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/repository/search/UserSearchRepositoryMockConfiguration.java',
-          renameTo: generator => `${generator.testDir}repository/search/UserSearchRepositoryMockConfiguration.java`,
-        },
-      ],
-    },
+    // {
+    //   condition: generator => generator.authenticationType === OAUTH2 && generator.searchEngine === ELASTICSEARCH,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/repository/search/UserSearchRepository.java',
+    //       renameTo: generator => `${generator.javaDir}repository/search/UserSearchRepository.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => generator.authenticationType === OAUTH2 && generator.searchEngine === ELASTICSEARCH,
+    //   path: SERVER_TEST_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/repository/search/UserSearchRepositoryMockConfiguration.java',
+    //       renameTo: generator => `${generator.testDir}repository/search/UserSearchRepositoryMockConfiguration.java`,
+    //     },
+    //   ],
+    // },
     {
       condition: generator => !generator.skipUserManagement,
       path: SERVER_MAIN_RES_DIR,
@@ -1732,10 +1732,10 @@ const baseServerFiles = {
       condition: generator => !generator.skipUserManagement,
       path: SERVER_MAIN_SRC_DIR,
       templates: [
-        {
-          file: 'package/repository/UserRepository.java',
-          renameTo: generator => `${generator.javaDir}repository/UserRepository.java`,
-        },
+        // {
+        //   file: 'package/repository/UserRepository.java',
+        //   renameTo: generator => `${generator.javaDir}repository/UserRepository.java`,
+        // },
 
         /* User management java service files */
         // { file: 'package/service/UserService.java', renameTo: generator => `${generator.javaDir}service/UserService.java` },
@@ -1794,26 +1794,26 @@ const baseServerFiles = {
         // },
       ],
     },
-    {
-      condition: generator => !generator.skipUserManagement && generator.searchEngine === ELASTICSEARCH,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/repository/search/UserSearchRepository.java',
-          renameTo: generator => `${generator.javaDir}repository/search/UserSearchRepository.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => !generator.skipUserManagement && generator.searchEngine === ELASTICSEARCH,
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/repository/search/UserSearchRepositoryMockConfiguration.java',
-          renameTo: generator => `${generator.testDir}repository/search/UserSearchRepositoryMockConfiguration.java`,
-        },
-      ],
-    },
+    // {
+    //   condition: generator => !generator.skipUserManagement && generator.searchEngine === ELASTICSEARCH,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/repository/search/UserSearchRepository.java',
+    //       renameTo: generator => `${generator.javaDir}repository/search/UserSearchRepository.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => !generator.skipUserManagement && generator.searchEngine === ELASTICSEARCH,
+    //   path: SERVER_TEST_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/repository/search/UserSearchRepositoryMockConfiguration.java',
+    //       renameTo: generator => `${generator.testDir}repository/search/UserSearchRepositoryMockConfiguration.java`,
+    //     },
+    //   ],
+    // },
     {
       condition: generator => generator.authenticationType === JWT,
       path: SERVER_TEST_SRC_DIR,
