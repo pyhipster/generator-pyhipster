@@ -18,6 +18,7 @@
 -%>
 from flask import Blueprint
 import logging
+from src.main.python.domain.User import User
 
 bp = Blueprint('public-user-resource', __name__, url_prefix='/api')
 
@@ -25,7 +26,15 @@ bp = Blueprint('public-user-resource', __name__, url_prefix='/api')
 @bp.route("/users", methods=['GET'])
 def get_all_users():
     logging.info('GET ALL /api/users')
-    return 'GET all /api/users'
+    users = User.get_all_users()
+    return users
+
+
+@bp.route("/users/<int:id>", methods=['GET'])
+def get_user_by_id(_id):
+    logging.info('GET ONE /api/users')
+    user = User.get_by_id(_id)
+    return user
 
 
 @bp.route("/authorities", methods=['GET'])

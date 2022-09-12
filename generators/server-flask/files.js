@@ -838,6 +838,10 @@ const baseServerFiles = {
     {
       path: SERVER_MAIN_SRC_DIR,
       templates: [{ file: 'package/application.py', renameTo: generator => `${generator.javaDir}${generator.mainClass}.py` }],
+    },
+    {
+      path: SERVER_MAIN_SRC_DIR,
+      templates: [{ file: 'package/__init__.py', method: 'copy', noEjs: true }],
     }
   ],
   serverJavaApp: [
