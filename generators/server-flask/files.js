@@ -841,7 +841,15 @@ const baseServerFiles = {
     },
     {
       path: SERVER_MAIN_SRC_DIR,
-      templates: [{ file: 'package/__init__.py', method: 'copy', noEjs: true }],
+      templates: [{ file: 'package/__init__.py', renameTo: generator => `${generator.javaDir}__init__.py` }],
+    },
+    {
+      path: SERVER_MAIN_SRC_DIR,
+      templates: [{ file: 'package/__init__.py', renameTo: generator => `${generator.javaDir}domain/__init__.py` }],
+    },
+    {
+      path: SERVER_MAIN_SRC_DIR,
+      templates: [{ file: 'package/__init__.py', renameTo: generator => `${generator.javaDir}security/__init__.py` }],
     }
   ],
   serverJavaApp: [

@@ -20,11 +20,12 @@
 import os, logging
 from flask import Flask
 
+
 def create_app(test_config=None):
     app = Flask(__name__,instance_relative_config=True)
     app.config.from_mapping(SECRET_KEY='dev')
 
-    from rest import AccountResource, UserResource, UserJWTController, PublicUserResource
+    from . import AccountResource, UserResource, UserJWTController, PublicUserResource
     # pyhipster-needle-rest-api-list-add-entry-import
 
     logging.basicConfig(level=logging.DEBUG)
