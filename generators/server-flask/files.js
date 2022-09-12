@@ -426,10 +426,10 @@ const baseServerFiles = {
         // Thymeleaf templates
         { file: 'templates/error.html', method: 'copy' },
         // 'logback-spring.xml',
-        // 'config/application.yml',
-        // 'config/application-dev.yml',
-        // 'config/application-tls.yml',
-        // 'config/application-prod.yml',
+        'config/application.yml',
+        'config/application-dev.yml',
+        'config/application-tls.yml',
+        'config/application-prod.yml',
         'i18n/messages.properties',
         {
           file: 'config/base-config.py',
@@ -439,25 +439,25 @@ const baseServerFiles = {
     },
   ],
   serverJavaAuthConfig: [
+    // {
+    //   condition: generator =>
+    //     !generator.reactive &&
+    //     (generator.databaseType === SQL || generator.databaseType === MONGODB || generator.databaseType === COUCHBASE),
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/security/SpringSecurityAuditorAware.java',
+    //       renameTo: generator => `${generator.javaDir}security/SpringSecurityAuditorAware.java`,
+    //     },
+    //   ],
+    // },
     {
-      condition: generator =>
-        !generator.reactive &&
-        (generator.databaseType === SQL || generator.databaseType === MONGODB || generator.databaseType === COUCHBASE),
       path: SERVER_MAIN_SRC_DIR,
       templates: [
-        {
-          file: 'package/security/SpringSecurityAuditorAware.java',
-          renameTo: generator => `${generator.javaDir}security/SpringSecurityAuditorAware.java`,
-        },
-      ],
-    },
-    {
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/security/SecurityUtils.java',
-          renameTo: generator => `${generator.javaDir}security/SecurityUtils.java`,
-        },
+        // {
+        //   file: 'package/security/SecurityUtils.java',
+        //   renameTo: generator => `${generator.javaDir}security/SecurityUtils.java`,
+        // },
         // {
         //   file: 'package/security/AuthoritiesConstants.java',
         //   renameTo: generator => `${generator.javaDir}security/AuthoritiesConstants.java`,
@@ -472,16 +472,16 @@ const baseServerFiles = {
         // },
       ],
     },
-    {
-      condition: generator => !generator.reactive,
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/security/SecurityUtilsUnitTest.java',
-          renameTo: generator => `${generator.testDir}security/SecurityUtilsUnitTest.java`,
-        },
-      ],
-    },
+    // {
+    //   condition: generator => !generator.reactive,
+    //   path: SERVER_TEST_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/security/SecurityUtilsUnitTest.java',
+    //       renameTo: generator => `${generator.testDir}security/SecurityUtilsUnitTest.java`,
+    //     },
+    //   ],
+    // },
     // {
     //   condition: generator => generator.reactive,
     //   path: SERVER_TEST_SRC_DIR,
@@ -496,30 +496,30 @@ const baseServerFiles = {
       condition: generator => generator.authenticationType === JWT,
       path: SERVER_MAIN_SRC_DIR,
       templates: [
-        {
-          file: 'package/security/jwt/TokenProvider.java',
-          renameTo: generator => `${generator.javaDir}security/jwt/TokenProvider.java`,
-        },
-        {
-          file: 'package/security/jwt/JWTFilter.java',
-          renameTo: generator => `${generator.javaDir}security/jwt/JWTFilter.java`,
-        },
+        // {
+        //   file: 'package/security/jwt/TokenProvider.java',
+        //   renameTo: generator => `${generator.javaDir}security/jwt/TokenProvider.java`,
+        // },
+        // {
+        //   file: 'package/security/jwt/JWTFilter.java',
+        //   renameTo: generator => `${generator.javaDir}security/jwt/JWTFilter.java`,
+        // },
         // {
         //   file: 'package/management/SecurityMetersService.java',
         //   renameTo: generator => `${generator.javaDir}management/SecurityMetersService.java`,
         // },
       ],
     },
-    {
-      condition: generator => generator.authenticationType === JWT && !generator.reactive,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/security/jwt/JWTConfigurer.java',
-          renameTo: generator => `${generator.javaDir}security/jwt/JWTConfigurer.java`,
-        },
-      ],
-    },
+    // {
+    //   condition: generator => generator.authenticationType === JWT && !generator.reactive,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/security/jwt/JWTConfigurer.java',
+    //       renameTo: generator => `${generator.javaDir}security/jwt/JWTConfigurer.java`,
+    //     },
+    //   ],
+    // },
     // {
     //   condition: generator => generator.reactive && generator.applicationType === GATEWAY && generator.authenticationType === JWT,
     //   path: SERVER_MAIN_SRC_DIR,
@@ -550,20 +550,20 @@ const baseServerFiles = {
     //     },
     //   ],
     // },
-    {
-      condition: generator => !shouldSkipUserManagement(generator) && generator.authenticationType === SESSION && !generator.reactive,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/security/PersistentTokenRememberMeServices.java',
-          renameTo: generator => `${generator.javaDir}security/PersistentTokenRememberMeServices.java`,
-        },
-        {
-          file: 'package/domain/PersistentToken.java',
-          renameTo: generator => `${generator.javaDir}domain/PersistentToken.java`,
-        },
-      ],
-    },
+    // {
+    //   condition: generator => !shouldSkipUserManagement(generator) && generator.authenticationType === SESSION && !generator.reactive,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/security/PersistentTokenRememberMeServices.java',
+    //       renameTo: generator => `${generator.javaDir}security/PersistentTokenRememberMeServices.java`,
+    //     },
+    //     {
+    //       file: 'package/domain/PersistentToken.java',
+    //       renameTo: generator => `${generator.javaDir}domain/PersistentToken.java`,
+    //     },
+    //   ],
+    // },
     // {
     //   condition: generator =>
     //     !shouldSkipUserManagement(generator) &&
@@ -578,65 +578,65 @@ const baseServerFiles = {
     //     },
     //   ],
     // },
-    {
-      condition: generator => generator.authenticationType === OAUTH2,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/security/oauth2/AudienceValidator.java',
-          renameTo: generator => `${generator.javaDir}security/oauth2/AudienceValidator.java`,
-        },
-        {
-          file: 'package/security/oauth2/JwtGrantedAuthorityConverter.java',
-          renameTo: generator => `${generator.javaDir}security/oauth2/JwtGrantedAuthorityConverter.java`,
-        },
-        {
-          file: 'package/security/oauth2/OAuthIdpTokenResponseDTO.java',
-          renameTo: generator => `${generator.javaDir}security/oauth2/OAuthIdpTokenResponseDTO.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => generator.authenticationType === OAUTH2,
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/security/oauth2/AudienceValidatorTest.java',
-          renameTo: generator => `${generator.javaDir}security/oauth2/AudienceValidatorTest.java`,
-        },
-        {
-          file: 'package/config/TestSecurityConfiguration.java',
-          renameTo: generator => `${generator.testDir}config/TestSecurityConfiguration.java`,
-        },
-      ],
-    },
-    {
-      condition: generator =>
-        !generator.reactive &&
-        generator.authenticationType === OAUTH2 &&
-        (generator.applicationType === MICROSERVICE || generator.applicationType === GATEWAY),
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/security/oauth2/AuthorizationHeaderUtilTest.java',
-          renameTo: generator => `${generator.javaDir}security/oauth2/AuthorizationHeaderUtilTest.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => !shouldSkipUserManagement(generator) && generator.authenticationType !== OAUTH2,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/security/DomainUserDetailsService.java',
-          renameTo: generator => `${generator.javaDir}security/DomainUserDetailsService.java`,
-        },
-        {
-          file: 'package/security/UserNotActivatedException.java',
-          renameTo: generator => `${generator.javaDir}security/UserNotActivatedException.java`,
-        },
-      ],
-    },
+    // {
+    //   condition: generator => generator.authenticationType === OAUTH2,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/security/oauth2/AudienceValidator.java',
+    //       renameTo: generator => `${generator.javaDir}security/oauth2/AudienceValidator.java`,
+    //     },
+    //     {
+    //       file: 'package/security/oauth2/JwtGrantedAuthorityConverter.java',
+    //       renameTo: generator => `${generator.javaDir}security/oauth2/JwtGrantedAuthorityConverter.java`,
+    //     },
+    //     {
+    //       file: 'package/security/oauth2/OAuthIdpTokenResponseDTO.java',
+    //       renameTo: generator => `${generator.javaDir}security/oauth2/OAuthIdpTokenResponseDTO.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => generator.authenticationType === OAUTH2,
+    //   path: SERVER_TEST_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/security/oauth2/AudienceValidatorTest.java',
+    //       renameTo: generator => `${generator.javaDir}security/oauth2/AudienceValidatorTest.java`,
+    //     },
+    //     {
+    //       file: 'package/config/TestSecurityConfiguration.java',
+    //       renameTo: generator => `${generator.testDir}config/TestSecurityConfiguration.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator =>
+    //     !generator.reactive &&
+    //     generator.authenticationType === OAUTH2 &&
+    //     (generator.applicationType === MICROSERVICE || generator.applicationType === GATEWAY),
+    //   path: SERVER_TEST_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/security/oauth2/AuthorizationHeaderUtilTest.java',
+    //       renameTo: generator => `${generator.javaDir}security/oauth2/AuthorizationHeaderUtilTest.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => !shouldSkipUserManagement(generator) && generator.authenticationType !== OAUTH2,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/security/DomainUserDetailsService.java',
+    //       renameTo: generator => `${generator.javaDir}security/DomainUserDetailsService.java`,
+    //     },
+    //     {
+    //       file: 'package/security/UserNotActivatedException.java',
+    //       renameTo: generator => `${generator.javaDir}security/UserNotActivatedException.java`,
+    //     },
+    //   ],
+    // },
     {
       condition: generator => generator.applicationType !== MICROSERVICE && generator.authenticationType === JWT,
       path: SERVER_MAIN_SRC_DIR,
@@ -669,26 +669,26 @@ const baseServerFiles = {
         },
       ],
     },
-    {
-      condition: generator => !generator.reactive && generator.authenticationType === OAUTH2 && generator.applicationType === MONOLITH,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/security/oauth2/CustomClaimConverter.java',
-          renameTo: generator => `${generator.javaDir}security/oauth2/CustomClaimConverter.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => !generator.reactive && generator.authenticationType === OAUTH2 && generator.applicationType === MONOLITH,
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/security/oauth2/CustomClaimConverterIT.java',
-          renameTo: generator => `${generator.javaDir}security/oauth2/CustomClaimConverterIT.java`,
-        },
-      ],
-    },
+    // {
+    //   condition: generator => !generator.reactive && generator.authenticationType === OAUTH2 && generator.applicationType === MONOLITH,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/security/oauth2/CustomClaimConverter.java',
+    //       renameTo: generator => `${generator.javaDir}security/oauth2/CustomClaimConverter.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator => !generator.reactive && generator.authenticationType === OAUTH2 && generator.applicationType === MONOLITH,
+    //   path: SERVER_TEST_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/security/oauth2/CustomClaimConverterIT.java',
+    //       renameTo: generator => `${generator.javaDir}security/oauth2/CustomClaimConverterIT.java`,
+    //     },
+    //   ],
+    // },
   ],
   serverJavaGateway: [
     // {
@@ -789,10 +789,10 @@ const baseServerFiles = {
         (generator.applicationType === MICROSERVICE || generator.applicationType === GATEWAY),
       path: SERVER_MAIN_SRC_DIR,
       templates: [
-        {
-          file: 'package/security/oauth2/AuthorizationHeaderUtil.java',
-          renameTo: generator => `${generator.javaDir}security/oauth2/AuthorizationHeaderUtil.java`,
-        },
+        // {
+        //   file: 'package/security/oauth2/AuthorizationHeaderUtil.java',
+        //   renameTo: generator => `${generator.javaDir}security/oauth2/AuthorizationHeaderUtil.java`,
+        // },
         {
           file: 'package/config/FeignConfiguration.java',
           renameTo: generator => `${generator.javaDir}config/FeignConfiguration.java`,
@@ -1478,17 +1478,17 @@ const baseServerFiles = {
       path: SERVER_TEST_RES_DIR,
       templates: [{ file: 'package/features/gitkeep', renameTo: generator => `${generator.testDir}cucumber/gitkeep`, noEjs: true }],
     },
-    {
-      condition: generator => !shouldSkipUserManagement(generator) && generator.authenticationType !== OAUTH2,
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        // Create auth config test files
-        {
-          file: 'package/security/DomainUserDetailsServiceIT.java',
-          renameTo: generator => `${generator.testDir}security/DomainUserDetailsServiceIT.java`,
-        },
-      ],
-    },
+    // {
+    //   condition: generator => !shouldSkipUserManagement(generator) && generator.authenticationType !== OAUTH2,
+    //   path: SERVER_TEST_SRC_DIR,
+    //   templates: [
+    //     // Create auth config test files
+    //     {
+    //       file: 'package/security/DomainUserDetailsServiceIT.java',
+    //       renameTo: generator => `${generator.testDir}security/DomainUserDetailsServiceIT.java`,
+    //     },
+    //   ],
+    // },
     {
       condition: generator => generator.messageBroker === KAFKA,
       path: SERVER_TEST_SRC_DIR,
@@ -1834,18 +1834,18 @@ const baseServerFiles = {
         //   file: 'package/management/SecurityMetersServiceTests.java',
         //   renameTo: generator => `${generator.testDir}management/SecurityMetersServiceTests.java`,
         // },
-        {
-          file: 'package/security/jwt/TokenProviderTest.java',
-          renameTo: generator => `${generator.testDir}security/jwt/TokenProviderTest.java`,
-        },
-        {
-          file: 'package/security/jwt/TokenProviderSecurityMetersTests.java',
-          renameTo: generator => `${generator.testDir}security/jwt/TokenProviderSecurityMetersTests.java`,
-        },
-        {
-          file: 'package/security/jwt/JWTFilterTest.java',
-          renameTo: generator => `${generator.testDir}security/jwt/JWTFilterTest.java`,
-        },
+        // {
+        //   file: 'package/security/jwt/TokenProviderTest.java',
+        //   renameTo: generator => `${generator.testDir}security/jwt/TokenProviderTest.java`,
+        // },
+        // {
+        //   file: 'package/security/jwt/TokenProviderSecurityMetersTests.java',
+        //   renameTo: generator => `${generator.testDir}security/jwt/TokenProviderSecurityMetersTests.java`,
+        // },
+        // {
+        //   file: 'package/security/jwt/JWTFilterTest.java',
+        //   renameTo: generator => `${generator.testDir}security/jwt/JWTFilterTest.java`,
+        // },
       ],
     },
     // {
