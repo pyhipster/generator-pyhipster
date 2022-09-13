@@ -17,8 +17,11 @@
  limitations under the License.
 -%>
 
-import os, logging
+import os, logging, sys
 from flask import Flask
+
+
+sys.path.insert(0, os.path.abspath('..'))
 
 
 def create_app(test_config=None):
