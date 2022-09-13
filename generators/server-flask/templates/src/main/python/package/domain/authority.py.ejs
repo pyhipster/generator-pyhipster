@@ -25,7 +25,7 @@ from . import db
 
 class <%= asEntity('Authority') %>(db.Model):
     __tablename__ = "<%= jhiTablePrefix %>_authority"
-    name = db.Column(db.String(80), unique=True, nullable=False)
+    name = db.Column(db.String(80), primary_key=True)
 
     def get_name(self):
         return self.name
