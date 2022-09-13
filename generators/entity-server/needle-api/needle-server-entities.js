@@ -25,12 +25,22 @@
  module.exports = class extends needleServer {
     addEntitiesToAPIList(entityClass) {
         console.log("Initializing Needle API");
-        this.addEntityToList(entityClass);
+        this.addEntityResourceBlueprintToList(entityClass);
         this.addEntityImportToList(entityClass);
+        this.addEntityResourceImportToList(entityClass);
+      }
+
+      addEntityImportToList(entry) {
+        const errorMessage = chalk.yellow(`\nUnable to add domain entity ${entry} to __init__.py file.`);
+        const cachePath = `${SERVER_MAIN_SRC_DIR}rest/__init__.py`;
+    
+        const needle = `pyhipster-needle-domain-add-entity-import`;
+        const content = `from domain import ${entry}`;
+        this._doAddBlockContentToFile(cachePath, needle, content, errorMessage);
       }
     
-      addEntityImportToList(entry) {
-        const errorMessage = chalk.yellow(`\nUnable to add ${entry} to __init__.py file.`);
+      addEntityResourceImportToList(entry) {
+        const errorMessage = chalk.yellow(`\nUnable to add ${entry} resource to __init__.py file.`);
         const cachePath = `${SERVER_MAIN_SRC_DIR}rest/__init__.py`;
     
         const needle = `pyhipster-needle-rest-api-list-add-entry-import`;
@@ -38,8 +48,8 @@
         this._doAddBlockContentToFile(cachePath, needle, content, errorMessage);
       }
 
-      addEntityToList(entry) {
-        const errorMessage = chalk.yellow(`\nUnable to add ${entry} to __init__.py file.`);
+      addEntityResourceBlueprintToList(entry) {
+        const errorMessage = chalk.yellow(`\nUnable to add ${entry} blueprint to __init__.py file.`);
         const cachePath = `${SERVER_MAIN_SRC_DIR}rest/__init__.py`;
     
         const needle = `pyhipster-needle-rest-api-list-add-entry`;

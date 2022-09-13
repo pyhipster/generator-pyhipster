@@ -19,7 +19,6 @@
 
 import os, logging, sys
 from flask import Flask
-from domain import db
 from config.BaseConfig import BaseConfig
 
 
@@ -29,8 +28,13 @@ sys.path.insert(0, os.path.abspath('..'))
 def create_app(test_config=None):
     app = Flask(__name__,instance_relative_config=True)
     app.config.from_object(BaseConfig)
+    
+    # Configuring the datastore
+    from domain import db, User, Authority
+    # pyhipster-needle-domain-add-entity-import
     db.init_app(app)
 
+    # Configuring the endpoints
     from . import AccountResource, UserResource, UserJWTController, PublicUserResource
     # pyhipster-needle-rest-api-list-add-entry-import
 
