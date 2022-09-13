@@ -431,10 +431,10 @@ const baseServerFiles = {
         'config/application-tls.yml',
         'config/application-prod.yml',
         'i18n/messages.properties',
-        {
-          file: 'config/base-config.py',
-          renameTo: generator => `${generator.javaDir}config/BaseConfig.py`,
-        },
+        // {
+        //   file: 'config/base-config.py',
+        //   renameTo: generator => `${generator.javaDir}config/BaseConfig.py`,
+        // },
       ],
     },
   ],
@@ -845,10 +845,6 @@ const baseServerFiles = {
     },
     {
       path: SERVER_MAIN_SRC_DIR,
-      templates: [{ file: 'package/__init__.py', renameTo: generator => `${generator.javaDir}domain/__init__.py` }],
-    },
-    {
-      path: SERVER_MAIN_SRC_DIR,
       templates: [{ file: 'package/__init__.py', renameTo: generator => `${generator.javaDir}security/__init__.py` }],
     }
   ],
@@ -1007,6 +1003,15 @@ const baseServerFiles = {
     //     },
     //   ],
     // },
+    {
+      path: SERVER_MAIN_SRC_DIR,
+      templates: [
+        {
+          file: generator => `package/config/BaseConfig.py`,
+          renameTo: generator => `${generator.javaDir}config/BaseConfig.py`,
+        },
+      ],
+    },
     // {
     //   condition: generator => generator.databaseType === SQL,
     //   path: SERVER_MAIN_SRC_DIR,
@@ -1546,8 +1551,28 @@ const baseServerFiles = {
       path: SERVER_MAIN_SRC_DIR,
       templates: [
         {
-          file: 'package/domain/user.py',
+          file: 'package/domain/User.py',
           renameTo: generator => `${generator.javaDir}domain/${generator.asEntity('User')}.py`,
+        },
+      ],
+    },
+    {
+      condition: generator => generator.isUsingBuiltInUser(),
+      path: SERVER_MAIN_SRC_DIR,
+      templates: [
+        {
+          file: 'package/domain/Authority.py',
+          renameTo: generator => `${generator.javaDir}domain/Authority.py`,
+        },
+      ],
+    },
+    {
+      condition: generator => generator.isUsingBuiltInUser(),
+      path: SERVER_MAIN_SRC_DIR,
+      templates: [
+        {
+          file: 'package/domain/__init__.py',
+          renameTo: generator => `${generator.javaDir}domain/__init__.py`,
         },
       ],
     },

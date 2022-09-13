@@ -16,13 +16,11 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
-from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import json
 from typing import List
 import jsonpickle
-
-db = SQLAlchemy()
+from . import db
 
 
 class <%= asEntity('User') %>(db.Model):
@@ -118,17 +116,23 @@ class <%= asEntity('User') %>(db.Model):
     @classmethod
     def get_by_id(cls, id) -> "User":
         user = cls.query.filter_by(id=id).first()
-        return jsonpickle.encode(user)
+        if user is not None:
+            return user.to_dict()
+        return dict({})
 
     @classmethod
     def get_by_email(cls, email) -> "User":
         user = cls.query.filter_by(email=email).first()
-        return jsonpickle.encode(user)
+        if user is not None:
+            return user.to_dict()
+        return dict({})
 
     @classmethod
     def get_by_login(cls, login) -> "User":
         user = cls.query.filter_by(login=login).first()
-        return jsonpickle.encode(user)
+        if user is not None:
+            return user.to_dict()
+        return dict({})
 
     @classmethod
     def get_all_users(cls) -> List["User"]:

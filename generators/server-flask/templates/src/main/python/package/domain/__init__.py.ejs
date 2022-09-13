@@ -16,28 +16,9 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
-from flask import Blueprint
-import logging
-from domain.User import User
 
-bp = Blueprint('public-user-resource', __name__, url_prefix='/api')
+import sys, os
+from flask_sqlalchemy import SQLAlchemy
 
-
-@bp.route("/users", methods=['GET'])
-def get_all_users():
-    logging.info('GET ALL /api/users')
-    users = User.get_all_users()
-    return users
-
-
-@bp.route("/users/<int:id>", methods=['GET'])
-def get_user_by_id(_id):
-    logging.info('GET ONE /api/users')
-    user = User.get_by_id(_id)
-    return user
-
-
-@bp.route("/authorities", methods=['GET'])
-def get_all_authorities():
-    logging.info('GET ALL /api/authorities')
-    return 'GET all /api/authorities'
+db = SQLAlchemy()
+sys.path.insert(0, os.path.abspath('..'))

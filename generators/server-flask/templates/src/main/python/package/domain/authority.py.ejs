@@ -16,11 +16,11 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
-from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import json
-
-db = SQLAlchemy()
+from typing import List
+import jsonpickle
+from . import db
 
 
 class <%= asEntity('Authority') %>(db.Model):
@@ -37,8 +37,9 @@ class <%= asEntity('Authority') %>(db.Model):
         return '<Authority %r>' % self.name
 
     @classmethod
-    def get_by_name(cls, name):
-        return cls.query.get_or_404(name)
+    def get_by_name(cls, name) -> List["<%= asEntity('Authority') %>"]:
+        user_list = cls.query.get_or_404(name)
+        return jsonpickle.encode(user_list)
 
     def to_dict(self):
         cls_dict = {'name': self.name}

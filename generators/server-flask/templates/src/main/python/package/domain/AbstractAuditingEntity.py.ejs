@@ -16,11 +16,10 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
-from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import json
+from . import db
 
-db = SQLAlchemy()
 
 class AbstractAuditingEntity(db.Model):
     created_by = db.Column(db.String(80), nullable=False)
@@ -31,7 +30,7 @@ class AbstractAuditingEntity(db.Model):
     def get_created_by(self):
         return self.created_by
 
-    def set_created_by(self, _created_date):
+    def set_created_by(self, _created_by):
         self.created_by = _created_by
 
     def get_created_date(self):
@@ -50,6 +49,6 @@ class AbstractAuditingEntity(db.Model):
         return self.last_modified_date
     
     def set_last_modified_date(self, _last_modified_date):
-        self.last_modified_date = last_modified_date
+        self.last_modified_date = _last_modified_date
     
     
