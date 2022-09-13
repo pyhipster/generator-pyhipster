@@ -426,10 +426,10 @@ const baseServerFiles = {
         // Thymeleaf templates
         { file: 'templates/error.html', method: 'copy' },
         // 'logback-spring.xml',
-        'config/application.yml',
-        'config/application-dev.yml',
+        // 'config/application.yml',
+        // 'config/application-dev.yml',
         'config/application-tls.yml',
-        'config/application-prod.yml',
+        // 'config/application-prod.yml',
         'i18n/messages.properties',
         // {
         //   file: 'config/base-config.py',
@@ -1396,10 +1396,10 @@ const baseServerFiles = {
     //     },
     //   ],
     // },
-    {
-      path: SERVER_TEST_RES_DIR,
-      templates: ['config/application.yml', 'logback.xml', 'junit-platform.properties'],
-    },
+    // {
+    //   path: SERVER_TEST_RES_DIR,
+    //   templates: ['config/application.yml', 'logback.xml', 'junit-platform.properties'],
+    // },
     {
       condition: generator => generator.databaseType === SQL && !generator.reactive,
       path: SERVER_TEST_RES_DIR,
