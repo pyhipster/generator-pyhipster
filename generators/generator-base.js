@@ -2860,6 +2860,7 @@ templates: ${JSON.stringify(existingTemplates, null, 2)}`;
     dest.authenticationType = config.authenticationType;
     dest.rememberMeKey = config.rememberMeKey;
     dest.jwtSecretKey = config.jwtSecretKey;
+    dest.flaskSecret = config.flaskSecret;
   }
 
   loadDerivedMicroserviceAppConfig(dest = this) {

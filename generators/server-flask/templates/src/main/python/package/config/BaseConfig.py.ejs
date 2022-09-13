@@ -27,7 +27,7 @@ class BaseConfig:
     #Flask 
     FLASK_ENV = 'development'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SECRET_KEY = '<%= jwtSecretKey %>'
+    SECRET_KEY = '<%= flaskSecret %>'
     JWT_SECRET_KEY = '<%= jwtSecretKey %>'
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=1)
     
