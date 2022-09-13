@@ -1012,6 +1012,15 @@ const baseServerFiles = {
         },
       ],
     },
+    {
+      path: SERVER_MAIN_SRC_DIR,
+      templates: [
+        {
+          file: generator => `package/config/__init__.py`,
+          renameTo: generator => `${generator.javaDir}config/__init__.py`,
+        },
+      ],
+    },
     // {
     //   condition: generator => generator.databaseType === SQL,
     //   path: SERVER_MAIN_SRC_DIR,
