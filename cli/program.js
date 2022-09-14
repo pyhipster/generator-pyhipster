@@ -26,16 +26,18 @@ const path = require('path');
 const EnvironmentBuilder = require('./environment-builder');
 const SUB_GENERATORS = require('./commands');
 const JHipsterCommand = require('./jhipster-command');
+const PyHipsterCommand = require('./pyhipster-command');
 const { CLI_NAME, logger, getCommand, done } = require('./utils');
-const { version: JHIPSTER_VERSION } = require('../package.json');
+const { version: PYHIPSTER_VERSION } = require('../package.json');
 const { packageNameToNamespace } = require('../generators/utils');
 const { logo } = require('../lib/constants/logo.cjs');
 
 const JHIPSTER_NS = CLI_NAME;
+const PYHIPSTER_NS = CLI_NAME;
 
 const moreInfo = `\n  For more info visit ${chalk.blue('https://www.jhipster.tech')}\n`;
 
-const printJHipsterLogo = () => {
+const printPyHipsterLogo = () => {
   // eslint-disable-next-line no-console
   console.log();
   // eslint-disable-next-line no-console
@@ -44,10 +46,10 @@ const printJHipsterLogo = () => {
 
 const createProgram = ({ executableName = CLI_NAME, executableVersion } = {}) => {
   return (
-    new JHipsterCommand()
+    new PyHipsterCommand()
       .name(executableName)
       .storeOptionsAsProperties(false)
-      .version(executableVersion ? `${executableVersion} (generator-jhipster ${JHIPSTER_VERSION})` : JHIPSTER_VERSION)
+      .version(executableVersion ? `${executableVersion} (generator-pyhipster ${PYHIPSTER_VERSION})` : PYHIPSTER_VERSION)
       .addHelpText('after', moreInfo)
       // JHipster common options
       .option(
@@ -99,7 +101,7 @@ const buildCommands = ({
   env,
   loadCommand,
   defaultCommand = 'app',
-  printLogo = printJHipsterLogo,
+  printLogo = printPyHipsterLogo,
   printBlueprintLogo = () => {},
 }) => {
   /* create commands */
@@ -122,7 +124,7 @@ const buildCommands = ({
           command.usage(`${operands} [options]`);
           operands = Array.isArray(operands) ? operands : [operands];
           command.generatorNamespaces = operands.map(
-            namespace => `${namespace.startsWith(JHIPSTER_NS) ? '' : `${JHIPSTER_NS}-`}${namespace}`
+            namespace => `${namespace.startsWith(PYHIPSTER_NS) ? '' : `${PYHIPSTER_NS}-`}${namespace}`
           );
           envBuilder.lookupGenerators(command.generatorNamespaces.map(namespace => `generator-${namespace.split(':')[0]}`));
           await Promise.all(
@@ -147,7 +149,7 @@ const buildCommands = ({
             // Register jhipster upstream options.
             if (cmdName !== 'jdl') {
               const helpOptions = { options: { help: true } };
-              const generator = await env.create(`${JHIPSTER_NS}:${cmdName}`, helpOptions);
+              const generator = await env.create(`${PYHIPSTER_NS}:${cmdName}`, helpOptions);
               command.addGeneratorArguments(generator._arguments).addGeneratorOptions(generator._options);
 
               const addDependenciesOptions = newDependencies =>
@@ -155,7 +157,7 @@ const buildCommands = ({
                   newDependencies.map(async dependency => {
                     if (dependencies.includes(dependency)) return undefined;
                     dependencies.push(dependency);
-                    const dependecyGenerator = await env.create(`${JHIPSTER_NS}:${dependency}`, helpOptions);
+                    const dependecyGenerator = await env.create(`${PYHIPSTER_NS}:${dependency}`, helpOptions);
                     command.addGeneratorOptions(dependecyGenerator._options);
                     return addDependenciesOptions(await dependecyGenerator.getPossibleDependencies());
                   })
@@ -168,10 +170,10 @@ const buildCommands = ({
               }
             }
             if (cmdName === 'jdl' || program.opts().fromJdl) {
-              const appGenerator = await env.create(`${JHIPSTER_NS}:app`, { options: { help: true } });
+              const appGenerator = await env.create(`${PYHIPSTER_NS}:app`, { options: { help: true } });
               command.addGeneratorOptions(appGenerator._options, chalk.gray(' (application)'));
 
-              const workspacesGenerator = await env.create(`${JHIPSTER_NS}:workspaces`, { options: { help: true } });
+              const workspacesGenerator = await env.create(`${PYHIPSTER_NS}:workspaces`, { options: { help: true } });
               command.addGeneratorOptions(workspacesGenerator._options, chalk.gray(' (workspaces)'));
             }
 
@@ -215,7 +217,7 @@ const buildCommands = ({
         };
         if (options.installPath) {
           // eslint-disable-next-line no-console
-          console.log(`Using jhipster at ${path.dirname(__dirname)}`);
+          console.log(`Using pyhipster at ${path.dirname(__dirname)}`);
           return undefined;
         }
 
@@ -226,7 +228,7 @@ const buildCommands = ({
           logger.debug('Executing CLI only script');
           return loadCommand(cmdName)(args, options, env, envBuilder);
         }
-        await env.composeWith('jhipster:bootstrap', options);
+        await env.composeWith('pyhipster:bootstrap', options);
 
         if (cmdName === 'run') {
           return Promise.all(command.generatorNamespaces.map(generator => env.run(generator, options))).then(
@@ -234,14 +236,14 @@ const buildCommands = ({
             errors => done(errors.find(error => error))
           );
         }
-        const namespace = blueprint ? `${packageNameToNamespace(blueprint)}:${cmdName}` : `${JHIPSTER_NS}:${cmdName}`;
+        const namespace = blueprint ? `${packageNameToNamespace(blueprint)}:${cmdName}` : `${PYHIPSTER_NS}:${cmdName}`;
         const generatorCommand = getCommand(namespace, args, opts);
         return env.run(generatorCommand, options).then(done, done);
       });
   });
 };
 
-const buildJHipster = ({
+const buildPyHipster = ({
   executableName,
   executableVersion,
   program = createProgram({ executableName, executableVersion }),
@@ -264,17 +266,17 @@ const buildJHipster = ({
   return program;
 };
 
-const runJHipster = (args = {}) => {
+const runPyHipster = (args = {}) => {
   const { argv = process.argv } = args;
-  return buildJHipster(args).parseAsync(argv);
+  return buildPyHipster(args).parseAsync(argv);
 };
 
 module.exports = {
   createProgram,
   buildCommands,
-  buildJHipster,
-  runJHipster,
-  printJHipsterLogo,
+  buildPyHipster,
+  runPyHipster,
+  printPyHipsterLogo,
   done,
   logger,
 };

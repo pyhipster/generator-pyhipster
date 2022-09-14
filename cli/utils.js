@@ -20,11 +20,11 @@
 const chalk = require('chalk');
 const _ = require('lodash');
 
-const CLI_NAME = 'jhipster';
-const GENERATOR_NAME = 'generator-jhipster';
+const CLI_NAME = 'pyhipster';
+const GENERATOR_NAME = 'generator-phipster';
 
-const SUCCESS_MESSAGE = 'Congratulations, JHipster execution is complete!';
-const SPONSOR_MESSAGE = 'Sponsored with ❤️  by @oktadev.';
+const SUCCESS_MESSAGE = 'Congratulations, PyHipster execution is complete!';
+const SPONSOR_MESSAGE = 'Show us some ❤️  by sponsoring us.';
 
 const debug = function (msg) {
   if (this.debugEnabled) {
@@ -146,7 +146,7 @@ const printSuccess = () => {
     logger.log(chalk.green.bold(SUCCESS_MESSAGE));
     logger.log(chalk.cyan.bold(SPONSOR_MESSAGE));
   } else {
-    logger.error(`ERROR! JHipster finished with code ${process.exitCode}`);
+    logger.error(`ERROR! PyHipster finished with code ${process.exitCode}`);
   }
 };
 

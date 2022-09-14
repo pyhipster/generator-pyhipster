@@ -1,15 +1,12 @@
 {
-  "name": "generator-jhipster",
-  "version": "7.8.1",
-  "description": "Spring Boot + Angular/React/Vue in one handy generator",
+  "name": "generator-pyhipster",
+  "version": "0.0.1",
+  "description": "Python (Flask) + Angular/React/Vue in one handy generator",
   "keywords": [
     "yeoman-generator",
-    "Java",
-    "Spring",
-    "Spring Boot",
-    "Spring Security",
-    "JPA",
-    "Hibernate",
+    "Python",
+    "Flask Security",
+    "SQLAlchemy",
     "React",
     "Angular",
     "Vue",
@@ -53,7 +50,7 @@
   },
   "main": "lib/index.js",
   "bin": {
-    "jhipster": "cli/jhipster.js"
+    "pyhipster": "cli/pyhipster.js"
   },
   "files": [
     "cli",
@@ -66,7 +63,7 @@
     "!**/*.spec.?(c|m)js"
   ],
   "scripts": {
-    "completion": "tabtab install --name jhipster --auto",
+    "completion": "tabtab install --name pyhipster --auto",
     "ejs-lint": "mocha test/ejslint.js",
     "ejslint": "ejslint",
     "eslint": "eslint . --ext .js,.cjs,.mjs",

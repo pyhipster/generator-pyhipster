@@ -74,7 +74,7 @@ const GENERATOR_JHIPSTER = 'generator-jhipster';
 
 const SERVER_MAIN_RES_DIR = constants.SERVER_MAIN_RES_DIR;
 
-const { ORACLE, MYSQL, POSTGRESQL, MARIADB, MSSQL, SQL, MONGODB, COUCHBASE, NEO4J, CASSANDRA, H2_MEMORY, H2_DISK } = databaseTypes;
+const { ORACLE, MYSQL, POSTGRESQL, MARIADB, MSSQL, SQL, MONGODB, COUCHBASE, NEO4J, CASSANDRA, H2_MEMORY, H2_DISK, SQLITE_DISK, SQLITE_MEMORY } = databaseTypes;
 const NO_DATABASE = databaseTypes.NO;
 
 const { GENERATOR_BOOTSTRAP } = require('./generator-list');
@@ -821,6 +821,11 @@ module.exports = class JHipsterBaseGenerator extends PrivateBase {
     this.needleApi.serverCache.addEntityToCache(entityClass, relationships, packageName, packageFolder, cacheProvider);
   }
 
+  addEntitiesToAPIList(entityClass) {
+    console.log(`Running function addEntitiesToAPIList to utilize needle API for entity ${entityClass}.`);
+    this.needleApi.serverEntities.addEntitiesToAPIList(entityClass);
+  }
+
   /**
    * Add a new entry to the chosen cache provider in CacheConfiguration.java
    *
@@ -1538,7 +1543,7 @@ module.exports = class JHipsterBaseGenerator extends PrivateBase {
    */
   composeWithJHipster(generator, args, options, once = false) {
     assert(typeof generator === 'string', 'generator should to be a string');
-    const namespace = generator.includes(':') ? generator : `jhipster:${generator}`;
+    const namespace = generator.includes(':') ? generator : `pyhipster:${generator}`;
     let immediately = false;
     if (typeof once === 'object') {
       immediately = once.immediately;
@@ -2785,7 +2790,7 @@ templates: ${JSON.stringify(existingTemplates, null, 2)}`;
     dest.isDebugEnabled = config.isDebugEnabled;
     dest.experimental = config.experimental;
     dest.logo = config.logo;
-    config.backendName = config.backendName || 'Java';
+    config.backendName = config.backendName || 'Python';
     dest.backendName = config.backendName;
 
     config.nodeDependencies = config.nodeDependencies || {
@@ -2855,6 +2860,7 @@ templates: ${JSON.stringify(existingTemplates, null, 2)}`;
     dest.authenticationType = config.authenticationType;
     dest.rememberMeKey = config.rememberMeKey;
     dest.jwtSecretKey = config.jwtSecretKey;
+    dest.flaskSecret = config.flaskSecret;
   }
 
   loadDerivedMicroserviceAppConfig(dest = this) {
@@ -3012,6 +3018,9 @@ templates: ${JSON.stringify(existingTemplates, null, 2)}`;
     dest.devDatabaseTypeH2Disk = dest.devDatabaseType === H2_DISK;
     dest.devDatabaseTypeH2Memory = dest.devDatabaseType === H2_MEMORY;
     dest.devDatabaseTypeH2Any = dest.devDatabaseTypeH2Disk || dest.devDatabaseTypeH2Memory;
+    dest.devDatabaseTypeSQLiteDisk = dest.devDatabaseType === SQLITE_DISK;
+    dest.devDatabaseTypeSQLiteMemory = dest.devDatabaseType === SQLITE_MEMORY;
+    dest.devDatabaseTypeSQLiteAny = dest.devDatabaseTypeSQLiteDisk || dest.devDatabaseTypeSQLiteMemory;
     dest.devDatabaseTypeCouchbase = dest.devDatabaseType === COUCHBASE;
     dest.devDatabaseTypeMariadb = dest.devDatabaseType === MARIADB;
     dest.devDatabaseTypeMssql = dest.devDatabaseType === MSSQL;

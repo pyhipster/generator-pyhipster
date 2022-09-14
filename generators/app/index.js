@@ -50,6 +50,7 @@ const {
   GENERATOR_CLIENT,
   GENERATOR_PAGE,
   GENERATOR_SERVER,
+  GENERATOR_SERVER_FLASK,
 } = require('../generator-list');
 
 module.exports = class JHipsterAppGenerator extends BaseBlueprintGenerator {
@@ -428,7 +429,7 @@ module.exports = class JHipsterAppGenerator extends BaseBlueprintGenerator {
       async compose() {
         await this.composeWithJHipster(GENERATOR_COMMON, true);
         if (!this.jhipsterConfig.skipServer) {
-          await this.composeWithJHipster(GENERATOR_SERVER, true);
+          await this.composeWithJHipster(GENERATOR_SERVER_FLASK, true);
         }
         if (!this.jhipsterConfig.skipClient) {
           await this.composeWithJHipster(GENERATOR_CLIENT, true);
@@ -573,7 +574,7 @@ module.exports = class JHipsterAppGenerator extends BaseBlueprintGenerator {
         }
         this.log(
           chalk.green(
-            `\nIf you find JHipster useful consider sponsoring the project ${chalk.yellow('https://www.jhipster.tech/sponsors/')}`
+            `\nIf you find PyHipster useful consider sponsoring the project ${chalk.yellow('https://github.com/sudeephazra/generator-pyhipster')}`
           )
         );
       },

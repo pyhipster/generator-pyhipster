@@ -22,6 +22,8 @@ const Types = {
   EHCACHE: 'ehcache',
   HAZELCAST: 'hazelcast',
   INFINISPAN: 'infinispan',
+  SIMPLE_CACHE: 'simplecache',
+  FILESYSTEM_CACHE: 'filesystemcache',
   MEMCACHED: 'memcached',
   REDIS: 'redis',
   NO: 'no',
