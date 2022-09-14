@@ -20,9 +20,13 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import json
 from enum import Enum
+from typing import List
 <%_ Object.keys(uniqueEnums).forEach(function(element) { _%>
-from domain.enumeration.<%= element %> import <%= element %>
+from .enumeration.<%= element %> import <%= element %>
 <%_ }); _%>
+<%_ for (const otherEntity of otherEntities.filter(otherEntity => otherEntity.entityClass !== persistClass)) { _%>
+from . import <%= otherEntity.entityClass %>
+<%_ } _%>
 <% 
     const javaFieldMapping = {
         "Long": "Integer",
@@ -41,17 +45,34 @@ db = SQLAlchemy()
 class <%= persistClass %>(db.Model):
     __tablename__ = "<%= persistClass %>"
     <%_ if (!embedded && primaryKey) { _%>
-    <%= primaryKey.name %> = db.Column(db.<%= javaFieldMapping[primaryKey.type] %>, primary_key = True)
+    <%= primaryKey.name %> = db.Column(db.<%= javaFieldMapping[primaryKey.type] %>, primary_key=True)
     <%_ } _%>
     <%_ for (const field of fields.filter(field => !field.transient && !field.id && !field.fieldIsEnum)) { _%>
-    <%= field.fieldName %> = db.Column(db.<%= javaFieldMapping[field.javaFieldType] || field.javaFieldType %><% if (field.fieldValidationRequired) { %>, nullable = False<% } %><% if (field.fieldValidationUnique) { %>, unique = True<% } %>)
+    <%= field.fieldName %> = db.Column(db.<%= javaFieldMapping[field.javaFieldType] || field.javaFieldType %><% if (field.fieldValidationRequired) { %>, nullable=False<% } %><% if (field.fieldValidationUnique) { %>, unique=True<% } %>)
     <%_ } _%>
     <%_ for (const field of fields.filter(field => !field.transient && field.fieldIsEnum)) { _%>
-    <%= field.fieldName %> = db.Enum(<%= field.javaFieldType %><% if (field.fieldValidationRequired) { %>, nullable = False<% } %><% if (field.fieldValidationUnique) { %>, unique = True<% } %>)
+    <%= field.fieldName %> = db.Enum(<%= field.javaFieldType %><% if (field.fieldValidationRequired) { %>, nullable=False<% } %><% if (field.fieldValidationUnique) { %>, unique=True<% } %>)
     <%_ } _%>
 
-    # FIXME: Add relationships
+    @classmethod
+    def find_by_<%= primaryKey.name %>(cls, _<%= primaryKey.name %>) -> "<%= persistClass %>":
+        return cls.query.filter_by(<%= primaryKey.name %>=_<%= primaryKey.name %>).first()
+
+    @classmethod
+    def find_all(cls) -> List["<%= persistClass %>"]:
+        return cls.query.all()
     
+    def save_to_db(self) -> None:
+        db.session.add(self)
+        db.session.commmit()
+
+    def delete_from_db(self) -> None:
+        db.session.delete(self)
+        db.session.commit()
+
+    # FIXME: Add relationships
+
+
     # Getters and setters
     <%_ for (const field of fields.filter(field => !field.transient && (embedded || !field.id || !primaryKey.composite))) { _%>
     def get_<%= _.replace(_.lowerCase(field.fieldInJavaBeanMethod), ' ', '_') %>(self):
@@ -69,7 +90,7 @@ class <%= persistClass %>(db.Model):
         <%_ } _%>
         <%_ for (const field of fields.filter(field => !field.id && !field.transient)) {
         const isNumeric = field.fieldTypeNumeric; _%>
-                    ", <%= field.fieldName %>=<% if (! isNumeric) { %>'<% } %>" + <% if ( !field.fieldTypeString ) { %>{self.<%= field.fieldName %>}<% } else { %>{self.<%= field.fieldName %>}<% } %><% if (! isNumeric) { %> + "'" <% } %> + \
+                    ", <%= field.fieldName %>=<% if (! isNumeric) { %>'<% } %>" + <% if ( !field.fieldTypeString ) { %>{self.<%= field.fieldName %>}<% } else { %>{self.<%= field.fieldName %>}<% } %><% if (! isNumeric) { %> + "'" <% } %>+ \
         <%_ if (field.fieldWithContentType) { _%>
                     ", <%= field.fieldName %>ContentType='" + self.<%= field.fieldName %>ContentType + "'" + \
         <%_ } _%>
@@ -92,7 +113,7 @@ class <%= persistClass %>(db.Model):
         <%_ } _%>
         <%_ for (const field of fields.filter(field => !field.id && !field.transient)) {
         const isNumeric = field.fieldTypeNumeric; _%>
-                    ", <%= field.fieldName %>=<% if (! isNumeric) { %>'<% } %>" + <% if ( !field.fieldTypeString ) { %>str(self.<%= field.fieldName %>)<% } else { %>self.<%= field.fieldName %><% } %><% if (! isNumeric) { %>+ "'" <% } %> + \
+                    ", <%= field.fieldName %>=<% if (! isNumeric) { %>'<% } %>" + <% if ( !field.fieldTypeString ) { %>str(self.<%= field.fieldName %>)<% } else { %>self.<%= field.fieldName %><% } %><% if (! isNumeric) { %> + "'" <% } %>+ \
         <%_ if (field.fieldWithContentType) { _%>
                     ", <%= field.fieldName %>ContentType='" + self.<%= field.fieldName %>ContentType + "'" + \
         <%_ } _%>
