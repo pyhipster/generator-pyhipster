@@ -16,8 +16,9 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
-from flask import Blueprint
+from flask import Blueprint, make_response
 import logging
+import jsonify
 <%_
 const instanceName = restInstance;
 const entityLowercase = _.lowerCase(entityClass);
@@ -103,8 +104,16 @@ def partial_update_<%= entityMethod %>(<%= primaryKey.name %>):
 @jwt_required
 @bp.route("/<%= entityApiUrl %>", methods=['GET'])
 def get_all_<%= entityMethod %>():
-    logging.info('GET ALL /api/<%= entityApiUrl %>')
-    return 'GET ALL <%= entityApiUrl %>'
+    logging.info("Received request at /api/<%= entityApiUrl %> to GET all <%= entityMethod %>")
+    <%= entityMethod %> = None
+    try:
+        <%= entityMethod %> = <%= entityClass %>.find_all()
+    except Exception as ex:
+        logging.error("Unable to find <%= entityClass %>. {}", ex.message)
+        make_response({"Unable to find <%= entityClass %>"}, 500)
+    if <%= entityMethod %> is None:
+        make_response({"<%= entityClass %> not found"}, 204)
+    return make_response(jsonify(<%= entityMethod %>), 200)
 
 
 ###
@@ -116,9 +125,16 @@ def get_all_<%= entityMethod %>():
 @jwt_required
 @bp.route("/<%= entityApiUrl %>/<int:<%= primaryKey.name %>>", methods=['GET'])
 def get_<%= entityMethod %>(<%= primaryKey.name %>):
-    logging.info('GET /api/<%= entityApiUrl %>')
-    return 'GET <%= entityApiUrl %>'
-
+    logging.info("Received request at /api/<%= entityApiUrl %> to GET <%= instanceName %> with <%= primaryKey.name %> {}", <%= primaryKey.name %>)
+    <%= instanceName %> = None
+    try:
+        <%= instanceName %> = <%= entityClass %>.find_by_<%= primaryKey.name %>(<%= primaryKey.name %>)
+    except Exception as ex:
+        logging.error("Unable to find <%= entityClass %> {}. {}", <%= instanceName %>.get_<%= primaryKey.name %>(), ex.message)
+        make_response({"Unable to find <%= entityClass %>"}, 500)
+    if <%= instanceName %> is None:
+        make_response({"<%= entityClass %> not found"}, 204)
+    return make_response(jsonify(<%= entityClass %>), 200)
 
 
 ###
@@ -130,5 +146,18 @@ def get_<%= entityMethod %>(<%= primaryKey.name %>):
 @jwt_required
 @bp.route("/<%= entityApiUrl %>/<int:<%= primaryKey.name %>>", methods=['DELETE'])
 def delete_<%= entityMethod %>(<%= primaryKey.name %>):
-    logging.info('DELETE /api/<%= entityApiUrl %>')
-    return 'DELETE <%= entityApiUrl %>'
+    logging.info("Received request at /api/<%= entityApiUrl %> to DELETE <%= instanceName %> with <%= primaryKey.name %> {}", <%= primaryKey.name %>)
+    <%= instanceName %> = None
+    try:
+        <%= instanceName %> = <%= entityClass %>.find_by_<%= primaryKey.name %>(<%= primaryKey.name %>)
+    except Exception as ex:
+        logging.error("Unable to find <%= entityClass %> {}. {}", <%= instanceName %>.get_<%= primaryKey.name %>(), ex.message)
+        make_response({"Unable to find <%= entityClass %>"}, 500)
+    if <%= instanceName %> is None:
+        make_response({"<%= entityClass %> not found"}, 204)
+    try:
+        <%= instanceName %>.delete_from_db()
+    except Exception as ex:
+        logging.error("Unable to delete <%= entityClass %> {}. {}", <%= instanceName %>.get_<%= primaryKey.name %>(), ex.message)
+        make_response({"Unable to delete <%= entityClass %>"}, 500)
+    return make_response({"<%= entityClass %> deleted"}, 200)
