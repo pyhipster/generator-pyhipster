@@ -1109,6 +1109,26 @@ const baseServerFiles = {
       ],
     },
   ],
+  serverPythonSchema : [
+    {
+      condition: generator => [SQL, MONGODB, NEO4J, COUCHBASE].includes(generator.databaseType),
+      path: SERVER_MAIN_SRC_DIR,
+      templates: [
+        {
+          file: 'package/schema/__init__.py',
+          renameTo: generator => `${generator.javaDir}schema/__init__.py`,
+        },
+        {
+          file: 'package/schema/User.py',
+          renameTo: generator => `${generator.javaDir}schema/User.py`,
+        },
+        {
+          file: 'package/schema/Authority.py',
+          renameTo: generator => `${generator.javaDir}schema/Authority.py`,
+        },
+      ],
+    },
+  ],
   serverJavaPackageInfo: [
     // {
     //   condition: generator => generator.searchEngine === ELASTICSEARCH,
