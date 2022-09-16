@@ -20,12 +20,16 @@ from datetime import datetime
 import json
 from typing import List
 import jsonpickle
-from . import db
+from DatabaseConfig import db
 
 
 class <%= asEntity('Authority') %>(db.Model):
     __tablename__ = "<%= jhiTablePrefix %>_authority"
     name = db.Column(db.String(80), primary_key=True)
+
+    def __init__(self, **kwargs):
+        for key, value in kwargs.items():
+            self.key = value
 
     def get_name(self):
         return self.name

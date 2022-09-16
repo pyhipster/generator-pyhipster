@@ -20,7 +20,7 @@ from datetime import datetime
 import json
 from typing import List
 import jsonpickle
-from . import db
+from DatabaseConfig import db
 
 
 class <%= asEntity('User') %>(db.Model):
@@ -37,6 +37,10 @@ class <%= asEntity('User') %>(db.Model):
     activationKey = db.Column(db.String(80), nullable=True)
     resetKey = db.Column(db.String(80), nullable=True)
     resetDate = db.Column(db.DateTime, nullable=False)
+
+    def __init__(self, **kwargs):
+        for key, value in kwargs.items():
+            self.key = value
 
     def set_id(self, _id):
         self.id = _id
