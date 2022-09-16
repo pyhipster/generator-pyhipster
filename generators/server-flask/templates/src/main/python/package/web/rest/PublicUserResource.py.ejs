@@ -31,9 +31,9 @@ def get_all_users():
 
 
 @bp.route("/users/<int:id>", methods=['GET'])
-def get_user_by_id(_id):
+def get_user_by_id(id):
     logging.info('GET ONE /api/users')
-    user = User.get_by_id(_id)
+    user = User.get_by_id(id)
     return user
 
 
