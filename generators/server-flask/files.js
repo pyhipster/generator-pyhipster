@@ -841,6 +841,14 @@ const baseServerFiles = {
     },
     {
       path: SERVER_MAIN_SRC_DIR,
+      templates: [{ file: 'package/WebSerializer.py', renameTo: generator => `${generator.javaDir}WebSerializer.py` }],
+    },
+    {
+      path: SERVER_MAIN_SRC_DIR,
+      templates: [{ file: 'package/DatabaseConfig.py', renameTo: generator => `${generator.javaDir}DatabaseConfig.py` }],
+    },
+    {
+      path: SERVER_MAIN_SRC_DIR,
       templates: [{ file: 'package/__init__.py', renameTo: generator => `${generator.javaDir}__init__.py` }],
     },
     {
