@@ -17,10 +17,21 @@
  limitations under the License.
 -%>
 
-from flask import Flask, render_template
-from rest import create_app
+from flask import Flask, Blueprint
+from flask_restx import Api
+
+from rest import register_blueprints_for_app
+from config.BaseConfig import BaseConfig
+from DatabaseConfig import db
+from WebSerializer import ma
+
+app = Flask(__name__)
+bluePrint = Blueprint('api', __name__, url_prefix='/api')
+api = Api(bluePrint, doc='/v2/api-docs', title='<%= mainClass %> Application')
+app.register_blueprint(bluePrint)
+
+app = register_blueprints_for_app(app)
 
 
 if __name__ == '__main__':
-    app = create_app()
-    app.run(debug = True, port=<%= serverPort %>)
+    app.run(debug=True, port=<%= serverPort %>)
