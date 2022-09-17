@@ -17,32 +17,20 @@
  limitations under the License.
 -%>
 
-# import os, logging, sys
-# from flask import Flask
-# from config.BaseConfig import BaseConfig
+import logging
 
 
-# sys.path.insert(0, os.path.abspath('..'))
-
-
-def register_blueprints_for_app(app):
-    # app = Flask(__name__,instance_relative_config=True)
-    # app.config.from_object(BaseConfig)
-    
-    # Configuring the datastore
-    # from domain import db, User, Authority
-    # pyhipster-needle-domain-add-entity-import
-    # db.init_app(app)
-
+def register_resource_blueprints(app):
     # Configuring the endpoints
     from . import AccountResource, UserResource, UserJWTController, PublicUserResource
     # pyhipster-needle-rest-api-list-add-entry-import
 
     logging.basicConfig(level=logging.DEBUG)
-    # apply the blueprints to the app
+    # Apply the Resource Blueprints to the app
     app.register_blueprint(AccountResource.bp)
     app.register_blueprint(UserResource.bp)
     app.register_blueprint(UserJWTController.bp)
     app.register_blueprint(PublicUserResource.bp)
     # pyhipster-needle-rest-api-list-add-entry
+    
     return app
