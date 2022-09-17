@@ -45,9 +45,18 @@ class <%= asEntity('Authority') %>(db.Model):
         user_list = cls.query.get_or_404(name)
         return jsonpickle.encode(user_list)
 
+    def save_to_db(self) -> None:
+        db.session.add(self)
+        db.session.commmit()
+
+    def delete_from_db(self) -> None:
+        db.session.delete(self)
+        db.session.commit()
+
     def to_dict(self):
         cls_dict = {'name': self.name}
         return cls_dict
 
     def to_json(self):
         return self.to_dict()
+        
