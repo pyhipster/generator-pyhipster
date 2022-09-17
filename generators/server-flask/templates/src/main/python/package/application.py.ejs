@@ -28,10 +28,12 @@ from WebSerializer import ma
 app = Flask(__name__)
 bluePrint = Blueprint('api', __name__, url_prefix='/api')
 api = Api(bluePrint, doc='/v2/api-docs', title='<%= mainClass %> Application')
-app.register_blueprint(bluePrint)
 
+app.register_blueprint(bluePrint)
+app.config.from_object(BaseConfig)
 app = register_blueprints_for_app(app)
 
-
 if __name__ == '__main__':
+    db.init_app(app)
+    ma.init_app(app)
     app.run(debug=True, port=<%= serverPort %>)
