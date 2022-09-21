@@ -152,7 +152,7 @@ class <%= asEntity('User') %>(db.Model):
         db.session.commit()
 
     def to_dict(self):
-        cls_dict = {'_id': self.id, 'login': self.login, 'email': self.email, 'firstName': self.firstName,
+        cls_dict = {'id': self.id, 'login': self.login, 'email': self.email, 'firstName': self.firstName,
                     'lastName': self.lastName, 'activated': self.activated, 'langKey': self.langKey,
                     'imageUrl': self.imageUrl}
         return cls_dict
