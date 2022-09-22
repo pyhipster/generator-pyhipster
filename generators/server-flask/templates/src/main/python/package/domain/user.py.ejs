@@ -141,7 +141,7 @@ class <%= asEntity('User') %>(db.Model):
     @classmethod
     def get_all_users(cls) -> List["User"]:
         user_list = cls.query.all()
-        return jsonpickle.encode(user_list)
+        return user_list
 
     def save_to_db(self) -> None:
         db.session.add(self)

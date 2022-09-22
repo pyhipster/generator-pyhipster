@@ -43,7 +43,7 @@ class <%= asEntity('Authority') %>(db.Model):
     @classmethod
     def get_by_name(cls, name) -> List["<%= asEntity('Authority') %>"]:
         user_list = cls.query.get_or_404(name)
-        return jsonpickle.encode(user_list)
+        return user_list
 
     def save_to_db(self) -> None:
         db.session.add(self)
@@ -59,4 +59,3 @@ class <%= asEntity('Authority') %>(db.Model):
 
     def to_json(self):
         return self.to_dict()
-        
