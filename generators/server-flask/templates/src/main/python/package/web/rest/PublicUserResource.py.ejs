@@ -16,28 +16,21 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
-from flask import Blueprint
-import logging
+from flask_restx import Resource, fields, Namespace
 from domain.User import User
-
-bp = Blueprint('public-user-resource', __name__, url_prefix='/api')
-
-
-@bp.route("/users", methods=['GET'])
-def get_all_users():
-    logging.info('GET ALL /api/users')
-    users = User.get_all_users()
-    return users
+from schema.User import PublicUserSchema
+from flask import request, jsonify
+import logging
 
 
-@bp.route("/users/<int:id>", methods=['GET'])
-def get_user_by_id(id):
-    logging.info('GET ONE /api/users')
-    user = User.get_by_id(id)
-    return user
+public_user_list_ns = Namespace('public-user-resource', description='Users related information that is available anonymously generally', path="/users")
+
+public_user_list_schema = PublicUserSchema(many=True)
 
 
-@bp.route("/authorities", methods=['GET'])
-def get_all_authorities():
-    logging.info('GET ALL /api/authorities')
-    return 'GET all /api/authorities'
+class PublicUserResourceList(Resource):
+    def get(self):
+        all_users = User.get_all_users()
+        return public_user_list_schema.dump(all_users), 200
+
+

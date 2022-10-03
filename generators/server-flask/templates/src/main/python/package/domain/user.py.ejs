@@ -16,27 +16,28 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
-from datetime import datetime
-import json
 from typing import List
-import jsonpickle
 from DatabaseConfig import db
 
 
 class <%= asEntity('User') %>(db.Model):
-    __tablename__ = "<%= user.entityTableName %>"
+    __tablename__ = "jhi_user"
     id = db.Column(db.Integer, primary_key=True)
-    login = db.Column(db.String(80), unique=True, nullable=False)
-    password = db.Column(db.String(80), nullable=False)
-    firstName = db.Column(db.String(80), nullable=False)
-    lastName = db.Column(db.String(80), nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
+    login = db.Column(db.String(50), unique=True, nullable=False)
+    password_hash = db.Column(db.String(60), nullable=False)
+    first_name = db.Column(db.String(50), nullable=False)
+    last_name = db.Column(db.String(50), nullable=False)
+    email = db.Column(db.String(191), unique=True, nullable=False)
     activated = db.Column(db.Boolean, nullable=False)
-    langKey = db.Column(db.String(80), nullable=False)
-    imageUrl = db.Column(db.String(80), nullable=True)
-    activationKey = db.Column(db.String(80), nullable=True)
-    resetKey = db.Column(db.String(80), nullable=True)
-    resetDate = db.Column(db.DateTime, nullable=False)
+    lang_key = db.Column(db.String(10), nullable=False)
+    image_url = db.Column(db.String(256), nullable=True)
+    activation_key = db.Column(db.String(20), nullable=True)
+    reset_key = db.Column(db.String(20), nullable=True)
+    created_by = db.Column(db.String(50), nullable=True)
+    created_date = db.Column(db.DateTime, nullable=True)
+    reset_date = db.Column(db.DateTime, nullable=True)
+    last_modified_by = db.Column(db.String(50), nullable=True)
+    last_modified_date = db.Column(db.DateTime, nullable=True)
 
     def __init__(self, **kwargs):
         for key, value in kwargs.items():
@@ -55,7 +56,7 @@ class <%= asEntity('User') %>(db.Model):
         return self.login
         
     def set_password(self, _password):
-        self.password = _password
+        self.passwordHash = _password
 
     def get_password(self):
         return self.password

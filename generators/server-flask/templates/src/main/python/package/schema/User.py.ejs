@@ -26,9 +26,10 @@ class PublicUserSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = User
         load_instance = True
-        load_only = ("authority",)
-        include_fk = True
-        exclude = ("password", "activationKey", "resetKey")
+        # load_only = ("authority",)
+        # include_fk = True
+        exclude = ("password_hash", "activated", "lang_key", "image_url", "reset_key", "activation_key", "reset_key",
+                   "created_by", "created_date", "reset_date", "last_modified_by", "last_modified_date")
 
 
 class UserLoginSchema(ma.SQLAlchemyAutoSchema):
