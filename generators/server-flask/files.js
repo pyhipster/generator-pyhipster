@@ -1134,6 +1134,10 @@ const baseServerFiles = {
           file: 'package/schema/Authority.py',
           renameTo: generator => `${generator.javaDir}schema/Authority.py`,
         },
+        {
+          file: 'package/web/rest/AuthorityResource.py',
+          renameTo: generator => `${generator.javaDir}rest/AuthorityResource.py`,
+        },
       ],
     },
   ],

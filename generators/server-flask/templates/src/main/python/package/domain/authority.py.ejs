@@ -16,10 +16,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
-from datetime import datetime
-import json
 from typing import List
-import jsonpickle
 from DatabaseConfig import db
 
 
@@ -41,9 +38,14 @@ class <%= asEntity('Authority') %>(db.Model):
         return '<Authority %r>' % self.name
 
     @classmethod
-    def get_by_name(cls, name) -> List["<%= asEntity('Authority') %>"]:
-        user_list = cls.query.get_or_404(name)
-        return user_list
+    def get_by_name(cls, name) -> "Authority":
+        authority = cls.query.filter_by(name=name).first() 
+        return authority
+
+    @classmethod
+    def get_all_authorities(cls) -> List["Authority"]:
+        authorities = cls.query.all()
+        return authorities
 
     def save_to_db(self) -> None:
         db.session.add(self)
