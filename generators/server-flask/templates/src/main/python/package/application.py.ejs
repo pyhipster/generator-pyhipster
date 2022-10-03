@@ -20,7 +20,7 @@
 from flask import Flask, Blueprint
 from flask_restx import Api
 
-from rest import register_resource_blueprints
+from rest import add_api_namespace, register_resource_blueprints
 from config.BaseConfig import BaseConfig
 from DatabaseConfig import db
 from WebSerializer import ma
@@ -31,7 +31,15 @@ api = Api(bluePrint, doc='/v2/api-docs', title='<%= mainClass %> Application')
 
 app.register_blueprint(bluePrint)
 app.config.from_object(BaseConfig)
-app = register_resource_blueprints(app)
+
+api = add_api_namespace(api)
+# app = register_resource_blueprints(app)
+
+
+@app.before_first_request
+def create_tables():
+    db.create_all()
+
 
 if __name__ == '__main__':
     db.init_app(app)

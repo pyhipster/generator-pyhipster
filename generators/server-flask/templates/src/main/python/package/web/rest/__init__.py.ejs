@@ -18,19 +18,36 @@
 -%>
 
 import logging
+from .PublicUserResource import public_user_list_ns
+from .AuthorityResource import authority_list_ns
+
+
+def add_api_namespace(api):
+    api.add_namespace(public_user_list_ns)
+    api.add_namespace(authority_list_ns)
+
+    # pyhipster-needle-rest-api-list-add-namespaces
+
+    public_user_list_ns.add_resource(PublicUserResource.PublicUserResourceList, "")
+    authority_list_ns.add_resource(AuthorityResource.AuthorityResourceList, "")
+    # pyhipster-needle-rest-api-list-add-entry
+
+    return api
 
 
 def register_resource_blueprints(app):
     # Configuring the endpoints
-    from . import AccountResource, UserResource, UserJWTController, PublicUserResource
+    # from . import AccountResource, UserResource, UserJWTController, PublicUserResource
     # pyhipster-needle-rest-api-list-add-entry-import
 
-    logging.basicConfig(level=logging.DEBUG)
-    # Apply the Resource Blueprints to the app
-    app.register_blueprint(AccountResource.bp)
-    app.register_blueprint(UserResource.bp)
-    app.register_blueprint(UserJWTController.bp)
-    app.register_blueprint(PublicUserResource.bp)
+    # logging.basicConfig(level=logging.DEBUG)
+    # apply the blueprints to the app
+    # app.register_blueprint(AccountResource.bp)
+    # app.register_blueprint(UserResource.bp)
+    # app.register_blueprint(UserJWTController.bp)
+
+    # public_user_list_ns.add_resource(PublicUserResource.PublicUserResourceList, "")
+    # authority_list_ns.add_resource(AuthorityResource.AuthorityResourceList, "")
     # pyhipster-needle-rest-api-list-add-entry
-    
     return app
+
