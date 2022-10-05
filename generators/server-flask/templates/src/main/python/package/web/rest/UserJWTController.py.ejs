@@ -16,14 +16,13 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
-from flask import Blueprint
+from flask_restx import Namespace, Resource
 import logging
 
 
-bp = Blueprint('user-jwt-controller', __name__, url_prefix='/api')
+jwt_authentication_ns = Namespace('user-jwt-controller', path="/authenticate")
 
 
-@bp.route("/authenticate", methods=['POST'])
-def authorize():
-    logging.info('POST /api/authenticate')
-    return 'POST /api/authenticate'
+class UserJWTResource(Resource):
+    def post(self):
+        logging.info("GET request received on UserJWTResource")

@@ -16,57 +16,65 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
-from flask import Blueprint
+from flask_restx import Resource, fields, Namespace
 import logging
 
 
-bp = Blueprint('account-resource', __name__, url_prefix='/api')
+account_register_ns = Namespace('account-resource', path="/register")
 
 
-@bp.route("/register", methods=['POST'])
-def register():
-    logging.info('GET ALL /api/register')
-    return 'GET all /api/register'
+class AccountRegisterResource(Resource):
+    def post(self):
+        logging.info("POST request received on AccountRegisterResource")
 
 
-@bp.route("/authenticate", methods=['GET'])
-def authenticate():
-    logging.info('GET ALL /api/authenticate')
-    return 'GET all /api/authenticate'
+account_authenticate_ns = Namespace('account-resource', path="/authenticate")
 
 
-@bp.route("/account", methods=['POST'])
-def create_account():
-    logging.info('POST ALL /api/account')
-    return 'POST all /api/account'
+class AccountAuthenticateResource(Resource):
+    def get(self):
+        logging.info("GET request received on AccountAuthenticateResource")
 
 
-@bp.route("/account", methods=['GET'])
-def get_account():
-    logging.info('GET ALL /api/account')
-    return 'GET all /api/account'
+account_ns = Namespace('account-resource', path="/account")
 
 
-@bp.route("/account/reset-password/init", methods=['POST'])
-def password_reset_init():
-    logging.info('POST ALL /api/account/reset-password/init')
-    return 'POST all /api/account/reset-password/init'
+class AccountResource(Resource):
+    def post(self):
+        logging.info("POST request received on AccountResource")
+
+    def get(self):
+        logging.info("GET request received on AccountResource")
 
 
-@bp.route("/account/reset-password/finish", methods=['POST'])
-def password_reset_finish():
-    logging.info('POST ALL /api/reset-password/finish')
-    return 'POST all /api/reset-password/finish'
+account_activate_ns = Namespace('account-resource', path="/activate")
 
 
-@bp.route("/account/change-password", methods=['POST'])
-def change_password():
-    logging.info('POST ALL /api/change-password')
-    return 'POST all /api/change-password'
+class AccountActivateResource(Resource):
+    def get(self):
+        logging.info("GET request received on AccountActivateResource")
 
 
-@bp.route("/activate", methods=['GET'])
-def activate():
-    logging.info('GET ALL /api/activate')
-    return 'GET all /api/activate'
+passwd_reset_init_ns = Namespace('account-resource', path="/account/reset-password/init")
+
+
+class AccountPasswordResetInitResource(Resource):
+    def post(self):
+        logging.info("POST request received on AccountPasswordResetInitResource")
+
+
+passwd_reset_finish_ns = Namespace('account-resource', path="/account/reset-password/finish")
+
+
+class AccountPasswordResetFinishResource(Resource):
+    def post(self):
+        logging.info("POST request received on AccountPasswordResetFinishResource")
+
+
+change_passwd_ns = Namespace('account-resource', path="/account/change-password")
+
+
+class AccountChangePasswordResource(Resource):
+    def post(self):
+        logging.info("POST request received on ChangePasswordResource")
 

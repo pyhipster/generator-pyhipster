@@ -16,43 +16,27 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
-from flask import Blueprint
+from flask_restx import Resource, fields, Namespace
 import logging
-from flask_jwt_extended import jwt_required
-
-bp = Blueprint('user-resource', __name__, url_prefix='/api/admin')
 
 
-@jwt_required
-@bp.route("/users", methods=['POST'])
-def create_users():
-    logging.info('POST /api/admin/users')
-    return 'POST /api/admin/users'
+user_list_ns = Namespace('user-resource', path="/admin/users")
 
 
-@jwt_required
-@bp.route("/users", methods=['PUT'])
-def update_users():
-    logging.info('PUT /api/admin/users')
-    return 'PUT /api/admin/users'
+class UserResource(Resource):
+    def get(self):
+        logging.info("GET request received on UserResource")
+
+    def delete(self):
+        logging.info("DELETE request received on UserResource")
 
 
-@jwt_required
-@bp.route("/users", methods=['GET'])
-def get_all_users():
-    logging.info('GET ALL /api/admin/users')
-    return 'GET all /api/admin/users'
+class UserResourceList(Resource):
+    def get(self):
+        logging.info("GET request received on UserResource")
 
+    def put(self):
+        logging.info("PUT request received on UserResource")
 
-@jwt_required
-@bp.route("/users/<string:login>", methods=['GET'])
-def get_user_by_login(login):
-    logging.info('GET /api/admin/users/<string:login>')
-    return 'GET /api/admin/users/<string:login>'
-
-
-@jwt_required
-@bp.route("/users/<string:login>", methods=['DELETE'])
-def delete_user_by_login(login):
-    logging.info('DELETE /api/admin/users/<string:login>')
-    return 'DELETE /api/admin/users/<string:login>'
+    def post(self):
+        logging.info("POST request received on UserResource")
