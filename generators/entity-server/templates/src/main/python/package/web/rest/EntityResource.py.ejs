@@ -18,7 +18,7 @@
 -%>
 from flask import Blueprint, make_response
 import logging
-import jsonify
+from flask_restx import Resource, Namespace
 <%_
 const instanceName = restInstance;
 const entityLowercase = _.lowerCase(entityClass);
@@ -27,137 +27,44 @@ const entitiesCamelCase = _.camelCase(instanceName)
 const entityMethod = _.replace(entityApiUrl, '-', '_');
 _%>
 from domain.<%= entityClass %> import <%= entityClass %>
+from schema.<%= entityClass %>Schema import <%= entityClass %>Schema
 from flask_jwt_extended import jwt_required
 
+<%= entityMethod %>_list_ns = Namespace('<%= entityApiUrl %>-resource', path="/<%= entityApiUrl %>")
 
-bp = Blueprint('<%= instanceName %>', __name__, url_prefix='/api')
-
-
-###
-# {@code POST  /<%= entityApiUrl %>} : Create a new <%= entityInstance %>.
-#
-# @param <%= instanceName %> the <%= instanceName %> to create.
-# @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new <%= instanceName %>, or with status {@code 400 (Bad Request)} if the <%= entityInstance %> has already an ID.
-# @throws URISyntaxException if the Location URI syntax is incorrect.
-###
-@jwt_required
-@bp.route("/<%= entityApiUrl %>", methods=['POST'])
-def create_<%= entityMethod %>():
-    logging.info('POST /api/<%= entityApiUrl %>')
-    return 'POST <%= entityApiUrl %>'
+<%= entityMethod %>_schema = <%= entityClass %>Schema()
+<%= entityMethod %>_list_schema = <%= entityClass %>Schema(many=True)
 
 
-###
-# {@code PUT  /<%= entityApiUrl %>/<int:<%= primaryKey.name %>>} : Updates an existing <%= entityInstance %>.
-#
-# @param <%= primaryKey.name %> the id of the <%= instanceName %> to save.
-# @param <%= instanceName %> the <%= instanceName %> to update.
-# @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated <%= instanceName %>,
-# or with status {@code 400 (Bad Request)} if the <%= instanceName %> is not valid,
-# or with status {@code 500 (Internal Server Error)} if the <%= instanceName %> couldn't be updated.
-# @throws URISyntaxException if the Location URI syntax is incorrect.
-###
-@jwt_required
-@bp.route("/<%= entityApiUrl %>/<int:<%= primaryKey.name %>>", methods=['PUT'])
-def update_<%= entityMethod %>(<%= primaryKey.name %>):
-    logging.info('PUT /api/<%= entityApiUrl %>')
-    return 'PUT <%= entityApiUrl %>'
+class <%= entityClass %>Resource(Resource):
+    def get(self):
+        logging.info("GET request received on <%= entityClass %>Resource")
+        return {}
+
+    def put(self):
+        logging.info("PUT request received on <%= entityClass %>Resource")
+        return {}
+
+    def patch(self):
+        logging.info("PUT request received on <%= entityClass %>Resource")
+        return {}
+
+    def delete(self):
+        logging.info("DELETE request received on <%= entityClass %>Resource")
+        return {}
 
 
-###
-# {@code PATCH  /<%= entityApiUrl %>/<int:<%= primaryKey.name %>>} : Partial updates given fields of an existing <%= entityInstance %>, field will ignore if it is null
-#
-# @param <%= primaryKey.name %> the id of the <%= instanceName %> to save.
-# @param <%= instanceName %> the <%= instanceName %> to update.
-# @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated <%= instanceName %>,
-# or with status {@code 400 (Bad Request)} if the <%= instanceName %> is not valid,
-# or with status {@code 404 (Not Found)} if the <%= instanceName %> is not found,
-# or with status {@code 500 (Internal Server Error)} if the <%= instanceName %> couldn't be updated.
-# @throws URISyntaxException if the Location URI syntax is incorrect.
-###
-@jwt_required
-@bp.route("/<%= entityApiUrl %>/<int:<%= primaryKey.name %>>", methods=['PATCH'])
-def partial_update_<%= entityMethod %>(<%= primaryKey.name %>):
-    logging.info('PATCH /api/<%= entityApiUrl %>')
-    return 'PATCH <%= entityApiUrl %>'
+class <%= entityClass %>ResourceList(Resource):
+    def get(self):
+        logging.info("GET request received on <%= entityClass %>Resource")
+        return {}
 
+    def post(self):
+        logging.info("POST request received on <%= entityClass %>Resource")
+        return {}
 
-###
-# {@code GET  /<%= entityApiUrl %>} : get all the <%= entityInstancePlural %>.
-#
-<%_ if (!paginationNo) { _%>
-# @param pageable the pagination information.
-<%_ if (reactive) { _%>
-# @param request a {@link ServerHttpRequest} request.
-<%_ } _%>
-<%_ } _%>
-<%_ if (!jpaMetamodelFiltering && implementsEagerLoadApis) { _%>
-# @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
-<%_ } _%>
-<%_ if (jpaMetamodelFiltering) { _%>
-# @param criteria the criteria which the requested entities should match.
-<%_ } else if (fieldsContainNoOwnerOneToOne) { _%>
-# @param filter the filter of the request.
-<%_ } _%>
-# @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of <%= entityInstancePlural %> in body.
-###
-@jwt_required
-@bp.route("/<%= entityApiUrl %>", methods=['GET'])
-def get_all_<%= entityMethod %>():
-    logging.info("Received request at /api/<%= entityApiUrl %> to GET all <%= entityMethod %>")
-    <%= entityMethod %> = None
-    try:
-        <%= entityMethod %> = <%= entityClass %>.find_all()
-    except Exception as ex:
-        logging.error("Unable to find <%= entityClass %>. {}", ex.message)
-        make_response({"Unable to find <%= entityClass %>"}, 500)
-    if <%= entityMethod %> is None:
-        make_response({"<%= entityClass %> not found"}, 204)
-    return make_response(jsonify(<%= entityMethod %>), 200)
-
-
-###
-# {@code GET  /<%= entityApiUrl %>/<int:<%= primaryKey.name %>>} : get the "id" <%= entityInstance %>.
-#
-# @param id the id of the <%= instanceName %> to retrieve.
-# @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the <%= instanceName %>, or with status {@code 404 (Not Found)}.
-###
-@jwt_required
-@bp.route("/<%= entityApiUrl %>/<int:<%= primaryKey.name %>>", methods=['GET'])
-def get_<%= entityMethod %>(<%= primaryKey.name %>):
-    logging.info("Received request at /api/<%= entityApiUrl %> to GET <%= instanceName %> with <%= primaryKey.name %> {}", <%= primaryKey.name %>)
-    <%= instanceName %> = None
-    try:
-        <%= instanceName %> = <%= entityClass %>.find_by_<%= primaryKey.name %>(<%= primaryKey.name %>)
-    except Exception as ex:
-        logging.error("Unable to find <%= entityClass %> {}. {}", <%= instanceName %>.get_<%= primaryKey.name %>(), ex.message)
-        make_response({"Unable to find <%= entityClass %>"}, 500)
-    if <%= instanceName %> is None:
-        make_response({"<%= entityClass %> not found"}, 204)
-    return make_response(jsonify(<%= entityClass %>), 200)
-
-
-###
-# {@code DELETE  /<%= entityApiUrl %>/<int:<%= primaryKey.name %>>} : delete the "id" <%= entityInstance %>.
-#
-# @param id the id of the <%= instanceName %> to delete.
-# @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
-###
-@jwt_required
-@bp.route("/<%= entityApiUrl %>/<int:<%= primaryKey.name %>>", methods=['DELETE'])
-def delete_<%= entityMethod %>(<%= primaryKey.name %>):
-    logging.info("Received request at /api/<%= entityApiUrl %> to DELETE <%= instanceName %> with <%= primaryKey.name %> {}", <%= primaryKey.name %>)
-    <%= instanceName %> = None
-    try:
-        <%= instanceName %> = <%= entityClass %>.find_by_<%= primaryKey.name %>(<%= primaryKey.name %>)
-    except Exception as ex:
-        logging.error("Unable to find <%= entityClass %> {}. {}", <%= instanceName %>.get_<%= primaryKey.name %>(), ex.message)
-        make_response({"Unable to find <%= entityClass %>"}, 500)
-    if <%= instanceName %> is None:
-        make_response({"<%= entityClass %> not found"}, 204)
-    try:
-        <%= instanceName %>.delete_from_db()
-    except Exception as ex:
-        logging.error("Unable to delete <%= entityClass %> {}. {}", <%= instanceName %>.get_<%= primaryKey.name %>(), ex.message)
-        make_response({"Unable to delete <%= entityClass %>"}, 500)
-    return make_response({"<%= entityClass %> deleted"}, 200)
+        
+class <%= entityClass %>ResourceListCount(Resource):
+    def get(self):
+        logging.info("GET request received on <%= entityClass %>Resource")
+        return {}
