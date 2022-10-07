@@ -16,9 +16,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
-from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-import json
 from enum import Enum
 from typing import List
 <%_ Object.keys(uniqueEnums).forEach(function(element) { _%>
@@ -27,6 +25,7 @@ from .enumeration.<%= element %> import <%= element %>
 <%_ for (const otherEntity of otherEntities.filter(otherEntity => otherEntity.entityClass !== persistClass)) { _%>
 from . import <%= otherEntity.entityClass %>
 <%_ } _%>
+from DatabaseConfig import db
 <% 
     const javaFieldMapping = {
         "Long": "Integer",
@@ -39,8 +38,6 @@ from . import <%= otherEntity.entityClass %>
         "TextBlob": "UnicodeText"
     }
 %> 
-db = SQLAlchemy()
-
 
 class <%= persistClass %>(db.Model):
     __tablename__ = "<%= persistClass %>"
@@ -48,10 +45,10 @@ class <%= persistClass %>(db.Model):
     <%= primaryKey.name %> = db.Column(db.<%= javaFieldMapping[primaryKey.type] %>, primary_key=True)
     <%_ } _%>
     <%_ for (const field of fields.filter(field => !field.transient && !field.id && !field.fieldIsEnum)) { _%>
-    <%= field.fieldName %> = db.Column(db.<%= javaFieldMapping[field.javaFieldType] || field.javaFieldType %><% if (field.fieldValidationRequired) { %>, nullable=False<% } %><% if (field.fieldValidationUnique) { %>, unique=True<% } %>)
+    <%= _.replace(_.lowerCase(field.fieldName), ' ', '_') %> = db.Column(db.<%= javaFieldMapping[field.javaFieldType] || field.javaFieldType %><% if (field.fieldValidationRequired) { %>, nullable=False<% } %><% if (field.fieldValidationUnique) { %>, unique=True<% } %>)
     <%_ } _%>
     <%_ for (const field of fields.filter(field => !field.transient && field.fieldIsEnum)) { _%>
-    <%= field.fieldName %> = db.Enum(<%= field.javaFieldType %><% if (field.fieldValidationRequired) { %>, nullable=False<% } %><% if (field.fieldValidationUnique) { %>, unique=True<% } %>)
+    <%= _.replace(_.lowerCase(field.fieldName), ' ', '_') %> = db.Enum(<%= field.javaFieldType %><% if (field.fieldValidationRequired) { %>, nullable=False<% } %><% if (field.fieldValidationUnique) { %>, unique=True<% } %>)
     <%_ } _%>
 
     @classmethod
@@ -61,10 +58,14 @@ class <%= persistClass %>(db.Model):
     @classmethod
     def find_all(cls) -> List["<%= persistClass %>"]:
         return cls.query.all()
+
+    @classmethod
+    def find_all_count(cls):
+        return cls.query.count()
     
     def save_to_db(self) -> None:
         db.session.add(self)
-        db.session.commmit()
+        db.session.commit()
 
     def delete_from_db(self) -> None:
         db.session.delete(self)
@@ -76,10 +77,10 @@ class <%= persistClass %>(db.Model):
     # Getters and setters
     <%_ for (const field of fields.filter(field => !field.transient && (embedded || !field.id || !primaryKey.composite))) { _%>
     def get_<%= _.replace(_.lowerCase(field.fieldInJavaBeanMethod), ' ', '_') %>(self):
-        return self.<%= field.fieldName %>
+        return self.<%= _.replace(_.lowerCase(field.fieldName), ' ', '_') %>
 
     def set_<%= _.replace(_.lowerCase(field.fieldInJavaBeanMethod), ' ', '_') %>(self, <%= _.replace(_.lowerCase(field.fieldName), ' ', '_') %>):
-        self.<%= field.fieldName %> = <%= _.replace(_.lowerCase(field.fieldName), ' ', '_') %>
+        self.<%= _.replace(_.lowerCase(field.fieldName), ' ', '_') %> = <%= _.replace(_.lowerCase(field.fieldName), ' ', '_') %>
     
     <%_ } _%>
     # __repr__ and __str__ methods
@@ -90,9 +91,9 @@ class <%= persistClass %>(db.Model):
         <%_ } _%>
         <%_ for (const field of fields.filter(field => !field.id && !field.transient)) {
         const isNumeric = field.fieldTypeNumeric; _%>
-                    ", <%= field.fieldName %>=<% if (! isNumeric) { %>'<% } %>" + <% if ( !field.fieldTypeString ) { %>{self.<%= field.fieldName %>}<% } else { %>{self.<%= field.fieldName %>}<% } %><% if (! isNumeric) { %> + "'" <% } %>+ \
+                    ", <%= _.replace(_.lowerCase(field.fieldName), ' ', '_') %>=<% if (! isNumeric) { %>'<% } %>" + <% if ( !field.fieldTypeString ) { %>{self.<%= _.replace(_.lowerCase(field.fieldName), ' ', '_') %>}<% } else { %>{self.<%= _.replace(_.lowerCase(field.fieldName), ' ', '_') %>}<% } %><% if (! isNumeric) { %> + "'" <% } %> + \
         <%_ if (field.fieldWithContentType) { _%>
-                    ", <%= field.fieldName %>ContentType='" + self.<%= field.fieldName %>ContentType + "'" + \
+                    ", <%= _.replace(_.lowerCase(field.fieldName), ' ', '_') %>ContentType='" + self.<%= _.replace(_.lowerCase(field.fieldName), ' ', '_') %>ContentType + "'" + \
         <%_ } _%>
         <%_ } _%>
         <%_ for (const relationship of relationships) { _%>
@@ -113,9 +114,9 @@ class <%= persistClass %>(db.Model):
         <%_ } _%>
         <%_ for (const field of fields.filter(field => !field.id && !field.transient)) {
         const isNumeric = field.fieldTypeNumeric; _%>
-                    ", <%= field.fieldName %>=<% if (! isNumeric) { %>'<% } %>" + <% if ( !field.fieldTypeString ) { %>str(self.<%= field.fieldName %>)<% } else { %>self.<%= field.fieldName %><% } %><% if (! isNumeric) { %> + "'" <% } %>+ \
+                    ", <%= _.replace(_.lowerCase(field.fieldName), ' ', '_') %>=<% if (! isNumeric) { %>'<% } %>" + <% if ( !field.fieldTypeString ) { %>str(self.<%= _.replace(_.lowerCase(field.fieldName), ' ', '_') %>)<% } else { %>self.<%= _.replace(_.lowerCase(field.fieldName), ' ', '_') %><% } %><% if (! isNumeric) { %> + "'" <% } %> + \
         <%_ if (field.fieldWithContentType) { _%>
-                    ", <%= field.fieldName %>ContentType='" + self.<%= field.fieldName %>ContentType + "'" + \
+                    ", <%= _.replace(_.lowerCase(field.fieldName), ' ', '_') %>ContentType='" + self.<%= _.replace(_.lowerCase(field.fieldName), ' ', '_') %>ContentType + "'" + \
         <%_ } _%>
         <%_ } _%>
         <%_ for (const relationship of relationships) { _%>

@@ -17,10 +17,10 @@
  limitations under the License.
 -%>
 
-from flask import Flask, Blueprint
+from flask import Flask
 from flask_restx import Api
-
-from rest import add_api_namespace, register_resource_blueprints
+from flask_jwt_extended import JWTManager
+from rest import add_api_namespace
 from config.BaseConfig import BaseConfig
 from DatabaseConfig import db
 from WebSerializer import ma
@@ -33,7 +33,7 @@ app.register_blueprint(bluePrint)
 app.config.from_object(BaseConfig)
 
 api = add_api_namespace(api)
-# app = register_resource_blueprints(app)
+jwt = JWTManager(app)
 
 
 @app.before_first_request
