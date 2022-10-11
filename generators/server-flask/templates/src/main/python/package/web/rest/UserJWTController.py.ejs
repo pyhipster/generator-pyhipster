@@ -18,6 +18,11 @@
 -%>
 from flask_restx import Namespace, Resource
 import logging
+from flask import request
+from flask_jwt_extended import create_access_token
+from domain.User import User
+import bcrypt
+from datetime import timedelta
 
 
 jwt_authentication_ns = Namespace('user-jwt-controller', path="/authenticate")
@@ -25,4 +30,25 @@ jwt_authentication_ns = Namespace('user-jwt-controller', path="/authenticate")
 
 class UserJWTResource(Resource):
     def post(self):
-        logging.info("GET request received on UserJWTResource")
+        logging.info("POST request received on UserJWTResource")
+        username = request.json.get("username", None)
+        password = request.json.get("password", None)
+        remember_me = request.json.get("rememberMe", False)
+        # TODO: check if user exists
+        user = User.get_by_login(username)
+        if not user:
+            return {"message": "Invalid user name"}, 404
+        if bcrypt.checkpw(password.encode('utf8'), user.password_hash.encode('utf8')) is not True:
+            return {"message": "Invalid user name and/or password"}, 401
+        token_expiry = timedelta(hours=3)
+        if remember_me:
+            token_expiry = timedelta(hours=24)
+        # TODO: Get the role from the DB
+        user_roles = []
+        for role in user.roles.all():
+            user_roles.append(role.name)
+        auth = ",".join(user_roles)
+        authorizations = {"auth": auth}
+        # Generate the JWT based on the above parameters
+        access_token = 'Bearer ' + create_access_token(identity=username, expires_delta=token_expiry, additional_claims=authorizations)
+        return access_token, 201, {'Authorization': access_token}
