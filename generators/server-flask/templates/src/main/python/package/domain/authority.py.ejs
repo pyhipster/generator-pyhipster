@@ -55,9 +55,3 @@ class <%= asEntity('Authority') %>(db.Model):
         db.session.delete(self)
         db.session.commit()
 
-    def to_dict(self):
-        cls_dict = {'name': self.name}
-        return cls_dict
-
-    def to_json(self):
-        return self.to_dict()

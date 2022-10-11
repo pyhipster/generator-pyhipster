@@ -20,6 +20,12 @@ from typing import List
 from DatabaseConfig import db
 
 
+jhi_user_authority = db.Table('jhi_user_authority',
+    db.Column('user_id', db.Integer, db.ForeignKey('jhi_user.id'), primary_key=True),
+    db.Column('authority_name', db.String(50), db.ForeignKey('jhi_authority.name'), primary_key=True)
+)
+
+
 class <%= asEntity('User') %>(db.Model):
     __tablename__ = "jhi_user"
     id = db.Column(db.Integer, primary_key=True)
@@ -38,6 +44,8 @@ class <%= asEntity('User') %>(db.Model):
     reset_date = db.Column(db.DateTime, nullable=True)
     last_modified_by = db.Column(db.String(50), nullable=True)
     last_modified_date = db.Column(db.DateTime, nullable=True)
+
+    roles = db.relationship('Authority', secondary='jhi_user_authority', lazy='dynamic', backref='users')
 
     def __init__(self, **kwargs):
         for key, value in kwargs.items():
@@ -122,22 +130,22 @@ class <%= asEntity('User') %>(db.Model):
     def get_by_id(cls, id) -> "User":
         user = cls.query.filter_by(id=id).first()
         if user is not None:
-            return user.to_dict()
-        return dict({})
+            return user
+        return None
 
     @classmethod
     def get_by_email(cls, email) -> "User":
         user = cls.query.filter_by(email=email).first()
         if user is not None:
-            return user.to_dict()
-        return dict({})
+            return user
+        return None
 
     @classmethod
     def get_by_login(cls, login) -> "User":
         user = cls.query.filter_by(login=login).first()
         if user is not None:
-            return user.to_dict()
-        return dict({})
+            return user
+        return None
 
     @classmethod
     def get_all_users(cls) -> List["User"]:
@@ -152,13 +160,5 @@ class <%= asEntity('User') %>(db.Model):
         db.session.delete(self)
         db.session.commit()
 
-    def to_dict(self):
-        cls_dict = {'id': self.id, 'login': self.login, 'email': self.email, 'firstName': self.firstName,
-                    'lastName': self.lastName, 'activated': self.activated, 'langKey': self.langKey,
-                    'imageUrl': self.imageUrl}
-        return cls_dict
-
-    def to_json(self):
-        return self.to_dict()
         
         
