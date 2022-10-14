@@ -16,7 +16,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
-from flask import Blueprint, make_response
+from flask import request
 import logging
 from flask_restx import Resource, Namespace
 <%_
@@ -48,18 +48,41 @@ class <%= entityClass %>Resource(Resource):
     @jwt_required()
     def put(self, <%= primaryKey.name %>):
         logging.info("PUT request received on <%= entityClass %>Resource")
+        # <%= entityMethod %> = <%= entityClass %>.find_by_<%= primaryKey.name %>(<%= primaryKey.name %>)
+        # if <%= entityMethod %> is None:
+        #     return {"message": "<%= entityClass %> not found"}, 404
+        # return {}
+        <%= entityMethod %>_json = request.get_json()
+        if <%= entityMethod %>_json["<%= primaryKey.name %>"] is None:
+            return {"message": "Invalid <%= entityClass %>"}, 400
+        if <%= primaryKey.name %> != <%= entityMethod %>_json["<%= primaryKey.name %>"]:
+            return {"message": "Invalid <%= entityClass %>"}, 400
         <%= entityMethod %> = <%= entityClass %>.find_by_<%= primaryKey.name %>(<%= primaryKey.name %>)
-        if <%= entityMethod %> is None:
-            return {"message": "<%= entityClass %> not found"}, 404
-        return {}
+        if <%= entityMethod %>.get_<%= primaryKey.name %>() is None:
+            return {"message": "Invalid <%= entityClass %>"}, 400
+        updated_<%= entityMethod %> = <%= entityMethod %>_schema.load(<%= entityMethod %>_json, instance=<%= entityMethod %>)
+        updated_<%= entityMethod %>.update_db()
+        return <%= entityMethod %>_schema.dump(updated_<%= entityMethod %>), 200
     
     @jwt_required()
     def patch(self, <%= primaryKey.name %>):
         logging.info("PATCH request received on <%= entityClass %>Resource")
+        # <%= entityMethod %> = <%= entityClass %>.find_by_<%= primaryKey.name %>(<%= primaryKey.name %>)
+        # if <%= entityMethod %> is None:
+        #     return {"message": "<%= entityClass %> not found"}, 404
+        # return {}
+        <%= entityMethod %>_json = request.get_json()
+        if <%= entityMethod %>_json["<%= primaryKey.name %>"] is None:
+            return {"message": "Invalid <%= entityClass %>"}, 400
+        if <%= primaryKey.name %> != <%= entityMethod %>_json["<%= primaryKey.name %>"]:
+            return {"message": "Invalid <%= entityClass %>"}, 400
         <%= entityMethod %> = <%= entityClass %>.find_by_<%= primaryKey.name %>(<%= primaryKey.name %>)
-        if <%= entityMethod %> is None:
-            return {"message": "<%= entityClass %> not found"}, 404
-        return {}
+        if <%= entityMethod %>.get_<%= primaryKey.name %>() is None:
+            return {"message": "Invalid <%= entityClass %>"}, 400
+        updated_<%= entityMethod %> = <%= entityMethod %>_schema.load(<%= entityMethod %>_json, instance=<%= entityMethod %>, partial=True)
+        updated_<%= entityMethod %>.update_db()
+        return <%= entityMethod %>_schema.dump(updated_<%= entityMethod %>), 200
+
 
     @jwt_required()
     def delete(self, <%= primaryKey.name %>):
