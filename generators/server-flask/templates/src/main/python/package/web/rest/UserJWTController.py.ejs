@@ -18,7 +18,7 @@
 -%>
 from flask_restx import Namespace, Resource
 import logging
-from flask import request
+from flask import request, session
 from flask_jwt_extended import create_access_token
 from domain.User import User
 import bcrypt
@@ -49,6 +49,9 @@ class UserJWTResource(Resource):
             user_roles.append(role.name)
         auth = ",".join(user_roles)
         authorizations = {"auth": auth}
+        # Adding session variables
+        session["user_id"] = username
+        session["role"] = auth
         # Generate the JWT based on the above parameters
         access_token = 'Bearer ' + create_access_token(identity=username, expires_delta=token_expiry, additional_claims=authorizations)
         return access_token, 201, {'Authorization': access_token}
