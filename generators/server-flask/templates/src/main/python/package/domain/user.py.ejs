@@ -31,19 +31,19 @@ class <%= asEntity('User') %>(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     login = db.Column(db.String(50), unique=True, nullable=False)
     password_hash = db.Column(db.String(60), nullable=False)
-    first_name = db.Column(db.String(50), nullable=False)
-    last_name = db.Column(db.String(50), nullable=False)
+    first_name = db.Column(db.String(50))
+    last_name = db.Column(db.String(50))
     email = db.Column(db.String(191), unique=True, nullable=False)
     activated = db.Column(db.Boolean, nullable=False, default=False)
-    lang_key = db.Column(db.String(10), nullable=False)
-    image_url = db.Column(db.String(256), nullable=True)
-    activation_key = db.Column(db.String(20), nullable=True)
-    reset_key = db.Column(db.String(20), nullable=True)
-    created_by = db.Column(db.String(50), nullable=True)
-    created_date = db.Column(db.DateTime, nullable=True)
-    reset_date = db.Column(db.DateTime, nullable=True)
-    last_modified_by = db.Column(db.String(50), nullable=True)
-    last_modified_date = db.Column(db.DateTime, nullable=True)
+    lang_key = db.Column(db.String(10), nullable=False, default='en')
+    image_url = db.Column(db.String(256))
+    activation_key = db.Column(db.String(20))
+    reset_key = db.Column(db.String(20))
+    created_by = db.Column(db.String(50))
+    created_date = db.Column(db.DateTime)
+    reset_date = db.Column(db.DateTime)
+    last_modified_by = db.Column(db.String(50))
+    last_modified_date = db.Column(db.DateTime)
 
     roles = db.relationship('Authority', secondary='jhi_user_authority', lazy='dynamic', backref='users')
 
@@ -161,7 +161,7 @@ class <%= asEntity('User') %>(db.Model):
 
     def save_to_db(self) -> None:
         db.session.add(self)
-        db.session.commmit()
+        db.session.commit()
 
     def delete_from_db(self) -> None:
         db.session.delete(self)
