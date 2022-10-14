@@ -148,6 +148,13 @@ class <%= asEntity('User') %>(db.Model):
         return None
 
     @classmethod
+    def get_by_activation_key(cls, activation_key) -> "User":
+        user = cls.query.filter_by(activation_key=activation_key).first()
+        if user is not None:
+            return user
+        return None
+
+    @classmethod
     def get_all_users(cls) -> List["User"]:
         user_list = cls.query.all()
         return user_list
