@@ -20,6 +20,7 @@
 from domain.User import User
 from domain.Authority import Authority
 from WebSerializer import ma
+from marshmallow_sqlalchemy import auto_field
 
 
 class PublicUserSchema(ma.SQLAlchemyAutoSchema):
@@ -28,33 +29,30 @@ class PublicUserSchema(ma.SQLAlchemyAutoSchema):
         load_instance = True
         # load_only = ("authority",)
         # include_fk = True
-        exclude = ("password_hash", "activated", "lang_key", "image_url", "reset_key", "activation_key", "reset_key",
-                   "created_by", "created_date", "reset_date", "last_modified_by", "last_modified_date")
+        exclude = ("first_name", "last_name", "password_hash", "activated", "lang_key", "image_url",
+                   "reset_key", "activation_key", "created_by", "created_date", "reset_date", "last_modified_by",
+                   "last_modified_date")
 
+        getfName = auto_field("first_name")
+        getlName = auto_field("last_name")
 
-class UserLoginSchema(ma.SQLAlchemyAutoSchema):
-    class Meta:
-        model = User
-
-
-class UserKeyPasswordSchema(ma.SQLAlchemyAutoSchema):
-    class Meta:
-        model = User
 
 class AdminUserSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
-    model = User
-    exclude = (
-        "password_hash", "reset_key", "activation_key", "reset_date",
-        "first_name",
-        "last_name",
-        "image_url",
-        "lang_key",
-        "created_by",
-        "created_date",
-        "last_modified_by",
-        "last_modified_date"
-    )
+        model = User
+        load_only = ("authority",)
+        include_fk = True
+        exclude = (
+            "password_hash", "reset_key", "activation_key", "reset_date",
+            "first_name",
+            "last_name",
+            "image_url",
+            "lang_key",
+            "created_by",
+            "created_date",
+            "last_modified_by",
+            "last_modified_date"
+        )
 
     firstName = auto_field("first_name")
     lastName = auto_field("last_name")
@@ -64,3 +62,50 @@ class AdminUserSchema(ma.SQLAlchemyAutoSchema):
     createdDate = auto_field("created_date")
     lastModifiedDate = auto_field("last_modified_date")
     lastModifiedBy = auto_field("last_modified_by")
+
+
+class ManagedUserSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = User
+        load_only = ("authority",)
+        include_fk = True
+        exclude = (
+            "password_hash", "reset_key", "activation_key", "reset_date",
+            "first_name",
+            "last_name",
+            "image_url",
+            "lang_key",
+            "created_by",
+            "created_date",
+            "last_modified_by",
+            "last_modified_date"
+        )
+
+        firstName = auto_field("first_name")
+        lastName = auto_field("last_name")
+        password = auto_field("password_hash")
+        imageUrl = auto_field("image_url")
+        langKey = auto_field("lang_key")
+        createdBy = auto_field("created_by")
+        createdDate = auto_field("created_date")
+        lastModifiedDate = auto_field("last_modified_date")
+        lastModifiedBy = auto_field("last_modified_by")
+
+
+class KeyAndPasswordSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = User
+        exclude = (
+            "password_hash", "reset_key", "activation_key", "reset_date",
+            "first_name",
+            "last_name",
+            "image_url",
+            "lang_key",
+            "created_by",
+            "created_date",
+            "last_modified_by",
+            "last_modified_date"
+        )
+
+        key = auto_field("reset_key")
+        newPassword = auto_field("password_hash")
