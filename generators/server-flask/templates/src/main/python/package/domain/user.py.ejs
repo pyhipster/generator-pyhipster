@@ -34,7 +34,7 @@ class <%= asEntity('User') %>(db.Model):
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(191), unique=True, nullable=False)
-    activated = db.Column(db.Boolean, nullable=False)
+    activated = db.Column(db.Boolean, nullable=False, default=False)
     lang_key = db.Column(db.String(10), nullable=False)
     image_url = db.Column(db.String(256), nullable=True)
     activation_key = db.Column(db.String(20), nullable=True)
