@@ -48,10 +48,6 @@ class <%= entityClass %>Resource(Resource):
     @jwt_required()
     def put(self, <%= primaryKey.name %>):
         logging.info("PUT request received on <%= entityClass %>Resource")
-        # <%= entityMethod %> = <%= entityClass %>.find_by_<%= primaryKey.name %>(<%= primaryKey.name %>)
-        # if <%= entityMethod %> is None:
-        #     return {"message": "<%= entityClass %> not found"}, 404
-        # return {}
         <%= entityMethod %>_json = request.get_json()
         if <%= entityMethod %>_json["<%= primaryKey.name %>"] is None:
             return {"message": "Invalid <%= entityClass %>"}, 400
@@ -67,10 +63,6 @@ class <%= entityClass %>Resource(Resource):
     @jwt_required()
     def patch(self, <%= primaryKey.name %>):
         logging.info("PATCH request received on <%= entityClass %>Resource")
-        # <%= entityMethod %> = <%= entityClass %>.find_by_<%= primaryKey.name %>(<%= primaryKey.name %>)
-        # if <%= entityMethod %> is None:
-        #     return {"message": "<%= entityClass %> not found"}, 404
-        # return {}
         <%= entityMethod %>_json = request.get_json()
         if <%= entityMethod %>_json["<%= primaryKey.name %>"] is None:
             return {"message": "Invalid <%= entityClass %>"}, 400
