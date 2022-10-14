@@ -17,29 +17,64 @@
  limitations under the License.
 -%>
 from flask_restx import Resource, fields, Namespace
-import logging
 from domain.User import User
 from schema.User import AdminUserSchema
+import logging
+from flask import request
+from flask_jwt_extended import jwt_required
+
 
 user_list_ns = Namespace('user-resource', path="/admin/users")
 
 user_schema = AdminUserSchema()
 user_list_schema = AdminUserSchema(many=True)
 
-class UserResource(Resource):
-    def get(self):
-        logging.info("GET request received on UserResource")
 
-    def delete(self):
+class UserResource(Resource):
+    @jwt_required()
+    def get(self, login):
+        logging.info("GET request received on UserResource")
+        users = User.get_by_login(login)
+        if users is None:
+            return {"message": "User not found"}, 404
+        return user_schema.dump(users), 200
+
+    @jwt_required()
+    def delete(self, login):
         logging.info("DELETE request received on UserResource")
+        users = User.get_by_login(login)
+        if users is None:
+            return {"message": "User not found"}, 404
+        users.delete_from_db()
+        return {"message": "User deleted"}, 204
+
+    @jwt_required()
+    def put(self, login):
+        logging.info("PUT request received on UserResource")
+        user_json = request.get_json()
+        if user_json["login"] is None:
+            return {"message": "Invalid User"}, 400
+        if login != user_json["login"]:
+            return {"message": "Invalid User"}, 400
+        users = User.get_by_login(login)
+        if users.get_login() is None:
+            return {"message": "Invalid User"}, 400
+        updated_user = user_schema.load(user_json, instance=users)
+        updated_user.update_db()
+        return user_schema.dump(updated_user), 200
 
 
 class UserResourceList(Resource):
+    @jwt_required()
     def get(self):
         logging.info("GET request received on UserResource")
+        users = User.get_all_users()
+        return user_list_schema.dump(users), 200
 
-    def put(self):
-        logging.info("PUT request received on UserResource")
-
+    @jwt_required()
     def post(self):
-        logging.info("POST request received on UserResource")
+        logging.info("POST request received on EmployeeResourceList")
+        user_json = request.get_json()
+        user_data = user_schema.load(user_json)
+        user_data.save_to_db()
+        return user_schema.dump(user_data), 201
