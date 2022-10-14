@@ -44,18 +44,15 @@ def add_api_namespace(api):
 
     # Adding resources to added namespaces
     public_user_list_ns.add_resource(PublicUserResource.PublicUserResourceList, "")
-    authority_list_ns.add_resource(PublicUserResource.AuthorityResourceList, "")
-    
+    authority_list_ns.add_resource(AuthorityResource.AuthorityResourceList, "")
     jwt_authentication_ns.add_resource(UserJWTController.UserJWTResource, "")
-
-    account_register_ns.add_resource(AccountResource.AccountRegisterResource, "")
-    account_authenticate_ns.add_resource(AccountResource.AccountAuthenticateResource, "")
-    account_ns.add_resource(AccountResource.AccountResource, "")
-    account_activate_ns.add_resource(AccountResource.AccountActivateResource, "")
-    passwd_reset_init_ns.add_resource(AccountResource.AccountPasswordResetInitResource, "")
-    passwd_reset_finish_ns.add_resource(AccountResource.AccountPasswordResetFinishResource, "")
-    change_passwd_ns.add_resource(AccountResource.AccountChangePasswordResource, "")
-
+    account_register_ns.add_resource(AccountResource.ManagedUserAccountRegister, "")
+    account_authenticate_ns.add_resource(AccountResource.AccountAuthenticate, "")
+    account_ns.add_resource(AccountResource.AdminAccountDetails, "")
+    account_activate_ns.add_resource(AccountResource.AccountActivate, "")
+    passwd_reset_init_ns.add_resource(AccountResource.AccountPasswordResetInit, "")
+    passwd_reset_finish_ns.add_resource(AccountResource.AccountPasswordResetFinish, "")
+    change_passwd_ns.add_resource(AccountResource.AccountChangePassword, "")
     user_list_ns.add_resource(UserResource.UserResource, "/<string:login>")
     user_list_ns.add_resource(UserResource.UserResourceList, "")
     # pyhipster-needle-rest-api-list-add-resource
