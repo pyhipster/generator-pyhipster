@@ -18,10 +18,13 @@
 -%>
 from flask_restx import Resource, fields, Namespace
 import logging
-
+from domain.User import User
+from schema.User import AdminUserSchema
 
 user_list_ns = Namespace('user-resource', path="/admin/users")
 
+user_schema = AdminUserSchema()
+user_list_schema = AdminUserSchema(many=True)
 
 class UserResource(Resource):
     def get(self):

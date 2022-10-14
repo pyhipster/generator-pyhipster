@@ -41,3 +41,26 @@ class UserKeyPasswordSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = User
 
+class AdminUserSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+    model = User
+    exclude = (
+        "password_hash", "reset_key", "activation_key", "reset_date",
+        "first_name",
+        "last_name",
+        "image_url",
+        "lang_key",
+        "created_by",
+        "created_date",
+        "last_modified_by",
+        "last_modified_date"
+    )
+
+    firstName = auto_field("first_name")
+    lastName = auto_field("last_name")
+    imageUrl = auto_field("image_url")
+    langKey = auto_field("lang_key")
+    createdBy = auto_field("created_by")
+    createdDate = auto_field("created_date")
+    lastModifiedDate = auto_field("last_modified_date")
+    lastModifiedBy = auto_field("last_modified_by")
