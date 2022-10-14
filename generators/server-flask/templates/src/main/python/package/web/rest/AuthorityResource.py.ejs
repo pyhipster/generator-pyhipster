@@ -17,7 +17,7 @@
  limitations under the License.
 -%>
 
-from flask_restx import Resource, fields, Namespace
+from flask_restx import Resource, Namespace
 from domain.Authority import Authority
 from schema.Authority import AuthoritySchema
 import logging
@@ -32,7 +32,7 @@ class AuthorityResourceList(Resource):
     def get(self):
         logging.info("GET request received on AuthorityResourceList")
         all_authorities = Authority.get_all_authorities()
-        # return authority_list_schema.dump(all_users), 200
-        return all_authorities
+        authorities = authority_list_schema.dump(all_authorities)
+        return list(x["name"] for x in list(authorities)), 200
 
 
