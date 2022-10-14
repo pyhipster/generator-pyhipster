@@ -75,7 +75,9 @@ class <%= entityClass %>ResourceList(Resource):
     @jwt_required()
     def get(self):
         logging.info("GET request received on <%= entityClass %>ResourceList")
-        <%= entityMethod %> = <%= entityClass %>.find_all()
+        page = request.args.get('page', default=1, type=int)
+        size = request.args.get('size', default=20, type=int)
+        <%= entityMethod %> = <%= entityClass %>.find_all(page, size)
         if <%= entityMethod %> is not None:
             return <%= entityMethod %>_list_schema.dump(<%= entityMethod %>), 200
         return {"message": "<%= entityClass %> not found"}, 404
@@ -83,7 +85,6 @@ class <%= entityClass %>ResourceList(Resource):
     @jwt_required()
     def post(self):
         logging.info("POST request received on <%= entityClass %>ResourceList")
-        return {}
         <%= entityMethod %>_json = request.get_json()
         <%= entityMethod %>_data = <%= entityMethod %>_schema.load(<%= entityMethod %>_json)
         <%= entityMethod %>_data.save_to_db()

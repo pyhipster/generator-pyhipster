@@ -56,8 +56,9 @@ class <%= persistClass %>(db.Model):
         return cls.query.filter_by(<%= primaryKey.name %>=_<%= primaryKey.name %>).first()
 
     @classmethod
-    def find_all(cls) -> List["<%= persistClass %>"]:
-        return cls.query.all()
+    def find_all(cls, page, per_page) -> List["<%= persistClass %>"]:
+        paginate = cls.query.paginate(page=page, per_page=per_page)
+        return paginate.items
 
     @classmethod
     def find_all_count(cls):
