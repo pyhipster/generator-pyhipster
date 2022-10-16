@@ -16,10 +16,8 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
-
-import logging
-from .PublicUserResource import public_user_list_ns, authority_list_ns
-# from .AuthorityResource import authority_list_ns
+from .PublicUserResource import public_user_list_ns
+from .AuthorityResource import authority_list_ns
 from .UserJWTController import jwt_authentication_ns
 from .AccountResource import account_register_ns, account_authenticate_ns, account_ns, \
     account_activate_ns, passwd_reset_init_ns, passwd_reset_finish_ns, change_passwd_ns
@@ -38,7 +36,6 @@ def add_api_namespace(api):
     api.add_namespace(passwd_reset_init_ns)
     api.add_namespace(passwd_reset_finish_ns)
     api.add_namespace(change_passwd_ns)
-
     api.add_namespace(user_list_ns)
     # pyhipster-needle-rest-api-list-add-namespaces
 

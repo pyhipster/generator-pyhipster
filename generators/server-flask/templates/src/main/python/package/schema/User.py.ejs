@@ -16,10 +16,10 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
-
 from domain.User import User
 from domain.Authority import Authority
 from WebSerializer import ma
+from DatabaseConfig import db
 from marshmallow_sqlalchemy import auto_field
 
 
@@ -27,14 +27,25 @@ class PublicUserSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = User
         load_instance = True
-        # load_only = ("authority",)
-        # include_fk = True
-        exclude = ("first_name", "last_name", "password_hash", "activated", "lang_key", "image_url",
-                   "reset_key", "activation_key", "created_by", "created_date", "reset_date", "last_modified_by",
-                   "last_modified_date")
+        exclude = (
+            "first_name",
+            "last_name",
+            "password_hash",
+            "activated",
+            "lang_key",
+            "image_url",
+            "reset_key",
+            "activation_key",
+            "created_by",
+            "created_date",
+            "reset_date",
+            "last_modified_by",
+            "last_modified_date"
+        )
+        sqla_session = db.session
 
-        getfName = auto_field("first_name")
-        getlName = auto_field("last_name")
+    getfName = auto_field("first_name")
+    getlName = auto_field("last_name")
 
 
 class AdminUserSchema(ma.SQLAlchemyAutoSchema):
@@ -42,8 +53,12 @@ class AdminUserSchema(ma.SQLAlchemyAutoSchema):
         model = User
         load_only = ("authority",)
         include_fk = True
+        load_instance = True
         exclude = (
-            "password_hash", "reset_key", "activation_key", "reset_date",
+            "password_hash",
+            "reset_key",
+            "activation_key",
+            "reset_date",
             "first_name",
             "last_name",
             "image_url",
@@ -51,8 +66,10 @@ class AdminUserSchema(ma.SQLAlchemyAutoSchema):
             "created_by",
             "created_date",
             "last_modified_by",
-            "last_modified_date"
+            "last_modified_date",
+            "roles",
         )
+        sqla_session = db.session
 
     firstName = auto_field("first_name")
     lastName = auto_field("last_name")
@@ -62,41 +79,43 @@ class AdminUserSchema(ma.SQLAlchemyAutoSchema):
     createdDate = auto_field("created_date")
     lastModifiedDate = auto_field("last_modified_date")
     lastModifiedBy = auto_field("last_modified_by")
+    authorities = auto_field("roles")
 
 
 class ManagedUserSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = User
-        load_only = ("authority",)
-        include_fk = True
+        load_instance = True
         exclude = (
-            "password_hash", "reset_key", "activation_key", "reset_date",
+            "password_hash",
+            "lang_key",
             "first_name",
             "last_name",
+            "activated",
             "image_url",
-            "lang_key",
+            "activation_key",
+            "reset_key",
             "created_by",
             "created_date",
+            "reset_date",
+            "last_modified_date",
             "last_modified_by",
-            "last_modified_date"
         )
+        sqla_session = db.session
 
-        firstName = auto_field("first_name")
-        lastName = auto_field("last_name")
-        password = auto_field("password_hash")
-        imageUrl = auto_field("image_url")
-        langKey = auto_field("lang_key")
-        createdBy = auto_field("created_by")
-        createdDate = auto_field("created_date")
-        lastModifiedDate = auto_field("last_modified_date")
-        lastModifiedBy = auto_field("last_modified_by")
+    password = auto_field("password_hash")
+    langKey = auto_field("lang_key")
 
 
 class KeyAndPasswordSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = User
+        load_instance = True
         exclude = (
-            "password_hash", "reset_key", "activation_key", "reset_date",
+            "password_hash",
+            "reset_key",
+            "activation_key",
+            "reset_date",
             "first_name",
             "last_name",
             "image_url",
@@ -106,6 +125,9 @@ class KeyAndPasswordSchema(ma.SQLAlchemyAutoSchema):
             "last_modified_by",
             "last_modified_date"
         )
+        sqla_session = db.session
 
-        key = auto_field("reset_key")
-        newPassword = auto_field("password_hash")
+    key = auto_field("reset_key")
+    newPassword = auto_field("password_hash")
+
+

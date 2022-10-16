@@ -30,11 +30,11 @@ jwt_authentication_ns = Namespace('user-jwt-controller', path="/authenticate")
 
 class UserJWTResource(Resource):
     def post(self):
-        logging.info("POST request received on UserJWTResource")
+        logging.info("GET request received on UserJWTResource")
         username = request.json.get("username", None)
         password = request.json.get("password", None)
         remember_me = request.json.get("rememberMe", False)
-        # TODO: check if user exists
+        # Check if user exists and only then proceed
         user = User.get_by_login(username)
         if not user:
             return {"message": "Invalid user name"}, 404
@@ -43,9 +43,9 @@ class UserJWTResource(Resource):
         token_expiry = timedelta(hours=3)
         if remember_me:
             token_expiry = timedelta(hours=24)
-        # TODO: Get the role from the DB
+        # Get the role from the DB
         user_roles = []
-        for role in user.roles.all():
+        for role in user.roles:
             user_roles.append(role.name)
         auth = ",".join(user_roles)
         authorizations = {"auth": auth}
@@ -54,4 +54,5 @@ class UserJWTResource(Resource):
         session["role"] = auth
         # Generate the JWT based on the above parameters
         access_token = 'Bearer ' + create_access_token(identity=username, expires_delta=token_expiry, additional_claims=authorizations)
-        return access_token, 201, {'Authorization': access_token}
+        return {"idToken": access_token}, 200, {'Authorization': access_token}
+
