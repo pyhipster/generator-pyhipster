@@ -24,8 +24,10 @@ from rest import add_api_namespace
 from config.BaseConfig import BaseConfig
 from DatabaseConfig import db
 from WebSerializer import ma
+from MailConfiguration import mail
 
-app = Flask(__name__)
+
+app = Flask(__name__, template_folder='../resources/templates/mail')
 bluePrint = Blueprint('api', __name__, url_prefix='/api')
 api = Api(bluePrint, doc='/v2/api-docs', title='<%= mainClass %> Application')
 
@@ -44,4 +46,5 @@ def create_tables():
 if __name__ == '__main__':
     db.init_app(app)
     ma.init_app(app)
+    mail.init_app(app)
     app.run(debug=True, port=<%= serverPort %>)

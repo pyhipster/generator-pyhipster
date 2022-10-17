@@ -27,6 +27,7 @@ import bcrypt
 from datetime import datetime, timezone
 import string
 import secrets
+from MailConfiguration import send_activation_mail, send_reset_mail, send_creation_mail
 
 
 def is_password_length_valid(password):
@@ -56,7 +57,7 @@ managed_user_schema = ManagedUserSchema()
 class ManagedUserAccountRegister(Resource):
     def post(self):
         logging.info("POST request received on ManagedUserRegister")
-        current_login = session["user_id"]
+        current_login = "system"
         managed_user = request.get_json()
         # Check that the username and email are not already used
         user_name = User.get_by_login(managed_user["login"])
@@ -83,7 +84,8 @@ class ManagedUserAccountRegister(Resource):
         managed_user_data.set_created_by(current_login)
         # The user record is inserted into the database
         managed_user_data.save_to_db()
-        # TODO: Send registration mail
+        # Send registration mail
+        send_creation_mail(managed_user_data)
         return {"message": "Successfully registered"}, 201
 
 
@@ -117,19 +119,13 @@ class AdminAccountDetails(Resource):
 
     def get(self):
         logging.info("GET request received on AdminAccountDetails")
+        return {}, 200
         login = session["user_id"]
         if login is None:
             return {"message": "User could not be found"}, 500
         current_user = User.get_by_login(login)
         if current_user is None:
-            return {"message": "User not found"}, 404
-        # Getting the role of the current logged in user
-        # This is only for demonstration purposes
-        # The current model handles this using properly framed relationships
-        # user_roles = []
-        # for role in current_user.roles:
-        #     user_roles.append(role.name)
-        # user_roles = ",".join(user_roles)
+            return {"message": "User could not be found"}, 500
         return admin_user_schema.dump(current_user), 200
 
 
@@ -162,8 +158,9 @@ class AccountActivate(Resource):
         user_data.set_last_modified_by(user_data.login)
         user_data.set_last_modified_date(datetime.now(timezone.utc))
         user_data.save_to_db()
-        # TODO: Send mail
-        return {}, 200
+        # Send mail
+        send_activation_mail(user_data)
+        return {"message": "Account activated"}, 200
 
 
 passwd_reset_init_ns = Namespace('account-resource', path="/account/reset-password/init")
@@ -178,11 +175,12 @@ class AccountPasswordResetInit(Resource):
         if user is None:
             logging.info("No user found for the supplied email address: " + password_reset_mail)
             return {"message": "No user found for this email address"}, 400
-        # TODO : Send account password reset mail with reset key
         reset_key = generate_activation_reset_keys()
         user.set_reset_key(reset_key)
         user.set_reset_date(datetime.now(timezone.utc))
         user.save_to_db()
+        # Send account password reset mail with reset key
+        send_reset_mail(user)
         return {"message": "Password reset request submitted"}, 200
 
 
@@ -236,4 +234,5 @@ class AccountChangePassword(Resource):
         current_user.set_last_modified_date(datetime.now(timezone.utc))
         current_user.save_to_db()
         return {"message": "Password reset successfully"}, 200
+
 

@@ -35,5 +35,13 @@ class BaseConfig:
     SQLALCHEMY_DATABASE_URI = '<%_ if (devDatabaseTypeSQLiteAny) { _%>sqlite://<%_ if (devDatabaseTypeSQLiteDisk) { _%>/../../../pyhipster.db3<%_ } _%><%_ if (devDatabaseTypeSQLiteMemory) { _%>:memory:<%_ } _%><%_ } _%>'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     PROPAGATE_EXCEPTIONS = False
+
+    # Mail Configurations
+    MAIL_SERVER = 'smtp.gmail.com'
+    MAIL_PORT = 587
+    MAIL_USE_TLS = True
+    MAIL_USE_SSL = False
+    MAIL_USERNAME = 'my-email-id@gmail.com'
+    MAIL_PASSWORD = 'my-email-password'
     
     
