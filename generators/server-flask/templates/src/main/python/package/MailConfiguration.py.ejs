@@ -27,17 +27,17 @@ directory = os.path.dirname(os.getcwd())
 
 
 def send_activation_mail(user):
-    template_variable = render_template('activationEmail.html', activationKey=user.activation_key, login=user.login)
+    template_variable = render_template('activationEmail.html', activationKey=user.activation_key, login=user.login, baseUrl=request.url_root)
     send_mail("PyHipster activation", user.email, template_variable)
 
 
 def send_creation_mail(user):
-    template_variable = render_template('creationEmail.html', resetKey=user.reset_key, login=user.login)
+    template_variable = render_template('creationEmail.html', resetKey=user.reset_key, login=user.login, baseUrl=request.url_root)
     send_mail("PyHipster creation", user.email, template_variable)
 
 
 def send_reset_mail(user):
-    template_variable = render_template('passwordResetEmail.html', resetKey=user.reset_key, login=user.login)
+    template_variable = render_template('passwordResetEmail.html', resetKey=user.reset_key, login=user.login, baseUrl=request.url_root)
     send_mail("PyHipster Password Reset", user.email, template_variable)
 
 

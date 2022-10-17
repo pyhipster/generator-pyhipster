@@ -849,6 +849,10 @@ const baseServerFiles = {
     },
     {
       path: SERVER_MAIN_SRC_DIR,
+      templates: [{ file: 'package/MailConfiguration.py', renameTo: generator => `${generator.javaDir}MailConfiguration.py` }],
+    },
+    {
+      path: SERVER_MAIN_SRC_DIR,
       templates: [{ file: 'package/__init__.py', renameTo: generator => `${generator.javaDir}__init__.py` }],
     },
     {

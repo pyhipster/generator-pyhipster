@@ -78,8 +78,8 @@ class ManagedUserAccountRegister(Resource):
         # Add activation key, created date, created by login to the entry and add it
         if managed_user_data.login is None:
             return {"message": "Unable to register"}, 400
-        activation_key = generate_activation_reset_keys()
-        managed_user_data.set_activation_key(activation_key)
+        reset_key = generate_activation_reset_keys()
+        managed_user_data.set_reset_key(reset_key)
         managed_user_data.set_created_date(datetime.now(timezone.utc))
         managed_user_data.set_created_by(current_login)
         # The user record is inserted into the database
