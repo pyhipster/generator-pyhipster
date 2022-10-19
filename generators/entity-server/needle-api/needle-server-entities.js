@@ -29,7 +29,6 @@
         const lowerCaseEntities = _.lowerCase(pluralEntity);
         const entityMethod = _.replace(lowerCaseEntities, ' ', '_'); 
 
-        console.log("LOG: Initializing Needle API");
         this.addEntityNamespaceToList(entityClass, entityMethod);
         this.addEntityResourceListToNamespace(entityClass, entityMethod);
         this.addEntityResourceListCountToNamespace(entityClass, entityMethod);

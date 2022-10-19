@@ -822,7 +822,6 @@ module.exports = class JHipsterBaseGenerator extends PrivateBase {
   }
 
   addEntitiesToAPIList(entityClass) {
-    console.log(`Running function addEntitiesToAPIList to utilize needle API for entity ${entityClass}.`);
     this.needleApi.serverEntities.addEntitiesToAPIList(entityClass);
   }
 
