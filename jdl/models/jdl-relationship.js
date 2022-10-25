@@ -32,7 +32,7 @@ module.exports = class JDLRelationship {
       throw new Error('A valid type and at least one injected field must be passed to create a relationship.');
     }
     if (
-      merged.type === RelationshipTypes.ONE_TO_MANY &&
+      //merged.type === RelationshipTypes.ONE_TO_MANY &&
       (!merged.injectedFieldInFrom || !merged.injectedFieldInTo) &&
       !merged.unidirectionalRelationships
     ) {
