@@ -27,7 +27,8 @@
     addEntitiesToAPIList(entityClass) {
         const pluralEntity = pluralize(entityClass);
         const lowerCaseEntities = _.lowerCase(pluralEntity);
-        const entityMethod = _.replace(lowerCaseEntities, ' ', '_'); 
+        // const entityMethod = _.replace(lowerCaseEntities, ' ', '_'); 
+        const entityMethod = _.replace(lowerCaseEntities, new RegExp("\\s","g"), '_');
 
         this.addEntityNamespaceToList(entityClass, entityMethod);
         this.addEntityResourceListToNamespace(entityClass, entityMethod);
