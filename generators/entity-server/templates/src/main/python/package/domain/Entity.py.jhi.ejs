@@ -63,44 +63,26 @@ class <%= persistClass %>(db.Model):
     <%_ } _%>
 
     # TODO: Adding relationships
-     
-
     <%_ for (relationship of relationships) { _%>
         <%_ if (relationship.ownerSide) { _%>
-    # Owner side
             <%_ if (relationship.relationshipManyToOne) { _%>
-    # Owner - Many to One
     <%= relationship.relationshipName %>_<%= relationship.otherEntity.primaryKey.name %> = db.Column(db.<%= javaFieldMapping[relationship.otherEntity.primaryKey.type] %>, db.ForeignKey("<%_ if (relationship.otherEntityUser) { _%>jhi_user<%_ } else { _%><%= relationship.otherEntity.persistClass %><%_ } _%>.<%= relationship.otherEntity.primaryKey.name %>"))    
-    # <%= relationship.relationshipName %>_<%= relationship.otherEntity.primaryKey.name %> = db.Column(db.<%= javaFieldMapping[relationship.otherEntity.primaryKey.type] %>, db.ForeignKey("<%= relationship.otherEntity.persistClass %>.<%= relationship.otherEntity.primaryKey.name %>"))    
     <%= relationship.relationshipName %> = db.relationship("<%= relationship.otherEntity.persistClass %>", lazy="select", primaryjoin="<%= persistClass %>.<%= relationship.relationshipName %>_<%= relationship.otherEntity.primaryKey.name %> == <%= relationship.otherEntity.persistClass %>.<%= relationship.otherEntity.primaryKey.name %>")
             <%_ } else if (relationship.relationshipOneToMany) { _%>
-    # Owner - One to Many
             <%_ } else if (relationship.relationshipOneToOne) { _%>
-    # Owner - One to One with <%= relationship.otherEntityName %>
-    # <%= relationship.otherEntityName %>_<%= relationship.otherEntity.primaryKey.name %> = db.relationship("<%= relationship.otherEntity.persistClass %>", back_populates="<%= relationship.otherEntityRelationshipName %>", uselist=False)
     <%= relationship.relationshipName %>_<%= relationship.otherEntity.primaryKey.name %> = db.Column(db.<%= javaFieldMapping[relationship.otherEntity.primaryKey.type] %>, db.ForeignKey("<%_ if (relationship.otherEntityUser) { _%>jhi_user<%_ } else { _%><%= relationship.otherEntity.persistClass %><%_ } _%>.<%= relationship.otherEntity.primaryKey.name %>"))
     <%= relationship.relationshipName %> = db.relationship("<%= relationship.otherEntity.persistClass %>", lazy="select", primaryjoin="<%= persistClass %>.<%= relationship.relationshipName %>_<%= relationship.otherEntity.primaryKey.name %> == <%= relationship.otherEntity.persistClass %>.<%= relationship.otherEntity.primaryKey.name %>")
             <%_ } else { _%>
-    # Owner - Many to Many with <%= relationship.otherEntityName %>
     <%= relationship.relationshipNamePlural %> = db.relationship("<%= relationship.otherEntity.persistClass %>", secondary=<%= relationship.entityName %>_<%= relationship.otherEntityName %>, lazy="select")
             <%_ } _%>
         <%_ } else { _%>
-    # Not the owner side
             <%_ if (relationship.relationshipOneToMany) { _%>
-    # Not owner - One to Many
-    # <%= relationship.otherEntityNamePlural %> = db.relationship("<%= relationship.otherEntity.persistClass %>", lazy="select", primaryjoin="<%= persistClass %>.<%= primaryKey.name %> == <%= relationship.otherEntityNameCapitalized %>.<%= relationship.otherEntityRelationshipName %>_<%= relationship.otherEntityField %>")
     <%_ if (relationship.otherEntity.persistClass !== relationship.entityClass) { _%>
     <%= relationship.relationshipNamePlural %> = db.relationship("<%= relationship.otherEntity.persistClass %>", lazy="select")
     <%_ } _%>
             <%_ } else if (relationship.relationshipManyToOne) { _%>
-    # Not owner - Many to One
             <%_ } else if (relationship.relationshipOneToOne) { _%>
-    # Not owner - One to One with <%= relationship.otherEntityName %>
-    # Nothing is required for a One-to-One join on the non-owning side
-    # <%= relationship.otherEntityName %>_<%= relationship.otherEntity.primaryKey.name %> = db.Column(db.Integer, db.ForeignKey("<%= relationship.otherEntityName %>.<%= relationship.otherEntity.primaryKey.name %>"))
-    # <%= relationship.relationshipName %> = db.relationship("<%= relationship.otherEntity.persistClass %>", back_populates="<%= relationship.otherEntityRelationshipName %>", primaryjoin="<%= persistClass %>.<%= primaryKey.name %> == <%= relationship.otherEntityNameCapitalized %>.<%= relationship.otherEntityRelationshipName %>_<%= relationship.otherEntityField %>")
             <%_ } else { _%>
-    # Not owner - Many to Many with <%= relationship.otherEntityName %>
             <%_ } _%>
         <%_ } _%>
     <%_ } _%>

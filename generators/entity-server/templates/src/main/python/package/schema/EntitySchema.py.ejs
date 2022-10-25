@@ -22,29 +22,19 @@ from DatabaseConfig import db
 from domain.<%= entityClass %> import <%= entityClass %>
 <%_ for (relationship of relationships) { _%>
     <%_ if (relationship.ownerSide && (relationship.otherEntity.persistClass !== relationship.entityClass)) { _%>
-# Owner side
         <%_ if (relationship.relationshipManyToOne) { _%>
-# Owner - Many to One
 from schema.<%= relationship.otherEntity.persistClass %>Schema import <%= relationship.otherEntity.persistClass %>Schema
         <%_ } else if (relationship.relationshipOneToMany) { _%>
-# Owner - One to Many
         <%_ } else if (relationship.relationshipOneToOne) { _%>
-# Owner - One to One with <%= relationship.otherEntityName %>
 from schema.<%= relationship.otherEntity.persistClass %>Schema import <%= relationship.otherEntity.persistClass %>Schema
         <%_ } else { _%>
-# Owner - Many to Many with <%= relationship.otherEntityName %>
 from schema.<%= relationship.otherEntity.persistClass %>Schema import <%= relationship.otherEntity.persistClass %>Schema
         <%_ } _%>
     <%_ } else { _%>
-# Not the owner side
         <%_ if (relationship.relationshipOneToMany) { _%>
-# Not owner - One to Many
         <%_ } else if (relationship.relationshipManyToOne) { _%>
-# Not owner - Many to One
         <%_ } else if (relationship.relationshipOneToOne) { _%>
-# Not owner - One to One with <%= relationship.otherEntityName %>
         <%_ } else { _%>
-# Not owner - Many to Many with <%= relationship.otherEntityName %>
         <%_ } _%>
     <%_ } _%>
 <%_ } _%>
@@ -72,29 +62,19 @@ class <%= entityClass %>Schema(ma.SQLAlchemyAutoSchema):
     <%_ } _%>
     <%_ for (relationship of relationships) { _%>
         <%_ if (relationship.ownerSide) { _%>
-    # Owner side
             <%_ if (relationship.relationshipManyToOne) { _%>
-    # Owner - Many to One
     <%= relationship.otherEntityName %> = fields.Nested("<%= relationship.otherEntity.persistClass %>Schema")
             <%_ } else if (relationship.relationshipOneToMany) { _%>
-    # Owner - One to Many
             <%_ } else if (relationship.relationshipOneToOne) { _%>
-    # Owner - One to One with <%= relationship.otherEntityName %>
     <%= relationship.otherEntityName %> = fields.Nested("<%= relationship.otherEntity.persistClass %>Schema")
             <%_ } else { _%>
-    # Owner - Many to Many with <%= relationship.otherEntityName %>
     <%= relationship.otherEntityNamePlural %> = fields.Nested("<%= relationship.otherEntity.persistClass %>Schema", many=True)
             <%_ } _%>
         <%_ } else { _%>
-    # Not the owner side
             <%_ if (relationship.relationshipOneToMany) { _%>
-    # Not owner - One to Many
             <%_ } else if (relationship.relationshipManyToOne) { _%>
-    # Not owner - Many to One
             <%_ } else if (relationship.relationshipOneToOne) { _%>
-    # Not owner - One to One with <%= relationship.otherEntityName %>
             <%_ } else { _%>
-    # Not owner - Many to Many with <%= relationship.otherEntityName %>
             <%_ } _%>
         <%_ } _%>
     <%_ } _%>
