@@ -24,7 +24,7 @@ const instanceName = restInstance;
 const entityLowercase = _.lowerCase(entityClass);
 const entitiesLowercase = _.lowerCase(entityInstancePlural);
 const entitiesCamelCase = _.camelCase(instanceName)
-const entityMethod = _.replace(entityApiUrl, '-', '_');
+const entityMethod = _.replace(entityApiUrl, new RegExp("-","g"), '_');
 _%>
 from domain.<%= entityClass %> import <%= entityClass %>
 from schema.<%= entityClass %>Schema import <%= entityClass %>Schema
@@ -74,7 +74,6 @@ class <%= entityClass %>Resource(Resource):
         updated_<%= entityMethod %> = <%= entityMethod %>_schema.load(<%= entityMethod %>_json, instance=<%= entityMethod %>, partial=True)
         updated_<%= entityMethod %>.update_db()
         return <%= entityMethod %>_schema.dump(updated_<%= entityMethod %>), 200
-
 
     @jwt_required()
     def delete(self, <%= primaryKey.name %>):
