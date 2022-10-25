@@ -1456,32 +1456,32 @@ const baseServerFiles = {
         },
       ],
     },
-    {
-      // TODO : add these tests to reactive
-      condition: generator => !generator.reactive,
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/config/WebConfigurerTest.java',
-          renameTo: generator => `${generator.testDir}config/WebConfigurerTest.java`,
-        },
-        {
-          file: 'package/config/WebConfigurerTestController.java',
-          renameTo: generator => `${generator.testDir}config/WebConfigurerTestController.java`,
-        },
-      ],
-    },
-    {
-      // TODO : add these tests to reactive
-      condition: generator => !generator.skipClient && !generator.reactive,
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/config/StaticResourcesWebConfigurerTest.java',
-          renameTo: generator => `${generator.testDir}config/StaticResourcesWebConfigurerTest.java`,
-        },
-      ],
-    },
+    // {
+    //   // TODO : add these tests to reactive
+    //   condition: generator => !generator.reactive,
+    //   path: SERVER_TEST_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/config/WebConfigurerTest.java',
+    //       renameTo: generator => `${generator.testDir}config/WebConfigurerTest.java`,
+    //     },
+    //     {
+    //       file: 'package/config/WebConfigurerTestController.java',
+    //       renameTo: generator => `${generator.testDir}config/WebConfigurerTestController.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   // TODO : add these tests to reactive
+    //   condition: generator => !generator.skipClient && !generator.reactive,
+    //   path: SERVER_TEST_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/config/StaticResourcesWebConfigurerTest.java',
+    //       renameTo: generator => `${generator.testDir}config/StaticResourcesWebConfigurerTest.java`,
+    //     },
+    //   ],
+    // },
     {
       condition: generator => generator.serviceDiscoveryType,
       path: SERVER_TEST_RES_DIR,
@@ -1950,14 +1950,14 @@ const baseServerFiles = {
         },
       ],
     },
-    {
-      condition: generator => !generator.skipUserManagement,
-      path: SERVER_TEST_RES_DIR,
-      templates: [
-        /* User management java test files */
-        'templates/mail/testEmail.html',
-      ],
-    },
+    // {
+    //   condition: generator => !generator.skipUserManagement,
+    //   path: SERVER_TEST_RES_DIR,
+    //   templates: [
+    //     /* User management java test files */
+    //     'templates/mail/testEmail.html',
+    //   ],
+    // },
     {
       condition: generator => !generator.skipUserManagement && !generator.enableTranslation,
       path: SERVER_TEST_RES_DIR,

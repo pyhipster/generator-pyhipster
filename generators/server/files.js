@@ -1814,14 +1814,14 @@ const baseServerFiles = {
         },
       ],
     },
-    {
-      condition: generator => !generator.skipUserManagement,
-      path: SERVER_TEST_RES_DIR,
-      templates: [
-        /* User management java test files */
-        'templates/mail/testEmail.html',
-      ],
-    },
+    // {
+    //   condition: generator => !generator.skipUserManagement,
+    //   path: SERVER_TEST_RES_DIR,
+    //   templates: [
+    //     /* User management java test files */
+    //     'templates/mail/testEmail.html',
+    //   ],
+    // },
     {
       condition: generator => !generator.skipUserManagement && !generator.enableTranslation,
       path: SERVER_TEST_RES_DIR,
