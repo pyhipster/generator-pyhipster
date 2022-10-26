@@ -103,7 +103,6 @@
     "eslint-webpack-plugin": "<%= dependabotPackageJson.devDependencies['eslint-webpack-plugin'] %>",
     "fork-ts-checker-webpack-plugin": "<%= dependabotPackageJson.devDependencies['fork-ts-checker-webpack-plugin'] %>",
 <%_ if (!skipJhipsterDependencies) { _%>
-    "generator-jhipster": "<%= packagejs.version %>",
   <%_ otherModules.forEach(module => { _%>
     "<%= module.name %>": "<%= module.version %>",
   <%_ });
