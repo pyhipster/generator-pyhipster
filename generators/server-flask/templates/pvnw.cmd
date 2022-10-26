@@ -17,6 +17,8 @@ echo ******************************
 
 :virtualEnvironmentActive
 echo Virtual environment has been activated
+echo ******************************
+
 
 echo Installing required modules
 call pip install -r requirements.txt

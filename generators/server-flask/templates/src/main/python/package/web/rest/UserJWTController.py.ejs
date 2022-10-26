@@ -25,6 +25,9 @@ import bcrypt
 from datetime import timedelta
 
 
+logging.basicConfig(format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
+
+
 jwt_authentication_ns = Namespace('user-jwt-controller', path="/authenticate")
 
 

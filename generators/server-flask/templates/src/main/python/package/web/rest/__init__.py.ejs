@@ -22,6 +22,7 @@ from .UserJWTController import jwt_authentication_ns
 from .AccountResource import account_register_ns, account_authenticate_ns, account_ns, \
     account_activate_ns, passwd_reset_init_ns, passwd_reset_finish_ns, change_passwd_ns
 from .UserResource import user_list_ns
+from .LogoutResource import logout_ns
 # pyhipster-needle-rest-api-list-add-entry-import
 
 def add_api_namespace(api):
@@ -29,6 +30,7 @@ def add_api_namespace(api):
     api.add_namespace(public_user_list_ns)
     api.add_namespace(authority_list_ns)
     api.add_namespace(jwt_authentication_ns)
+    api.add_namespace(logout_ns)
     api.add_namespace(account_register_ns)
     api.add_namespace(account_authenticate_ns)
     api.add_namespace(account_ns)
@@ -43,6 +45,7 @@ def add_api_namespace(api):
     public_user_list_ns.add_resource(PublicUserResource.PublicUserResourceList, "")
     authority_list_ns.add_resource(AuthorityResource.AuthorityResourceList, "")
     jwt_authentication_ns.add_resource(UserJWTController.UserJWTResource, "")
+    logout_ns.add_resource(LogoutResource.LogoutResource, "")
     account_register_ns.add_resource(AccountResource.ManagedUserAccountRegister, "")
     account_authenticate_ns.add_resource(AccountResource.AccountAuthenticate, "")
     account_ns.add_resource(AccountResource.AdminAccountDetails, "")

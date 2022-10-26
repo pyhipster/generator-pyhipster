@@ -25,6 +25,9 @@ from flask import request, jsonify
 import logging
 
 
+logging.basicConfig(format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
+
+
 public_user_list_ns = Namespace('public-user-resource', path="/users")
 
 public_user_list_schema = PublicUserSchema(many=True)

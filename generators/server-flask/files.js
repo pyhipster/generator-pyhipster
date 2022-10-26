@@ -721,7 +721,7 @@ const baseServerFiles = {
     // },
     {
       condition: generator =>
-        generator.authenticationType === OAUTH2 &&
+        (generator.authenticationType === OAUTH2 || generator.authenticationType === JWT) &&
         !generator.reactive &&
         (generator.applicationType === MONOLITH || generator.applicationType === GATEWAY),
       path: SERVER_MAIN_SRC_DIR,

@@ -25,6 +25,9 @@ from flask_jwt_extended import jwt_required
 from datetime import datetime, timezone
 
 
+logging.basicConfig(format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
+
+
 user_list_ns = Namespace('user-resource', path="/admin/users")
 
 user_schema = AdminUserSchema()

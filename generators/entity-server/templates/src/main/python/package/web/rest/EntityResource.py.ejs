@@ -30,6 +30,7 @@ from domain.<%= entityClass %> import <%= entityClass %>
 from schema.<%= entityClass %>Schema import <%= entityClass %>Schema
 from flask_jwt_extended import jwt_required
 
+logging.basicConfig(format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
 <%= entityMethod %>_list_ns = Namespace('<%= entityApiUrl %>-resource', path="/<%= entityApiUrl %>")
 
 <%= entityMethod %>_schema = <%= entityClass %>Schema()
