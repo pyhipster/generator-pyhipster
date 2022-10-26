@@ -1,0 +1,28 @@
+@echo off
+echo Configuring project
+echo ******************************
+set EXEC_DIR=%CD%
+set WDIR=%EXEC_DIR%
+
+IF EXIST "%WDIR%"\.venv goto virtualEnvExists
+echo Creating a new virtual environment...
+call python -m venv .venv
+echo ******************************
+
+:virtualEnvExists
+IF "%VIRTUAL_ENV%" == "%WDIR%\.venv" goto virtualEnvironmentActive
+echo Activating the virtual environment
+call .venv\Scripts\activate
+echo ******************************
+
+:virtualEnvironmentActive
+echo Virtual environment has been activated
+
+echo Installing required modules
+call pip install -r requirements.txt
+echo ******************************
+
+echo Starting the application
+echo ******************************
+call python src\main\python\PyhipsterApp.py
+

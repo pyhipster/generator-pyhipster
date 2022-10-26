@@ -384,6 +384,12 @@ const baseServerFiles = {
         { file: 'npmw.cmd', method: 'copy', noEjs: true },
       ],
     },
+    {
+      templates: [
+        { file: 'pvnw', method: 'copy', noEjs: true },
+        { file: 'pvnw.cmd', method: 'copy', noEjs: true },
+      ],
+    },
   ],
   serverResource: [
     {
