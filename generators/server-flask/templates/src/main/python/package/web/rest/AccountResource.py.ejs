@@ -20,7 +20,7 @@ from flask_restx import Resource, Namespace
 from flask import request, session
 from domain.Authority import Authority
 from domain.User import User
-from schema.User import ManagedUserSchema, AdminUserSchema, KeyAndPasswordSchema
+from schema.UserSchema import ManagedUserSchema, AdminUserSchema, KeyAndPasswordSchema
 from security.AuthoritiesConstants import AuthoritiesConstants
 import logging
 import bcrypt

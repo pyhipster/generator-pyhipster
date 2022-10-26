@@ -18,7 +18,7 @@
 -%>
 from flask_restx import Resource, fields, Namespace
 from domain.User import User
-from schema.User import AdminUserSchema
+from schema.UserSchema import AdminUserSchema
 import logging
 from flask import request, session
 from flask_jwt_extended import jwt_required

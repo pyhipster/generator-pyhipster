@@ -1131,8 +1131,8 @@ const baseServerFiles = {
           renameTo: generator => `${generator.javaDir}schema/__init__.py`,
         },
         {
-          file: 'package/schema/User.py',
-          renameTo: generator => `${generator.javaDir}schema/User.py`,
+          file: 'package/schema/UserSchema.py',
+          renameTo: generator => `${generator.javaDir}schema/UserSchema.py`,
         },
         {
           file: 'package/schema/Authority.py',
