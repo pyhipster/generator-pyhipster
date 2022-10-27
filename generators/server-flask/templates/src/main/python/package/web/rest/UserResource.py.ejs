@@ -21,7 +21,7 @@ from domain.User import User
 from schema.UserSchema import AdminUserSchema
 import logging
 from flask import request, session
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from datetime import datetime, timezone
 
 
@@ -35,6 +35,7 @@ user_list_schema = AdminUserSchema(many=True)
 
 
 class UserResource(Resource):
+    @jwt_required
     def get(self, login):
         logging.info("GET request received on UserResource")
         users = User.get_by_login(login)
@@ -42,6 +43,7 @@ class UserResource(Resource):
             return {"message": "User not found"}, 404
         return user_schema.dump(users), 200
 
+    @jwt_required
     def delete(self, login):
         logging.info("DELETE request received on UserResource")
         users = User.get_by_login(login)
@@ -52,11 +54,13 @@ class UserResource(Resource):
 
 
 class UserResourceList(Resource):
+    @jwt_required
     def get(self):
         logging.info("GET request received on UserResource")
         users = User.get_all_users()
         return user_list_schema.dump(users), 200
 
+    @jwt_required
     def post(self):
         logging.info("POST request received on EmployeeResourceList")
         user_json = request.get_json()
@@ -64,9 +68,10 @@ class UserResourceList(Resource):
         user_data.save_to_db()
         return user_schema.dump(user_data), 201
 
+    @jwt_required
     def put(self):
         logging.info("PUT request received on UserResource")
-        current_login = session["user_id"]
+        current_login = get_jwt_identity()
         user_json = request.get_json()
         if user_json["login"] is None:
             return {"message": "Invalid User"}, 400

@@ -52,10 +52,7 @@ class UserJWTResource(Resource):
             user_roles.append(role.name)
         auth = ",".join(user_roles)
         authorizations = {"auth": auth}
-        # Adding session variables
-        session["user_id"] = username
-        session["role"] = auth
         # Generate the JWT based on the above parameters
         access_token = 'Bearer ' + create_access_token(identity=username, expires_delta=token_expiry, additional_claims=authorizations)
-        return {"idToken": access_token}, 200, {'Authorization': access_token}
+        return {"id_token": access_token}, 200, {'Authorization': access_token}
 
