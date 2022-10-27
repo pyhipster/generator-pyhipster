@@ -48,10 +48,10 @@ const commonFiles = {
           renameTo: () => '.editorconfig',
           method: 'copy',
         },
-        {
-          file: 'sonar-project.properties',
-          renameTo: () => 'sonar-project.properties',
-        },
+        // {
+        //   file: 'sonar-project.properties',
+        //   renameTo: () => 'sonar-project.properties',
+        // },
       ],
     },
   ],
