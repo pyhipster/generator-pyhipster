@@ -151,12 +151,12 @@ function askForServerSideOpts() {
         if (!answers.reactive) {
           opts.push({
             value: SQL,
-            name: 'SQL (SQLite, PostgreSQL, MySQL, MariaDB, Oracle, MSSQL)',
+            name: 'SQL (SQLite)',
           });
         } else {
           opts.push({
             value: SQL,
-            name: 'SQL (SQLite, PostgreSQL, MySQL, MariaDB, MSSQL)',
+            name: 'SQL (SQLite)',
           });
         }
         // TODO: Disabling NoSQL temporarily till it can be developed
