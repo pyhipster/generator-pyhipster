@@ -27,14 +27,16 @@
     addEntitiesToAPIList(entityClass) {
         const pluralEntity = pluralize(entityClass);
         const lowerCaseEntities = _.lowerCase(pluralEntity);
-        // const entityMethod = _.replace(lowerCaseEntities, ' ', '_'); 
         const entityMethod = _.replace(lowerCaseEntities, new RegExp("\\s","g"), '_');
+        // const entityTable = _.replace(entityClass, new RegExp("\\s","g"), '_');
+        const entityFakeDataFile = _.replace(entityClass, new RegExp("\\s","g"), '_');
 
         this.addEntityNamespaceToList(entityClass, entityMethod);
         this.addEntityResourceListToNamespace(entityClass, entityMethod);
         this.addEntityResourceListCountToNamespace(entityClass, entityMethod);
         this.addEntityResourceToNamespace(entityClass, entityMethod);
         this.addEntityResourceImportToList(entityClass, entityMethod);
+        this.addEntityFakeDataEntries(entityClass, entityFakeDataFile);
       }
     
       addEntityResourceImportToList(entry, entityMethod) {
@@ -79,6 +81,16 @@
     
         const needle = `pyhipster-needle-rest-api-list-add-resource`;
         const content = `${entityMethod}_list_ns.add_resource(${entry}Resource.${entry}Resource, "/<int:id>")`;
+        this._doAddBlockContentToFile(cachePath, needle, content, errorMessage);
+      }
+
+      addEntityFakeDataEntries(entry, entityMethod) {
+        const errorMessage = chalk.yellow(`\nUnable to add fake data for ${entry}.`);
+        const cachePath = `${SERVER_MAIN_SRC_DIR}config/FakeDataLoader.py`;
+    
+        const needle = `pyhipster-needle-user-defined-model-fake-data`;
+        // const content = `${entityMethod}_list_ns.add_resource(${entry}Resource.${entry}Resource, "/<int:id>")`;
+        const content = `{"table": "${entry}", "file": "${entityMethod}.csv", "file_location": user_fake_data},`;
         this._doAddBlockContentToFile(cachePath, needle, content, errorMessage);
       }
     
