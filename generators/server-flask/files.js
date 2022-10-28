@@ -1028,6 +1028,10 @@ const baseServerFiles = {
           file: generator => `package/config/BaseConfig.py`,
           renameTo: generator => `${generator.javaDir}config/BaseConfig.py`,
         },
+        {
+          file: generator => `package/config/FakeDataLoader.py`,
+          renameTo: generator => `${generator.javaDir}config/FakeDataLoader.py`,
+        },
       ],
     },
     {
