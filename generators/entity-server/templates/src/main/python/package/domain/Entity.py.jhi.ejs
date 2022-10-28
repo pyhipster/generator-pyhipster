@@ -78,7 +78,7 @@ class <%= persistClass %>(db.Model):
         <%_ } else { _%>
             <%_ if (relationship.relationshipOneToMany) { _%>
     <%_ if (relationship.otherEntity.persistClass !== relationship.entityClass) { _%>
-    <%= relationship.relationshipNamePlural %> = db.relationship("<%= relationship.otherEntity.persistClass %>", lazy="select")
+    <%= relationship.relationshipNamePlural %> = db.relationship("<%= relationship.otherEntity.persistClass %>", lazy="select", viewonly=True)
     <%_ } _%>
             <%_ } else if (relationship.relationshipManyToOne) { _%>
             <%_ } else if (relationship.relationshipOneToOne) { _%>
