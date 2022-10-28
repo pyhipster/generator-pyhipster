@@ -29,7 +29,7 @@ logout_ns = Namespace('user-jwt-controller', path="/logout")
 
 
 class LogoutResource(Resource):
-     @jwt_required
+     @jwt_required()
      def post(self):
           logging.info("POST request received on LogoutResource")
           session.clear()
