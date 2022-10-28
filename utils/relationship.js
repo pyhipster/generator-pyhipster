@@ -46,11 +46,7 @@ function prepareRelationshipForTemplates(entityWithConfig, relationship, generat
     throw new Error(`Error at entity ${entityName}: could not find the entity of the relationship ${stringify(relationship)}`);
   }
   const otherEntityData = relationship.otherEntity;
-  // TODO: 
-  console.log("LOG: 18-Oct-2022 PyHipster: Checking the relationship fields for " + entityName)
-  console.log(relationship)
-  // console.log("LOG: 18-Oct-2022 PyHipster: Checking the relationship fields for " + entityName)
-  // console.log(entityWithConfig)
+  // TODO: Relationship information here
   if (!relationship.otherEntityField && otherEntityData.primaryKey) {
     relationship.otherEntityField = otherEntityData.primaryKey.name;
   }
