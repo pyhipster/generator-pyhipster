@@ -1745,6 +1745,15 @@ const baseServerFiles = {
         },
       ],
     },
+    {
+      path: SERVER_MAIN_SRC_DIR,
+      templates: [
+        {
+          file: 'package/web/rest/AppManagment.py',
+          renameTo: generator => `${generator.javaDir}rest/AppManagment.py`,
+        },
+      ],
+    },
     // {
     //   condition: generator => generator.authenticationType === OAUTH2,
     //   path: SERVER_TEST_SRC_DIR,

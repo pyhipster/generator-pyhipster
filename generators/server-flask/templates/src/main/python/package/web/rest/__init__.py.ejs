@@ -39,6 +39,7 @@ def add_api_namespace(api):
     api.add_namespace(passwd_reset_finish_ns)
     api.add_namespace(change_passwd_ns)
     api.add_namespace(user_list_ns)
+    api.add_namespace(app_management_ns)
     # pyhipster-needle-rest-api-list-add-namespaces
 
     # Adding resources to added namespaces
@@ -55,6 +56,7 @@ def add_api_namespace(api):
     change_passwd_ns.add_resource(AccountResource.AccountChangePassword, "")
     user_list_ns.add_resource(UserResource.UserResource, "/<string:login>")
     user_list_ns.add_resource(UserResource.UserResourceList, "")
+    app_management_ns.add_resource(AppManagment.AppManagementInfoResource, "/info")
     # pyhipster-needle-rest-api-list-add-resource
     # pyhipster-needle-rest-api-list-add-resource-list
     # pyhipster-needle-rest-api-list-add-resource-list-count
