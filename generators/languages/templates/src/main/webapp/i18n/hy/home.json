@@ -5,15 +5,15 @@
         "logged": {
             "message": "Դուք մուտք եք գործել որպես օգտվող \"{{username}}\"."
         },
-        "question": "Եթե Ձեզ մոտ առաջացել են հարցեր JHipster:",
+        "question": "Եթե Ձեզ մոտ առաջացել են հարցեր PyHipster:",
         "link": {
-            "homepage": "JHipster գլխավոր էջ",
-            "stackoverflow": "JHipster on Stack Overflow",
-            "bugtracker": "JHipster bug tracker",
-            "chat": "JHipster public chat room",
-            "follow": "follow @jhipster on Twitter"
+            "homepage": "PyHipster գլխավոր էջ",
+            "stackoverflow": "PyHipster on Stack Overflow",
+            "bugtracker": "PyHipster bug tracker",
+            "chat": "PyHipster public chat room",
+            "follow": "follow @py_hipster on Twitter"
         },
-        "like": "Եթե Ձեզ դուր է գալիս JHipster, մի մոռացեք տալ Մեզ աստղ",
+        "like": "Եթե Ձեզ դուր է գալիս PyHipster, մի մոռացեք տալ Մեզ աստղ",
         "github": "GitHub"
     }
 }
