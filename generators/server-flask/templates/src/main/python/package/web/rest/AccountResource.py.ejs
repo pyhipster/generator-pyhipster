@@ -113,8 +113,9 @@ class AdminAccountDetails(Resource):
             return {"message": "Invalid User"}, 400
         # Before updating check that the email is not already used by any other user
         user_email = User.get_by_email(user_json["email"])
-        if user_email.id != user_json["id"]:
-            return {"message": "Email is already in use"}, 400
+        if user_email is not None:
+            if user_email.id != user_json["id"]:
+                return {"message": "Email is already in use"}, 400
         # TODO: Should update only first name, last name, email, language
         updated_user = admin_user_schema.load(user_json, instance=current_user)
         updated_user.set_last_modified_by(login)
