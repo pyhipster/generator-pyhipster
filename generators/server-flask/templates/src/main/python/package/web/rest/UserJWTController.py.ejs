@@ -53,6 +53,10 @@ class UserJWTResource(Resource):
         auth = ",".join(user_roles)
         authorizations = {"auth": auth}
         # Generate the JWT based on the above parameters
+        <%_ if (clientFrameworkAngular) { %>
+        access_token = create_access_token(identity=username, expires_delta=token_expiry, additional_claims=authorizations)
+        <%_ } else { %>
         access_token = 'Bearer ' + create_access_token(identity=username, expires_delta=token_expiry, additional_claims=authorizations)
+        <%_ } %>
         return {"id_token": access_token}, 200, {'Authorization': access_token}
 
