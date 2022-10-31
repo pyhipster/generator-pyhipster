@@ -16,9 +16,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
-from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-import json
 from enum import Enum
 from typing import List
 <%_ Object.keys(uniqueEnums).forEach(function(element) { _%>
@@ -27,20 +25,30 @@ from .enumeration.<%= element %> import <%= element %>
 <%_ for (const otherEntity of otherEntities.filter(otherEntity => otherEntity.entityClass !== persistClass)) { _%>
 from . import <%= otherEntity.entityClass %>
 <%_ } _%>
+from DatabaseConfig import db
 <% 
     const javaFieldMapping = {
         "Long": "Integer",
         "Instant": "DateTime",
+        "LocalDate": "DateTime",
         "Duration": "Interval",
         "Double": "Float",
         "Blob": "LargeBinary",
+        "byte[]": "LargeBinary",
         "AnyBlob": "LargeBinary",
         "ImageBlob": "LargeBinary",
         "TextBlob": "UnicodeText"
     }
 %> 
-db = SQLAlchemy()
 
+<%_ for (relationship of relationships) { _%>
+    <%_ if (relationship.ownerSide && relationship.relationshipManyToMany) { _%>
+<%= relationship.entityName %>_<%= relationship.otherEntityName %> = db.Table('<%= relationship.entityName %>_<%= relationship.otherEntityName %>',
+    db.Column('<%= relationship.entityName %>_<%= relationship.primaryKey.name %>', db.<%= javaFieldMapping[relationship.primaryKey.type] %>, db.ForeignKey('<%= relationship.entityClass %>.<%= relationship.primaryKey.name %>'), primary_key=True),
+    db.Column('<%= relationship.otherEntityName %>_<%= relationship.otherEntity.primaryKey.name %>', db.<%= javaFieldMapping[relationship.otherEntity.primaryKey.type] %>, db.ForeignKey('<%= relationship.otherEntity.persistClass %>.<%= relationship.otherEntity.primaryKey.name %>'), primary_key=True)
+)
+    <%_ } _%>
+<%_ } _%>
 
 class <%= persistClass %>(db.Model):
     __tablename__ = "<%= persistClass %>"
@@ -48,10 +56,35 @@ class <%= persistClass %>(db.Model):
     <%= primaryKey.name %> = db.Column(db.<%= javaFieldMapping[primaryKey.type] %>, primary_key=True)
     <%_ } _%>
     <%_ for (const field of fields.filter(field => !field.transient && !field.id && !field.fieldIsEnum)) { _%>
-    <%= field.fieldName %> = db.Column(db.<%= javaFieldMapping[field.javaFieldType] || field.javaFieldType %><% if (field.fieldValidationRequired) { %>, nullable=False<% } %><% if (field.fieldValidationUnique) { %>, unique=True<% } %>)
+    <%= _.replace(_.lowerCase(field.fieldName), new RegExp("\\s","g"), '_') %> = db.Column(db.<%= javaFieldMapping[field.javaFieldType] || field.javaFieldType %><% if (field.fieldValidationRequired) { %>, nullable=False<% } %><% if (field.fieldValidationUnique) { %>, unique=True<% } %>)
     <%_ } _%>
     <%_ for (const field of fields.filter(field => !field.transient && field.fieldIsEnum)) { _%>
-    <%= field.fieldName %> = db.Enum(<%= field.javaFieldType %><% if (field.fieldValidationRequired) { %>, nullable=False<% } %><% if (field.fieldValidationUnique) { %>, unique=True<% } %>)
+    <%= _.replace(_.lowerCase(field.fieldName), new RegExp("\\s","g"), '_') %> = db.Column(db.Enum(<%= field.javaFieldType %><% if (field.fieldValidationRequired) { %>, nullable=False<% } %><% if (field.fieldValidationUnique) { %>, unique=True<% } %>))
+    <%_ } _%>
+
+    # TODO: Adding relationships
+    <%_ for (relationship of relationships) { _%>
+        <%_ if (relationship.ownerSide) { _%>
+            <%_ if (relationship.relationshipManyToOne) { _%>
+    <%= relationship.relationshipName %>_<%= relationship.otherEntity.primaryKey.name %> = db.Column(db.<%= javaFieldMapping[relationship.otherEntity.primaryKey.type] %>, db.ForeignKey("<%_ if (relationship.otherEntityUser) { _%>jhi_user<%_ } else { _%><%= relationship.otherEntity.persistClass %><%_ } _%>.<%= relationship.otherEntity.primaryKey.name %>"))    
+    <%= relationship.relationshipName %> = db.relationship("<%= relationship.otherEntity.persistClass %>", lazy="select", primaryjoin="<%= persistClass %>.<%= relationship.relationshipName %>_<%= relationship.otherEntity.primaryKey.name %> == <%= relationship.otherEntity.persistClass %>.<%= relationship.otherEntity.primaryKey.name %>")
+            <%_ } else if (relationship.relationshipOneToMany) { _%>
+            <%_ } else if (relationship.relationshipOneToOne) { _%>
+    <%= relationship.relationshipName %>_<%= relationship.otherEntity.primaryKey.name %> = db.Column(db.<%= javaFieldMapping[relationship.otherEntity.primaryKey.type] %>, db.ForeignKey("<%_ if (relationship.otherEntityUser) { _%>jhi_user<%_ } else { _%><%= relationship.otherEntity.persistClass %><%_ } _%>.<%= relationship.otherEntity.primaryKey.name %>"))
+    <%= relationship.relationshipName %> = db.relationship("<%= relationship.otherEntity.persistClass %>", lazy="select", primaryjoin="<%= persistClass %>.<%= relationship.relationshipName %>_<%= relationship.otherEntity.primaryKey.name %> == <%= relationship.otherEntity.persistClass %>.<%= relationship.otherEntity.primaryKey.name %>")
+            <%_ } else { _%>
+    <%= relationship.relationshipNamePlural %> = db.relationship("<%= relationship.otherEntity.persistClass %>", secondary=<%= relationship.entityName %>_<%= relationship.otherEntityName %>, lazy="select")
+            <%_ } _%>
+        <%_ } else { _%>
+            <%_ if (relationship.relationshipOneToMany) { _%>
+    <%_ if (relationship.otherEntity.persistClass !== relationship.entityClass) { _%>
+    <%= relationship.relationshipNamePlural %> = db.relationship("<%= relationship.otherEntity.persistClass %>", lazy="select", viewonly=True)
+    <%_ } _%>
+            <%_ } else if (relationship.relationshipManyToOne) { _%>
+            <%_ } else if (relationship.relationshipOneToOne) { _%>
+            <%_ } else { _%>
+            <%_ } _%>
+        <%_ } _%>
     <%_ } _%>
 
     @classmethod
@@ -59,72 +92,33 @@ class <%= persistClass %>(db.Model):
         return cls.query.filter_by(<%= primaryKey.name %>=_<%= primaryKey.name %>).first()
 
     @classmethod
-    def find_all(cls) -> List["<%= persistClass %>"]:
-        return cls.query.all()
+    def find_all(cls, page, per_page) -> List["<%= persistClass %>"]:
+        paginate = cls.query.paginate(page=page, per_page=per_page)
+        return paginate.items
+
+    @classmethod
+    def find_all_count(cls):
+        return cls.query.count()
     
     def save_to_db(self) -> None:
         db.session.add(self)
-        db.session.commmit()
+        db.session.commit()
+
+    def update_db(self) -> None:
+        db.session.merge(self)
+        db.session.commit()
 
     def delete_from_db(self) -> None:
         db.session.delete(self)
         db.session.commit()
 
-    # FIXME: Add relationships
-
-
     # Getters and setters
     <%_ for (const field of fields.filter(field => !field.transient && (embedded || !field.id || !primaryKey.composite))) { _%>
-    def get_<%= _.replace(_.lowerCase(field.fieldInJavaBeanMethod), ' ', '_') %>(self):
-        return self.<%= field.fieldName %>
+    def get_<%= _.replace(_.lowerCase(field.fieldInJavaBeanMethod), new RegExp("\\s","g"), '_') %>(self):
+        return self.<%= _.replace(_.lowerCase(field.fieldName), new RegExp("\\s","g"), '_') %>
 
-    def set_<%= _.replace(_.lowerCase(field.fieldInJavaBeanMethod), ' ', '_') %>(self, <%= _.replace(_.lowerCase(field.fieldName), ' ', '_') %>):
-        self.<%= field.fieldName %> = <%= _.replace(_.lowerCase(field.fieldName), ' ', '_') %>
+    def set_<%= _.replace(_.lowerCase(field.fieldInJavaBeanMethod), new RegExp("\\s","g"), '_') %>(self, <%= _.replace(_.lowerCase(field.fieldName), new RegExp("\\s","g"), '_') %>):
+        self.<%= _.replace(_.lowerCase(field.fieldName), new RegExp("\\s","g"), '_') %> = <%= _.replace(_.lowerCase(field.fieldName), new RegExp("\\s","g"), '_') %>
     
     <%_ } _%>
-    # __repr__ and __str__ methods
-    def __repr__(self):
-        return f"<%= persistClass %>(" + \
-        <%_ if (!embedded) { _%>
-                    "<%= primaryKey.name %>=" + {self.<%= primaryKey.name %>} + \
-        <%_ } _%>
-        <%_ for (const field of fields.filter(field => !field.id && !field.transient)) {
-        const isNumeric = field.fieldTypeNumeric; _%>
-                    ", <%= field.fieldName %>=<% if (! isNumeric) { %>'<% } %>" + <% if ( !field.fieldTypeString ) { %>{self.<%= field.fieldName %>}<% } else { %>{self.<%= field.fieldName %>}<% } %><% if (! isNumeric) { %> + "'" <% } %>+ \
-        <%_ if (field.fieldWithContentType) { _%>
-                    ", <%= field.fieldName %>ContentType='" + self.<%= field.fieldName %>ContentType + "'" + \
-        <%_ } _%>
-        <%_ } _%>
-        <%_ for (const relationship of relationships) { _%>
-        <%_ if (relationship.otherEntity.embedded) {
-            if (relationship.relationshipManyToOne) { _%>
-                    ", <%= relationship.relationshipFieldName %>='" + get<%= relationship.relationshipNameCapitalized %>() + "'" + \
-            <%_ } else if (relationship.relationshipOneToOne && relationship.ownerSide) { _%>
-                    ", <%= relationship.relationshipFieldName %>='" + get<%= relationship.relationshipNameCapitalized %>() + "'" + \
-            <%_ } _%>
-        <%_ } _%>
-        <%_ } _%>
-                    ")" 
-
-    def __str__(self):
-        return f"<%= persistClass %>(" + \
-        <%_ if (!embedded) { _%>
-                    "<%= primaryKey.name %>=" + str(self.<%= primaryKey.name %>) + \
-        <%_ } _%>
-        <%_ for (const field of fields.filter(field => !field.id && !field.transient)) {
-        const isNumeric = field.fieldTypeNumeric; _%>
-                    ", <%= field.fieldName %>=<% if (! isNumeric) { %>'<% } %>" + <% if ( !field.fieldTypeString ) { %>str(self.<%= field.fieldName %>)<% } else { %>self.<%= field.fieldName %><% } %><% if (! isNumeric) { %> + "'" <% } %>+ \
-        <%_ if (field.fieldWithContentType) { _%>
-                    ", <%= field.fieldName %>ContentType='" + self.<%= field.fieldName %>ContentType + "'" + \
-        <%_ } _%>
-        <%_ } _%>
-        <%_ for (const relationship of relationships) { _%>
-        <%_ if (relationship.otherEntity.embedded) {
-            if (relationship.relationshipManyToOne) { _%>
-                    ", <%= relationship.relationshipFieldName %>='" + get<%= relationship.relationshipNameCapitalized %>() + "'" + \
-            <%_ } else if (relationship.relationshipOneToOne && relationship.ownerSide) { _%>
-                    ", <%= relationship.relationshipFieldName %>='" + get<%= relationship.relationshipNameCapitalized %>() + "'" + \
-            <%_ } _%>
-        <%_ } _%>
-        <%_ } _%>
-                    ")" 
+    

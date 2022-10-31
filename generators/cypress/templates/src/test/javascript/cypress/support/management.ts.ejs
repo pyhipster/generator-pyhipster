@@ -22,7 +22,7 @@
 Cypress.Commands.add('getManagementInfo', () => {
   return cy.request({
     method: 'GET',
-    url: '/management/info',
+    url: '/api/management/info',
   }).then(response => response.body);
 });
 

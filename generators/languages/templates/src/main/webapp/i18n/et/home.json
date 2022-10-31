@@ -5,15 +5,15 @@
         "logged": {
             "message": "Olete sisse logitud kasutajana \"{{username}}\"."
         },
-        "question": "Kui teil on küsimusi JHipster kohta:",
+        "question": "Kui teil on küsimusi PyHipster kohta:",
         "link": {
-            "homepage": "JHipster koduleht",
-            "stackoverflow": "JHipster Stack Overflow-s",
-            "bugtracker": "JHipster veahaldus",
-            "chat": "JHipster avalik jututuba",
-            "follow": "jälgi @jhipster Twitteris"
+            "homepage": "PyHipster koduleht",
+            "stackoverflow": "PyHipster Stack Overflow-s",
+            "bugtracker": "PyHipster veahaldus",
+            "chat": "PyHipster avalik jututuba",
+            "follow": "jälgi @py_hipster Twitteris"
         },
-        "like": "Kui teile meeldib JHipster, siis ärge unustage anda meile tähte",
+        "like": "Kui teile meeldib PyHipster, siis ärge unustage anda meile tähte",
         "github": "GitHub-is"
     }
 }

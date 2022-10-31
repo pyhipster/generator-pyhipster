@@ -5,15 +5,15 @@
         "logged": {
             "message": "Anda masuk sebagai \"{{username}}\"."
         },
-        "question": "Jika anda punya pertanyaan tentang JHipster:",
+        "question": "Jika anda punya pertanyaan tentang PyHipster:",
         "link": {
-            "homepage": "JHipster homepage",
-            "stackoverflow": "JHipster di Stack Overflow",
-            "bugtracker": "JHipster bug tracker",
-            "chat": "JHipster chat publik",
-            "follow": "ikuti @jhipster di Twitter"
+            "homepage": "PyHipster homepage",
+            "stackoverflow": "PyHipster di Stack Overflow",
+            "bugtracker": "PyHipster bug tracker",
+            "chat": "PyHipster chat publik",
+            "follow": "ikuti @py_hipster di Twitter"
         },
-        "like": "Jika anda menyukai JHipster, jangan lupa beri kami bintang di",
+        "like": "Jika anda menyukai PyHipster, jangan lupa beri kami bintang di",
         "github": "GitHub"
     }
 }

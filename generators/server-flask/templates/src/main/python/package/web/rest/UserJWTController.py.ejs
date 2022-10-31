@@ -16,14 +16,47 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
-from flask import Blueprint
+from flask_restx import Namespace, Resource
 import logging
+from flask import request, session
+from flask_jwt_extended import create_access_token
+from domain.User import User
+import bcrypt
+from datetime import timedelta
 
 
-bp = Blueprint('user-jwt-controller', __name__, url_prefix='/api')
+logging.basicConfig(format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
 
 
-@bp.route("/authenticate", methods=['POST'])
-def authorize():
-    logging.info('POST /api/authenticate')
-    return 'POST /api/authenticate'
+jwt_authentication_ns = Namespace('user-jwt-controller', path="/authenticate")
+
+
+class UserJWTResource(Resource):
+    def post(self):
+        logging.info("GET request received on UserJWTResource")
+        username = request.json.get("username", None)
+        password = request.json.get("password", None)
+        remember_me = request.json.get("rememberMe", False)
+        # Check if user exists and only then proceed
+        user = User.get_by_login(username)
+        if not user:
+            return {"message": "Invalid user name"}, 404
+        if bcrypt.checkpw(password.encode('utf8'), user.password_hash.encode('utf8')) is not True:
+            return {"message": "Invalid user name and/or password"}, 401
+        token_expiry = timedelta(hours=3)
+        if remember_me:
+            token_expiry = timedelta(hours=24)
+        # Get the role from the DB
+        user_roles = []
+        for role in user.roles:
+            user_roles.append(role.name)
+        auth = ",".join(user_roles)
+        authorizations = {"auth": auth}
+        # Generate the JWT based on the above parameters
+        <%_ if (clientFrameworkAngular) { %>
+        access_token = create_access_token(identity=username, expires_delta=token_expiry, additional_claims=authorizations)
+        <%_ } else { %>
+        access_token = 'Bearer ' + create_access_token(identity=username, expires_delta=token_expiry, additional_claims=authorizations)
+        <%_ } %>
+        return {"id_token": access_token}, 200, {'Authorization': access_token}
+

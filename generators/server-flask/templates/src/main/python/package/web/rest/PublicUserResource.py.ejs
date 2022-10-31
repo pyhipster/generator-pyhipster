@@ -16,28 +16,36 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
-from flask import Blueprint
-import logging
+from flask_restx import Resource, fields, Namespace
 from domain.User import User
-
-bp = Blueprint('public-user-resource', __name__, url_prefix='/api')
-
-
-@bp.route("/users", methods=['GET'])
-def get_all_users():
-    logging.info('GET ALL /api/users')
-    users = User.get_all_users()
-    return users
+from schema.UserSchema import PublicUserSchema
+from domain.Authority import Authority
+from schema.Authority import AuthoritySchema
+import logging
 
 
-@bp.route("/users/<int:id>", methods=['GET'])
-def get_user_by_id(_id):
-    logging.info('GET ONE /api/users')
-    user = User.get_by_id(_id)
-    return user
+logging.basicConfig(format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
 
 
-@bp.route("/authorities", methods=['GET'])
-def get_all_authorities():
-    logging.info('GET ALL /api/authorities')
-    return 'GET all /api/authorities'
+public_user_list_ns = Namespace('public-user-resource', path="/users")
+
+public_user_list_schema = PublicUserSchema(many=True)
+
+
+class PublicUserResourceList(Resource):
+    def get(self):
+        logging.info("GET request received on PublicUserResourceList")
+        all_users = User.get_all_users()
+        return public_user_list_schema.dump(all_users), 200
+
+
+authority_list_ns = Namespace('public-user-resource', path="/authorities")
+
+authority_list_schema = AuthoritySchema(many=True)
+
+
+class AuthorityResourceList(Resource):
+    def get(self):
+        logging.info("GET request received on AuthorityResourceList")
+        all_users = Authority.get_all_authorities()
+        return authority_list_schema.dump(all_users), 200

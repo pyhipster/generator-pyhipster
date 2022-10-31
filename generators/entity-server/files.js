@@ -205,6 +205,16 @@ const serverFiles = {
         },
       ],
     },
+    {
+      condition: generator => !generator.embedded,
+      path: SERVER_MAIN_SRC_DIR,
+      templates: [
+        {
+          file: 'package/schema/EntitySchema.py',
+          renameTo: generator => `schema/${generator.entityClass}Schema.py`,
+        },
+      ],
+    },
     // {
     //   condition: generator => generator.jpaMetamodelFiltering,
     //   path: SERVER_MAIN_SRC_DIR,

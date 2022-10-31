@@ -27,12 +27,14 @@ module.exports = class extends needleServer {
   addEntityToCache(entityClass, relationships, packageName, packageFolder, cacheProvider) {
     const entityAbsoluteClass = entityClass.includes('.') ? entityClass : `${packageName}.domain.${entityClass}`;
     const entityClassNameGetter = `${entityAbsoluteClass}.class.getName()`;
-    this.addEntryToCache(entityClassNameGetter, packageFolder, cacheProvider);
+    // TODO: Disabling Cache integration for the current PyHipster version (v0.0.1)
+    // this.addEntryToCache(entityClassNameGetter, packageFolder, cacheProvider);
     // Add the collections linked to that entity to cache
     relationships.forEach(relationship => {
       const relationshipType = relationship.relationshipType;
       if (relationshipType === 'one-to-many' || relationshipType === 'many-to-many') {
-        this.addEntryToCache(`${entityClassNameGetter} + ".${relationship.relationshipFieldNamePlural}"`, packageFolder, cacheProvider);
+        // TODO: Disabling Cache integration for the current PyHipster version (v0.0.1)
+        // this.addEntryToCache(`${entityClassNameGetter} + ".${relationship.relationshipFieldNamePlural}"`, packageFolder, cacheProvider);
       }
     });
   }

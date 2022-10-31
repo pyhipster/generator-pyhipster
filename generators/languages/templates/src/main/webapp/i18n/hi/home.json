@@ -5,15 +5,15 @@
         "logged": {
             "message": "आप उपयोगकर्ता \"{{username}}\" के रूप में लॉग इन है।"
         },
-        "question": "यदि आपको JHipster के बारें कोई भी सवाल है:",
+        "question": "यदि आपको PyHipster के बारें कोई भी सवाल है:",
         "link": {
-            "homepage": "JHipster मुखपृष्ठ",
-            "stackoverflow": "JHipster स्टैक ओवरफ़्लो",
-            "bugtracker": "JHipster बग tracker",
-            "chat": "JHipster सार्वजनिक चैट रूम",
-            "follow": "@jhipster को ट्विटर पर फौलो करें"
+            "homepage": "PyHipster मुखपृष्ठ",
+            "stackoverflow": "PyHipster स्टैक ओवरफ़्लो",
+            "bugtracker": "PyHipster बग tracker",
+            "chat": "PyHipster सार्वजनिक चैट रूम",
+            "follow": "@py_hipster को ट्विटर पर फौलो करें"
         },
-        "like": "यदि आपको JHipster पसंद है, तो हमें एक स्टार देना न भूलें",
+        "like": "यदि आपको PyHipster पसंद है, तो हमें एक स्टार देना न भूलें",
         "github": "GitHub पर"
     }
 }

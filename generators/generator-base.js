@@ -70,7 +70,7 @@ const {
 
 const JHIPSTER_CONFIG_DIR = constants.JHIPSTER_CONFIG_DIR;
 const MODULES_HOOK_FILE = `${JHIPSTER_CONFIG_DIR}/modules/jhi-hooks.json`;
-const GENERATOR_JHIPSTER = 'generator-jhipster';
+const GENERATOR_JHIPSTER = 'generator-pyhipster';
 
 const SERVER_MAIN_RES_DIR = constants.SERVER_MAIN_RES_DIR;
 
@@ -822,7 +822,6 @@ module.exports = class JHipsterBaseGenerator extends PrivateBase {
   }
 
   addEntitiesToAPIList(entityClass) {
-    console.log(`Running function addEntitiesToAPIList to utilize needle API for entity ${entityClass}.`);
     this.needleApi.serverEntities.addEntitiesToAPIList(entityClass);
   }
 
@@ -1953,6 +1952,7 @@ module.exports = class JHipsterBaseGenerator extends PrivateBase {
         });
       }
       const javaHome = shelljs.env.JAVA_HOME;
+      //TODO: Disabling keytool generation
       let keytoolPath = '';
       if (javaHome) {
         keytoolPath = `${javaHome}/bin/`;
@@ -1995,17 +1995,17 @@ module.exports = class JHipsterBaseGenerator extends PrivateBase {
     this.log(
       chalk.green(' _______________________________________________________________________________________________________________\n')
     );
-    this.log(
-      chalk.white(`  Documentation for creating an application is at ${chalk.yellow('https://www.jhipster.tech/creating-an-app/')}`)
-    );
-    this.log(
-      chalk.white(
-        `  If you find JHipster useful, consider sponsoring the project at ${chalk.yellow('https://opencollective.com/generator-jhipster')}`
-      )
-    );
-    this.log(
-      chalk.green(' _______________________________________________________________________________________________________________\n')
-    );
+    // this.log(
+    //   chalk.white(`  Documentation for creating an application is at ${chalk.yellow('https://www.jhipster.tech/creating-an-app/')}`)
+    // );
+    // this.log(
+    //   chalk.white(
+    //     `  If you find JHipster useful, consider sponsoring the project at ${chalk.yellow('https://opencollective.com/generator-jhipster')}`
+    //   )
+    // );
+    // this.log(
+    //   chalk.green(' _______________________________________________________________________________________________________________\n')
+    // );
   }
 
   /**

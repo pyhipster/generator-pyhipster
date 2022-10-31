@@ -17,10 +17,36 @@
  limitations under the License.
 -%>
 
-from flask import Flask, render_template
-from rest import create_app
+from flask import Flask, Blueprint
+from flask_restx import Api
+from flask_jwt_extended import JWTManager
+from rest import add_api_namespace
+from config.BaseConfig import BaseConfig
+from config.FakeDataLoader import load_fake_data
+from DatabaseConfig import db
+from WebSerializer import ma
+from MailConfiguration import mail
+
+
+app = Flask(__name__, template_folder='../resources/templates/mail')
+bluePrint = Blueprint('api', __name__, url_prefix='/api')
+api = Api(bluePrint, doc='/v2/api-docs', title='<%= mainClass %> Application')
+
+app.register_blueprint(bluePrint)
+app.config.from_object(BaseConfig)
+
+api = add_api_namespace(api)
+jwt = JWTManager(app)
+
+
+@app.before_first_request
+def create_tables():
+    db.create_all()
+    load_fake_data(app)
 
 
 if __name__ == '__main__':
-    app = create_app()
-    app.run(debug = True, port=<%= serverPort %>)
+    db.init_app(app)
+    ma.init_app(app)
+    mail.init_app(app)
+    app.run(debug=True, port=<%= serverPort %>)

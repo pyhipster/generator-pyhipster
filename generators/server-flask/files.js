@@ -78,12 +78,12 @@ const liquibaseFiles = {
 };
 
 const mongoDbFiles = {
-  docker: [
-    {
-      path: DOCKER_DIR,
-      templates: ['mongodb.yml', 'mongodb-cluster.yml', 'mongodb/MongoDB.Dockerfile', 'mongodb/scripts/init_replicaset.js'],
-    },
-  ],
+  // docker: [
+  //   {
+  //     path: DOCKER_DIR,
+  //     templates: ['mongodb.yml', 'mongodb-cluster.yml', 'mongodb/MongoDB.Dockerfile', 'mongodb/scripts/init_replicaset.js'],
+  //   },
+  // ],
   serverResource: [
     // {
     //   path: SERVER_MAIN_SRC_DIR,
@@ -136,12 +136,12 @@ const mongoDbFiles = {
 };
 
 const neo4jFiles = {
-  docker: [
-    {
-      path: DOCKER_DIR,
-      templates: ['neo4j.yml'],
-    },
-  ],
+  // docker: [
+  //   {
+  //     path: DOCKER_DIR,
+  //     templates: ['neo4j.yml'],
+  //   },
+  // ],
   serverResource: [
     {
       condition: generator => !generator.skipUserManagement || generator.authenticationType === OAUTH2,
@@ -177,22 +177,22 @@ const neo4jFiles = {
 };
 
 const cassandraFiles = {
-  docker: [
-    {
-      path: DOCKER_DIR,
-      templates: [
-        // docker-compose files
-        'cassandra.yml',
-        'cassandra-cluster.yml',
-        'cassandra-migration.yml',
-        // dockerfiles
-        'cassandra/Cassandra-Migration.Dockerfile',
-        // scripts
-        'cassandra/scripts/autoMigrate.sh',
-        'cassandra/scripts/execute-cql.sh',
-      ],
-    },
-  ],
+  // docker: [
+  //   {
+  //     path: DOCKER_DIR,
+  //     templates: [
+  //       // docker-compose files
+  //       'cassandra.yml',
+  //       'cassandra-cluster.yml',
+  //       'cassandra-migration.yml',
+  //       // dockerfiles
+  //       'cassandra/Cassandra-Migration.Dockerfile',
+  //       // scripts
+  //       'cassandra/scripts/autoMigrate.sh',
+  //       'cassandra/scripts/execute-cql.sh',
+  //     ],
+  //   },
+  // ],
   serverResource: [
     {
       path: SERVER_MAIN_RES_DIR,
@@ -269,105 +269,105 @@ const baseServerFiles = {
       templates: ['package.json'],
     },
   ],
-  docker: [
-    {
-      path: DOCKER_DIR,
-      templates: [
-        'app.yml',
-        'jhipster-control-center.yml',
-        'sonar.yml',
-        'monitoring.yml',
-        'prometheus/prometheus.yml',
-        'grafana/provisioning/dashboards/dashboard.yml',
-        'grafana/provisioning/dashboards/JVM.json',
-        'grafana/provisioning/datasources/datasource.yml',
-      ],
-    },
-    {
-      condition: generator => generator.databaseTypeSql && !generator.prodDatabaseTypeOracle,
-      path: DOCKER_DIR,
-      templates: [{ file: generator => `${generator.prodDatabaseType}.yml` }],
-    },
-    {
-      condition: generator => generator.cacheProvider === HAZELCAST,
-      path: DOCKER_DIR,
-      templates: ['hazelcast-management-center.yml'],
-    },
-    {
-      condition: generator => generator.cacheProvider === MEMCACHED,
-      path: DOCKER_DIR,
-      templates: ['memcached.yml'],
-    },
-    {
-      condition: generator => generator.cacheProvider === REDIS,
-      path: DOCKER_DIR,
-      templates: ['redis.yml', 'redis-cluster.yml', 'redis/Redis-Cluster.Dockerfile', 'redis/connectRedisCluster.sh'],
-    },
-    {
-      condition: generator => generator.searchEngine === ELASTICSEARCH,
-      path: DOCKER_DIR,
-      templates: ['elasticsearch.yml'],
-    },
-    {
-      condition: generator => generator.messageBroker === KAFKA,
-      path: DOCKER_DIR,
-      templates: ['kafka.yml'],
-    },
-    {
-      condition: generator => !!generator.serviceDiscoveryType,
-      path: DOCKER_DIR,
-      templates: [{ file: 'config/README.md', renameTo: () => 'central-server-config/README.md' }],
-    },
-    {
-      condition: generator => generator.serviceDiscoveryType && generator.serviceDiscoveryType === CONSUL,
-      path: DOCKER_DIR,
-      templates: [
-        'consul.yml',
-        { file: 'config/git2consul.json', method: 'copy' },
-        { file: 'config/consul-config/application.yml', renameTo: () => 'central-server-config/application.yml' },
-      ],
-    },
-    {
-      condition: generator => generator.serviceDiscoveryType && generator.serviceDiscoveryType === EUREKA,
-      path: DOCKER_DIR,
-      templates: [
-        'jhipster-registry.yml',
-        {
-          file: 'config/docker-config/application.yml',
-          renameTo: () => 'central-server-config/docker-config/application.yml',
-        },
-        {
-          file: 'config/localhost-config/application.yml',
-          renameTo: () => 'central-server-config/localhost-config/application.yml',
-        },
-      ],
-    },
-    {
-      condition: generator => !!generator.enableSwaggerCodegen,
-      path: DOCKER_DIR,
-      templates: ['swagger-editor.yml'],
-    },
-    {
-      condition: generator => generator.authenticationType === OAUTH2 && generator.applicationType !== MICROSERVICE,
-      path: DOCKER_DIR,
-      templates: [
-        'keycloak.yml',
-        { file: 'config/realm-config/jhipster-realm.json', renameTo: () => 'realm-config/jhipster-realm.json' },
-        { file: 'config/realm-config/jhipster-users-0.json', method: 'copy', renameTo: () => 'realm-config/jhipster-users-0.json' },
-      ],
-    },
-    {
-      condition: generator => generator.serviceDiscoveryType || generator.applicationTypeGateway || generator.applicationTypeMicroservice,
-      path: DOCKER_DIR,
-      templates: ['zipkin.yml'],
-    },
-  ],
+  // docker: [
+  //   {
+  //     path: DOCKER_DIR,
+  //     templates: [
+  //       'app.yml',
+  //       'jhipster-control-center.yml',
+  //       'sonar.yml',
+  //       'monitoring.yml',
+  //       'prometheus/prometheus.yml',
+  //       'grafana/provisioning/dashboards/dashboard.yml',
+  //       'grafana/provisioning/dashboards/JVM.json',
+  //       'grafana/provisioning/datasources/datasource.yml',
+  //     ],
+  //   },
+  //   {
+  //     condition: generator => generator.databaseTypeSql && !generator.prodDatabaseTypeOracle,
+  //     path: DOCKER_DIR,
+  //     templates: [{ file: generator => `${generator.prodDatabaseType}.yml` }],
+  //   },
+  //   {
+  //     condition: generator => generator.cacheProvider === HAZELCAST,
+  //     path: DOCKER_DIR,
+  //     templates: ['hazelcast-management-center.yml'],
+  //   },
+  //   {
+  //     condition: generator => generator.cacheProvider === MEMCACHED,
+  //     path: DOCKER_DIR,
+  //     templates: ['memcached.yml'],
+  //   },
+  //   {
+  //     condition: generator => generator.cacheProvider === REDIS,
+  //     path: DOCKER_DIR,
+  //     templates: ['redis.yml', 'redis-cluster.yml', 'redis/Redis-Cluster.Dockerfile', 'redis/connectRedisCluster.sh'],
+  //   },
+  //   {
+  //     condition: generator => generator.searchEngine === ELASTICSEARCH,
+  //     path: DOCKER_DIR,
+  //     templates: ['elasticsearch.yml'],
+  //   },
+  //   {
+  //     condition: generator => generator.messageBroker === KAFKA,
+  //     path: DOCKER_DIR,
+  //     templates: ['kafka.yml'],
+  //   },
+  //   {
+  //     condition: generator => !!generator.serviceDiscoveryType,
+  //     path: DOCKER_DIR,
+  //     templates: [{ file: 'config/README.md', renameTo: () => 'central-server-config/README.md' }],
+  //   },
+  //   {
+  //     condition: generator => generator.serviceDiscoveryType && generator.serviceDiscoveryType === CONSUL,
+  //     path: DOCKER_DIR,
+  //     templates: [
+  //       'consul.yml',
+  //       { file: 'config/git2consul.json', method: 'copy' },
+  //       { file: 'config/consul-config/application.yml', renameTo: () => 'central-server-config/application.yml' },
+  //     ],
+  //   },
+  //   {
+  //     condition: generator => generator.serviceDiscoveryType && generator.serviceDiscoveryType === EUREKA,
+  //     path: DOCKER_DIR,
+  //     templates: [
+  //       'jhipster-registry.yml',
+  //       {
+  //         file: 'config/docker-config/application.yml',
+  //         renameTo: () => 'central-server-config/docker-config/application.yml',
+  //       },
+  //       {
+  //         file: 'config/localhost-config/application.yml',
+  //         renameTo: () => 'central-server-config/localhost-config/application.yml',
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     condition: generator => !!generator.enableSwaggerCodegen,
+  //     path: DOCKER_DIR,
+  //     templates: ['swagger-editor.yml'],
+  //   },
+  //   {
+  //     condition: generator => generator.authenticationType === OAUTH2 && generator.applicationType !== MICROSERVICE,
+  //     path: DOCKER_DIR,
+  //     templates: [
+  //       'keycloak.yml',
+  //       { file: 'config/realm-config/jhipster-realm.json', renameTo: () => 'realm-config/jhipster-realm.json' },
+  //       { file: 'config/realm-config/jhipster-users-0.json', method: 'copy', renameTo: () => 'realm-config/jhipster-users-0.json' },
+  //     ],
+  //   },
+  //   {
+  //     condition: generator => generator.serviceDiscoveryType || generator.applicationTypeGateway || generator.applicationTypeMicroservice,
+  //     path: DOCKER_DIR,
+  //     templates: ['zipkin.yml'],
+  //   },
+  // ],
   serverBuild: [
     {
       templates: [
-        { file: 'checkstyle.xml', options: { interpolate: INTERPOLATE_REGEX } },
-        { file: 'devcontainer/devcontainer.json', renameTo: () => '.devcontainer/devcontainer.json' },
-        { file: 'devcontainer/Dockerfile', renameTo: () => '.devcontainer/Dockerfile' },
+        // { file: 'checkstyle.xml', options: { interpolate: INTERPOLATE_REGEX } },
+        // { file: 'devcontainer/devcontainer.json', renameTo: () => '.devcontainer/devcontainer.json' },
+        // { file: 'devcontainer/Dockerfile', renameTo: () => '.devcontainer/Dockerfile' },
         { file: 'requirements.txt', method: 'copy', noEjs: true },
       ],
     },
@@ -382,6 +382,12 @@ const baseServerFiles = {
       templates: [
         { file: 'npmw', method: 'copy', noEjs: true },
         { file: 'npmw.cmd', method: 'copy', noEjs: true },
+      ],
+    },
+    {
+      templates: [
+        { file: 'pvnw', method: 'copy', noEjs: true },
+        { file: 'pvnw.cmd', method: 'copy', noEjs: true },
       ],
     },
   ],
@@ -715,7 +721,7 @@ const baseServerFiles = {
     // },
     {
       condition: generator =>
-        generator.authenticationType === OAUTH2 &&
+        (generator.authenticationType === OAUTH2 || generator.authenticationType === JWT) &&
         !generator.reactive &&
         (generator.applicationType === MONOLITH || generator.applicationType === GATEWAY),
       path: SERVER_MAIN_SRC_DIR,
@@ -838,6 +844,18 @@ const baseServerFiles = {
     {
       path: SERVER_MAIN_SRC_DIR,
       templates: [{ file: 'package/application.py', renameTo: generator => `${generator.javaDir}${generator.mainClass}.py` }],
+    },
+    {
+      path: SERVER_MAIN_SRC_DIR,
+      templates: [{ file: 'package/WebSerializer.py', renameTo: generator => `${generator.javaDir}WebSerializer.py` }],
+    },
+    {
+      path: SERVER_MAIN_SRC_DIR,
+      templates: [{ file: 'package/DatabaseConfig.py', renameTo: generator => `${generator.javaDir}DatabaseConfig.py` }],
+    },
+    {
+      path: SERVER_MAIN_SRC_DIR,
+      templates: [{ file: 'package/MailConfiguration.py', renameTo: generator => `${generator.javaDir}MailConfiguration.py` }],
     },
     {
       path: SERVER_MAIN_SRC_DIR,
@@ -1010,6 +1028,10 @@ const baseServerFiles = {
           file: generator => `package/config/BaseConfig.py`,
           renameTo: generator => `${generator.javaDir}config/BaseConfig.py`,
         },
+        {
+          file: generator => `package/config/FakeDataLoader.py`,
+          renameTo: generator => `${generator.javaDir}config/FakeDataLoader.py`,
+        },
       ],
     },
     {
@@ -1105,6 +1127,30 @@ const baseServerFiles = {
         {
           file: 'package/domain/AbstractAuditingEntity.py',
           renameTo: generator => `${generator.javaDir}domain/AbstractAuditingEntity.py`,
+        },
+      ],
+    },
+  ],
+  serverPythonSchema : [
+    {
+      condition: generator => [SQL, MONGODB, NEO4J, COUCHBASE].includes(generator.databaseType),
+      path: SERVER_MAIN_SRC_DIR,
+      templates: [
+        {
+          file: 'package/schema/__init__.py',
+          renameTo: generator => `${generator.javaDir}schema/__init__.py`,
+        },
+        {
+          file: 'package/schema/UserSchema.py',
+          renameTo: generator => `${generator.javaDir}schema/UserSchema.py`,
+        },
+        {
+          file: 'package/schema/Authority.py',
+          renameTo: generator => `${generator.javaDir}schema/Authority.py`,
+        },
+        {
+          file: 'package/web/rest/AuthorityResource.py',
+          renameTo: generator => `${generator.javaDir}rest/AuthorityResource.py`,
         },
       ],
     },
@@ -1420,32 +1466,32 @@ const baseServerFiles = {
         },
       ],
     },
-    {
-      // TODO : add these tests to reactive
-      condition: generator => !generator.reactive,
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/config/WebConfigurerTest.java',
-          renameTo: generator => `${generator.testDir}config/WebConfigurerTest.java`,
-        },
-        {
-          file: 'package/config/WebConfigurerTestController.java',
-          renameTo: generator => `${generator.testDir}config/WebConfigurerTestController.java`,
-        },
-      ],
-    },
-    {
-      // TODO : add these tests to reactive
-      condition: generator => !generator.skipClient && !generator.reactive,
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/config/StaticResourcesWebConfigurerTest.java',
-          renameTo: generator => `${generator.testDir}config/StaticResourcesWebConfigurerTest.java`,
-        },
-      ],
-    },
+    // {
+    //   // TODO : add these tests to reactive
+    //   condition: generator => !generator.reactive,
+    //   path: SERVER_TEST_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/config/WebConfigurerTest.java',
+    //       renameTo: generator => `${generator.testDir}config/WebConfigurerTest.java`,
+    //     },
+    //     {
+    //       file: 'package/config/WebConfigurerTestController.java',
+    //       renameTo: generator => `${generator.testDir}config/WebConfigurerTestController.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   // TODO : add these tests to reactive
+    //   condition: generator => !generator.skipClient && !generator.reactive,
+    //   path: SERVER_TEST_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/config/StaticResourcesWebConfigurerTest.java',
+    //       renameTo: generator => `${generator.testDir}config/StaticResourcesWebConfigurerTest.java`,
+    //     },
+    //   ],
+    // },
     {
       condition: generator => generator.serviceDiscoveryType,
       path: SERVER_TEST_RES_DIR,
@@ -1699,6 +1745,15 @@ const baseServerFiles = {
         },
       ],
     },
+    {
+      path: SERVER_MAIN_SRC_DIR,
+      templates: [
+        {
+          file: 'package/web/rest/AppManagment.py',
+          renameTo: generator => `${generator.javaDir}rest/AppManagment.py`,
+        },
+      ],
+    },
     // {
     //   condition: generator => generator.authenticationType === OAUTH2,
     //   path: SERVER_TEST_SRC_DIR,
@@ -1914,14 +1969,14 @@ const baseServerFiles = {
         },
       ],
     },
-    {
-      condition: generator => !generator.skipUserManagement,
-      path: SERVER_TEST_RES_DIR,
-      templates: [
-        /* User management java test files */
-        'templates/mail/testEmail.html',
-      ],
-    },
+    // {
+    //   condition: generator => !generator.skipUserManagement,
+    //   path: SERVER_TEST_RES_DIR,
+    //   templates: [
+    //     /* User management java test files */
+    //     'templates/mail/testEmail.html',
+    //   ],
+    // },
     {
       condition: generator => !generator.skipUserManagement && !generator.enableTranslation,
       path: SERVER_TEST_RES_DIR,

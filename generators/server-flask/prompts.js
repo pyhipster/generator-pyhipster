@@ -151,12 +151,12 @@ function askForServerSideOpts() {
         if (!answers.reactive) {
           opts.push({
             value: SQL,
-            name: 'SQL (SQLite, PostgreSQL, MySQL, MariaDB, Oracle, MSSQL)',
+            name: 'SQL (SQLite)',
           });
         } else {
           opts.push({
             value: SQL,
-            name: 'SQL (SQLite, PostgreSQL, MySQL, MariaDB, MSSQL)',
+            name: 'SQL (SQLite)',
           });
         }
         // TODO: Disabling NoSQL temporarily till it can be developed
@@ -187,14 +187,14 @@ function askForServerSideOpts() {
       },
       default: serverDefaultConfig.databaseType,
     },
-    {
-      when: response => response.databaseType === SQL,
-      type: 'list',
-      name: PROD_DATABASE_TYPE,
-      message: `Which ${chalk.yellow('*production*')} database would you like to use?`,
-      choices: answers => (answers.reactive ? constants.R2DBC_DB_OPTIONS : constants.SQL_DB_OPTIONS),
-      default: serverDefaultConfig.prodDatabaseType,
-    },
+    // {
+    //   when: response => response.databaseType === SQL,
+    //   type: 'list',
+    //   name: PROD_DATABASE_TYPE,
+    //   message: `Which ${chalk.yellow('*production*')} database would you like to use?`,
+    //   choices: answers => (answers.reactive ? constants.R2DBC_DB_OPTIONS : constants.SQL_DB_OPTIONS),
+    //   default: serverDefaultConfig.prodDatabaseType,
+    // },
     {
       when: response => response.databaseType === SQL,
       type: 'list',
@@ -210,7 +210,7 @@ function askForServerSideOpts() {
             value: SQLITE_MEMORY,
             name: 'SQLite with in-memory persistence',
           },
-        ].concat(constants.SQL_DB_OPTIONS.find(it => it.value === response.prodDatabaseType)),
+        ],
       default: serverDefaultConfig.devDatabaseType,
     },
     // {

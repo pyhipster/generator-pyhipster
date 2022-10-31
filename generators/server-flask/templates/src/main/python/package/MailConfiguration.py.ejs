@@ -1,0 +1,51 @@
+<%#
+ Copyright 2022 the original author or authors from the PyHipster project.
+
+ This file is part of the PyHipster project, see https://github.com/sudeephazra/generator-pyhipster
+ for more information.
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      https://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-%>
+from flask_mail import Mail, Message
+from flask import render_template
+from config.BaseConfig import BaseConfig
+import os
+
+
+mail = Mail()
+directory = os.path.dirname(os.getcwd())
+
+
+def send_activation_mail(user):
+    template_variable = render_template('activationEmail.html', activationKey=user.activation_key, login=user.login, baseUrl=request.url_root)
+    send_mail("PyHipster activation", user.email, template_variable)
+
+
+def send_creation_mail(user):
+    template_variable = render_template('creationEmail.html', resetKey=user.reset_key, login=user.login, baseUrl=request.url_root)
+    send_mail("PyHipster creation", user.email, template_variable)
+
+
+def send_reset_mail(user):
+    template_variable = render_template('passwordResetEmail.html', resetKey=user.reset_key, login=user.login, baseUrl=request.url_root)
+    send_mail("PyHipster Password Reset", user.email, template_variable)
+
+
+def send_mail(subject, recipient, body):
+    msg = Message(
+        subject,
+        sender=BaseConfig.MAIL_USERNAME,
+        recipients=[recipient]
+    )
+    msg.html = body
+    mail.send(msg)

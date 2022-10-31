@@ -5,15 +5,15 @@
         "logged": {
             "message": "Sie sind als Benutzer \"{{username}}\" angemeldet."
         },
-        "question": "Wenn Sie Fragen zu JHipster haben:",
+        "question": "Wenn Sie Fragen zu PyHipster haben:",
         "link": {
-            "homepage": "JHipster Hauptseite",
-            "stackoverflow": "JHipster auf Stack Overflow",
-            "bugtracker": "JHipster Fehlereinträge",
-            "chat": "JHipster Chat",
-            "follow": "kontaktieren Sie uns mit @jhipster auf Twitter"
+            "homepage": "PyHipster Hauptseite",
+            "stackoverflow": "PyHipster auf Stack Overflow",
+            "bugtracker": "PyHipster Fehlereinträge",
+            "chat": "PyHipster Chat",
+            "follow": "kontaktieren Sie uns mit @py_hipster auf Twitter"
         },
-        "like": "Wenn Sie JHipster mögen, vergessen Sie nicht uns einen Stern zu geben auf",
+        "like": "Wenn Sie PyHipster mögen, vergessen Sie nicht uns einen Stern zu geben auf",
         "github": "GitHub"
     }
 }

@@ -19,41 +19,78 @@
  const chalk = require('chalk');
  const needleServer = require('./needle-entity-server');
  const constants = require('../../generator-constants');
- 
- const SERVER_MAIN_SRC_DIR = constants.SERVER_MAIN_SRC_DIR;
+ const _ = require('lodash');
+ const pluralize = require('pluralize');
 
+ const SERVER_MAIN_SRC_DIR = constants.SERVER_MAIN_SRC_DIR;
  module.exports = class extends needleServer {
     addEntitiesToAPIList(entityClass) {
-        console.log("Initializing Needle API");
-        this.addEntityResourceBlueprintToList(entityClass);
-        this.addEntityImportToList(entityClass);
-        this.addEntityResourceImportToList(entityClass);
-      }
+        const pluralEntity = pluralize(entityClass);
+        const lowerCaseEntities = _.lowerCase(pluralEntity);
+        const entityMethod = _.replace(lowerCaseEntities, new RegExp("\\s","g"), '_');
+        // const entityTable = _.replace(entityClass, new RegExp("\\s","g"), '_');
+        const entityFakeDataFile = _.replace(entityClass, new RegExp("\\s","g"), '_');
 
-      addEntityImportToList(entry) {
-        const errorMessage = chalk.yellow(`\nUnable to add domain entity ${entry} to __init__.py file.`);
-        const cachePath = `${SERVER_MAIN_SRC_DIR}rest/__init__.py`;
-    
-        const needle = `pyhipster-needle-domain-add-entity-import`;
-        const content = `from domain import ${entry}`;
-        this._doAddBlockContentToFile(cachePath, needle, content, errorMessage);
+        this.addEntityNamespaceToList(entityClass, entityMethod);
+        this.addEntityResourceListToNamespace(entityClass, entityMethod);
+        this.addEntityResourceListCountToNamespace(entityClass, entityMethod);
+        this.addEntityResourceToNamespace(entityClass, entityMethod);
+        this.addEntityResourceImportToList(entityClass, entityMethod);
+        this.addEntityFakeDataEntries(entityClass, entityFakeDataFile);
       }
     
-      addEntityResourceImportToList(entry) {
+      addEntityResourceImportToList(entry, entityMethod) {
         const errorMessage = chalk.yellow(`\nUnable to add ${entry} resource to __init__.py file.`);
         const cachePath = `${SERVER_MAIN_SRC_DIR}rest/__init__.py`;
     
         const needle = `pyhipster-needle-rest-api-list-add-entry-import`;
-        const content = `from rest import ${entry}Resource`;
+        const content = `from .${entry}Resource import ${entityMethod}_list_ns`;
         this._doAddBlockContentToFile(cachePath, needle, content, errorMessage);
       }
 
-      addEntityResourceBlueprintToList(entry) {
-        const errorMessage = chalk.yellow(`\nUnable to add ${entry} blueprint to __init__.py file.`);
+      addEntityNamespaceToList(entry, entityMethod) {
+        const errorMessage = chalk.yellow(`\nUnable to add ${entry} namespace to __init__.py file.`);
         const cachePath = `${SERVER_MAIN_SRC_DIR}rest/__init__.py`;
     
-        const needle = `pyhipster-needle-rest-api-list-add-entry`;
-        const content = `app.register_blueprint(${entry}Resource.bp)`;
+        const needle = `pyhipster-needle-rest-api-list-add-namespaces`;
+        const content = `api.add_namespace(${entityMethod}_list_ns)`;
+        this._doAddBlockContentToFile(cachePath, needle, content, errorMessage);
+      }
+
+      addEntityResourceListToNamespace(entry, entityMethod) {
+        const errorMessage = chalk.yellow(`\nUnable to add ${entry} resource to namespace in __init__.py file.`);
+        const cachePath = `${SERVER_MAIN_SRC_DIR}rest/__init__.py`;
+    
+        const needle = `pyhipster-needle-rest-api-list-add-resource-list`;
+        const content = `${entityMethod}_list_ns.add_resource(${entry}Resource.${entry}ResourceList, "")`;
+        this._doAddBlockContentToFile(cachePath, needle, content, errorMessage);
+      }
+
+      addEntityResourceListCountToNamespace(entry, entityMethod) {
+        const errorMessage = chalk.yellow(`\nUnable to add ${entry} resource to namespace in __init__.py file.`);
+        const cachePath = `${SERVER_MAIN_SRC_DIR}rest/__init__.py`;
+    
+        const needle = `pyhipster-needle-rest-api-list-add-resource-list-count`;
+        const content = `${entityMethod}_list_ns.add_resource(${entry}Resource.${entry}ResourceListCount, "/count")`;
+        this._doAddBlockContentToFile(cachePath, needle, content, errorMessage);
+      }
+
+      addEntityResourceToNamespace(entry, entityMethod) {
+        const errorMessage = chalk.yellow(`\nUnable to add ${entry} resource to namespace in __init__.py file.`);
+        const cachePath = `${SERVER_MAIN_SRC_DIR}rest/__init__.py`;
+    
+        const needle = `pyhipster-needle-rest-api-list-add-resource`;
+        const content = `${entityMethod}_list_ns.add_resource(${entry}Resource.${entry}Resource, "/<int:id>")`;
+        this._doAddBlockContentToFile(cachePath, needle, content, errorMessage);
+      }
+
+      addEntityFakeDataEntries(entry, entityMethod) {
+        const errorMessage = chalk.yellow(`\nUnable to add fake data for ${entry}.`);
+        const cachePath = `${SERVER_MAIN_SRC_DIR}config/FakeDataLoader.py`;
+    
+        const needle = `pyhipster-needle-user-defined-model-fake-data`;
+        // const content = `${entityMethod}_list_ns.add_resource(${entry}Resource.${entry}Resource, "/<int:id>")`;
+        const content = `{"table": "${entry}", "file": "${entityMethod}.csv", "file_location": user_fake_data},`;
         this._doAddBlockContentToFile(cachePath, needle, content, errorMessage);
       }
     

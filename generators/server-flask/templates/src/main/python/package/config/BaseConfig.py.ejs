@@ -24,15 +24,24 @@ BASE_DIR = os.path.dirname(os.path.realpath(__file__))
 
 
 class BaseConfig:
-    #Flask 
+    # Flask 
     FLASK_ENV = 'development'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = '<%= flaskSecret %>'
     JWT_SECRET_KEY = '<%= jwtSecretKey %>'
-    JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=1)
+    JWT_ALGORITHM = 'HS512'
     
     # Database
-    SQLALCHEMY_DATABASE_URI = '<%_ if (devDatabaseTypeSQLiteAny) { _%>sqlite://<%_ if (devDatabaseTypeSQLiteDisk) { _%>/pyhipster.db3<%_ } _%><%_ if (devDatabaseTypeSQLiteMemory) { _%>:memory:<%_ } _%><%_ } _%>'
+    SQLALCHEMY_DATABASE_URI = '<%_ if (devDatabaseTypeSQLiteAny) { _%>sqlite://<%_ if (devDatabaseTypeSQLiteDisk) { _%>/../../../pyhipster.db3<%_ } _%><%_ if (devDatabaseTypeSQLiteMemory) { _%>:memory:<%_ } _%><%_ } _%>'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    PROPAGATE_EXCEPTIONS = False
+
+    # Mail Configurations
+    MAIL_SERVER = 'smtp.gmail.com'
+    MAIL_PORT = 587
+    MAIL_USE_TLS = True
+    MAIL_USE_SSL = False
+    MAIL_USERNAME = 'my-email-id@gmail.com'
+    MAIL_PASSWORD = 'my-email-password'
     
     

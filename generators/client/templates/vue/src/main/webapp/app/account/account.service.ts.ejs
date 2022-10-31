@@ -26,7 +26,7 @@ export default class AccountService {
 
   public retrieveProfiles(): Promise<boolean> {
     return new Promise(resolve => {
-      axios.get<any>('management/info').then(res => {
+      axios.get<any>('api/management/info').then(res => {
         if (res.data && res.data.activeProfiles) {
           this.store.commit('setRibbonOnProfiles', res.data['display-ribbon-on-profiles']);
           this.store.commit('setActiveProfiles', res.data['activeProfiles']);

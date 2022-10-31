@@ -5,15 +5,15 @@
         "logged": {
             "message": "Ju jeni futur si \"{{username}}\"."
         },
-        "question": "Në qoftë se keni ndonjë pyetje rreth JHipster:",
+        "question": "Në qoftë se keni ndonjë pyetje rreth PyHipster:",
         "link": {
-            "homepage": "Kreu i JHipster",
-            "stackoverflow": "JHipster tek Stack Overflow",
-            "bugtracker": "JHipster bug tracker",
-            "chat": "JHipster dhoma e chatit publik",
-            "follow": "ndiq @jhipster në Twitter"
+            "homepage": "Kreu i PyHipster",
+            "stackoverflow": "PyHipster tek Stack Overflow",
+            "bugtracker": "PyHipster bug tracker",
+            "chat": "PyHipster dhoma e chatit publik",
+            "follow": "ndiq @py_hipster në Twitter"
         },
-        "like": "Në qoftë se ju pëlqen JHipster, mos harroni të na jepni një yll në",
+        "like": "Në qoftë se ju pëlqen PyHipster, mos harroni të na jepni një yll në",
         "github": "GitHub"
     }
 }

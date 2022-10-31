@@ -678,10 +678,11 @@ module.exports = class JHipsterServerGenerator extends BaseBlueprintGenerator {
       end() {
         this.log(chalk.green.bold('\nServer application generated successfully.\n'));
 
-        let executable = 'mvnw';
-        if (this.buildTool === GRADLE) {
-          executable = 'gradlew';
-        }
+        // let executable = 'mvnw';
+        // if (this.buildTool === GRADLE) {
+        //   executable = 'gradlew';
+        // }
+        let executable = 'pvnw';
         let logMsgComment = '';
         if (os.platform() === 'win32') {
           logMsgComment = ` (${chalk.yellow.bold(executable)} if using Windows Command Prompt)`;

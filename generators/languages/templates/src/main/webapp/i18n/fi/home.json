@@ -5,15 +5,15 @@
         "logged": {
             "message": "Olet kirjautnut käyttäjänä \"{{username}}\"."
         },
-        "question": "Jos sinulla on kysymyksiä JHipsteristä:",
+        "question": "Jos sinulla on kysymyksiä PyHipsteristä:",
         "link": {
-            "homepage": "JHipster kotisivu",
-            "stackoverflow": "JHipster Stack Overflow",
-            "bugtracker": "JHipster bug trakkeri",
-            "chat": "JHipster julkinen chat room",
-            "follow": "seuraa @jhipster Twitterissä"
+            "homepage": "PyHipster kotisivu",
+            "stackoverflow": "PyHipster Stack Overflow",
+            "bugtracker": "PyHipster bug trakkeri",
+            "chat": "PyHipster julkinen chat room",
+            "follow": "seuraa @py_hipster Twitterissä"
         },
-        "like": "Jos pidät JHipsteristä, anna meille tähti ",
+        "like": "Jos pidät PyHipsteristä, anna meille tähti ",
         "github": "GitHubissa"
     }
 }

@@ -16,16 +16,17 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
-from datetime import datetime
-import json
 from typing import List
-import jsonpickle
-from . import db
+from DatabaseConfig import db
 
 
 class <%= asEntity('Authority') %>(db.Model):
     __tablename__ = "<%= jhiTablePrefix %>_authority"
     name = db.Column(db.String(80), primary_key=True)
+
+    def __init__(self, **kwargs):
+        for key, value in kwargs.items():
+            self.key = value
 
     def get_name(self):
         return self.name
@@ -37,13 +38,20 @@ class <%= asEntity('Authority') %>(db.Model):
         return '<Authority %r>' % self.name
 
     @classmethod
-    def get_by_name(cls, name) -> List["<%= asEntity('Authority') %>"]:
-        user_list = cls.query.get_or_404(name)
-        return jsonpickle.encode(user_list)
+    def get_by_name(cls, name) -> "Authority":
+        authority = cls.query.filter_by(name=name).first() 
+        return authority
 
-    def to_dict(self):
-        cls_dict = {'name': self.name}
-        return cls_dict
+    @classmethod
+    def get_all_authorities(cls) -> List["Authority"]:
+        authorities = cls.query.all()
+        return authorities
 
-    def to_json(self):
-        return self.to_dict()
+    def save_to_db(self) -> None:
+        db.session.add(self)
+        db.session.commmit()
+
+    def delete_from_db(self) -> None:
+        db.session.delete(self)
+        db.session.commit()
+

@@ -16,9 +16,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
-from datetime import datetime
-import json
-from . import db
+from DatabaseConfig import db
 
 
 class AbstractAuditingEntity(db.Model):
@@ -27,6 +25,10 @@ class AbstractAuditingEntity(db.Model):
     last_modified_by = db.Column(db.String(80), nullable=True)
     last_modified_date = db.Column(db.DateTime, nullable=True)
 
+    def __init__(self, **kwargs):
+        for key, value in kwargs.items():
+            self.key = value
+            
     def get_created_by(self):
         return self.created_by
 

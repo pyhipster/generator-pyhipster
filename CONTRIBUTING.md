@@ -1,10 +1,9 @@
-# Contributing to JHipster
+# Contributing to PyHipster
 
-Are you ready to contribute to JHipster? We'd love to have you on board, and we will help you as much as we can. Here are the guidelines we'd like you to follow so that we can be of more help:
+Are you ready to contribute to PyHipster? We'd love to have you on board, and we will help you as much as we can. Here are the guidelines we'd like you to follow so that we can be of more help:
 
 - [Questions and help](#question)
 - [Issues and Bugs](#issue)
-- [Bug bounties](#bounties)
 - [Feature Requests](#feature)
 - [RFCs](#rfcs)
 - [Submission Guidelines](#submit)
@@ -12,27 +11,22 @@ Are you ready to contribute to JHipster? We'd love to have you on board, and we 
 - [Coding Rules](#rules)
 - [Git Commit Guidelines](#commit)
 
-And don't forget we also accept [financial contributions to the project](https://www.jhipster.tech/sponsors/) using OpenCollective.
 
 ## <a name="question"></a> Questions and help
 
-This is the JHipster bug tracker, and it is used for [Issues and Bugs](#issue) and for [Feature Requests](#feature). It is **not** a help desk or a support forum.
+This is the PyHipster bug tracker, and it is used for [Issues and Bugs](#issue) and for [Feature Requests](#feature). It is **not** a help desk or a support forum.
 
-If you have a question on using JHipster, or if you need help with your JHipster project, please [read our help page](https://www.jhipster.tech/help/) and use the [JHipster tag on StackOverflow](http://stackoverflow.com/tags/jhipster) or join our [Gitter.im chat room](https://gitter.im/jhipster/generator-jhipster).
+If you have a question on using PyHipster, or if you need help with your PyHipster project, please [read our help page](https://sudeephazra.github.io/generator-pyhipster/) and use the [PyHipster tag on StackOverflow](http://stackoverflow.com/tags/pyhipster).
 
 ## <a name="issue"></a> Issues and Bugs
 
-If you find a bug in the source code or a mistake in the documentation, you can help us by [submitting a ticket](https://opensource.guide/how-to-contribute/#opening-an-issue) to our [GitHub issues](https://github.com/jhipster/generator-jhipster/issues). Even better, you can submit a Pull Request to our [JHipster generator project](https://github.com/jhipster/generator-jhipster) or to our [Documentation project](https://github.com/jhipster/jhipster.github.io).
+If you find a bug in the source code or a mistake in the documentation, you can help us by [submitting a ticket](https://opensource.guide/how-to-contribute/#opening-an-issue) to our [GitHub issues](https://github.com/sudeephazra/generator-pyhipster/issues). Even better, you can submit a Pull Request to our [PyHipster generator project](https://github.com/sudeephazra/generator-pyhipster/).
 
 **Please see the Submission Guidelines below**.
 
-## <a name="bounties"></a> Bug bounties
-
-If you submitted a Pull Request that fixes a ticket with the "\$100" tag, then you are eligible to our bug bounty program! Go to our [bug bounties documentation](https://www.jhipster.tech/bug-bounties/) for more information, and claim your money.
-
 ## <a name="feature"></a> Feature Requests
 
-You can request a new feature by submitting a ticket to our [GitHub issues](https://github.com/jhipster/generator-jhipster/issues). If you
+You can request a new feature by submitting a ticket to our [GitHub issues](https://github.com/sudeephazra/generator-pyhipster/issues). If you
 would like to implement a new feature then consider what kind of change it is:
 
 - **Major Changes** that you wish to contribute to the project should be discussed first. Please open a ticket which clearly states that it is a feature request in the title and explain clearly what you want to achieve in the description, and the JHipster team will discuss with you what should be done in that ticket. You can then start working on a Pull Request. In order to communicate major changes proposals and receive reviews from the core team, you can also submit an RFC.
@@ -56,13 +50,13 @@ To submit an RFC follow those steps:
 6. Build consensus and integrate feedback from the reviewers
 7. The Pull Request is either accepted (merged), rejected (closed) or postponed (given an "on hold" status)
 
-Note: The JHipster RFC process is inspired by [Rust RFCs](https://rust-lang.github.io/rfcs/).
+Note: The PyHipster RFC process is inspired by JHipster, whose RFC process is inspired by [Rust RFCs](https://rust-lang.github.io/rfcs/).
 
 ## <a name="submit"></a> Submission Guidelines
 
 ### [Submitting an Issue](https://opensource.guide/how-to-contribute/#opening-an-issue)
 
-Before you submit your issue search the [archive](https://github.com/jhipster/generator-jhipster/issues?utf8=%E2%9C%93&q=is%3Aissue), maybe your question was already answered.
+Before you submit your issue search the [archive](https://github.com/sudeephazra/generator-pyhipster/issues), maybe your question was already answered.
 
 If your issue appears to be a bug, and has not been reported, open a new issue.
 Help us to maximize the effort we can spend fixing issues and adding new
@@ -76,248 +70,19 @@ chances of your issue being dealt with quickly:
 - **Related issues** - has a similar issue been reported before?
 - **Suggest a Fix** - if you can't fix the bug yourself, perhaps you can point to what might be
   causing the problem (line of code or commit)
-- **JHipster Version(s)** - is it a regression?
-- **JHipster configuration, a `.yo-rc.json` file generated in the root folder** - this will help us to replicate the scenario, you can remove the rememberMe key.
-- **Entity configuration(s) `entityName.json` files generated in the `.jhipster` directory** - if the error is during an entity creation or associated with a specific entity
+- **PyHipster Version(s)** - is it a regression?
+- **PyHipster configuration, a `.yo-rc.json` file generated in the root folder** - this will help us to replicate the scenario, you can remove the rememberMe key.
+- **Entity configuration(s) `entityName.json` files generated in the `.pyhipster` directory** - if the error is during an entity creation or associated with a specific entity
 - **Browsers and Operating System** - is this a problem with all browsers or only IE8?
 
-You can use `jhipster info` to provide us the information we need.
+You can use `pyhipster info` to provide us the information we need.
 
 Click [here][issue-template] to open a bug issue with a pre-filled template. For feature requests and enquiries you can use [this template][feature-template].
 
-You can run `jhipster info` in your project folder to get most of the above required info.
+You can run `pyhipster info` in your project folder to get most of the above required info.
 
 Issues opened without any of these info will be **closed** without any explanation.
 
-### [Submitting a Pull Request](https://opensource.guide/how-to-contribute/#opening-a-pull-request)
-
-Before you submit your pull request consider the following guidelines:
-
-- Search [GitHub](https://github.com/jhipster/generator-jhipster/pulls?utf8=%E2%9C%93&q=is%3Apr) for an open or closed Pull Request
-  that relates to your submission.
-- If you want to modify the JHipster generator, read our [Generator development setup](#setup)
-- Make your changes in a new git branch
-
-  ```shell
-  git checkout -b my-fix-branch main
-  ```
-
-- Create your patch, **including appropriate test cases**.
-- Follow our [Coding Rules](#rules).
-- Generate a new JHipster project, and ensure that all tests pass
-
-  ```shell
-  mvnw verify -Pprod
-  ```
-
-- Test that the new project runs correctly:
-
-  ```shell
-  mvnw spring-boot:run
-  ```
-
-- You can generate our Continuous Integration (with GitHub Actions and Azure Pipelines) by following [this](#local-build)
-
-- Commit your changes using a descriptive commit message that follows our
-  [commit message conventions](#commit-message-format).
-
-  ```shell
-  git commit -a
-  ```
-
-  Note: the optional commit `-a` command line option will automatically "add" and "rm" edited files.
-
-- Push your branch to GitHub:
-
-  ```shell
-  git push origin my-fix-branch
-  ```
-
-- In GitHub, send a pull request to `jhipster/generator-jhipster:main`.
-- If we suggest changes then
-
-  - Make the required updates.
-  - Re-run the JHipster tests on your sample generated project to ensure tests are still passing.
-  - Rebase your branch and force push to your GitHub repository (this will update your Pull Request):
-
-    ```shell
-    git rebase main -i
-    git push -f
-    ```
-
-That's it! Thank you for your contribution!
-
-#### Resolving merge conflicts ("This branch has conflicts that must be resolved")
-
-Sometimes your PR will have merge conflicts with the upstream repository's main branch. There are several ways to solve this but if not done correctly this can end up as a true nightmare. So here is one method that works quite well.
-
-- First, fetch the latest information from the main
-
-  ```shell
-  git fetch upstream
-  ```
-
-- Rebase your branch against the upstream/main
-
-  ```shell
-  git rebase upstream/main
-  ```
-
-- Git will stop rebasing at the first merge conflict and indicate which file is in conflict. Edit the file, resolve the conflict then
-
-  ```shell
-  git add <the file that was in conflict>
-  git rebase --continue
-  ```
-
-- The rebase will continue up to the next conflict. Repeat the previous step until all files are merged and the rebase ends successfully.
-- Re-run the JHipster tests on your sample generated project to ensure tests are still passing.
-- Force push to your GitHub repository (this will update your Pull Request)
-
-  ```shell
-  git push -f
-  ```
-
-#### After your pull request is merged
-
-After your pull request is merged, you can safely delete your branch and pull the changes
-from the main (upstream) repository:
-
-- Delete the remote branch on GitHub either through the GitHub web UI or your local shell as follows:
-
-  ```shell
-  git push origin --delete my-fix-branch
-  ```
-
-- Check out the main branch:
-
-  ```shell
-  git checkout main -f
-  ```
-
-- Delete the local branch:
-
-  ```shell
-  git branch -D my-fix-branch
-  ```
-
-- Update your main with the latest upstream version:
-
-  ```shell
-  git pull --ff upstream main
-  ```
-
-## <a name="setup"></a> Generator development setup
-
-JHipster is a [Yeoman Generator](http://yeoman.io/), so you must follow the [Yeoman authoring documentation](http://yeoman.io/authoring/) in order to be able to run and test your changes.
-
-Here are the most important steps.
-
-### Fork the generator-jhipster project
-
-Go to the [generator-jhipster project](https://github.com/jhipster/generator-jhipster) and click on the "fork" button. You can then clone your own fork of the project, and start working on it.
-
-[Please read the GitHub forking documentation for more information](https://help.github.com/articles/fork-a-repo)
-
-### Set NPM to use the cloned project
-
-In your cloned `generator-jhipster` project, run `npm link` and then run `npm ci`.
-
-`npm link` will make a symbolic link from the global `node_modules` version to point to this folder, so when we run `jhipster`, you will now use the development version of JHipster.
-
-`npm ci` will do a clean install of all of the project dependencies.
-
-For testing, you will want to generate an application, and there is a specific issue here: for each application, JHipster installs a local version of itself. This is made to enable several applications to each use a specific JHipster version (application A uses JHipster 3.1.0, and application B uses JHipster 3.2.0).
-
-To overcome this you need to run `npm link generator-jhipster` on the generated project folder as well, so that the local version has a symbolic link to the development version of JHipster.
-Also add the option `--skip-jhipster-dependencies` to generate the application ignoring the JHipster dependencies (otherwise a released version will be installed each time npm install/ci is called). You can later on re-add the dependency with the command `jhipster --no-skip-jhipster-dependencies`.
-
-To put it in a nutshell, you need to:
-
-1.  run `npm link` on the `generator-jhipster` project (link globally)
-2.  run `jhipster --skip-jhipster-dependencies` on the generated application folder
-
-You can execute `jhipster --install-path` to check where jhipster is been executed from.
-
-You can test your setup by making a small change in your cloned generator, and running again on an existing JHipster project:
-
-```shell
-jhipster
-```
-
-Depending on which parts of the generator you have changed, do not forget to run jhipster command with the proper arguments e.g. when updating the entity template run:
-
-```shell
-jhipster --with-entities
-```
-
-You should see your changes reflected in the generated project.
-
-Note: The generated project might not build properly in case the generator is using a
-snapshot version of [jhipster/jhipster-bom](https://github.com/jhipster/jhipster-bom). This issue is mentioned in; https://github.com/jhipster/generator-jhipster/issues/9571. In
-this case clone the jhipster/jhipster-bom project and build it using:
-
-```shell script
-./mvnw clean install -Dgpg.skip=true
-```
-
-or on Windows:
-
-```
-.\mvnw.cmd clean install -D"gpg.skip=true"
-```
-
-### Use a text editor
-
-As modifying the JHipster generator includes modifying Java and JavaScript templates, most IDE will not work correctly. We recommend you use a text editor like [Atom](https://atom.io/) or [VSCode](https://code.visualstudio.com/) to code your changes. The ESLint and EditorConfig extensions are recommended to help with respecting code conventions.
-
-### Use a debugger
-
-It is possible to debug JHipster's code using a Node.js debugger. To achieve this, setup your debugger to launch `cli/jhipster.js`.
-
-#### Debugging with VSCode
-
-To start debugging JHipster with **VSCode**, open the generator code in your workspace and simply press F5 (or click the green arrow in the **Debug** menu reachable with Ctrl+Shift+D). This will start the generator in debug mode and generate files in the `test-integration/samples/app-sample-dev` folder.
-
-It is also possible to debug sub generators by selecting one of the other debug options (for example `jhipster entity`). Those debug configurations are specified in the `.vscode/launch.json` file.
-
-## Generator tests and snapshots.
-
-Run every test with lint/prettier
-`npm test`
-
-Run every test without lint/prettier
-`npx mocha`
-
-Update every test snapshot
-`npm run update-snapshots`
-
-Run specific tests
-`npx mocha <path>`
-
-Run specific tests in series (improved error reporting)
-`npx mocha <path> --no-parallel`
-
-Update specific test snapshot
-`npm run update-snapshot -- <path>` or `npx mocha <path> --no-parallel --updateSnapshot`
-
-Fixing lint and prettier errors
-`npm run lint-fix`
-
-## Running integration tests locally
-
-You can run the builds locally by following below commands
-
-Go into the `test-integration` folder with `cd test-integration` from the generator source code root folder
-
-Run `./generate-sample.sh <command_name> [folder] [sample_name:optional] [type of entity]`
-
-This will create a folder with configuration and entities. Then, you can generate manually a JHipster project and test it.
-
-Command name can be as below
-
-    `list`: List all sample names
-    `generate`: Generate the sample
 
 ## <a name="rules"></a> Coding Rules
 
@@ -403,19 +168,3 @@ see http://spring.io/blog/2014/09/26/spring-boot-1-1-7-released
 Fix #1234
 ```
 
-### Regular Contributor Guidelines
-
-These are some of the guidelines that we would like to emphasize if you are a regular contributor to the project
-or joined the [JHipster team](https://www.jhipster.tech/team/).
-
-- We recommend not committing directly to main, but always submit changes through PRs.
-- Before merging, try to get at least one review on the PR.
-- Add appropriate labels to issues and PRs that you create (if you have permission to do so).
-- Follow the project's [policies](https://www.jhipster.tech/policies/#-policies).
-- Follow the project's [Code of Conduct](https://github.com/jhipster/generator-jhipster/blob/main/CODE_OF_CONDUCT.md)
-  and be polite and helpful to users when answering questions/bug reports and when reviewing PRs.
-- We work on our free time so we have no obligation nor commitment. Work/life balance is important, so don't
-  feel tempted to put in all your free time fixing something.
-
-[issue-template]: https://github.com/jhipster/generator-jhipster/issues/new?template=BUG_REPORT.md
-[feature-template]: https://github.com/jhipster/generator-jhipster/issues/new?template=FEATURE_REQUEST.md
