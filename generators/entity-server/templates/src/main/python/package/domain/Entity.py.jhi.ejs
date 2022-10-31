@@ -1,0 +1,124 @@
+<%#
+ Copyright 2022 the original author or authors from the PyHipster project.
+
+ This file is part of the PyHipster project, see https://github.com/sudeephazra/generator-pyhipster
+ for more information.
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      https://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-%>
+from datetime import datetime
+from enum import Enum
+from typing import List
+<%_ Object.keys(uniqueEnums).forEach(function(element) { _%>
+from .enumeration.<%= element %> import <%= element %>
+<%_ }); _%>
+<%_ for (const otherEntity of otherEntities.filter(otherEntity => otherEntity.entityClass !== persistClass)) { _%>
+from . import <%= otherEntity.entityClass %>
+<%_ } _%>
+from DatabaseConfig import db
+<% 
+    const javaFieldMapping = {
+        "Long": "Integer",
+        "Instant": "DateTime",
+        "LocalDate": "DateTime",
+        "Duration": "Interval",
+        "Double": "Float",
+        "Blob": "LargeBinary",
+        "byte[]": "LargeBinary",
+        "AnyBlob": "LargeBinary",
+        "ImageBlob": "LargeBinary",
+        "TextBlob": "UnicodeText"
+    }
+%> 
+
+<%_ for (relationship of relationships) { _%>
+    <%_ if (relationship.ownerSide && relationship.relationshipManyToMany) { _%>
+<%= relationship.entityName %>_<%= relationship.otherEntityName %> = db.Table('<%= relationship.entityName %>_<%= relationship.otherEntityName %>',
+    db.Column('<%= relationship.entityName %>_<%= relationship.primaryKey.name %>', db.<%= javaFieldMapping[relationship.primaryKey.type] %>, db.ForeignKey('<%= relationship.entityClass %>.<%= relationship.primaryKey.name %>'), primary_key=True),
+    db.Column('<%= relationship.otherEntityName %>_<%= relationship.otherEntity.primaryKey.name %>', db.<%= javaFieldMapping[relationship.otherEntity.primaryKey.type] %>, db.ForeignKey('<%= relationship.otherEntity.persistClass %>.<%= relationship.otherEntity.primaryKey.name %>'), primary_key=True)
+)
+    <%_ } _%>
+<%_ } _%>
+
+class <%= persistClass %>(db.Model):
+    __tablename__ = "<%= persistClass %>"
+    <%_ if (!embedded && primaryKey) { _%>
+    <%= primaryKey.name %> = db.Column(db.<%= javaFieldMapping[primaryKey.type] %>, primary_key=True)
+    <%_ } _%>
+    <%_ for (const field of fields.filter(field => !field.transient && !field.id && !field.fieldIsEnum)) { _%>
+    <%= _.replace(_.lowerCase(field.fieldName), new RegExp("\\s","g"), '_') %> = db.Column(db.<%= javaFieldMapping[field.javaFieldType] || field.javaFieldType %><% if (field.fieldValidationRequired) { %>, nullable=False<% } %><% if (field.fieldValidationUnique) { %>, unique=True<% } %>)
+    <%_ } _%>
+    <%_ for (const field of fields.filter(field => !field.transient && field.fieldIsEnum)) { _%>
+    <%= _.replace(_.lowerCase(field.fieldName), new RegExp("\\s","g"), '_') %> = db.Column(db.Enum(<%= field.javaFieldType %><% if (field.fieldValidationRequired) { %>, nullable=False<% } %><% if (field.fieldValidationUnique) { %>, unique=True<% } %>))
+    <%_ } _%>
+
+    # TODO: Adding relationships
+    <%_ for (relationship of relationships) { _%>
+        <%_ if (relationship.ownerSide) { _%>
+            <%_ if (relationship.relationshipManyToOne) { _%>
+    <%= relationship.relationshipName %>_<%= relationship.otherEntity.primaryKey.name %> = db.Column(db.<%= javaFieldMapping[relationship.otherEntity.primaryKey.type] %>, db.ForeignKey("<%_ if (relationship.otherEntityUser) { _%>jhi_user<%_ } else { _%><%= relationship.otherEntity.persistClass %><%_ } _%>.<%= relationship.otherEntity.primaryKey.name %>"))    
+    <%= relationship.relationshipName %> = db.relationship("<%= relationship.otherEntity.persistClass %>", lazy="select", primaryjoin="<%= persistClass %>.<%= relationship.relationshipName %>_<%= relationship.otherEntity.primaryKey.name %> == <%= relationship.otherEntity.persistClass %>.<%= relationship.otherEntity.primaryKey.name %>")
+            <%_ } else if (relationship.relationshipOneToMany) { _%>
+            <%_ } else if (relationship.relationshipOneToOne) { _%>
+    <%= relationship.relationshipName %>_<%= relationship.otherEntity.primaryKey.name %> = db.Column(db.<%= javaFieldMapping[relationship.otherEntity.primaryKey.type] %>, db.ForeignKey("<%_ if (relationship.otherEntityUser) { _%>jhi_user<%_ } else { _%><%= relationship.otherEntity.persistClass %><%_ } _%>.<%= relationship.otherEntity.primaryKey.name %>"))
+    <%= relationship.relationshipName %> = db.relationship("<%= relationship.otherEntity.persistClass %>", lazy="select", primaryjoin="<%= persistClass %>.<%= relationship.relationshipName %>_<%= relationship.otherEntity.primaryKey.name %> == <%= relationship.otherEntity.persistClass %>.<%= relationship.otherEntity.primaryKey.name %>")
+            <%_ } else { _%>
+    <%= relationship.relationshipNamePlural %> = db.relationship("<%= relationship.otherEntity.persistClass %>", secondary=<%= relationship.entityName %>_<%= relationship.otherEntityName %>, lazy="select")
+            <%_ } _%>
+        <%_ } else { _%>
+            <%_ if (relationship.relationshipOneToMany) { _%>
+    <%_ if (relationship.otherEntity.persistClass !== relationship.entityClass) { _%>
+    <%= relationship.relationshipNamePlural %> = db.relationship("<%= relationship.otherEntity.persistClass %>", lazy="select", viewonly=True)
+    <%_ } _%>
+            <%_ } else if (relationship.relationshipManyToOne) { _%>
+            <%_ } else if (relationship.relationshipOneToOne) { _%>
+            <%_ } else { _%>
+            <%_ } _%>
+        <%_ } _%>
+    <%_ } _%>
+
+    @classmethod
+    def find_by_<%= primaryKey.name %>(cls, _<%= primaryKey.name %>) -> "<%= persistClass %>":
+        return cls.query.filter_by(<%= primaryKey.name %>=_<%= primaryKey.name %>).first()
+
+    @classmethod
+    def find_all(cls, page, per_page) -> List["<%= persistClass %>"]:
+        paginate = cls.query.paginate(page=page, per_page=per_page)
+        return paginate.items
+
+    @classmethod
+    def find_all_count(cls):
+        return cls.query.count()
+    
+    def save_to_db(self) -> None:
+        db.session.add(self)
+        db.session.commit()
+
+    def update_db(self) -> None:
+        db.session.merge(self)
+        db.session.commit()
+
+    def delete_from_db(self) -> None:
+        db.session.delete(self)
+        db.session.commit()
+
+    # Getters and setters
+    <%_ for (const field of fields.filter(field => !field.transient && (embedded || !field.id || !primaryKey.composite))) { _%>
+    def get_<%= _.replace(_.lowerCase(field.fieldInJavaBeanMethod), new RegExp("\\s","g"), '_') %>(self):
+        return self.<%= _.replace(_.lowerCase(field.fieldName), new RegExp("\\s","g"), '_') %>
+
+    def set_<%= _.replace(_.lowerCase(field.fieldInJavaBeanMethod), new RegExp("\\s","g"), '_') %>(self, <%= _.replace(_.lowerCase(field.fieldName), new RegExp("\\s","g"), '_') %>):
+        self.<%= _.replace(_.lowerCase(field.fieldName), new RegExp("\\s","g"), '_') %> = <%= _.replace(_.lowerCase(field.fieldName), new RegExp("\\s","g"), '_') %>
+    
+    <%_ } _%>
+    

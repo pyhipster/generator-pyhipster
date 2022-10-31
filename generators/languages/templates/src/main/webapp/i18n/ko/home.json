@@ -5,15 +5,15 @@
         "logged": {
             "message": "\"{{username}}\"(으)로 로그인하셨습니다."
         },
-        "question": "JHipster에 질문이 있다면:",
+        "question": "PyHipster에 질문이 있다면:",
         "link": {
-            "homepage": "JHipster 홈페이지",
-            "stackoverflow": "JHipster Stack Overflow",
-            "bugtracker": "JHipster 버그 트랙커",
-            "chat": "JHipster public chat room",
-            "follow": "트위터에서 @jhipster 에 접속하세요."
+            "homepage": "PyHipster 홈페이지",
+            "stackoverflow": "PyHipster Stack Overflow",
+            "bugtracker": "PyHipster 버그 트랙커",
+            "chat": "PyHipster public chat room",
+            "follow": "트위터에서 @py_hipster 에 접속하세요."
         },
-        "like": "JHipster 가 마음에 든다면, 별을 주는 것을 잊지 마세요.",
+        "like": "PyHipster 가 마음에 든다면, 별을 주는 것을 잊지 마세요.",
         "github": "GitHub"
     }
 }

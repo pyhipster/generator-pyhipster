@@ -1,0 +1,86 @@
+<%#
+ Copyright 2022 the original author or authors from the PyHipster project.
+
+ This file is part of the PyHipster project, see https://github.com/sudeephazra/generator-pyhipster
+ for more information.
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      https://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-%>
+from flask_restx import Resource, fields, Namespace
+from domain.User import User
+from schema.UserSchema import AdminUserSchema
+import logging
+from flask import request, session
+from flask_jwt_extended import jwt_required, get_jwt_identity
+from datetime import datetime, timezone
+
+
+logging.basicConfig(format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
+
+
+user_list_ns = Namespace('user-resource', path="/admin/users")
+
+user_schema = AdminUserSchema()
+user_list_schema = AdminUserSchema(many=True)
+
+
+class UserResource(Resource):
+    @jwt_required()
+    def get(self, login):
+        logging.info("GET request received on UserResource")
+        users = User.get_by_login(login)
+        if users is None:
+            return {"message": "User not found"}, 404
+        return user_schema.dump(users), 200
+
+    @jwt_required()
+    def delete(self, login):
+        logging.info("DELETE request received on UserResource")
+        users = User.get_by_login(login)
+        if users is None:
+            return {"message": "User not found"}, 404
+        users.delete_from_db()
+        return {"message": "User deleted"}, 204
+
+
+class UserResourceList(Resource):
+    @jwt_required()
+    def get(self):
+        logging.info("GET request received on UserResource")
+        users = User.get_all_users()
+        return user_list_schema.dump(users), 200
+
+    @jwt_required()
+    def post(self):
+        logging.info("POST request received on EmployeeResourceList")
+        user_json = request.get_json()
+        user_data = user_schema.load(user_json)
+        user_data.save_to_db()
+        return user_schema.dump(user_data), 201
+
+    @jwt_required()
+    def put(self):
+        logging.info("PUT request received on UserResource")
+        current_login = get_jwt_identity()
+        user_json = request.get_json()
+        if user_json["login"] is None:
+            return {"message": "Invalid User"}, 400
+        users = User.get_by_login(user_json["login"])
+        if users.get_login() is None:
+            return {"message": "Invalid User"}, 400
+        updated_user = user_schema.load(user_json, instance=users)
+        updated_user.set_last_modified_by(current_login)
+        updated_user.set_last_modified_date(datetime.now(timezone.utc))
+        updated_user.save_to_db()
+        return user_schema.dump(updated_user), 200
+

@@ -5,15 +5,15 @@
         "logged": {
             "message": "\"{{username}}\" olarak giriş yaptınız."
         },
-        "question": "JHipster hakkında sorularınız için:",
+        "question": "PyHipster hakkında sorularınız için:",
         "link": {
-            "homepage": "JHipster ana sayfa",
-            "stackoverflow": "Stack Overflow'da JHipster",
-            "bugtracker": "JHipster hata yönetimi",
-            "chat": "JHipster genel sohbet odası",
-            "follow": "Twitter'da @jhipster adresinden ulaşabilirsiniz"
+            "homepage": "PyHipster ana sayfa",
+            "stackoverflow": "Stack Overflow'da PyHipster",
+            "bugtracker": "PyHipster hata yönetimi",
+            "chat": "PyHipster genel sohbet odası",
+            "follow": "Twitter'da @py_hipster adresinden ulaşabilirsiniz"
         },
-        "like": "JHipster'ı beğendiysenizi yıldız vermeyi unutmayın",
+        "like": "PyHipster'ı beğendiysenizi yıldız vermeyi unutmayın",
         "github": "GitHub"
     }
 }

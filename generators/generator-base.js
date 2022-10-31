@@ -70,11 +70,11 @@ const {
 
 const JHIPSTER_CONFIG_DIR = constants.JHIPSTER_CONFIG_DIR;
 const MODULES_HOOK_FILE = `${JHIPSTER_CONFIG_DIR}/modules/jhi-hooks.json`;
-const GENERATOR_JHIPSTER = 'generator-jhipster';
+const GENERATOR_JHIPSTER = 'generator-pyhipster';
 
 const SERVER_MAIN_RES_DIR = constants.SERVER_MAIN_RES_DIR;
 
-const { ORACLE, MYSQL, POSTGRESQL, MARIADB, MSSQL, SQL, MONGODB, COUCHBASE, NEO4J, CASSANDRA, H2_MEMORY, H2_DISK } = databaseTypes;
+const { ORACLE, MYSQL, POSTGRESQL, MARIADB, MSSQL, SQL, MONGODB, COUCHBASE, NEO4J, CASSANDRA, H2_MEMORY, H2_DISK, SQLITE_DISK, SQLITE_MEMORY } = databaseTypes;
 const NO_DATABASE = databaseTypes.NO;
 
 const { GENERATOR_BOOTSTRAP } = require('./generator-list');
@@ -821,6 +821,10 @@ module.exports = class JHipsterBaseGenerator extends PrivateBase {
     this.needleApi.serverCache.addEntityToCache(entityClass, relationships, packageName, packageFolder, cacheProvider);
   }
 
+  addEntitiesToAPIList(entityClass) {
+    this.needleApi.serverEntities.addEntitiesToAPIList(entityClass);
+  }
+
   /**
    * Add a new entry to the chosen cache provider in CacheConfiguration.java
    *
@@ -1538,7 +1542,7 @@ module.exports = class JHipsterBaseGenerator extends PrivateBase {
    */
   composeWithJHipster(generator, args, options, once = false) {
     assert(typeof generator === 'string', 'generator should to be a string');
-    const namespace = generator.includes(':') ? generator : `jhipster:${generator}`;
+    const namespace = generator.includes(':') ? generator : `pyhipster:${generator}`;
     let immediately = false;
     if (typeof once === 'object') {
       immediately = once.immediately;
@@ -1948,6 +1952,7 @@ module.exports = class JHipsterBaseGenerator extends PrivateBase {
         });
       }
       const javaHome = shelljs.env.JAVA_HOME;
+      //TODO: Disabling keytool generation
       let keytoolPath = '';
       if (javaHome) {
         keytoolPath = `${javaHome}/bin/`;
@@ -1990,17 +1995,17 @@ module.exports = class JHipsterBaseGenerator extends PrivateBase {
     this.log(
       chalk.green(' _______________________________________________________________________________________________________________\n')
     );
-    this.log(
-      chalk.white(`  Documentation for creating an application is at ${chalk.yellow('https://www.jhipster.tech/creating-an-app/')}`)
-    );
-    this.log(
-      chalk.white(
-        `  If you find JHipster useful, consider sponsoring the project at ${chalk.yellow('https://opencollective.com/generator-jhipster')}`
-      )
-    );
-    this.log(
-      chalk.green(' _______________________________________________________________________________________________________________\n')
-    );
+    // this.log(
+    //   chalk.white(`  Documentation for creating an application is at ${chalk.yellow('https://www.jhipster.tech/creating-an-app/')}`)
+    // );
+    // this.log(
+    //   chalk.white(
+    //     `  If you find JHipster useful, consider sponsoring the project at ${chalk.yellow('https://opencollective.com/generator-jhipster')}`
+    //   )
+    // );
+    // this.log(
+    //   chalk.green(' _______________________________________________________________________________________________________________\n')
+    // );
   }
 
   /**
@@ -2785,7 +2790,7 @@ templates: ${JSON.stringify(existingTemplates, null, 2)}`;
     dest.isDebugEnabled = config.isDebugEnabled;
     dest.experimental = config.experimental;
     dest.logo = config.logo;
-    config.backendName = config.backendName || 'Java';
+    config.backendName = config.backendName || 'Python';
     dest.backendName = config.backendName;
 
     config.nodeDependencies = config.nodeDependencies || {
@@ -2855,6 +2860,7 @@ templates: ${JSON.stringify(existingTemplates, null, 2)}`;
     dest.authenticationType = config.authenticationType;
     dest.rememberMeKey = config.rememberMeKey;
     dest.jwtSecretKey = config.jwtSecretKey;
+    dest.flaskSecret = config.flaskSecret;
   }
 
   loadDerivedMicroserviceAppConfig(dest = this) {
@@ -3012,6 +3018,9 @@ templates: ${JSON.stringify(existingTemplates, null, 2)}`;
     dest.devDatabaseTypeH2Disk = dest.devDatabaseType === H2_DISK;
     dest.devDatabaseTypeH2Memory = dest.devDatabaseType === H2_MEMORY;
     dest.devDatabaseTypeH2Any = dest.devDatabaseTypeH2Disk || dest.devDatabaseTypeH2Memory;
+    dest.devDatabaseTypeSQLiteDisk = dest.devDatabaseType === SQLITE_DISK;
+    dest.devDatabaseTypeSQLiteMemory = dest.devDatabaseType === SQLITE_MEMORY;
+    dest.devDatabaseTypeSQLiteAny = dest.devDatabaseTypeSQLiteDisk || dest.devDatabaseTypeSQLiteMemory;
     dest.devDatabaseTypeCouchbase = dest.devDatabaseType === COUCHBASE;
     dest.devDatabaseTypeMariadb = dest.devDatabaseType === MARIADB;
     dest.devDatabaseTypeMssql = dest.devDatabaseType === MSSQL;

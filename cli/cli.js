@@ -17,10 +17,10 @@
  * limitations under the License.
  */
 
-const { runJHipster } = require('./program');
+const { runPyHipster } = require('./program');
 const { done, logger } = require('./utils');
 
-module.exports = runJHipster().catch(done);
+module.exports = runPyHipster().catch(done);
 
 process.on('unhandledRejection', up => {
   logger.error('Unhandled promise rejection at:');

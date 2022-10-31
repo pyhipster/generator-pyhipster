@@ -1,0 +1,56 @@
+<%#
+ Copyright 2022 the original author or authors from the PyHipster project.
+
+ This file is part of the PyHipster project, see https://github.com/sudeephazra/generator-pyhipster
+ for more information.
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      https://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-%>
+from DatabaseConfig import db
+
+
+class AbstractAuditingEntity(db.Model):
+    created_by = db.Column(db.String(80), nullable=False)
+    created_date = db.Column(db.DateTime, nullable=False)
+    last_modified_by = db.Column(db.String(80), nullable=True)
+    last_modified_date = db.Column(db.DateTime, nullable=True)
+
+    def __init__(self, **kwargs):
+        for key, value in kwargs.items():
+            self.key = value
+            
+    def get_created_by(self):
+        return self.created_by
+
+    def set_created_by(self, _created_by):
+        self.created_by = _created_by
+
+    def get_created_date(self):
+        return self.created_date
+
+    def set_created_date(self, _created_date):
+        self.created_date = _created_date
+
+    def get_last_modified_by(self):
+        return self.last_modified_by
+    
+    def set_last_modified_by(self, _last_modified_by):
+        self.last_modified_by = _last_modified_by
+
+    def get_last_modified_date(self):
+        return self.last_modified_date
+    
+    def set_last_modified_date(self, _last_modified_date):
+        self.last_modified_date = _last_modified_date
+    
+    

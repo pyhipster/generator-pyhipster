@@ -115,40 +115,6 @@
             </a>
           </li>
 <%_ } _%>
-<%_ if (communicationSpringWebsocket) { _%>
-          <li>
-            <a class="dropdown-item" routerLink="admin/tracker" routerLinkActive="active" (click)="collapseNavbar()">
-              <fa-icon icon="eye" [fixedWidth]="true"></fa-icon>
-              <span <%= jhiPrefix %>Translate="global.menu.admin.tracker">User tracker</span>
-            </a>
-          </li>
-<%_ } _%>
-<%_ if (withAdminUi) { _%>
-          <li>
-            <a class="dropdown-item" routerLink="admin/metrics" routerLinkActive="active" (click)="collapseNavbar()">
-              <fa-icon icon="tachometer-alt" [fixedWidth]="true"></fa-icon>
-              <span <%= jhiPrefix %>Translate="global.menu.admin.metrics">Metrics</span>
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item" routerLink="admin/health" routerLinkActive="active" (click)="collapseNavbar()">
-              <fa-icon icon="heart" [fixedWidth]="true"></fa-icon>
-              <span <%= jhiPrefix %>Translate="global.menu.admin.health">Health</span>
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item" routerLink="admin/configuration" routerLinkActive="active" (click)="collapseNavbar()">
-              <fa-icon icon="cogs" [fixedWidth]="true"></fa-icon>
-              <span <%= jhiPrefix %>Translate="global.menu.admin.configuration">Configuration</span>
-            </a>
-          </li>
-          <li>
-            <a class="dropdown-item" routerLink="admin/logs" routerLinkActive="active" (click)="collapseNavbar()">
-              <fa-icon icon="tasks" [fixedWidth]="true"></fa-icon>
-              <span <%= jhiPrefix %>Translate="global.menu.admin.logs">Logs</span>
-            </a>
-          </li>
-<%_ } _%>
 <%_ if (!applicationTypeMicroservice) { _%>
           <li *ngIf="openAPIEnabled">
             <a class="dropdown-item" routerLink="admin/docs" routerLinkActive="active" (click)="collapseNavbar()">

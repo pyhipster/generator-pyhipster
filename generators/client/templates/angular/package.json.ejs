@@ -44,6 +44,7 @@
     "@ngx-translate/http-loader": "<%= dependabotPackageJson.dependencies['@ngx-translate/http-loader'] %>",
 <%_ } _%>
     "bootstrap": "<%= dependabotPackageJson.dependencies.bootstrap %>",
+    "browser-sync-client": "<%= dependabotPackageJson.dependencies['browser-sync-client'] %>",
     <%_ if (!clientThemeNone) { _%>
     "bootswatch": "<%= dependabotPackageJson.dependencies.bootswatch %>",
     <%_ } _%>
@@ -110,7 +111,6 @@
     "eslint-config-prettier": "<%= dependabotPackageJson.devDependencies['eslint-config-prettier'] %>",
     "eslint-webpack-plugin": "<%= dependabotPackageJson.devDependencies['eslint-webpack-plugin'] %>",
 <%_ if (!skipJhipsterDependencies) { _%>
-    "generator-jhipster": "<%= packagejs.version %>",
     <%_ otherModules.forEach(module => { _%>
     "<%= module.name %>": "<%= module.version %>",
     <%_ });

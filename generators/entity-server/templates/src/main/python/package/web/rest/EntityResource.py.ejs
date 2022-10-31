@@ -1,0 +1,116 @@
+<%#
+ Copyright 2022 the original author or authors from the PyHipster project.
+
+ This file is part of the PyHipster project, see https://github.com/sudeephazra/generator-pyhipster
+ for more information.
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      https://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-%>
+from flask import request
+import logging
+from flask_restx import Resource, Namespace
+<%_
+const instanceName = restInstance;
+const entityLowercase = _.lowerCase(entityClass);
+const entitiesLowercase = _.lowerCase(entityInstancePlural);
+const entitiesCamelCase = _.camelCase(instanceName)
+const entityMethod = _.replace(entityApiUrl, new RegExp("-","g"), '_');
+_%>
+from domain.<%= entityClass %> import <%= entityClass %>
+from schema.<%= entityClass %>Schema import <%= entityClass %>Schema
+from flask_jwt_extended import jwt_required
+
+logging.basicConfig(format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
+<%= entityMethod %>_list_ns = Namespace('<%= entityApiUrl %>-resource', path="/<%= entityApiUrl %>")
+
+<%= entityMethod %>_schema = <%= entityClass %>Schema()
+<%= entityMethod %>_list_schema = <%= entityClass %>Schema(many=True)
+
+
+class <%= entityClass %>Resource(Resource):
+    @jwt_required()
+    def get(self, <%= primaryKey.name %>):
+        logging.info("GET request received on <%= entityClass %>Resource")
+        <%= entityMethod %> = <%= entityClass %>.find_by_<%= primaryKey.name %>(<%= primaryKey.name %>)
+        if <%= entityMethod %> is not None:
+            return <%= entityMethod %>_schema.dump(<%= entityMethod %>), 200
+        return {"message": "<%= entityClass %> not found"}, 404
+
+    @jwt_required()
+    def put(self, <%= primaryKey.name %>):
+        logging.info("PUT request received on <%= entityClass %>Resource")
+        <%= entityMethod %>_json = request.get_json()
+        if <%= entityMethod %>_json["<%= primaryKey.name %>"] is None:
+            return {"message": "Invalid <%= entityClass %>"}, 400
+        if <%= primaryKey.name %> != <%= entityMethod %>_json["<%= primaryKey.name %>"]:
+            return {"message": "Invalid <%= entityClass %>"}, 400
+        <%= entityMethod %> = <%= entityClass %>.find_by_<%= primaryKey.name %>(<%= primaryKey.name %>)
+        if <%= entityMethod %>.get_<%= primaryKey.name %>() is None:
+            return {"message": "Invalid <%= entityClass %>"}, 400
+        updated_<%= entityMethod %> = <%= entityMethod %>_schema.load(<%= entityMethod %>_json, instance=<%= entityMethod %>)
+        updated_<%= entityMethod %>.update_db()
+        return <%= entityMethod %>_schema.dump(updated_<%= entityMethod %>), 200
+    
+    @jwt_required()
+    def patch(self, <%= primaryKey.name %>):
+        logging.info("PATCH request received on <%= entityClass %>Resource")
+        <%= entityMethod %>_json = request.get_json()
+        if <%= entityMethod %>_json["<%= primaryKey.name %>"] is None:
+            return {"message": "Invalid <%= entityClass %>"}, 400
+        if <%= primaryKey.name %> != <%= entityMethod %>_json["<%= primaryKey.name %>"]:
+            return {"message": "Invalid <%= entityClass %>"}, 400
+        <%= entityMethod %> = <%= entityClass %>.find_by_<%= primaryKey.name %>(<%= primaryKey.name %>)
+        if <%= entityMethod %>.get_<%= primaryKey.name %>() is None:
+            return {"message": "Invalid <%= entityClass %>"}, 400
+        updated_<%= entityMethod %> = <%= entityMethod %>_schema.load(<%= entityMethod %>_json, instance=<%= entityMethod %>, partial=True)
+        updated_<%= entityMethod %>.update_db()
+        return <%= entityMethod %>_schema.dump(updated_<%= entityMethod %>), 200
+
+    @jwt_required()
+    def delete(self, <%= primaryKey.name %>):
+        logging.info("DELETE request received on <%= entityClass %>Resource")
+        <%= entityMethod %> = <%= entityClass %>.find_by_<%= primaryKey.name %>(<%= primaryKey.name %>)
+        if <%= entityMethod %> is None:
+            return {"message": "<%= entityClass %> not found"}, 404
+        <%= entityMethod %>.delete_from_db()
+        return {"message": "<%= entityClass %> deleted"}, 204
+
+
+class <%= entityClass %>ResourceList(Resource):
+    @jwt_required()
+    def get(self):
+        logging.info("GET request received on <%= entityClass %>ResourceList")
+        page = request.args.get('page', default=1, type=int)
+        size = request.args.get('size', default=20, type=int)
+        <%= entityMethod %> = <%= entityClass %>.find_all(page, size)
+        if <%= entityMethod %> is not None:
+            return <%= entityMethod %>_list_schema.dump(<%= entityMethod %>), 200
+        return {"message": "<%= entityClass %> not found"}, 404
+
+    @jwt_required()
+    def post(self):
+        logging.info("POST request received on <%= entityClass %>ResourceList")
+        <%= entityMethod %>_json = request.get_json()
+        <%= entityMethod %>_data = <%= entityMethod %>_schema.load(<%= entityMethod %>_json)
+        <%= entityMethod %>_data.save_to_db()
+        return <%= entityMethod %>_schema.dump(<%= entityMethod %>_data), 201
+
+
+class <%= entityClass %>ResourceListCount(Resource):
+    @jwt_required()
+    def get(self):
+        logging.info("GET request received on <%= entityClass %>ResourceListCount")
+        <%= entityMethod %>_count = <%= entityClass %>.find_all_count()
+        if <%= entityMethod %>_count is not None:
+            return <%= entityMethod %>_count, 200
+        return {"message": "<%= entityClass %> count not found"}, 404

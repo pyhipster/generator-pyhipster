@@ -5,15 +5,15 @@
         "logged": {
             "message": "သင်သည်အသုံးပြုသူ \"{{username}}\" အဖြစ် ဝင်ရောက်အသုံးပြုနေပါသည်။"
         },
-        "question": "JHipster နှင့်ပတ်သက်၍ မေးစရာရှိပါက",
+        "question": "PyHipster နှင့်ပတ်သက်၍ မေးစရာရှိပါက",
         "link": {
-            "homepage": "JHipster မူလစာမျက်နှာ",
-            "stackoverflow": "JHipster on Stack Overflow",
-            "bugtracker": "JHipster bug tracker",
-            "chat": "JHipster အများပြည်သူစကားစမြည်ပြောသည့်နေရာ။",
-            "follow": "တွစ်တာပေါ်တွင် @jhipster ကို follow လုပ်ရန်။"
+            "homepage": "PyHipster မူလစာမျက်နှာ",
+            "stackoverflow": "PyHipster on Stack Overflow",
+            "bugtracker": "PyHipster bug tracker",
+            "chat": "PyHipster အများပြည်သူစကားစမြည်ပြောသည့်နေရာ။",
+            "follow": "တွစ်တာပေါ်တွင် @py_hipster ကို follow လုပ်ရန်။"
         },
-        "like": "JHipster ကိုကြိုက်နှစ်သက်ပါလျှင်, ကျွန်တော်တို့ကို ကြယ်ပွင့်လေးတပွင့်ပေးခဲ့ပါ။",
+        "like": "PyHipster ကိုကြိုက်နှစ်သက်ပါလျှင်, ကျွန်တော်တို့ကို ကြယ်ပွင့်လေးတပွင့်ပေးခဲ့ပါ။",
         "github": "GitHub"
     }
 }

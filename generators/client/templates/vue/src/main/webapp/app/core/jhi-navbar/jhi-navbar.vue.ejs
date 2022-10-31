@@ -65,30 +65,6 @@
             <span v-text="$t('global.menu.admin.userManagement')">User management</span>
           </b-dropdown-item>
 <%_ } _%>
-<%_ if (communicationSpringWebsocket) { _%>
-          <b-dropdown-item to="/admin/tracker" active-class="active">
-            <font-awesome-icon icon="eye" />
-            <span v-text="$t('global.menu.admin.tracker')">User tracker</span>
-          </b-dropdown-item>
-<%_ } _%>
-<%_ if (withAdminUi) { _%>
-          <b-dropdown-item  to="/admin/metrics" active-class="active">
-            <font-awesome-icon icon="tachometer-alt" />
-            <span v-text="$t('global.menu.admin.metrics')">Metrics</span>
-          </b-dropdown-item>
-          <b-dropdown-item to="/admin/health" active-class="active">
-            <font-awesome-icon icon="heart" />
-            <span v-text="$t('global.menu.admin.health')">Health</span>
-          </b-dropdown-item>
-          <b-dropdown-item  to="/admin/configuration" active-class="active">
-            <font-awesome-icon icon="cogs" />
-            <span v-text="$t('global.menu.admin.configuration')">Configuration</span>
-          </b-dropdown-item>
-          <b-dropdown-item  to="/admin/logs" active-class="active">
-            <font-awesome-icon icon="tasks" />
-            <span v-text="$t('global.menu.admin.logs')">Logs</span>
-          </b-dropdown-item>
-<%_ } _%>
           <b-dropdown-item v-if="openAPIEnabled"  to="/admin/docs" active-class="active">
             <font-awesome-icon icon="book" />
             <span v-text="$t('global.menu.admin.apidocs')">API</span>

@@ -1,0 +1,52 @@
+<%#
+ Copyright 2022 the original author or authors from the PyHipster project.
+
+ This file is part of the PyHipster project, see https://github.com/sudeephazra/generator-pyhipster
+ for more information.
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      https://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-%>
+
+from flask import Flask, Blueprint
+from flask_restx import Api
+from flask_jwt_extended import JWTManager
+from rest import add_api_namespace
+from config.BaseConfig import BaseConfig
+from config.FakeDataLoader import load_fake_data
+from DatabaseConfig import db
+from WebSerializer import ma
+from MailConfiguration import mail
+
+
+app = Flask(__name__, template_folder='../resources/templates/mail')
+bluePrint = Blueprint('api', __name__, url_prefix='/api')
+api = Api(bluePrint, doc='/v2/api-docs', title='<%= mainClass %> Application')
+
+app.register_blueprint(bluePrint)
+app.config.from_object(BaseConfig)
+
+api = add_api_namespace(api)
+jwt = JWTManager(app)
+
+
+@app.before_first_request
+def create_tables():
+    db.create_all()
+    load_fake_data(app)
+
+
+if __name__ == '__main__':
+    db.init_app(app)
+    ma.init_app(app)
+    mail.init_app(app)
+    app.run(debug=True, port=<%= serverPort %>)

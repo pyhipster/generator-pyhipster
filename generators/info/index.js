@@ -17,6 +17,7 @@
  * limitations under the License.
  */
 const chalk = require('chalk');
+const os = require('os');
 const shelljs = require('shelljs');
 const BaseGenerator = require('../generator-base');
 const { INITIALIZING_PRIORITY } = require('../../lib/constants/priorities.cjs').compat;
@@ -43,13 +44,13 @@ module.exports = class extends BaseGenerator {
   get [INITIALIZING_PRIORITY]() {
     return {
       sayHello() {
-        this.log(chalk.white('Welcome to the JHipster Information Sub-Generator\n'));
+        this.log(chalk.white('Welcome to the PyHipster Information Sub-Generator\n'));
       },
 
       checkJHipster() {
         const done = this.async();
-        console.log('##### **JHipster Version(s)**');
-        shelljs.exec('npm list generator-jhipster', { silent: true }, (err, stdout, stderr) => {
+        console.log('##### **PyHipster Version(s)**');
+        shelljs.exec('npm list generator-pyhipster', { silent: true }, (err, stdout, stderr) => {
           if (stdout) {
             console.log(`\n\`\`\`\n${stdout}\`\`\`\n`);
           }
@@ -62,20 +63,20 @@ module.exports = class extends BaseGenerator {
         let result = shelljs.cat('.yo-rc.json');
         result = result.replace(
           /"rememberMeKey": ".*"/g,
-          '"rememberMeKey": "YourJWTSecretKeyWasReplacedByThisMeaninglessTextByTheJHipsterInfoCommandForObviousSecurityReasons"'
+          '"rememberMeKey": "YourJWTSecretKeyWasReplacedByThisMeaninglessTextByThePyHipsterInfoCommandForObviousSecurityReasons"'
         );
         result = result.replace(
           /"jwtSecretKey": ".*"/g,
-          '"jwtSecretKey": "YourJWTSecretKeyWasReplacedByThisMeaninglessTextByTheJHipsterInfoCommandForObviousSecurityReasons"'
+          '"jwtSecretKey": "YourJWTSecretKeyWasReplacedByThisMeaninglessTextByThePyHipsterInfoCommandForObviousSecurityReasons"'
         );
-        console.log('\n##### **JHipster configuration, a `.yo-rc.json` file generated in the root folder**\n');
+        console.log('\n##### **PyHipster configuration, a `.yo-rc.json` file generated in the root folder**\n');
         console.log(`\n<details>\n<summary>.yo-rc.json file</summary>\n<pre>\n${result}\n</pre>\n</details>\n`);
         done();
       },
 
       displayEntities() {
         const done = this.async();
-        console.log('\n##### **JDL for the Entity configuration(s) `entityName.json` files generated in the `.jhipster` directory**\n');
+        console.log('\n##### **JDL for the Entity configuration(s) `entityName.json` files generated in the `.pyhipster` directory**\n');
         const jdl = this.generateJDLFromEntities();
         console.log('<details>\n<summary>JDL entity definitions</summary>\n');
         console.log(`<pre>\n${jdl.toString()}\n</pre>\n</details>\n`);
@@ -88,6 +89,22 @@ module.exports = class extends BaseGenerator {
         shelljs.exec('java -version', { silent: true }, (err, stdout, stderr) => {
           if (!err) {
             console.log(stderr);
+          }
+          done();
+        });
+      },
+
+      checkPython() {
+        const done = this.async();
+        var pythonCommand = '';
+        if (os.platform() === 'win32') {
+          pythonCommand = 'python --version';
+        } else {
+          pythonCommand = 'python3 --version';
+        }
+        shelljs.exec(pythonCommand, { silent: true }, (err, stdout, stderr) => {
+          if (!err) {
+            console.log(stdout);
           }
           done();
         });
