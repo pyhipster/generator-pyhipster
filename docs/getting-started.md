@@ -38,7 +38,7 @@ Now go to any folder and create the project folder
 
 This will start the generator and will ask you a couple of questions to generate the application
 
-![Application Generation](docs/images/application-generation.png)
+![Application Generation](images/application-generation.png)
 
 Please see below for an explanation of each of these questions.
 
