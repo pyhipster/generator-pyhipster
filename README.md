@@ -191,8 +191,6 @@ MAIL_USERNAME = 'my-email-id@gmail.com'
 MAIL_PASSWORD = 'my-email-password'
 ```
 **Please note**: If you use the above configuration with your Gmail password, you might need to  [allow less secure apps](https://support.google.com/accounts/answer/6010255?hl=en). The configuration is simpler but less secure. Also by allowing less secure apps you won’t have the ability to use two factor authentication with Gmail. Therefore we highly recommend you use an app password instead of the Gmail password. Please refer to the Gmail configuration document at [Sign in with App Passwords](https://support.google.com/accounts/answer/185833) for more information on how to set this up.
-## Contribution
-Please read our [guidelines](/CONTRIBUTING.md#submitting-an-issue) before submitting an issue. If your issue is a bug, please use the bug template pre-populated [here][issue-template]. For feature requests and queries you can use [this template][feature-template].
 
 ## Tools
 - [JHipster Studio](https://www.jhipster.tech/jdl-studio/) for writing JDL files
