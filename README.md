@@ -48,5 +48,5 @@ For the current version the tool has certain limitations
 - Only monolith support
 - No support for Docker
 
-
+For more information, please continue your journey with the [getting started guide](docs/getting-started.md)
 
