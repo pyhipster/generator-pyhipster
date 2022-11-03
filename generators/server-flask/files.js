@@ -472,6 +472,10 @@ const baseServerFiles = {
           file: 'package/security/AuthoritiesConstants.py',
           renameTo: generator => `${generator.javaDir}security/AuthoritiesConstants.py`,
         },
+        {
+          file: 'package/security/SecurityUtils.py',
+          renameTo: generator => `${generator.javaDir}security/SecurityUtils.py`,
+        },
         // {
         //   file: 'package/security/package-info.java',
         //   renameTo: generator => `${generator.javaDir}security/package-info.java`,
