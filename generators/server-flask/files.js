@@ -385,9 +385,16 @@ const baseServerFiles = {
       ],
     },
     {
+      condition: generator => !generator.skipServer,
       templates: [
-        { file: 'pvnw', method: 'copy', noEjs: true },
-        { file: 'pvnw.cmd', method: 'copy', noEjs: true },
+        { 
+          file: 'pvnw', 
+          renameTo: () => 'pvnw'
+        },
+        { 
+          file: 'pvnw.cmd', 
+          renameTo: () => 'pvnw.cmd'
+        },
       ],
     },
   ],
