@@ -89,7 +89,10 @@ class ManagedUserAccountRegister(Resource):
         # The user record is inserted into the database
         managed_user_data.save_to_db()
         # Send registration mail
-        send_creation_mail(managed_user_data)
+        try:
+            send_creation_mail(managed_user_data)
+        except:
+            return {"message": "User is created but unable to send mail"}, 400
         return {"message": "Successfully registered"}, 201
 
 
@@ -170,7 +173,10 @@ class AccountActivate(Resource):
         user_data.set_last_modified_date(datetime.now(timezone.utc))
         user_data.save_to_db()
         # Send mail
-        send_activation_mail(user_data)
+        try:
+            send_activation_mail(user_data)
+        except:
+            return {"message": "User is activated but unable to send mail"}, 400
         return {"message": "Account activated"}, 200
 
 
@@ -191,7 +197,10 @@ class AccountPasswordResetInit(Resource):
         user.set_reset_date(datetime.now(timezone.utc))
         user.save_to_db()
         # Send account password reset mail with reset key
-        send_reset_mail(user)
+        try:
+            send_reset_mail(user)
+        except:
+            return {"message": "Password reset request initiated but unable to send mail"}, 400
         return {"message": "Password reset request submitted"}, 200
 
 
