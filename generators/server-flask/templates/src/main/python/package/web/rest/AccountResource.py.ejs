@@ -212,16 +212,16 @@ class AccountPasswordResetFinish(Resource):
     def post(self):
         logging.info("POST request received on AccountPasswordResetFinish")
         password_reset_finish = request.get_json()
-        password_reset_finish_data = key_password_schema.load(password_reset_finish)
-        if not is_password_length_valid(password_reset_finish_data["newPassword"]):
+        if not is_password_length_valid(password_reset_finish["newPassword"]):
             return {"message": "Invalid password length"}, 400
-        user = User.get_by_reset_key(password_reset_finish_data.key)
+        user = User.get_by_reset_key(password_reset_finish["key"])
         if user is None:
             return {"message": "No User found for given reset key"}, 400
         # Salt and encrypt the password
-        new_password = encrypt_password(password_reset_finish_data.newPassword).decode('utf-8')
+        new_password = encrypt_password(password_reset_finish["newPassword"]).decode('utf-8')
         user.set_reset_key(None)
         user.set_reset_date(None)
+        user.set_activated(True)
         user.set_password(new_password)
         user.set_last_modified_by(user.login)
         user.set_last_modified_date(datetime.now(timezone.utc))
