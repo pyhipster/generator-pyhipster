@@ -56,13 +56,13 @@ class UserResource(Resource):
 class UserResourceList(Resource):
     @jwt_required()
     def get(self):
-        logging.info("GET request received on UserResource")
+        logging.info("GET request received on UserResourceList")
         users = User.get_all_users()
         return user_list_schema.dump(users), 200
 
     @jwt_required()
     def post(self):
-        logging.info("POST request received on EmployeeResourceList")
+        logging.info("POST request received on UserResourceList")
         user_json = request.get_json()
         user_data = user_schema.load(user_json)
         user_data.save_to_db()
@@ -70,7 +70,7 @@ class UserResourceList(Resource):
 
     @jwt_required()
     def put(self):
-        logging.info("PUT request received on UserResource")
+        logging.info("PUT request received on UserResourceList")
         current_login = get_jwt_identity()
         user_json = request.get_json()
         if user_json["login"] is None:
