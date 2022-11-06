@@ -115,7 +115,7 @@ class User(db.Model):
         self.reset_key = _reset_key
 
     def get_reset_key(self):
-        return self.resetKey
+        return self.reset_key
 
     def set_reset_date(self, _resetDate):
         self.reset_date = _resetDate
@@ -167,6 +167,13 @@ class User(db.Model):
     @classmethod
     def get_by_activation_key(cls, activation_key) -> "User":
         user = cls.query.filter_by(activation_key=activation_key).first()
+        if user is not None:
+            return user
+        return None
+
+    @classmethod
+    def get_by_reset_key(cls, reset_key) -> "User":
+        user = cls.query.filter_by(reset_key=reset_key).first()
         if user is not None:
             return user
         return None
