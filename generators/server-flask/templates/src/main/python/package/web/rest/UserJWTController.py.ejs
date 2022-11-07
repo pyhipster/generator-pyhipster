@@ -43,6 +43,8 @@ class UserJWTResource(Resource):
             return {"message": "Invalid user name"}, 404
         if bcrypt.checkpw(password.encode('utf8'), user.password_hash.encode('utf8')) is not True:
             return {"message": "Invalid user name and/or password"}, 401
+        if not user.get_activated():
+            return {"message": "User is not active. Please contact your administrator."}, 500
         token_expiry = timedelta(hours=3)
         if remember_me:
             token_expiry = timedelta(hours=24)

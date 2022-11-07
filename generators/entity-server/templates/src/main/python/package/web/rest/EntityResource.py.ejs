@@ -29,6 +29,9 @@ _%>
 from domain.<%= entityClass %> import <%= entityClass %>
 from schema.<%= entityClass %>Schema import <%= entityClass %>Schema
 from flask_jwt_extended import jwt_required
+from security.SecurityUtils import has_role
+from security.AuthoritiesConstants import AuthoritiesConstants
+
 
 logging.basicConfig(format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
 <%= entityMethod %>_list_ns = Namespace('<%= entityApiUrl %>-resource', path="/<%= entityApiUrl %>")
@@ -57,7 +60,7 @@ class <%= entityClass %>Resource(Resource):
         <%= entityMethod %> = <%= entityClass %>.find_by_<%= primaryKey.name %>(<%= primaryKey.name %>)
         if <%= entityMethod %>.get_<%= primaryKey.name %>() is None:
             return {"message": "Invalid <%= entityClass %>"}, 400
-        updated_<%= entityMethod %> = <%= entityMethod %>_schema.load(<%= entityMethod %>_json, instance=<%= entityMethod %>)
+        updated_<%= entityMethod %> = <%= entityMethod %>_schema.load(<%= entityMethod %>_json, instance=<%= entityMethod %>, partial=True)
         updated_<%= entityMethod %>.update_db()
         return <%= entityMethod %>_schema.dump(updated_<%= entityMethod %>), 200
     
@@ -77,6 +80,7 @@ class <%= entityClass %>Resource(Resource):
         return <%= entityMethod %>_schema.dump(updated_<%= entityMethod %>), 200
 
     @jwt_required()
+    @has_role(AuthoritiesConstants.ADMIN)
     def delete(self, <%= primaryKey.name %>):
         logging.info("DELETE request received on <%= entityClass %>Resource")
         <%= entityMethod %> = <%= entityClass %>.find_by_<%= primaryKey.name %>(<%= primaryKey.name %>)
@@ -101,7 +105,7 @@ class <%= entityClass %>ResourceList(Resource):
     def post(self):
         logging.info("POST request received on <%= entityClass %>ResourceList")
         <%= entityMethod %>_json = request.get_json()
-        <%= entityMethod %>_data = <%= entityMethod %>_schema.load(<%= entityMethod %>_json)
+        <%= entityMethod %>_data = <%= entityMethod %>_schema.load(<%= entityMethod %>_json, partial=True)
         <%= entityMethod %>_data.save_to_db()
         return <%= entityMethod %>_schema.dump(<%= entityMethod %>_data), 201
 
