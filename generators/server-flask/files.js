@@ -385,9 +385,16 @@ const baseServerFiles = {
       ],
     },
     {
+      condition: generator => !generator.skipServer,
       templates: [
-        { file: 'pvnw', method: 'copy', noEjs: true },
-        { file: 'pvnw.cmd', method: 'copy', noEjs: true },
+        { 
+          file: 'pvnw', 
+          renameTo: () => 'pvnw'
+        },
+        { 
+          file: 'pvnw.cmd', 
+          renameTo: () => 'pvnw.cmd'
+        },
       ],
     },
   ],
@@ -471,6 +478,10 @@ const baseServerFiles = {
         {
           file: 'package/security/AuthoritiesConstants.py',
           renameTo: generator => `${generator.javaDir}security/AuthoritiesConstants.py`,
+        },
+        {
+          file: 'package/security/SecurityUtils.py',
+          renameTo: generator => `${generator.javaDir}security/SecurityUtils.py`,
         },
         // {
         //   file: 'package/security/package-info.java',

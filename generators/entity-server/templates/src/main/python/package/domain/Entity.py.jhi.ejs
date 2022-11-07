@@ -30,7 +30,7 @@ from DatabaseConfig import db
     const javaFieldMapping = {
         "Long": "Integer",
         "Instant": "DateTime",
-        "LocalDate": "DateTime",
+        "LocalDate": "Date",
         "Duration": "Interval",
         "Double": "Float",
         "Blob": "LargeBinary",
@@ -57,6 +57,9 @@ class <%= persistClass %>(db.Model):
     <%_ } _%>
     <%_ for (const field of fields.filter(field => !field.transient && !field.id && !field.fieldIsEnum)) { _%>
     <%= _.replace(_.lowerCase(field.fieldName), new RegExp("\\s","g"), '_') %> = db.Column(db.<%= javaFieldMapping[field.javaFieldType] || field.javaFieldType %><% if (field.fieldValidationRequired) { %>, nullable=False<% } %><% if (field.fieldValidationUnique) { %>, unique=True<% } %>)
+    <%_ if (field.fieldWithContentType) { _%>
+    <%= _.replace(_.lowerCase(field.fieldName + "ContentType"), new RegExp("\\s","g"), '_') %> = db.Column(db.String)    
+    <%_ } _%>
     <%_ } _%>
     <%_ for (const field of fields.filter(field => !field.transient && field.fieldIsEnum)) { _%>
     <%= _.replace(_.lowerCase(field.fieldName), new RegExp("\\s","g"), '_') %> = db.Column(db.Enum(<%= field.javaFieldType %><% if (field.fieldValidationRequired) { %>, nullable=False<% } %><% if (field.fieldValidationUnique) { %>, unique=True<% } %>))
