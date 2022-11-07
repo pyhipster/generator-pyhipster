@@ -18,6 +18,8 @@
 -%>
 
 from flask_jwt_extended import verify_jwt_in_request, get_jwt
+from functools import wraps
+
 
 def has_role(ROLE):
     def wrapper(fn):
@@ -28,7 +30,7 @@ def has_role(ROLE):
             if ROLE in claims["auth"] :
                 return fn(*args, **kwargs)
             else:
-                return {"message": "You are not allowed to perform this operation"}, 403
+                return {"message": "You are not allowed to perform this operation"}, 500
 
         return decorator
 
@@ -44,7 +46,7 @@ def has_any_role(*ROLES):
             if any(role in ROLES for role in claims["auth"]):
                 return fn(*args, **kwargs)
             else:
-                return {"message": "You are not allowed to perform this operation"}, 403
+                return {"message": "You are not allowed to perform this operation"}, 500
 
         return decorator
 
