@@ -25,11 +25,12 @@ const shelljs = require('shelljs');
 const semver = require('semver');
 const exec = require('child_process').exec;
 const https = require('https');
+const os = require('os');
 
 const { reproducibleConfigForTests: projectNameReproducibleConfigForTests } = require('./project-name/config.cjs');
 const packagejs = require('../package.json');
 const jhipsterUtils = require('./utils');
-const { JAVA_COMPATIBLE_VERSIONS, SERVER_TEST_SRC_DIR, SUPPORTED_CLIENT_FRAMEWORKS } = require('./generator-constants');
+const { JAVA_COMPATIBLE_VERSIONS, SERVER_TEST_SRC_DIR, SUPPORTED_CLIENT_FRAMEWORKS, PYTHON_COMPATIBLE_VERSIONS } = require('./generator-constants');
 const { languageToJavaLanguage } = require('./utils');
 const JSONToJDLEntityConverter = require('../jdl/converters/json-to-jdl-entity-converter');
 const JSONToJDLOptionConverter = require('../jdl/converters/json-to-jdl-option-converter');
@@ -602,6 +603,15 @@ module.exports = class JHipsterBasePrivateGenerator extends Generator {
     const gitInstalled = jhipsterUtils.isGitInstalled(callback);
     if (!gitInstalled) {
       this.warning('git is not found on your computer.\n', ` Install git: ${chalk.yellow('https://git-scm.com/')}`);
+    } else {
+      exec('git --version', (err, stdout, stderr) => {
+        if (err) {
+          this.warning('Git is not found on your computer.');
+        } else {
+          const gitVersion = stdout.match(/(?:git version) (\d.\d{2}.\d)/)[1];
+          this.info(`Your Git version is: ${chalk.yellow(gitVersion)}`);
+        }
+      });
     }
     return gitInstalled;
   }
@@ -814,6 +824,40 @@ module.exports = class JHipsterBasePrivateGenerator extends Generator {
               javaVersion
             )}`
           );
+        } else {
+          this.info(`Your Java version is: ${chalk.yellow(javaVersion)}`)
+        }
+      }
+      done();
+    });
+  }
+
+  /**
+   * Check if Python is installed
+   */
+   checkPython() {
+    if (this.skipChecks || this.skipServer) return;
+    const done = this.async();
+    var python = '';
+    if (os.platform() === 'win32') {
+      python = 'python --version'
+    } else {
+      python = 'python3 --version'
+    }
+    exec(python, (err, stdout, stderr) => {
+      if (err) {
+        this.warning('Python is not found on your computer.');
+      } else {
+        const pythonVersion = stdout.match(/(?:Python) (\d.\d)/)[1];
+        if (!pythonVersion.match(new RegExp(`(${PYTHON_COMPATIBLE_VERSIONS.map(ver => `^${ver}`).join('|')})`))) {
+          const [latest, ...others] = PYTHON_COMPATIBLE_VERSIONS.concat().reverse();
+          this.warning(
+            `Python ${others.reverse().join(', ')} or ${latest} are not found on your computer. Your Python version is: ${chalk.yellow(
+              pythonVersion
+            )}`
+          );
+        } else {
+          this.info(`Your Python version is: ${chalk.yellow(pythonVersion)}`)
         }
       }
       done();
@@ -835,6 +879,8 @@ module.exports = class JHipsterBasePrivateGenerator extends Generator {
       this.warning(
         'Your Node version is not LTS (Long Term Support), use it at your own risk! JHipster does not support non-LTS releases, so if you encounter a bug, please use a LTS version first.'
       );
+    } else {
+      this.info(`Your Node version is: ${chalk.yellow(process.version)}`)
     }
   }
 

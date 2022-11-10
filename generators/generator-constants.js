@@ -24,11 +24,11 @@ const commonPackageJson = require('./common/templates/package.json');
 
 // Version of Java
 const JAVA_VERSION = '11';
-const JAVA_COMPATIBLE_VERSIONS = ['11', '12', '13', '14', '15', '16', '17', '18'];
+const JAVA_COMPATIBLE_VERSIONS = ['11', '12', '13', '14', '15', '16', '17', '18', '19'];
 
 // Version of Java
 const PYTHON_VERSION = '3';
-const PYTHON_COMPATIBLE_VERSIONS = ['3.7', '3.8', '3.9', '3.10'];
+const PYTHON_COMPATIBLE_VERSIONS = ['3.7', '3.8', '3.9', '3.10', '3.11'];
 
 // Version of Node, NPM
 const NODE_VERSION = '16.14.0';
