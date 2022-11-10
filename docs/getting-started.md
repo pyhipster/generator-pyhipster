@@ -4,6 +4,7 @@ The minimum requirements that need to be installed before we get started are
  - Python 3.7 
  - Java 11 
  - NodeJS 16 
+ - NPM 8
  - Git 2.3
 
 After this installation, you will need to add the programs to your PATH. Please refer to the guide for 
@@ -16,20 +17,23 @@ Open your terminal (Linux) or Command Prompt (Windows) and run the following com
 ``$> git --version``   
 ``$> node --version``   
 ``$> java --version``   
+``$> npm --version``   
 
 #### On Linux
 ``$> python3 --version``   
 ``$> git --version``   
 ``$> node --version``   
 ``$> java --version``   
+``$> npm --version``   
 
-
-## Getting Started
+## Installing PyHipster
 To install the generator run the following command
 
 ``npm install -g generator-pyhipster``
 
-Now go to any folder and create the project folder
+## Creating Your First PyHipster Full-Stack Application
+
+Go to any folder and create the project folder
 
 ``$> cd my-dir``   
 ``$> mkdir my-project``   
@@ -90,6 +94,8 @@ Please see below for an explanation of each of these questions.
 ? Besides unittest and Jest, which testing frameworks would you like to use?
 ```
 *Explanation* - Tests are not covered under the current release.
+
+----   
 
 After selecting the options, PyHipster will work to generate the Python and UI code based on your selections.
 
