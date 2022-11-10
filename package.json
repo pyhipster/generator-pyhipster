@@ -1,6 +1,6 @@
 {
   "name": "generator-pyhipster",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Python (Flask) + Angular/React/Vue in one handy generator",
   "keywords": [
     "Python 3",
@@ -58,7 +58,18 @@
     "jdl",
     "lib",
     "utils",
-    "!**/__*",
+    "!**/couchbase/*",
+    "!**/server/*",
+    "!**/spring-*/*",
+    "!**/docker/*",
+    "!**/maven/*",
+    "!**/openshift/*",
+    "!**/azure-spring-cloud/*",
+    "!**/aws/*",
+    "!**/kubernetes*/*",
+    "!**/gradle/*",
+    "!**/ci-cd/*",
+    "!**/*.java.?(c|m|e)js",
     "!**/*.snap",
     "!**/*.spec.?(c|m)js"
   ],

@@ -12,7 +12,6 @@ The current version of the tool is available as an alpha release and not suitabl
 - Python 3 Flask backend
 - Angular/React/Vue frontend
 - JWT Support
-- Integrated User Management
 - SQL Databse Support
 - CRUD operations using user defined data model
 - Multilingual
