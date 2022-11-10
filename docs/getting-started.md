@@ -1,11 +1,11 @@
 ## Requirements
 The minimum requirements that need to be installed before we get started are 
 
- - Python 3.7 
- - Java 11 
- - NodeJS 16 
- - NPM 8
- - Git 2.3
+ - Python 3.7.9  
+ - Java 11.0.12  
+ - NodeJS 16.16.0 LTS  
+ - NPM 8.11.0  
+ - Git 2.33  
 
 After this installation, you will need to add the programs to your PATH. Please refer to the guide for 
 [Linux](https://linuxize.com/post/how-to-add-directory-to-path-in-linux/) or [Windows](https://www.computerhope.com/issues/ch000549.htm)
