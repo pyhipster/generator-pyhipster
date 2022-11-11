@@ -19,6 +19,8 @@
 
 import os
 from datetime import timedelta
+import tempfile
+
 
 BASE_DIR = os.path.dirname(os.path.realpath(__file__))
 
@@ -30,7 +32,7 @@ class BaseConfig:
     SECRET_KEY = '<%= flaskSecret %>'
     JWT_SECRET_KEY = '<%= jwtSecretKey %>'
     JWT_ALGORITHM = 'HS512'
-    
+
     # Database
     SQLALCHEMY_DATABASE_URI = '<%_ if (devDatabaseTypeSQLiteAny) { _%>sqlite://<%_ if (devDatabaseTypeSQLiteDisk) { _%>/../../../pyhipster.db3<%_ } _%><%_ if (devDatabaseTypeSQLiteMemory) { _%>:memory:<%_ } _%><%_ } _%>'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
@@ -43,5 +45,35 @@ class BaseConfig:
     MAIL_USE_SSL = False
     MAIL_USERNAME = 'my-email-id@gmail.com'
     MAIL_PASSWORD = 'my-email-password'
+
+    # Cache Configurations
+    <%_ if (cacheProviderSimple) { _%>
+    CACHE_TYPE = "SimpleCache"
+    CACHE_DEFAULT_TIMEOUT = 60
+    CACHE_IGNORE_ERRORS = True
+    # CACHE_THRESHOLD  
+    <%_ } else if (cacheProviderFileSystem) { _%> 
+    CACHE_TYPE = 'FileSystemCache' 
+    CACHE_DEFAULT_TIMEOUT = 60
+    CACHE_IGNORE_ERRORS = True
+    CACHE_DIR = tempfile.gettempdir()
+    # CACHE_THRESHOLD
+    # CACHE_OPTIONS
+    <%_ } else if (cacheProviderMemcached) { _%>
+    CACHE_TYPE = 'MemcachedCache'
+    CACHE_DEFAULT_TIMEOUT = 60
+    # CACHE_KEY_PREFIX = ''
+    CACHE_MEMCACHED_SERVERS = ''
+    <%_ } else if (cacheProviderRedis) { _%>
+    CACHE_TYPE = 'RedisCache'
+    CACHE_DEFAULT_TIMEOUT = 60
+    CACHE_KEY_PREFIX = ''
+    # CACHE_OPTIONS
+    CACHE_REDIS_HOST = ''
+    CACHE_REDIS_PORT = 6379
+    CACHE_REDIS_PASSWORD = ''
+    CACHE_REDIS_DB = ''
+    CACHE_REDIS_URL = ''
+    <%_ } _%>
     
     

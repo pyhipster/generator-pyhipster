@@ -80,7 +80,7 @@ const NO_DATABASE = databaseTypes.NO;
 const { GENERATOR_BOOTSTRAP } = require('./generator-list');
 const { PROMETHEUS, ELK } = require('../jdl/jhipster/monitoring-types');
 const { JWT, OAUTH2, SESSION } = require('../jdl/jhipster/authentication-types');
-const { CAFFEINE, EHCACHE, REDIS, HAZELCAST, INFINISPAN, MEMCACHED } = require('../jdl/jhipster/cache-types');
+const { CAFFEINE, EHCACHE, REDIS, HAZELCAST, INFINISPAN, MEMCACHED, SIMPLE_CACHE, FILESYSTEM_CACHE } = require('../jdl/jhipster/cache-types');
 const { GRADLE, MAVEN } = require('../jdl/jhipster/build-tool-types');
 const { SPRING_WEBSOCKET } = require('../jdl/jhipster/websocket-types');
 const { KAFKA } = require('../jdl/jhipster/message-broker-types');
@@ -3012,6 +3012,8 @@ templates: ${JSON.stringify(existingTemplates, null, 2)}`;
     dest.cacheProviderEhCache = dest.cacheProvider === EHCACHE;
     dest.cacheProviderHazelcast = dest.cacheProvider === HAZELCAST;
     dest.cacheProviderInfinispan = dest.cacheProvider === INFINISPAN;
+    dest.cacheProviderSimple = dest.cacheProvider === SIMPLE_CACHE;
+    dest.cacheProviderFileSystem = dest.cacheProvider === FILESYSTEM_CACHE;
     dest.cacheProviderMemcached = dest.cacheProvider === MEMCACHED;
     dest.cacheProviderRedis = dest.cacheProvider === REDIS;
 

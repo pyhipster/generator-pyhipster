@@ -23,7 +23,10 @@ import logging
 from flask import request, session
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from datetime import datetime, timezone
-
+<%_ if (!cacheProviderNo) { _%>
+from CacheConfiguration import cache
+<%_ } _%>
+    
 
 logging.basicConfig(format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
 
@@ -50,6 +53,9 @@ class UserResource(Resource):
         if users is None:
             return {"message": "User not found"}, 404
         users.delete_from_db()
+        <%_ if (!cacheProviderNo) { _%>
+        cache.delete('all_users')
+        <%_ } _%>
         return {"message": "User deleted"}, 204
 
 
@@ -57,7 +63,14 @@ class UserResourceList(Resource):
     @jwt_required()
     def get(self):
         logging.info("GET request received on UserResourceList")
+        <%_ if (!cacheProviderNo) { _%>
+        users = cache.get('all_users')
+        if users == None:
+            users = User.get_all_users()
+            cache.set('all_users', users)    
+        <%_ } else { _%>
         users = User.get_all_users()
+        <%_ } _%>
         return user_list_schema.dump(users), 200
 
     @jwt_required()
@@ -66,6 +79,9 @@ class UserResourceList(Resource):
         user_json = request.get_json()
         user_data = user_schema.load(user_json)
         user_data.save_to_db()
+        <%_ if (!cacheProviderNo) { _%>
+        cache.delete('all_users')
+        <%_ } _%>
         return user_schema.dump(user_data), 201
 
     @jwt_required()
@@ -82,5 +98,8 @@ class UserResourceList(Resource):
         updated_user.set_last_modified_by(current_login)
         updated_user.set_last_modified_date(datetime.now(timezone.utc))
         updated_user.save_to_db()
+        <%_ if (!cacheProviderNo) { _%>
+        cache.delete('all_users')
+        <%_ } _%>
         return user_schema.dump(updated_user), 200
 

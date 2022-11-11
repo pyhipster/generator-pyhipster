@@ -31,7 +31,9 @@ from schema.<%= entityClass %>Schema import <%= entityClass %>Schema
 from flask_jwt_extended import jwt_required
 from security.SecurityUtils import has_role
 from security.AuthoritiesConstants import AuthoritiesConstants
-
+<%_ if (!cacheProviderNo) { _%>
+from CacheConfiguration import cache
+<%_ } _%>
 
 logging.basicConfig(format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
 <%= entityMethod %>_list_ns = Namespace('<%= entityApiUrl %>-resource', path="/<%= entityApiUrl %>")
@@ -62,6 +64,9 @@ class <%= entityClass %>Resource(Resource):
             return {"message": "Invalid <%= entityClass %>"}, 400
         updated_<%= entityMethod %> = <%= entityMethod %>_schema.load(<%= entityMethod %>_json, instance=<%= entityMethod %>, partial=True)
         updated_<%= entityMethod %>.update_db()
+        <%_ if (!cacheProviderNo) { _%>
+        cache.delete('all_<%= entityMethod %>')
+        <%_ } _%>
         return <%= entityMethod %>_schema.dump(updated_<%= entityMethod %>), 200
     
     @jwt_required()
@@ -77,6 +82,9 @@ class <%= entityClass %>Resource(Resource):
             return {"message": "Invalid <%= entityClass %>"}, 400
         updated_<%= entityMethod %> = <%= entityMethod %>_schema.load(<%= entityMethod %>_json, instance=<%= entityMethod %>, partial=True)
         updated_<%= entityMethod %>.update_db()
+        <%_ if (!cacheProviderNo) { _%>
+        cache.delete('all_<%= entityMethod %>')
+        <%_ } _%>
         return <%= entityMethod %>_schema.dump(updated_<%= entityMethod %>), 200
 
     @jwt_required()
@@ -87,6 +95,9 @@ class <%= entityClass %>Resource(Resource):
         if <%= entityMethod %> is None:
             return {"message": "<%= entityClass %> not found"}, 404
         <%= entityMethod %>.delete_from_db()
+        <%_ if (!cacheProviderNo) { _%>
+        cache.delete('all_<%= entityMethod %>')
+        <%_ } _%>
         return {"message": "<%= entityClass %> deleted"}, 204
 
 
@@ -96,7 +107,14 @@ class <%= entityClass %>ResourceList(Resource):
         logging.info("GET request received on <%= entityClass %>ResourceList")
         page = request.args.get('page', default=1, type=int)
         size = request.args.get('size', default=20, type=int)
+        <%_ if (!cacheProviderNo) { _%>
+        <%= entityMethod %> = cache.get('all_<%= entityMethod %>')
+        if <%= entityMethod %> == None:
+            <%= entityMethod %> = <%= entityClass %>.find_all(page, size)
+            cache.set('all_<%= entityMethod %>', <%= entityMethod %>)    
+        <%_ } else { _%>
         <%= entityMethod %> = <%= entityClass %>.find_all(page, size)
+        <%_ } _%>
         if <%= entityMethod %> is not None:
             return <%= entityMethod %>_list_schema.dump(<%= entityMethod %>), 200
         return {"message": "<%= entityClass %> not found"}, 404
@@ -107,6 +125,9 @@ class <%= entityClass %>ResourceList(Resource):
         <%= entityMethod %>_json = request.get_json()
         <%= entityMethod %>_data = <%= entityMethod %>_schema.load(<%= entityMethod %>_json, partial=True)
         <%= entityMethod %>_data.save_to_db()
+        <%_ if (!cacheProviderNo) { _%>
+        cache.delete('all_<%= entityMethod %>')
+        <%_ } _%>
         return <%= entityMethod %>_schema.dump(<%= entityMethod %>_data), 201
 
 

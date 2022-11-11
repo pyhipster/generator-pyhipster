@@ -24,7 +24,8 @@ const { GRADLE, MAVEN } = require('../../jdl/jhipster/build-tool-types');
 const { SPRING_WEBSOCKET } = require('../../jdl/jhipster/websocket-types');
 const databaseTypes = require('../../jdl/jhipster/database-types');
 const { COUCHBASE, MARIADB, MONGODB, NEO4J, SQL } = require('../../jdl/jhipster/database-types');
-const { CAFFEINE, EHCACHE, HAZELCAST, INFINISPAN, MEMCACHED, REDIS } = require('../../jdl/jhipster/cache-types');
+const { SIMPLE_CACHE, FILESYSTEM_CACHE, MEMCACHED, REDIS } = require('../../jdl/jhipster/cache-types');
+const cacheTypes = require('../../jdl/jhipster/cache-types');
 const { ELASTICSEARCH } = require('../../jdl/jhipster/search-engine-types');
 const { KAFKA } = require('../../jdl/jhipster/message-broker-types');
 const { CONSUL, EUREKA } = require('../../jdl/jhipster/service-discovery-types');
@@ -34,6 +35,7 @@ const { writeSqlFiles } = require('./files-sql');
 
 /* Constants use throughout */
 const NO_DATABASE = databaseTypes.NO;
+const NO_CACHE = cacheTypes.NO;
 const INTERPOLATE_REGEX = constants.INTERPOLATE_REGEX;
 const DOCKER_DIR = constants.DOCKER_DIR;
 const TEST_DIR = constants.TEST_DIR;
@@ -863,6 +865,11 @@ const baseServerFiles = {
     {
       path: SERVER_MAIN_SRC_DIR,
       templates: [{ file: 'package/DatabaseConfig.py', renameTo: generator => `${generator.javaDir}DatabaseConfig.py` }],
+    },
+    {
+      condition: generator => [SIMPLE_CACHE, FILESYSTEM_CACHE, MEMCACHED, REDIS].includes(generator.cacheProvider),
+      path: SERVER_MAIN_SRC_DIR,
+      templates: [{ file: 'package/CacheConfiguration.py', renameTo: generator => `${generator.javaDir}CacheConfiguration.py` }],
     },
     {
       path: SERVER_MAIN_SRC_DIR,

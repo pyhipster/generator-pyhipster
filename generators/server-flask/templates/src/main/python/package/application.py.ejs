@@ -26,6 +26,9 @@ from config.FakeDataLoader import load_fake_data
 from DatabaseConfig import db
 from WebSerializer import ma
 from MailConfiguration import mail
+<%_ if (!cacheProviderNo) { _%>
+from CacheConfiguration import cache
+<%_ } _%>
 
 
 app = Flask(__name__, template_folder='../resources/templates/mail')
@@ -49,4 +52,7 @@ if __name__ == '__main__':
     db.init_app(app)
     ma.init_app(app)
     mail.init_app(app)
+    <%_ if (!cacheProviderNo) { _%>
+    cache.init_app(app)
+    <%_ } _%>
     app.run(debug=True, port=<%= serverPort %>)
