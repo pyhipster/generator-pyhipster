@@ -42,6 +42,7 @@ const files = {
         'webpack/webpack.prod.js',
         'webpack/utils.js',
         { file: 'webpack/logo-jhipster.png', method: 'copy' },
+        { file: 'webpack/logo-pyhipster.png', method: 'copy' },
       ],
     },
     {
