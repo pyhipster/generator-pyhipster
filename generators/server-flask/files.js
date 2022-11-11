@@ -370,7 +370,10 @@ const baseServerFiles = {
         // { file: 'checkstyle.xml', options: { interpolate: INTERPOLATE_REGEX } },
         // { file: 'devcontainer/devcontainer.json', renameTo: () => '.devcontainer/devcontainer.json' },
         // { file: 'devcontainer/Dockerfile', renameTo: () => '.devcontainer/Dockerfile' },
-        { file: 'requirements.txt', method: 'copy', noEjs: true },
+        { 
+          file: 'requirements.txt', 
+          renameTo: () => 'requirements.txt'
+        },
       ],
     },
     {

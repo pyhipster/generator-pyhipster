@@ -177,6 +177,10 @@ const SQL_DB_OPTIONS = [
     value: databaseTypes.MSSQL,
     name: 'Microsoft SQL Server',
   },
+  {
+    value: databaseTypes.COCKROACHDB,
+    name: 'CockroachDB',
+  },
 ];
 
 const LANGUAGES = [

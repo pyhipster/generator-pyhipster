@@ -74,7 +74,7 @@ const GENERATOR_JHIPSTER = 'generator-pyhipster';
 
 const SERVER_MAIN_RES_DIR = constants.SERVER_MAIN_RES_DIR;
 
-const { ORACLE, MYSQL, POSTGRESQL, MARIADB, MSSQL, SQL, MONGODB, COUCHBASE, NEO4J, CASSANDRA, H2_MEMORY, H2_DISK, SQLITE_DISK, SQLITE_MEMORY } = databaseTypes;
+const { ORACLE, MYSQL, POSTGRESQL, COCKROACHDB, MARIADB, MSSQL, SQL, MONGODB, COUCHBASE, NEO4J, CASSANDRA, H2_MEMORY, H2_DISK, SQLITE_DISK, SQLITE_MEMORY } = databaseTypes;
 const NO_DATABASE = databaseTypes.NO;
 
 const { GENERATOR_BOOTSTRAP } = require('./generator-list');
@@ -1778,6 +1778,12 @@ module.exports = class JHipsterBaseGenerator extends PrivateBase {
       );
 
       limit = 63;
+    } else if (prodDatabaseType === COCKROACHDB && joinTableName.length >= 63 && !this.skipCheckLengthOfIdentifier) {
+      this.warning(
+        `The generated join table "${joinTableName}" is too long for CockroachDB (which has a 63 character limit). It will be truncated!`
+      );
+
+      limit = 63;
     } else if (prodDatabaseType === MARIADB && joinTableName.length > 64 && !this.skipCheckLengthOfIdentifier) {
       this.warning(
         `The generated join table "${joinTableName}" is too long for MariaDB (which has a 64 character limit). It will be truncated!`
@@ -1824,6 +1830,12 @@ module.exports = class JHipsterBaseGenerator extends PrivateBase {
     } else if (prodDatabaseType === POSTGRESQL && constraintName.length >= 60 && !this.skipCheckLengthOfIdentifier) {
       this.warning(
         `The generated constraint name "${constraintName}" is too long for PostgreSQL (which has a 63 character limit). It will be truncated!`
+      );
+
+      limit = 61;
+    } else if (prodDatabaseType === COCKROACHDB && constraintName.length >= 60 && !this.skipCheckLengthOfIdentifier) {
+      this.warning(
+        `The generated constraint name "${constraintName}" is too long for CockroachDB (which has a 63 character limit). It will be truncated!`
       );
 
       limit = 61;
@@ -3029,6 +3041,7 @@ templates: ${JSON.stringify(existingTemplates, null, 2)}`;
     dest.devDatabaseTypeMysql = dest.devDatabaseType === MYSQL;
     dest.devDatabaseTypeOracle = dest.devDatabaseType === ORACLE;
     dest.devDatabaseTypePostgres = dest.devDatabaseType === POSTGRESQL;
+    dest.devDatabaseTypeCockroach = dest.devDatabaseType === COCKROACHDB;
 
     dest.prodDatabaseTypeCouchbase = dest.prodDatabaseType === COUCHBASE;
     dest.prodDatabaseTypeH2Disk = dest.prodDatabaseType === H2_DISK;
@@ -3039,6 +3052,7 @@ templates: ${JSON.stringify(existingTemplates, null, 2)}`;
     dest.prodDatabaseTypeNeo4j = dest.prodDatabaseType === NEO4J;
     dest.prodDatabaseTypeOracle = dest.prodDatabaseType === ORACLE;
     dest.prodDatabaseTypePostgres = dest.prodDatabaseType === POSTGRESQL;
+    dest.prodDatabaseTypeCockroach = dest.prodDatabaseType === COCKROACHDB;
 
     dest.databaseTypeNo = dest.databaseType === NO_DATABASE;
     dest.databaseTypeSql = dest.databaseType === SQL;
@@ -3048,7 +3062,9 @@ templates: ${JSON.stringify(existingTemplates, null, 2)}`;
     dest.databaseTypeNeo4j = dest.databaseType === NEO4J;
     dest.databaseTypeMysql = dest.databaseType === SQL && (dest.devDatabaseType === MYSQL || dest.prodDatabaseType === MYSQL);
     dest.databaseTypeMariadb = dest.databaseType === SQL && (dest.devDatabaseType === MARIADB || dest.prodDatabaseType === MARIADB);
+    dest.databaseTypeOracle = dest.databaseType === SQL && (dest.devDatabaseTypeOracle === ORACLE || dest.prodDatabaseTypeOracle === ORACLE);
     dest.databaseTypePostgres = dest.databaseType === SQL && (dest.devDatabaseType === POSTGRESQL || dest.prodDatabaseType === POSTGRESQL);
+    dest.databaseTypeCockroach = dest.databaseType === SQL && (dest.devDatabaseType === COCKROACHDB || dest.prodDatabaseType === COCKROACHDB);
 
     dest.communicationSpringWebsocket = dest.websocket === SPRING_WEBSOCKET;
 
@@ -3059,8 +3075,8 @@ templates: ${JSON.stringify(existingTemplates, null, 2)}`;
 
     dest.reactiveSqlTestContainers =
       dest.reactive &&
-      ([MYSQL, POSTGRESQL, MSSQL, MARIADB].includes(dest.prodDatabaseType) ||
-        [MYSQL, POSTGRESQL, MSSQL, MARIADB].includes(dest.devDatabaseType));
+      ([MYSQL, POSTGRESQL, MSSQL, ORACLE, MARIADB, COCKROACHDB].includes(dest.prodDatabaseType) ||
+        [MYSQL, POSTGRESQL, MSSQL, ORACLE, MARIADB, COCKROACHDB].includes(dest.devDatabaseType));
   }
 
   loadPlatformConfig(config = _.defaults({}, this.jhipsterConfig, this.jhipsterDefaults), dest = this) {

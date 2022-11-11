@@ -44,3 +44,15 @@ typing-extensions==4.3.0
 Werkzeug==2.1.2
 WTForms==3.0.1
 zipp==3.8.1
+<%_ if (databaseTypeMariadb) { _%>
+mariadb
+<%_ } else if (databaseTypeMysql) { _%>
+mysql-connector-python
+<%_ } else if (databaseTypeOracle) { _%>
+oracledb 
+<%_ } else if (databaseTypePostgres) { _%>
+psycopg2
+<%_ } else if (databaseTypeCockroach) { _%>
+psycopg2
+sqlalchemy-cockroachdb
+<%_ } _%>
