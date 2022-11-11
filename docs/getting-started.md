@@ -148,6 +148,19 @@ MAIL_PASSWORD = 'my-email-password'
 ```
 **Please note**: If you use the above configuration with your Gmail password, you might need to  [allow less secure apps](https://support.google.com/accounts/answer/6010255?hl=en). The configuration is simpler but less secure. Also by allowing less secure apps you won’t have the ability to use two factor authentication with Gmail. Therefore we highly recommend you use an app password instead of the Gmail password. Please refer to the Gmail configuration document at [Sign in with App Passwords](https://support.google.com/accounts/answer/185833) for more information on how to set this up.
 
+
+## Errors
+### OSError while using FileSystem cache
+![FS Cache Error](images/cache_error.png)
+#### Cause: This is caused by the filesystem not being accessible for writing to the caching library
+#### Resolution: 
+- Go to ``src/main/python/config/BaseConfig.py`` 
+- Change the following line to any folder that the current user has write access
+```python   
+CACHE_DIR = tempfile.gettempdir()  
+```
+ For example, ``/tmp`` (Linux) or ``C:\temp`` (Windows)
+
 ## Tools
 - [JHipster Studio](https://www.jhipster.tech/jdl-studio/) for writing JDL files
 - [JWT token validator](https://www.jstoolset.com/jwt) for testing JWT tokens   
