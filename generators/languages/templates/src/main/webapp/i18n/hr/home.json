@@ -1,6 +1,6 @@
 {
     "home": {
-        "title": "Dobrodošli, Java Hipsteru!",
+        "title": "Dobrodošli,",
         "subtitle": "Ovo je početna stranica",
         "logged": {
             "message": "Prijavljeni ste kao korisnik \"{{username}}\"."
