@@ -40,6 +40,8 @@ class BaseConfig:
     SQLALCHEMY_DATABASE_URI = 'mariadb+mariadbconnector://<user>:<password>@<host>[:<port>]/<dbname>'
     <%_ } else if (devDatabaseTypeMysql) { _%>
     SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://<user>:<password>@<host>[:<port>]/<dbname>'
+    <%_ } else if (devDatabaseTypeMssql) { _%>
+    SQLALCHEMY_DATABASE_URI = 'mssql+pymssql://<username>:<password>@<servername>/<dbname>'
     <%_ } else if (devDatabaseTypeOracle) { _%>
     SQLALCHEMY_DATABASE_URI = 'oracle+cx_oracle://user:pass@hostname:port[/dbname][?service_name=<service>[&key=value&key=value...]]'
     <%_ } else if (devDatabaseTypePostgres) { _%>
@@ -89,17 +91,19 @@ class BaseConfig:
     <%_ } _%>
     
 class ProdConfig:
-     # Database
-     <%_ if (prodDatabaseTypeMariadb) { _%>
-     # SQLALCHEMY_DATABASE_URI = 'mariadb+mariadbconnector://<user>:<password>@<host>[:<port>]/<dbname>'
-     <%_ } else if (prodDatabaseTypeMysql) { _%>
-     # SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://<user>:<password>@<host>[:<port>]/<dbname>'
-     <%_ } else if (prodDatabaseTypeOracle) { _%>
-     # SQLALCHEMY_DATABASE_URI = 'oracle+cx_oracle://user:pass@hostname:port[/dbname][?service_name=<service>[&key=value&key=value...]]'
-     <%_ } else if (prodDatabaseTypePostgres) { _%>
-     # SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://user:password@host:port/dbname[?key=value&key=value...]'
-     <%_ } else if (prodDatabaseTypeCockroach) { _%>
-     # SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://user:password@host:port/dbname[?key=value&key=value...]'
-     <%_ } _%>
-     SQLALCHEMY_TRACK_MODIFICATIONS = False
-     PROPAGATE_EXCEPTIONS = False
+    # Database
+    <%_ if (prodDatabaseTypeMariadb) { _%>
+    # SQLALCHEMY_DATABASE_URI = 'mariadb+mariadbconnector://<user>:<password>@<host>[:<port>]/<dbname>'
+    <%_ } else if (prodDatabaseTypeMysql) { _%>
+    # SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://<user>:<password>@<host>[:<port>]/<dbname>'
+    <%_ } else if (prodDatabaseTypeMssql) { _%>
+    # SQLALCHEMY_DATABASE_URI = 'mssql+pymssql://<username>:<password>@<servername>/<dbname>'
+    <%_ } else if (prodDatabaseTypeOracle) { _%>
+    # SQLALCHEMY_DATABASE_URI = 'oracle+cx_oracle://user:pass@hostname:port[/dbname][?service_name=<service>[&key=value&key=value...]]'
+    <%_ } else if (prodDatabaseTypePostgres) { _%>
+    # SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://user:password@host:port/dbname[?key=value&key=value...]'
+    <%_ } else if (prodDatabaseTypeCockroach) { _%>
+    # SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://user:password@host:port/dbname[?key=value&key=value...]'
+    <%_ } _%>
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    PROPAGATE_EXCEPTIONS = False

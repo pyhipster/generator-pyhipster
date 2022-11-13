@@ -3061,6 +3061,7 @@ templates: ${JSON.stringify(existingTemplates, null, 2)}`;
     dest.databaseTypeMongodb = dest.databaseType === MONGODB;
     dest.databaseTypeNeo4j = dest.databaseType === NEO4J;
     dest.databaseTypeMysql = dest.databaseType === SQL && (dest.devDatabaseType === MYSQL || dest.prodDatabaseType === MYSQL);
+    dest.databaseTypeMssql = dest.databaseType === SQL && (dest.devDatabaseType === MSSQL || dest.prodDatabaseType === MSSQL);
     dest.databaseTypeMariadb = dest.databaseType === SQL && (dest.devDatabaseType === MARIADB || dest.prodDatabaseType === MARIADB);
     dest.databaseTypeOracle = dest.databaseType === SQL && (dest.devDatabaseTypeOracle === ORACLE || dest.prodDatabaseTypeOracle === ORACLE);
     dest.databaseTypePostgres = dest.databaseType === SQL && (dest.devDatabaseType === POSTGRESQL || dest.prodDatabaseType === POSTGRESQL);
