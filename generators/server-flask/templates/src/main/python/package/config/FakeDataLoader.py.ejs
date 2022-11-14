@@ -36,7 +36,12 @@ def load_fake_data(app):
 
         for data_load in data_load_object:
             logging.info("Checking data load for " + data_load["table"])
+            <%_ if (databaseTypePostgres || databaseTypeCockroach) { _%>
+            result = db.session.execute("SELECT count(1) FROM \"" + data_load["table"] + "\"").scalar()
+            <%_ } else { _%>
             result = db.session.execute("SELECT count(1) FROM " + data_load["table"]).scalar()
+            <%_ } _%>
+
             if result < 1:
                 data_file = data_load["file_location"] / data_load["file"]
                 if data_file.is_file():
