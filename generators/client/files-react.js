@@ -77,7 +77,7 @@ const files = {
     {
       condition: generator => generator.enableTranslation,
       path: REACT_DIR,
-      templates: ['config/translation.ts', 'config/translation-middleware.ts'],
+      templates: ['config/translation.ts'],
     },
     {
       condition: generator => generator.websocket === SPRING_WEBSOCKET,
