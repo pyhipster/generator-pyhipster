@@ -236,6 +236,10 @@ function askForServerSideOpts() {
         //   name: 'Infinispan (hybrid cache, for multiple nodes)',
         // },
         {
+          value: NO_CACHE_PROVIDER,
+          name: 'No cache',
+        },
+        {
           value: SIMPLE_CACHE,
           name: 'SimpleCache',
         },
@@ -250,10 +254,6 @@ function askForServerSideOpts() {
         {
           value: REDIS,
           name: 'Redis',
-        },
-        {
-          value: NO_CACHE_PROVIDER,
-          name: 'No cache',
         },
       ],
       default: applicationType === MICROSERVICE ? 2 : serverDefaultConfig.cacheProvider,
