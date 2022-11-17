@@ -56,7 +56,7 @@ class <%= persistClass %>(db.Model):
     <%= primaryKey.name %> = db.Column(db.<%= javaFieldMapping[primaryKey.type] %>, primary_key=True)
     <%_ } _%>
     <%_ for (const field of fields.filter(field => !field.transient && !field.id && !field.fieldIsEnum)) { _%>
-    <%= _.replace(_.lowerCase(field.fieldName), new RegExp("\\s","g"), '_') %> = db.Column(db.<%= javaFieldMapping[field.javaFieldType] || field.javaFieldType %><% if (field.fieldValidationRequired) { %>, nullable=False<% } %><% if (field.fieldValidationUnique) { %>, unique=True<% } %>)
+    <%= _.replace(_.lowerCase(field.fieldName), new RegExp("\\s","g"), '_') %> = db.Column(db.<%= javaFieldMapping[field.javaFieldType] || field.javaFieldType %><% if (field.fieldTypeString) { %>(<% if (field.fieldValidationMaxLength) { %><%= field.fieldValidateRulesMaxlength %><% } else { %> 255<% } %>)<% } %><% if (field.fieldValidationRequired) { %>, nullable=False<% } %><% if (field.fieldValidationUnique) { %>, unique=True<% } %>)
     <%_ if (field.fieldWithContentType) { _%>
     <%= _.replace(_.lowerCase(field.fieldName + "ContentType"), new RegExp("\\s","g"), '_') %> = db.Column(db.String)    
     <%_ } _%>
