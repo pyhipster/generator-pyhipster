@@ -93,7 +93,8 @@ class UserResourceList(Resource):
     def post(self):
         logging.info("POST request received on UserResourceList")
         user_json = request.get_json()
-        del user_json['id']
+        if id in user_json:
+            del user_json['id']
         user_json['langKey'] = '<%= nativeLanguage %>'
         user_json['createdBy'] = get_jwt_identity()
         user_json['createdDate'] = str(datetime.now(timezone.utc))
