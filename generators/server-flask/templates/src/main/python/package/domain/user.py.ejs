@@ -22,7 +22,7 @@ from DatabaseConfig import db
 
 jhi_user_authority = db.Table('jhi_user_authority',
     db.Column('user_id', db.Integer, db.ForeignKey('jhi_user.id'), primary_key=True),
-    db.Column('authority_name', db.String(50), db.ForeignKey('jhi_authority.name'), primary_key=True)
+    db.Column('authority_name', db.String(80), db.ForeignKey('jhi_authority.name'), primary_key=True)
 )
 
 
