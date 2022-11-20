@@ -41,13 +41,13 @@ class BaseConfig:
     <%_ } else if (devDatabaseTypeMysql) { _%>
     SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://<user>:<password>@<host>[:<port>]/<dbname>'
     <%_ } else if (devDatabaseTypeMssql) { _%>
-    SQLALCHEMY_DATABASE_URI = 'mssql+pymssql://<username>:<password>@<servername>/<dbname>'
+    SQLALCHEMY_DATABASE_URI = 'mssql+pyodbc://<user>:%s@<host>[:<port>]/<dbname>?driver=ODBC+Driver+17+for+SQL+Server' % quote_plus(<password>)
     <%_ } else if (devDatabaseTypeOracle) { _%>
-    SQLALCHEMY_DATABASE_URI = 'oracle+cx_oracle://user:pass@hostname:port[/dbname][?service_name=<service>[&key=value&key=value...]]'
+    SQLALCHEMY_DATABASE_URI = 'oracle+cx_oracle://<user>:<password>@<host>[:<port>][/<dbname>][?service_name=<service>[&key=value&key=value...]]'
     <%_ } else if (devDatabaseTypePostgres) { _%>
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://user:password@host:port/dbname[?key=value&key=value...]'
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://<user>:<password>@<host>[:<port>]/<dbname>[?key=value&key=value...]'
     <%_ } else if (devDatabaseTypeCockroach) { _%>
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://user:password@host:port/dbname[?key=value&key=value...]'
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://<user>:<password>@<host>[:<port>]/<dbname>[?key=value&key=value...]'
     <%_ } _%>
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     PROPAGATE_EXCEPTIONS = False
@@ -97,7 +97,7 @@ class ProdConfig:
     <%_ } else if (prodDatabaseTypeMysql) { _%>
     # SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://<user>:<password>@<host>[:<port>]/<dbname>'
     <%_ } else if (prodDatabaseTypeMssql) { _%>
-    # SQLALCHEMY_DATABASE_URI = 'mssql+pymssql://<username>:<password>@<servername>/<dbname>'
+    # SQLALCHEMY_DATABASE_URI = 'mssql+pyodbc://<username>:<password>@<hostname>:<port>/<dbname>?driver=ODBC+Driver+17+for+SQL+Server'
     <%_ } else if (prodDatabaseTypeOracle) { _%>
     # SQLALCHEMY_DATABASE_URI = 'oracle+cx_oracle://user:pass@hostname:port[/dbname][?service_name=<service>[&key=value&key=value...]]'
     <%_ } else if (prodDatabaseTypePostgres) { _%>
