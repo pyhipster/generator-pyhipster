@@ -181,7 +181,7 @@ const optionValues = {
   [optionNames.EMBEDDABLE_LAUNCH_SCRIPT]: true,
   [optionNames.ENABLE_HIBERNATE_CACHE]: true,
   [optionNames.ENABLE_SWAGGER_CODEGEN]: false,
-  [optionNames.ENABLE_TRANSLATION]: true,
+  [optionNames.ENABLE_TRANSLATION]: false,
   [optionNames.ENTITY_SUFFIX]: '',
   [optionNames.EXPERIMENTAL]: false,
   [optionNames.I_18_N]: true,
