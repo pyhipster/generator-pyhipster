@@ -53,7 +53,7 @@ from DatabaseConfig import db
 class <%= persistClass %>(db.Model):
     __tablename__ = "<%= persistClass %>"
     <%_ if (!embedded && primaryKey) { _%>
-    <%= primaryKey.name %> = db.Column(db.<%= javaFieldMapping[primaryKey.type] %>, primary_key=True)
+    <%= primaryKey.name %> = db.Column(db.<%= javaFieldMapping[primaryKey.type] %>, primary_key=True, autoincrement=True)
     <%_ } _%>
     <%_ for (const field of fields.filter(field => !field.transient && !field.id && !field.fieldIsEnum)) { _%>
     <%= _.replace(_.lowerCase(field.fieldName), new RegExp("\\s","g"), '_') %> = db.Column(db.<%= javaFieldMapping[field.javaFieldType] || field.javaFieldType %><% if (field.fieldTypeString) { %>(<% if (field.fieldValidationMaxLength) { %><%= field.fieldValidateRulesMaxlength %><% } else { %> 255<% } %>)<% } %><% if (field.fieldValidationRequired) { %>, nullable=False<% } %><% if (field.fieldValidationUnique) { %>, unique=True<% } %>)
@@ -70,18 +70,18 @@ class <%= persistClass %>(db.Model):
         <%_ if (relationship.ownerSide) { _%>
             <%_ if (relationship.relationshipManyToOne) { _%>
     <%= relationship.relationshipName %>_<%= relationship.otherEntity.primaryKey.name %> = db.Column(db.<%= javaFieldMapping[relationship.otherEntity.primaryKey.type] %>, db.ForeignKey("<%_ if (relationship.otherEntityUser) { _%>jhi_user<%_ } else { _%><%= relationship.otherEntity.persistClass %><%_ } _%>.<%= relationship.otherEntity.primaryKey.name %>"))    
-    <%= relationship.relationshipName %> = db.relationship("<%= relationship.otherEntity.persistClass %>", lazy="select", primaryjoin="<%= persistClass %>.<%= relationship.relationshipName %>_<%= relationship.otherEntity.primaryKey.name %> == <%= relationship.otherEntity.persistClass %>.<%= relationship.otherEntity.primaryKey.name %>")
+    <%= relationship.relationshipName %> = db.relationship("<%= relationship.otherEntity.persistClass %>", lazy="subquery", primaryjoin="<%= persistClass %>.<%= relationship.relationshipName %>_<%= relationship.otherEntity.primaryKey.name %> == <%= relationship.otherEntity.persistClass %>.<%= relationship.otherEntity.primaryKey.name %>")
             <%_ } else if (relationship.relationshipOneToMany) { _%>
             <%_ } else if (relationship.relationshipOneToOne) { _%>
     <%= relationship.relationshipName %>_<%= relationship.otherEntity.primaryKey.name %> = db.Column(db.<%= javaFieldMapping[relationship.otherEntity.primaryKey.type] %>, db.ForeignKey("<%_ if (relationship.otherEntityUser) { _%>jhi_user<%_ } else { _%><%= relationship.otherEntity.persistClass %><%_ } _%>.<%= relationship.otherEntity.primaryKey.name %>"))
-    <%= relationship.relationshipName %> = db.relationship("<%= relationship.otherEntity.persistClass %>", lazy="select", primaryjoin="<%= persistClass %>.<%= relationship.relationshipName %>_<%= relationship.otherEntity.primaryKey.name %> == <%= relationship.otherEntity.persistClass %>.<%= relationship.otherEntity.primaryKey.name %>")
+    <%= relationship.relationshipName %> = db.relationship("<%= relationship.otherEntity.persistClass %>", lazy="subquery", primaryjoin="<%= persistClass %>.<%= relationship.relationshipName %>_<%= relationship.otherEntity.primaryKey.name %> == <%= relationship.otherEntity.persistClass %>.<%= relationship.otherEntity.primaryKey.name %>")
             <%_ } else { _%>
-    <%= relationship.relationshipNamePlural %> = db.relationship("<%= relationship.otherEntity.persistClass %>", secondary=<%= relationship.entityName %>_<%= relationship.otherEntityName %>, lazy="select")
+    <%= relationship.relationshipNamePlural %> = db.relationship("<%= relationship.otherEntity.persistClass %>", secondary=<%= relationship.entityName %>_<%= relationship.otherEntityName %>, lazy="subquery")
             <%_ } _%>
         <%_ } else { _%>
             <%_ if (relationship.relationshipOneToMany) { _%>
     <%_ if (relationship.otherEntity.persistClass !== relationship.entityClass) { _%>
-    <%= relationship.relationshipNamePlural %> = db.relationship("<%= relationship.otherEntity.persistClass %>", lazy="select", viewonly=True)
+    <%= relationship.relationshipNamePlural %> = db.relationship("<%= relationship.otherEntity.persistClass %>", lazy="subquery", viewonly=True)
     <%_ } _%>
             <%_ } else if (relationship.relationshipManyToOne) { _%>
             <%_ } else if (relationship.relationshipOneToOne) { _%>

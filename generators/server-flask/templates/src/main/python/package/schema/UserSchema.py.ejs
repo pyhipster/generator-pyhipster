@@ -131,6 +131,7 @@ class KeyAndPasswordSchema(ma.SQLAlchemyAutoSchema):
     key = auto_field("reset_key")
     newPassword = auto_field("password_hash")
 
+
 class UserSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = User

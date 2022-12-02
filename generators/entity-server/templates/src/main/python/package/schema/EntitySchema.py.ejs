@@ -69,10 +69,10 @@ class <%= entityClass %>Schema(ma.SQLAlchemyAutoSchema):
     <%_ for (relationship of relationships) { _%>
         <%_ if (relationship.ownerSide) { _%>
             <%_ if (relationship.relationshipManyToOne) { _%>
-    <%= relationship.otherEntityName %> = fields.Nested("<%= relationship.otherEntity.persistClass %>Schema")
+    <%= relationship.relationshipName %> = fields.Nested("<%= relationship.otherEntity.persistClass %>Schema")
             <%_ } else if (relationship.relationshipOneToMany) { _%>
             <%_ } else if (relationship.relationshipOneToOne) { _%>
-    <%= relationship.otherEntityName %> = fields.Nested("<%= relationship.otherEntity.persistClass %>Schema")
+    <%= relationship.relationshipName %> = fields.Nested("<%= relationship.otherEntity.persistClass %>Schema")
             <%_ } else { _%>
     <%= relationship.otherEntityNamePlural %> = fields.Nested("<%= relationship.otherEntity.persistClass %>Schema", many=True)
             <%_ } _%>
