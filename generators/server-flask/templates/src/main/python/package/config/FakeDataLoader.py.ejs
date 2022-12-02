@@ -52,5 +52,9 @@ def load_fake_data(app):
                     df = df.drop([x for x in ['id'] if x in df.columns], axis=1)
                     <%_ } _%>
                     df.to_sql(data_load["table"], con=db.get_engine(), if_exists="append", index=False)
+                    <%_ if (databaseTypePostgres || databaseTypeCockroach) { _%>
+                    if data_load["table"] not in ['jhi_authority', 'jhi_user_authority']:
+                        seq_result = db.session.execute("SELECT setval('public.\"" + data_load["table"] + "_id_seq\"', 10, true)")
+                    <%_ } _%>    
             else:
                 logging.info(data_load["table"] + " is already populated. Skipping fake data load...")
