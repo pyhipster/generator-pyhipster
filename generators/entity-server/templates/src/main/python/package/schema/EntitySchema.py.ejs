@@ -56,7 +56,7 @@ class <%= entityClass %>Schema(ma.SQLAlchemyAutoSchema):
             <%_ } _%>
         )
         sqla_session = db.session
-
+        
     <%_ for (const field of fields.filter(field => !field.transient && !field.id && !field.fieldIsEnum && (_.lowerCase(field.fieldName).indexOf(' ') >= 0 || field.fieldWithContentType))) { _%>
     <%= field.fieldName %> = auto_field("<%= _.replace(_.lowerCase(field.fieldName), new RegExp("\\s","g"), '_') %>") 
     <%_ if (field.fieldWithContentType) { _%>
@@ -69,12 +69,12 @@ class <%= entityClass %>Schema(ma.SQLAlchemyAutoSchema):
     <%_ for (relationship of relationships) { _%>
         <%_ if (relationship.ownerSide) { _%>
             <%_ if (relationship.relationshipManyToOne) { _%>
-    <%= relationship.relationshipName %> = fields.Nested("<%= relationship.otherEntity.persistClass %>Schema")
+    <%= relationship.relationshipName %> = fields.Nested("<%= relationship.otherEntity.persistClass %>Schema"<%_ if (relationship.relationshipRequired) { _%>, required=True<%_ } else { _%>, required=False<%_ } _%>)
             <%_ } else if (relationship.relationshipOneToMany) { _%>
             <%_ } else if (relationship.relationshipOneToOne) { _%>
-    <%= relationship.relationshipName %> = fields.Nested("<%= relationship.otherEntity.persistClass %>Schema")
+    <%= relationship.relationshipName %> = fields.Nested("<%= relationship.otherEntity.persistClass %>Schema"<%_ if (relationship.relationshipRequired) { _%>, required=True<%_ } else { _%>, required=False<%_ } _%>)
             <%_ } else { _%>
-    <%= relationship.otherEntityNamePlural %> = fields.Nested("<%= relationship.otherEntity.persistClass %>Schema", many=True)
+    <%= relationship.otherEntityNamePlural %> = fields.Nested("<%= relationship.otherEntity.persistClass %>Schema", many=True<%_ if (relationship.relationshipRequired) { _%>, required=True<%_ } else { _%>, required=False<%_ } _%>)
             <%_ } _%>
         <%_ } else { _%>
             <%_ if (relationship.relationshipOneToMany) { _%>
