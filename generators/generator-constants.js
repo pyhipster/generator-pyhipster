@@ -126,7 +126,7 @@ const SUPPORTED_CLIENT_FRAMEWORKS = {
 };
 
 // documentation constants
-const JHIPSTER_DOCUMENTATION_URL = 'https://www.jhipster.tech';
+const JHIPSTER_DOCUMENTATION_URL = 'https://sudeephazra.github.io/generator-pyhipster/';
 const JHIPSTER_DOCUMENTATION_ARCHIVE_PATH = '/documentation-archive/';
 
 const OFFICIAL_DATABASE_TYPE_NAMES = {
