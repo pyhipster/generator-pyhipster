@@ -382,13 +382,13 @@ const baseServerFiles = {
         { file: 'pyhipster.db3', method: 'copy', noEjs: true },
       ],
     },
-    {
-      condition: generator => !generator.skipClient,
-      templates: [
-        { file: 'npmw', method: 'copy', noEjs: true },
-        { file: 'npmw.cmd', method: 'copy', noEjs: true },
-      ],
-    },
+    // {
+    //   condition: generator => !generator.skipClient,
+    //   templates: [
+    //     { file: 'npmw', method: 'copy', noEjs: true },
+    //     { file: 'npmw.cmd', method: 'copy', noEjs: true },
+    //   ],
+    // },
     {
       condition: generator => !generator.skipServer,
       templates: [
