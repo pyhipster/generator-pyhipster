@@ -45,26 +45,30 @@ class <%= entityClass %>Schema(ma.SQLAlchemyAutoSchema):
         model = <%= entityClass %>
         load_instance = True
         exclude = (
-            <%_ for (const field of fields.filter(field => !field.transient && !field.id && !field.fieldIsEnum && (_.lowerCase(field.fieldName).indexOf(' ') >= 0 || field.fieldWithContentType))) { _%>
+            <%_ for (const field of fields.filter(field => !field.transient && !field.id || field.fieldWithContentType)) { _%>
+            <%_ if (!field.fieldIsEnum && _.lowerCase(field.fieldName).indexOf(' ') >= 0) { _%>
             "<%= _.replace(_.lowerCase(field.fieldName), new RegExp("\\s","g"), '_') %>", 
+            <%_ } _%>
             <%_ if (field.fieldWithContentType) { _%>
             "<%= _.replace(_.lowerCase(field.fieldName + "ContentType"), new RegExp("\\s","g"), '_') %>", 
             <%_ } _%>
-            <%_ } _%>
-            <%_ for (const field of fields.filter(field => !field.transient && !field.id && field.fieldIsEnum && _.lowerCase(field.fieldName).indexOf(' ') >= 0)) { _%>
+            <%_ if (field.fieldIsEnum && _.lowerCase(field.fieldName).indexOf(' ') >= 0) { _%>
             "<%= _.replace(_.lowerCase(field.fieldName), new RegExp("\\s","g"), '_') %>",
+            <%_ } _%>
             <%_ } _%>
         )
         sqla_session = db.session
         
-    <%_ for (const field of fields.filter(field => !field.transient && !field.id && !field.fieldIsEnum && (_.lowerCase(field.fieldName).indexOf(' ') >= 0 || field.fieldWithContentType))) { _%>
+    <%_ for (const field of fields.filter(field => !field.transient && !field.id || field.fieldWithContentType)) { _%>
+    <%_ if (!field.fieldIsEnum && _.lowerCase(field.fieldName).indexOf(' ') >= 0) { _%>
     <%= field.fieldName %> = auto_field("<%= _.replace(_.lowerCase(field.fieldName), new RegExp("\\s","g"), '_') %>") 
+    <%_ } _%>
     <%_ if (field.fieldWithContentType) { _%>
     <%= field.fieldName %>ContentType = auto_field("<%= _.replace(_.lowerCase(field.fieldName + "ContentType"), new RegExp("\\s","g"), '_') %>")  
     <%_ } _%>
-    <%_ } _%>
-    <%_ for (const field of fields.filter(field => !field.transient && !field.id && field.fieldIsEnum && _.lowerCase(field.fieldName).indexOf(' ') >= 0)) { _%>
+    <%_ if (field.fieldIsEnum && _.lowerCase(field.fieldName).indexOf(' ') >= 0) { _%>
     <%= field.fieldName %> = auto_field("<%= _.replace(_.lowerCase(field.fieldName), new RegExp("\\s","g"), '_') %>") 
+    <%_ } _%>
     <%_ } _%>
     <%_ for (relationship of relationships) { _%>
         <%_ if (relationship.ownerSide) { _%>
