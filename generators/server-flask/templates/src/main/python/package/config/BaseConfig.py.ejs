@@ -19,6 +19,8 @@
 
 import os
 from datetime import timedelta
+import tempfile
+
 
 BASE_DIR = os.path.dirname(os.path.realpath(__file__))
 
@@ -26,15 +28,29 @@ BASE_DIR = os.path.dirname(os.path.realpath(__file__))
 class BaseConfig:
     # Flask 
     FLASK_ENV = 'development'
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = '<%= flaskSecret %>'
     JWT_SECRET_KEY = '<%= jwtSecretKey %>'
     JWT_ALGORITHM = 'HS512'
-    
+
     # Database
-    SQLALCHEMY_DATABASE_URI = '<%_ if (devDatabaseTypeSQLiteAny) { _%>sqlite://<%_ if (devDatabaseTypeSQLiteDisk) { _%>/../../../pyhipster.db3<%_ } _%><%_ if (devDatabaseTypeSQLiteMemory) { _%>:memory:<%_ } _%><%_ } _%>'
+    <%_ if (devDatabaseTypeSQLiteAny) { _%>
+    SQLALCHEMY_DATABASE_URI = 'sqlite://<%_ if (devDatabaseTypeSQLiteDisk) { _%>/../../../pyhipster.db3<%_ } _%><%_ if (devDatabaseTypeSQLiteMemory) { _%>:memory:<%_ } _%>'
+    <%_ } else if (devDatabaseTypeMariadb) { _%>
+    SQLALCHEMY_DATABASE_URI = 'mariadb+mariadbconnector://<user>:<password>@<host>[:<port>]/<dbname>'
+    <%_ } else if (devDatabaseTypeMysql) { _%>
+    SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://<user>:<password>@<host>[:<port>]/<dbname>'
+    <%_ } else if (devDatabaseTypeMssql) { _%>
+    SQLALCHEMY_DATABASE_URI = 'mssql+pyodbc://<user>:%s@<host>[:<port>]/<dbname>?driver=ODBC+Driver+17+for+SQL+Server' % quote_plus(<password>)
+    <%_ } else if (devDatabaseTypeOracle) { _%>
+    SQLALCHEMY_DATABASE_URI = 'oracle+cx_oracle://<user>:<password>@<host>[:<port>][/<dbname>][?service_name=<service>[&key=value&key=value...]]'
+    <%_ } else if (devDatabaseTypePostgres) { _%>
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://<user>:<password>@<host>[:<port>]/<dbname>[?key=value&key=value...]'
+    <%_ } else if (devDatabaseTypeCockroach) { _%>
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://<user>:<password>@<host>[:<port>]/<dbname>[?key=value&key=value...]'
+    <%_ } _%>
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     PROPAGATE_EXCEPTIONS = False
+    SQLALCHEMY_EXPIRE_ON_COMMIT = False
 
     # Mail Configurations
     MAIL_SERVER = 'smtp.gmail.com'
@@ -43,5 +59,51 @@ class BaseConfig:
     MAIL_USE_SSL = False
     MAIL_USERNAME = 'my-email-id@gmail.com'
     MAIL_PASSWORD = 'my-email-password'
+
+    # Cache Configurations
+    <%_ if (cacheProviderSimple) { _%>
+    CACHE_TYPE = "SimpleCache"
+    CACHE_DEFAULT_TIMEOUT = 60
+    CACHE_IGNORE_ERRORS = True
+    # CACHE_THRESHOLD  
+    <%_ } else if (cacheProviderFileSystem) { _%> 
+    CACHE_TYPE = 'FileSystemCache' 
+    CACHE_DEFAULT_TIMEOUT = 60
+    CACHE_IGNORE_ERRORS = True
+    CACHE_DIR = tempfile.gettempdir()
+    # CACHE_THRESHOLD
+    # CACHE_OPTIONS
+    <%_ } else if (cacheProviderMemcached) { _%>
+    CACHE_TYPE = 'MemcachedCache'
+    CACHE_DEFAULT_TIMEOUT = 60
+    # CACHE_KEY_PREFIX = ''
+    CACHE_MEMCACHED_SERVERS = ''
+    <%_ } else if (cacheProviderRedis) { _%>
+    CACHE_TYPE = 'RedisCache'
+    CACHE_DEFAULT_TIMEOUT = 60
+    CACHE_KEY_PREFIX = ''
+    # CACHE_OPTIONS
+    CACHE_REDIS_HOST = ''
+    CACHE_REDIS_PORT = 6379
+    CACHE_REDIS_PASSWORD = ''
+    CACHE_REDIS_DB = ''
+    CACHE_REDIS_URL = ''
+    <%_ } _%>
     
-    
+class ProdConfig:
+    # Database
+    <%_ if (prodDatabaseTypeMariadb) { _%>
+    # SQLALCHEMY_DATABASE_URI = 'mariadb+mariadbconnector://<user>:<password>@<host>[:<port>]/<dbname>'
+    <%_ } else if (prodDatabaseTypeMysql) { _%>
+    # SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://<user>:<password>@<host>[:<port>]/<dbname>'
+    <%_ } else if (prodDatabaseTypeMssql) { _%>
+    # SQLALCHEMY_DATABASE_URI = 'mssql+pyodbc://<username>:<password>@<hostname>:<port>/<dbname>?driver=ODBC+Driver+17+for+SQL+Server'
+    <%_ } else if (prodDatabaseTypeOracle) { _%>
+    # SQLALCHEMY_DATABASE_URI = 'oracle+cx_oracle://user:pass@hostname:port[/dbname][?service_name=<service>[&key=value&key=value...]]'
+    <%_ } else if (prodDatabaseTypePostgres) { _%>
+    # SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://user:password@host:port/dbname[?key=value&key=value...]'
+    <%_ } else if (prodDatabaseTypeCockroach) { _%>
+    # SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://user:password@host:port/dbname[?key=value&key=value...]'
+    <%_ } _%>
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    PROPAGATE_EXCEPTIONS = False

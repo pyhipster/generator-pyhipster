@@ -1,6 +1,6 @@
 {
     "home": {
-        "title": "Java 文青，歡迎!",
+        "title": "歡迎!",
         "subtitle": "這裡是您的首頁",
         "logged": {
             "message": "您目前是用 “{{username}}” 帳號登入。"

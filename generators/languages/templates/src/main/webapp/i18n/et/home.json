@@ -1,6 +1,6 @@
 {
     "home": {
-        "title": "Tere tulemast, Java Hipster!",
+        "title": "Tere tulemast,",
         "subtitle": "See on teie avaleht",
         "logged": {
             "message": "Olete sisse logitud kasutajana \"{{username}}\"."

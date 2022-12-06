@@ -27,7 +27,7 @@ module.exports = {
   // askForInsightOptIn,
   askForApplicationType,
   askForModuleName,
-  askForTestOpts,
+  // askForTestOpts,
   // askForMoreModules,
 };
 

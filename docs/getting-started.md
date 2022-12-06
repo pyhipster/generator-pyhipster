@@ -1,10 +1,11 @@
 ## Requirements
 The minimum requirements that need to be installed before we get started are 
 
- - Python 3.7 
- - Java 11 
- - NodeJS 16 
- - Git 2.3
+ - Python 3.7.9  
+ - Java 11.0.12  
+ - NodeJS 16.16.0 LTS  
+ - NPM 8.11.0  
+ - Git 2.33  
 
 After this installation, you will need to add the programs to your PATH. Please refer to the guide for 
 [Linux](https://linuxize.com/post/how-to-add-directory-to-path-in-linux/) or [Windows](https://www.computerhope.com/issues/ch000549.htm)
@@ -16,20 +17,23 @@ Open your terminal (Linux) or Command Prompt (Windows) and run the following com
 ``$> git --version``   
 ``$> node --version``   
 ``$> java --version``   
+``$> npm --version``   
 
 #### On Linux
 ``$> python3 --version``   
 ``$> git --version``   
 ``$> node --version``   
 ``$> java --version``   
+``$> npm --version``   
 
-
-## Getting Started
+## Installing PyHipster
 To install the generator run the following command
 
 ``npm install -g generator-pyhipster``
 
-Now go to any folder and create the project folder
+## Creating Your First PyHipster Full-Stack Application
+
+Go to any folder and create the project folder
 
 ``$> cd my-dir``   
 ``$> mkdir my-project``   
@@ -43,7 +47,8 @@ This will start the generator and will ask you a couple of questions to generate
 Please see below for an explanation of each of these questions.
 
 ```
-? Which *type* of application would you like to create? Monolithic application (recommended for simple projects)
+? Which *type* of application would you like to create? (Use arrow keys)
+> Monolithic application (recommended for simple projects)
 ```
 *Explanation* - Currently only monoliths are supported. So you just have this one choice.    
 ```
@@ -55,15 +60,43 @@ Please see below for an explanation of each of these questions.
 ```
 *Explanation* - Currently only JWT is supported. 
 ```
-? Which *type* of database would you like to use? SQL (SQLite)
+? Which *type* of database would you like to use? (Use arrow keys)
+> SQL (SQLite, MySQL, PostgreSQL, Oracle, MS SQL Server)
+  No database
 ```
-*Explanation* - SQLite is the only supported database for this release
+*Explanation* - Select any database type you want 
 ```
-? Which *development* database would you like to use? SQLite with disk-based persistence
+? Which *production* database would you like to use? (Use arrow keys)
+> PostgreSQL
+  MySQL
+  MariaDB
+  Oracle
+  Microsoft SQL Server
+  CockroachDB
 ```
-*Explanation* - You have two options here, wither use a desk-persisted SQLite file or an in-memory SQLite instance
+*Explanation* - Select the kind of database that you would want for the application in production environment. The selection from this stage would be available in the subsequent stages.
 ```
-? Which *Framework* would you like to use for the client? React
+? Which *development* database would you like to use? (Use arrow keys)
+> SQLite with disk-based persistence
+  SQLite with in-memory persistence
+  MySQL
+```
+*Explanation* - You have the option to use the embedded SQLite database for development or the database you selected to be used in production from the earlier stage
+```
+? Which cache do you want to use? (Use arrow keys)
+> No cache
+  SimpleCache
+  FileSystem cache
+  Memcached
+  Redis
+```
+*Explanation* - 
+```
+? Which *Framework* would you like to use for the client? (Use arrow keys)
+> Angular
+  React
+  Vue
+  No client
 ```
 *Explanation* - You are given a choice to select either Angular, React, or Vue for your frontend
 ```
@@ -74,22 +107,8 @@ Please see below for an explanation of each of these questions.
 ? Would you like to use a Bootswatch theme (https://bootswatch.com/)? Default JHipster
 ```
 *Explanation* - This will enable UI themes from Bootswatch. Please here to [Bootswatch](https://bootswatch.com/) for more details of available themes
-```
-? Would you like to enable internationalization support? Yes
-```
-*Explanation* - Choose this option to enable i18n
-```
-? Please choose the native language of the application. English
-```
-*Explanation* - Select the base language of the generated code.
-```
-? Please choose additional languages to install
-```
-*Explanation* select all the languages that you would like to support.
-```
-? Besides unittest and Jest, which testing frameworks would you like to use?
-```
-*Explanation* - Tests are not covered under the current release.
+
+----   
 
 After selecting the options, PyHipster will work to generate the Python and UI code based on your selections.
 
@@ -129,6 +148,15 @@ Please find more information abuout JDL [here](jdl.md)
 
 ## Customizations
 
+### Database
+The application can handle its embedded SQLite database. In you you selected the database type to be anything other than SQLite, you have to provide appropriate values to the below options in the file ``src/main/python/config/BaseConfig.py``   
+```python
+# Database     
+SQLALCHEMY_DATABASE_URI = '...'    
+SQLALCHEMY_TRACK_MODIFICATIONS = False    
+PROPAGATE_EXCEPTIONS = False   
+```
+Please refer to the [SQLAlchemy documentation](https://docs.sqlalchemy.org/en/14/dialects/index.html) for further details.
 ### EMail
 To configure your own email to work with the generated application, please go to the file ``src/main/python/config/BaseConfig.py`` and edit the following lines to the appropriate values
 ```python
@@ -141,6 +169,35 @@ MAIL_USERNAME = 'my-email-id@gmail.com'
 MAIL_PASSWORD = 'my-email-password'
 ```
 **Please note**: If you use the above configuration with your Gmail password, you might need to  [allow less secure apps](https://support.google.com/accounts/answer/6010255?hl=en). The configuration is simpler but less secure. Also by allowing less secure apps you won’t have the ability to use two factor authentication with Gmail. Therefore we highly recommend you use an app password instead of the Gmail password. Please refer to the Gmail configuration document at [Sign in with App Passwords](https://support.google.com/accounts/answer/185833) for more information on how to set this up.
+### Cache
+To configure your cache to work with the generated application, please go to the file ``src/main/python/config/BaseConfig.py`` and supply values for the selected caching mechanism. For example, for Redis cache, you will have the following options to be customized.
+
+```python
+# Cache Configurations
+CACHE_TYPE = 'RedisCache'
+CACHE_DEFAULT_TIMEOUT = 60
+CACHE_KEY_PREFIX = ''
+CACHE_REDIS_HOST = ''
+CACHE_REDIS_PORT = 6379
+CACHE_REDIS_PASSWORD = ''
+CACHE_REDIS_DB = ''
+CACHE_REDIS_URL = ''
+```
+
+
+
+
+## Errors
+### OSError while using FileSystem cache
+![FS Cache Error](images/cache_error.png)
+#### Cause: This is caused by the filesystem not being accessible for writing to the caching library
+#### Resolution: 
+- Go to ``src/main/python/config/BaseConfig.py`` 
+- Change the following line to any folder that the current user has write access
+```python   
+CACHE_DIR = tempfile.gettempdir()  
+```
+ For example, ``/tmp`` (Linux) or ``C:\temp`` (Windows)
 
 ## Tools
 - [JHipster Studio](https://www.jhipster.tech/jdl-studio/) for writing JDL files
