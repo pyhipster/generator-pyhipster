@@ -341,6 +341,10 @@ module.exports = class JHipsterAppGenerator extends BaseBlueprintGenerator {
         this.checkJava();
       },
 
+      validatePython() {
+        this.checkPython();
+      },
+
       validateNode() {
         this.checkNode();
       },

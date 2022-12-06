@@ -137,8 +137,9 @@ module.exports = class extends BaseBlueprintGenerator {
   // Public API method used by the getter and also by Blueprints
   _prompting() {
     return {
-      askI18n: prompts.askI18n,
-      askForLanguages: prompts.askForLanguages,
+      // Adding Language 
+      // askI18n: prompts.askI18n,
+      // askForLanguages: prompts.askForLanguages,
     };
   }
 
@@ -294,9 +295,9 @@ module.exports = class extends BaseBlueprintGenerator {
             this.vueUpdateLanguagesInWebpack(this.languages);
           }
         }
-        if (!this.skipUserManagement && !this.skipServer) {
-          this.updateLanguagesInLanguageMailServiceIT(this.languages, this.packageFolder);
-        }
+        // if (!this.skipUserManagement && !this.skipServer) {
+        //   this.updateLanguagesInLanguageMailServiceIT(this.languages, this.packageFolder);
+        // }
       },
 
       ...super._missingPostWriting(),

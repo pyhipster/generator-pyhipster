@@ -24,11 +24,11 @@ const commonPackageJson = require('./common/templates/package.json');
 
 // Version of Java
 const JAVA_VERSION = '11';
-const JAVA_COMPATIBLE_VERSIONS = ['11', '12', '13', '14', '15', '16', '17', '18'];
+const JAVA_COMPATIBLE_VERSIONS = ['11', '12', '13', '14', '15', '16', '17', '18', '19'];
 
 // Version of Java
 const PYTHON_VERSION = '3';
-const PYTHON_COMPATIBLE_VERSIONS = ['3.7', '3.8', '3.9', '3.10'];
+const PYTHON_COMPATIBLE_VERSIONS = ['3.7', '3.8', '3.9', '3.10', '3.11'];
 
 // Version of Node, NPM
 const NODE_VERSION = '16.14.0';
@@ -126,7 +126,7 @@ const SUPPORTED_CLIENT_FRAMEWORKS = {
 };
 
 // documentation constants
-const JHIPSTER_DOCUMENTATION_URL = 'https://www.jhipster.tech';
+const JHIPSTER_DOCUMENTATION_URL = 'https://sudeephazra.github.io/generator-pyhipster/';
 const JHIPSTER_DOCUMENTATION_ARCHIVE_PATH = '/documentation-archive/';
 
 const OFFICIAL_DATABASE_TYPE_NAMES = {
@@ -176,6 +176,10 @@ const SQL_DB_OPTIONS = [
   {
     value: databaseTypes.MSSQL,
     name: 'Microsoft SQL Server',
+  },
+  {
+    value: databaseTypes.COCKROACHDB,
+    name: 'CockroachDB',
   },
 ];
 

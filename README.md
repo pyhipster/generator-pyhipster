@@ -13,7 +13,8 @@ The current version of the tool is available as an alpha release and not suitabl
 - Angular/React/Vue frontend
 - JWT Support
 - SQL Databse Support
-- CRUD operations using user defined data model
+- User defined data model
+- Caching
 - Multilingual
 - Email integration
 - User Management
@@ -36,16 +37,17 @@ With the great development workflow:
 - Micro web-development framework [Flask 2.2](https://flask.palletsprojects.com/en/2.2.x/)   
 - REST API support using [flask-restx](https://flask-restx.readthedocs.io/en/latest/)
 - Database integration using [Flask-SQLAlchemy 3](https://flask-sqlalchemy.palletsprojects.com/en/3.0.x/)    
+- Server side caching using [Flask-Caching](https://flask-caching.readthedocs.io/en/latest/)
 - (De-)Serialization support through [Marshmallow](https://marshmallow.readthedocs.io/en/stable/index.html), [Flask-Marshmallow](https://flask-marshmallow.readthedocs.io/en/latest/), and  [marshmallow-sqlalchemy](https://marshmallow-sqlalchemy.readthedocs.io/en/latest/index.html)    
 - JWT token access [Flask-JWT-Extended](https://flask-jwt-extended.readthedocs.io/en/stable/)    
 - Email support using [Flask-Mail](https://pythonhosted.org/Flask-Mail/) 
 
 ## Limitations
 For the current version the tool has certain limitations 
-- Only SQLite database support
 - No Test coverage for the Python code
 - Only monolith support
 - No support for Docker
+- No binary object support
 
 For more information, please continue your journey with the [getting started guide](docs/getting-started.md)
 

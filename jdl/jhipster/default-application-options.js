@@ -18,14 +18,14 @@
  */
 
 const { MONOLITH, MICROSERVICE, GATEWAY } = require('./application-types');
-const { COUCHBASE, CASSANDRA, MONGODB, SQL, H2_DISK, POSTGRESQL } = require('./database-types');
+const { COUCHBASE, CASSANDRA, MONGODB, SQL, H2_DISK, POSTGRESQL, SQLITE_DISK } = require('./database-types');
 const databaseTypes = require('./database-types');
 
 const NO_DATABASE_TYPE = databaseTypes.NO;
 const { OptionNames, OptionValues } = require('./application-options');
 
 const { JWT, OAUTH2 } = require('./authentication-types');
-const { EHCACHE, HAZELCAST } = require('./cache-types');
+const { EHCACHE, HAZELCAST, SIMPLE_CACHE, NO } = require('./cache-types');
 const cacheProviderType = require('./cache-types');
 
 const NO_CACHE_PROVIDER = cacheProviderType.NO;
@@ -101,7 +101,7 @@ function getConfigForApplicationType(applicationType = undefined, customOptions 
 function getConfigForMonolithApplication(customOptions = {}) {
   const options = {
     [AUTHENTICATION_TYPE]: JWT,
-    [CACHE_PROVIDER]: EHCACHE,
+    [CACHE_PROVIDER]: NO_CACHE_PROVIDER,
     [CLIENT_FRAMEWORK]: ANGULAR_X,
     [SERVER_PORT]: OptionValues[SERVER_PORT],
     [SERVICE_DISCOVERY_TYPE]: false,
@@ -201,8 +201,8 @@ function getDefaultConfigForNewApplication(customOptions = {}) {
     [BASE_NAME]: OptionValues[BASE_NAME],
     [BUILD_TOOL]: MAVEN,
     [DATABASE_TYPE]: SQL,
-    [DEV_DATABASE_TYPE]: H2_DISK,
-    [CACHE_PROVIDER]: EHCACHE,
+    [DEV_DATABASE_TYPE]: SQLITE_DISK,
+    [CACHE_PROVIDER]: NO_CACHE_PROVIDER,
     [ENABLE_HIBERNATE_CACHE]: OptionValues[ENABLE_HIBERNATE_CACHE],
     [ENABLE_SWAGGER_CODEGEN]: OptionValues[ENABLE_SWAGGER_CODEGEN],
     [ENABLE_TRANSLATION]: OptionValues[ENABLE_TRANSLATION],

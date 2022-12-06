@@ -42,6 +42,7 @@ const files = {
         'webpack/webpack.prod.js',
         'webpack/utils.js',
         { file: 'webpack/logo-jhipster.png', method: 'copy' },
+        { file: 'webpack/logo-pyhipster.png', method: 'copy' },
       ],
     },
     {
@@ -76,7 +77,7 @@ const files = {
     {
       condition: generator => generator.enableTranslation,
       path: REACT_DIR,
-      templates: ['config/translation.ts', 'config/translation-middleware.ts'],
+      templates: ['config/translation.ts'],
     },
     {
       condition: generator => generator.websocket === SPRING_WEBSOCKET,

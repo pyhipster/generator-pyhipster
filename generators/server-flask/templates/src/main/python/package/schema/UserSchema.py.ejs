@@ -80,6 +80,7 @@ class AdminUserSchema(ma.SQLAlchemyAutoSchema):
     lastModifiedDate = auto_field("last_modified_date")
     lastModifiedBy = auto_field("last_modified_by")
     authorities = auto_field("roles")
+    password = auto_field("password_hash")
 
 
 class ManagedUserSchema(ma.SQLAlchemyAutoSchema):
@@ -129,6 +130,7 @@ class KeyAndPasswordSchema(ma.SQLAlchemyAutoSchema):
 
     key = auto_field("reset_key")
     newPassword = auto_field("password_hash")
+
 
 class UserSchema(ma.SQLAlchemyAutoSchema):
     class Meta:

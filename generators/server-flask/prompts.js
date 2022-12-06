@@ -151,7 +151,7 @@ function askForServerSideOpts() {
         if (!answers.reactive) {
           opts.push({
             value: SQL,
-            name: 'SQL (SQLite)',
+            name: 'SQL (SQLite, MySQL, PostgreSQL, Oracle, MS SQL Server)',
           });
         } else {
           opts.push({
@@ -187,14 +187,14 @@ function askForServerSideOpts() {
       },
       default: serverDefaultConfig.databaseType,
     },
-    // {
-    //   when: response => response.databaseType === SQL,
-    //   type: 'list',
-    //   name: PROD_DATABASE_TYPE,
-    //   message: `Which ${chalk.yellow('*production*')} database would you like to use?`,
-    //   choices: answers => (answers.reactive ? constants.R2DBC_DB_OPTIONS : constants.SQL_DB_OPTIONS),
-    //   default: serverDefaultConfig.prodDatabaseType,
-    // },
+    {
+      when: response => response.databaseType === SQL,
+      type: 'list',
+      name: PROD_DATABASE_TYPE,
+      message: `Which ${chalk.yellow('*production*')} database would you like to use?`,
+      choices: answers => (answers.reactive ? constants.R2DBC_DB_OPTIONS : constants.SQL_DB_OPTIONS),
+      default: serverDefaultConfig.prodDatabaseType,
+    },
     {
       when: response => response.databaseType === SQL,
       type: 'list',
@@ -210,54 +210,54 @@ function askForServerSideOpts() {
             value: SQLITE_MEMORY,
             name: 'SQLite with in-memory persistence',
           },
-        ],
+        ].concat(constants.SQL_DB_OPTIONS.find(it => it.value === response.prodDatabaseType)),
       default: serverDefaultConfig.devDatabaseType,
     },
-    // {
-    //   when: answers => !answers.reactive,
-    //   type: 'list',
-    //   name: CACHE_PROVIDER,
-    //   message: 'Which cache do you want to use?',
-    //   choices: [
-    //     // {
-    //     //   value: EHCACHE,
-    //     //   name: 'Ehcache (local cache, for a single node)',
-    //     // },
-    //     // {
-    //     //   value: CAFFEINE,
-    //     //   name: 'Caffeine (local cache, for a single node)',
-    //     // },
-    //     // {
-    //     //   value: HAZELCAST,
-    //     //   name: 'Hazelcast (distributed cache, for multiple nodes, supports rate-limiting for gateway applications)',
-    //     // },
-    //     // {
-    //     //   value: INFINISPAN,
-    //     //   name: 'Infinispan (hybrid cache, for multiple nodes)',
-    //     // },
-    //     {
-    //       value: SIMPLE_CACHE,
-    //       name: 'SimpleCache (local cache, for a single node)',
-    //     },
-    //     {
-    //       value: FILESYSTEM_CACHE,
-    //       name: 'FileSystem cache (local cache, for a single node)',
-    //     },
-    //     {
-    //       value: MEMCACHED,
-    //       name: 'Memcached (distributed cache)',
-    //     },
-    //     {
-    //       value: REDIS,
-    //       name: 'Redis (distributed cache)',
-    //     },
-    //     {
-    //       value: NO_CACHE_PROVIDER,
-    //       name: 'No cache',
-    //     },
-    //   ],
-    //   default: applicationType === MICROSERVICE ? 2 : serverDefaultConfig.cacheProvider,
-    // },
+    {
+      when: answers => !answers.reactive,
+      type: 'list',
+      name: CACHE_PROVIDER,
+      message: 'Which cache do you want to use?',
+      choices: [
+        // {
+        //   value: EHCACHE,
+        //   name: 'Ehcache (local cache, for a single node)',
+        // },
+        // {
+        //   value: CAFFEINE,
+        //   name: 'Caffeine (local cache, for a single node)',
+        // },
+        // {
+        //   value: HAZELCAST,
+        //   name: 'Hazelcast (distributed cache, for multiple nodes, supports rate-limiting for gateway applications)',
+        // },
+        // {
+        //   value: INFINISPAN,
+        //   name: 'Infinispan (hybrid cache, for multiple nodes)',
+        // },
+        {
+          value: NO_CACHE_PROVIDER,
+          name: 'No cache',
+        },
+        {
+          value: SIMPLE_CACHE,
+          name: 'SimpleCache',
+        },
+        {
+          value: FILESYSTEM_CACHE,
+          name: 'FileSystem cache',
+        },
+        {
+          value: MEMCACHED,
+          name: 'Memcached',
+        },
+        {
+          value: REDIS,
+          name: 'Redis',
+        },
+      ],
+      default: applicationType === MICROSERVICE ? 2 : serverDefaultConfig.cacheProvider,
+    },
     // {
     //   when: answers =>
     //     ((answers.cacheProvider !== NO_CACHE_PROVIDER && answers.cacheProvider !== MEMCACHED) || applicationType === GATEWAY) &&

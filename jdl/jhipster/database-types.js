@@ -32,10 +32,11 @@ const Types = {
   H2_MEMORY: 'h2Memory',
   SQLITE_DISK: 'sqliteDisk',
   SQLITE_MEMORY: 'sqliteMemory',
+  COCKROACHDB: 'cockroachdb',
   NO: 'no',
 };
 
 Types.isSql = type =>
-  [Types.SQL, Types.MYSQL, Types.POSTGRESQL, Types.ORACLE, Types.MARIADB, Types.MSSQL, Types.SQLITE_DISK, Types.SQLITE_MEMORY].includes(type);
+  [Types.SQL, Types.MYSQL, Types.POSTGRESQL, Types.ORACLE, Types.MARIADB, Types.MSSQL, Types.COCKROACHDB, Types.SQLITE_DISK, Types.SQLITE_MEMORY].includes(type);
 
 module.exports = Types;
