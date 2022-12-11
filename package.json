@@ -15,11 +15,11 @@
     "JDL",
     "yeoman-generator"
   ],
-  "homepage": "https://sudeephazra.github.io/generator-pyhipster/",
-  "bugs": "https://github.com/sudeephazra/generator-pyhipster/issues",
+  "homepage": "https://pyhipster.github.io/generator-pyhipster/",
+  "bugs": "https://github.com/pyhipster/generator-pyhipster/issues",
   "repository": {
     "type": "git",
-    "url": "git://github.com/sudeephazra/generator-pyhipster.git"
+    "url": "git://github.com/pyhipster/generator-pyhipster.git"
   },
   "funding": {
     "type": "buymeacoffee",
