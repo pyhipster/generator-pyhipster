@@ -96,7 +96,7 @@ class <%= persistClass %>(db.Model):
 
     @classmethod
     def find_all(cls, page, per_page) -> List["<%= persistClass %>"]:
-        paginate = cls.query.paginate(page=page, per_page=per_page)
+        paginate = cls.query.order_by(cls.<%= primaryKey.name %>).paginate(page=page, per_page=per_page)
         return paginate.items
 
     @classmethod
