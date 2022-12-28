@@ -1,5 +1,7 @@
 # PyHipster
 
+![pyhipster-logo](docs/images/logo-pyhipster_100.png "PyHipster Logo")
+
 Greetings, Python Hipsters!
 
 PyHipster is a full-stack Python Flask web application generator. 
@@ -47,7 +49,6 @@ For the current version the tool has certain limitations
 - No Test coverage for the Python code
 - Only monolith support
 - No support for Docker
-- No binary object support
 
 For more information, please continue your journey with the [getting started guide](docs/getting-started.md)
 
