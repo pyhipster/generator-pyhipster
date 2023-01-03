@@ -75,7 +75,7 @@ _%>
     </div>
 
     <div class="table-responsive" id="entities" *ngIf="<%= entityInstancePlural %> && <%= entityInstancePlural %>.length > 0">
-        <table class="table table-striped" aria-describedby="page-heading">
+        <table class="table table-striped table-hover" aria-describedby="page-heading">
             <thead>
                 <tr<% if (!paginationNo) { %> <%= jhiPrefix %>Sort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="<%= !paginationInfiniteScroll ? 'loadPage()' : 'reset()'%>"<% } %>>
 <%_ for (const field of fields.filter(field => !field.hidden)) { _%>
