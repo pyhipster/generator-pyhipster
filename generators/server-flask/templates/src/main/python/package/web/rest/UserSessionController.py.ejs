@@ -1,0 +1,77 @@
+<%#
+ Copyright 2022 the original author or authors from the PyHipster project.
+
+ This file is part of the PyHipster project, see https://github.com/pyhipster/generator-pyhipster
+ for more information.
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      https://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-%>
+from flask_restx import Namespace, Resource
+import logging
+from flask import request, session, make_response
+from domain.User import User
+import bcrypt
+from datetime import timedelta, datetime
+from sqlalchemy.exc import SQLAlchemyError
+from flask_login import login_user, current_user
+
+
+logging.basicConfig(format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
+
+
+session_authentication_ns = Namespace('user-session-controller', path="/<%_ if (authenticationTypeJwt) { _%>authenticate<%_ } else if (authenticationTypeSession) { _%>authentication<%_ } _%>")
+
+
+class UserSessionResource(Resource):
+    def post(self):
+        logging.info("GET request received on UserSessionResource")
+        username = request.form.get("username", None)
+        password = request.form.get("password", None)
+        remember_me = request.form.get("rememberMe", False)
+        # Check if any of the inputs is empty
+        if username is None or password is None:
+            return {"message": "Username and/or password cannot be empty"}, 400
+        # Check if user exists
+        try:
+            user = User.get_by_login(username)
+        except SQLAlchemyError as e:
+            return {"message": str(e.__dict__['orig'])}, 400
+        if not user:
+            return {"message": "Invalid user name"}, 404
+        if bcrypt.checkpw(password.encode('utf8'), user.password_hash.encode('utf8')) is not True:
+            return {"message": "Invalid user name and/or password"}, 401
+        if not user.get_activated():
+            return {"message": "User is not active. Please contact your administrator."}, 500
+        token_expiry = timedelta(hours=3)
+        if remember_me:
+            token_expiry = timedelta(hours=24)
+        login_user(user, remember=remember_me, duration=token_expiry)
+        # Get the role from the DB
+        user_roles = []
+        for role in user.roles:
+            user_roles.append(role.name)
+        auth = ",".join(user_roles)
+        session_details = {"username": username, "roles": auth}
+        # Generate the session based on the above parameters
+        csrf = request.cookies.get('XSRF-TOKEN')
+        if csrf is None:
+            csrf = session['_id']
+        response = make_response()
+        if remember_me:
+            response.set_cookie('X-XSRF-TOKEN', bytes(csrf, 'utf-8'), expires=(datetime.now() + timedelta(hours=24)))
+            response.set_cookie('JSESSIONID', bytes(csrf, 'utf-8'), expires=(datetime.now() + timedelta(hours=24)))
+        else:
+            response.set_cookie('X-XSRF-TOKEN', bytes(csrf, 'utf-8'), expires=(datetime.now() + timedelta(hours=3)))
+            response.set_cookie('JSESSIONID', bytes(csrf, 'utf-8'), expires=(datetime.now() + timedelta(hours=3)))
+        return response
+

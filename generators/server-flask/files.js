@@ -80,22 +80,13 @@ const liquibaseFiles = {
 };
 
 const mongoDbFiles = {
-  // docker: [
-  //   {
-  //     path: DOCKER_DIR,
-  //     templates: ['mongodb.yml', 'mongodb-cluster.yml', 'mongodb/MongoDB.Dockerfile', 'mongodb/scripts/init_replicaset.js'],
-  //   },
-  // ],
+  docker: [
+    {
+      path: DOCKER_DIR,
+      templates: ['mongodb.yml', 'mongodb-cluster.yml', 'mongodb/MongoDB.Dockerfile', 'mongodb/scripts/init_replicaset.js'],
+    },
+  ],
   serverResource: [
-    // {
-    //   path: SERVER_MAIN_SRC_DIR,
-    //   templates: [
-    //     {
-    //       file: 'package/config/dbmigrations/package-info.java',
-    //       renameTo: generator => `${generator.javaDir}config/dbmigrations/package-info.java`,
-    //     },
-    //   ],
-    // },
     {
       condition: generator => !generator.skipUserManagement || (generator.skipUserManagement && generator.authenticationType === OAUTH2),
       path: SERVER_MAIN_SRC_DIR,
@@ -153,10 +144,6 @@ const neo4jFiles = {
           file: 'package/config/neo4j/Neo4jMigrations.java',
           renameTo: generator => `${generator.javaDir}config/neo4j/Neo4jMigrations.java`,
         },
-        // {
-        //   file: 'package/config/neo4j/package-info.java',
-        //   renameTo: generator => `${generator.javaDir}config/neo4j/package-info.java`,
-        // },
       ],
     },
     {
@@ -472,14 +459,6 @@ const baseServerFiles = {
     {
       path: SERVER_MAIN_SRC_DIR,
       templates: [
-        // {
-        //   file: 'package/security/SecurityUtils.java',
-        //   renameTo: generator => `${generator.javaDir}security/SecurityUtils.java`,
-        // },
-        // {
-        //   file: 'package/security/AuthoritiesConstants.java',
-        //   renameTo: generator => `${generator.javaDir}security/AuthoritiesConstants.java`,
-        // },
         {
           file: 'package/security/AuthoritiesConstants.py',
           renameTo: generator => `${generator.javaDir}security/AuthoritiesConstants.py`,
@@ -488,189 +467,12 @@ const baseServerFiles = {
           file: 'package/security/SecurityUtils.py',
           renameTo: generator => `${generator.javaDir}security/SecurityUtils.py`,
         },
-        // {
-        //   file: 'package/security/package-info.java',
-        //   renameTo: generator => `${generator.javaDir}security/package-info.java`,
-        // },
       ],
     },
-    // {
-    //   condition: generator => !generator.reactive,
-    //   path: SERVER_TEST_SRC_DIR,
-    //   templates: [
-    //     {
-    //       file: 'package/security/SecurityUtilsUnitTest.java',
-    //       renameTo: generator => `${generator.testDir}security/SecurityUtilsUnitTest.java`,
-    //     },
-    //   ],
-    // },
-    // {
-    //   condition: generator => generator.reactive,
-    //   path: SERVER_TEST_SRC_DIR,
-    //   templates: [
-    //     {
-    //       file: 'package/security/SecurityUtilsUnitTest_reactive.java',
-    //       renameTo: generator => `${generator.testDir}security/SecurityUtilsUnitTest.java`,
-    //     },
-    //   ],
-    // },
     {
-      condition: generator => generator.authenticationType === JWT,
+      condition: generator => generator.applicationType === MONOLITH && generator.authenticationType === JWT,
       path: SERVER_MAIN_SRC_DIR,
       templates: [
-        // {
-        //   file: 'package/security/jwt/TokenProvider.java',
-        //   renameTo: generator => `${generator.javaDir}security/jwt/TokenProvider.java`,
-        // },
-        // {
-        //   file: 'package/security/jwt/JWTFilter.java',
-        //   renameTo: generator => `${generator.javaDir}security/jwt/JWTFilter.java`,
-        // },
-        // {
-        //   file: 'package/management/SecurityMetersService.java',
-        //   renameTo: generator => `${generator.javaDir}management/SecurityMetersService.java`,
-        // },
-      ],
-    },
-    // {
-    //   condition: generator => generator.authenticationType === JWT && !generator.reactive,
-    //   path: SERVER_MAIN_SRC_DIR,
-    //   templates: [
-    //     {
-    //       file: 'package/security/jwt/JWTConfigurer.java',
-    //       renameTo: generator => `${generator.javaDir}security/jwt/JWTConfigurer.java`,
-    //     },
-    //   ],
-    // },
-    // {
-    //   condition: generator => generator.reactive && generator.applicationType === GATEWAY && generator.authenticationType === JWT,
-    //   path: SERVER_MAIN_SRC_DIR,
-    //   templates: [
-    //     {
-    //       file: 'package/security/jwt/JWTRelayGatewayFilterFactory.java',
-    //       renameTo: generator => `${generator.testDir}security/jwt/JWTRelayGatewayFilterFactory.java`,
-    //     },
-    //   ],
-    // },
-    // {
-    //   condition: generator => !generator.reactive,
-    //   path: SERVER_MAIN_SRC_DIR,
-    //   templates: [
-    //     {
-    //       file: 'package/config/SecurityConfiguration.java',
-    //       renameTo: generator => `${generator.javaDir}config/SecurityConfiguration.java`,
-    //     },
-    //   ],
-    // },
-    // {
-    //   condition: generator => generator.reactive,
-    //   path: SERVER_MAIN_SRC_DIR,
-    //   templates: [
-    //     {
-    //       file: 'package/config/SecurityConfiguration_reactive.java',
-    //       renameTo: generator => `${generator.javaDir}config/SecurityConfiguration.java`,
-    //     },
-    //   ],
-    // },
-    // {
-    //   condition: generator => !shouldSkipUserManagement(generator) && generator.authenticationType === SESSION && !generator.reactive,
-    //   path: SERVER_MAIN_SRC_DIR,
-    //   templates: [
-    //     {
-    //       file: 'package/security/PersistentTokenRememberMeServices.java',
-    //       renameTo: generator => `${generator.javaDir}security/PersistentTokenRememberMeServices.java`,
-    //     },
-    //     {
-    //       file: 'package/domain/PersistentToken.java',
-    //       renameTo: generator => `${generator.javaDir}domain/PersistentToken.java`,
-    //     },
-    //   ],
-    // },
-    // {
-    //   condition: generator =>
-    //     !shouldSkipUserManagement(generator) &&
-    //     generator.authenticationType === SESSION &&
-    //     !generator.reactive &&
-    //     generator.databaseType !== COUCHBASE,
-    //   path: SERVER_MAIN_SRC_DIR,
-    //   templates: [
-    //     {
-    //       file: 'package/repository/PersistentTokenRepository.java',
-    //       renameTo: generator => `${generator.javaDir}repository/PersistentTokenRepository.java`,
-    //     },
-    //   ],
-    // },
-    // {
-    //   condition: generator => generator.authenticationType === OAUTH2,
-    //   path: SERVER_MAIN_SRC_DIR,
-    //   templates: [
-    //     {
-    //       file: 'package/security/oauth2/AudienceValidator.java',
-    //       renameTo: generator => `${generator.javaDir}security/oauth2/AudienceValidator.java`,
-    //     },
-    //     {
-    //       file: 'package/security/oauth2/JwtGrantedAuthorityConverter.java',
-    //       renameTo: generator => `${generator.javaDir}security/oauth2/JwtGrantedAuthorityConverter.java`,
-    //     },
-    //     {
-    //       file: 'package/security/oauth2/OAuthIdpTokenResponseDTO.java',
-    //       renameTo: generator => `${generator.javaDir}security/oauth2/OAuthIdpTokenResponseDTO.java`,
-    //     },
-    //   ],
-    // },
-    // {
-    //   condition: generator => generator.authenticationType === OAUTH2,
-    //   path: SERVER_TEST_SRC_DIR,
-    //   templates: [
-    //     {
-    //       file: 'package/security/oauth2/AudienceValidatorTest.java',
-    //       renameTo: generator => `${generator.javaDir}security/oauth2/AudienceValidatorTest.java`,
-    //     },
-    //     {
-    //       file: 'package/config/TestSecurityConfiguration.java',
-    //       renameTo: generator => `${generator.testDir}config/TestSecurityConfiguration.java`,
-    //     },
-    //   ],
-    // },
-    // {
-    //   condition: generator =>
-    //     !generator.reactive &&
-    //     generator.authenticationType === OAUTH2 &&
-    //     (generator.applicationType === MICROSERVICE || generator.applicationType === GATEWAY),
-    //   path: SERVER_TEST_SRC_DIR,
-    //   templates: [
-    //     {
-    //       file: 'package/security/oauth2/AuthorizationHeaderUtilTest.java',
-    //       renameTo: generator => `${generator.javaDir}security/oauth2/AuthorizationHeaderUtilTest.java`,
-    //     },
-    //   ],
-    // },
-    // {
-    //   condition: generator => !shouldSkipUserManagement(generator) && generator.authenticationType !== OAUTH2,
-    //   path: SERVER_MAIN_SRC_DIR,
-    //   templates: [
-    //     {
-    //       file: 'package/security/DomainUserDetailsService.java',
-    //       renameTo: generator => `${generator.javaDir}security/DomainUserDetailsService.java`,
-    //     },
-    //     {
-    //       file: 'package/security/UserNotActivatedException.java',
-    //       renameTo: generator => `${generator.javaDir}security/UserNotActivatedException.java`,
-    //     },
-    //   ],
-    // },
-    {
-      condition: generator => generator.applicationType !== MICROSERVICE && generator.authenticationType === JWT,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-    //     {
-    //       file: 'package/web/rest/vm/LoginVM.java',
-    //       renameTo: generator => `${generator.javaDir}web/rest/vm/LoginVM.java`,
-    //     },
-        // {
-        //   file: 'package/web/rest/UserJWTController.java',
-        //   renameTo: generator => `${generator.javaDir}web/rest/UserJWTController.java`,
-        // },
         {
           file: 'package/web/rest/UserJWTController.py',
           renameTo: generator => `${generator.javaDir}rest/UserJWTController.py`,
@@ -678,6 +480,24 @@ const baseServerFiles = {
         {
           file: 'package/web/rest/__init__.py',
           renameTo: generator => `${generator.javaDir}rest/__init__.py`,
+        },
+      ],
+    },
+    {
+      condition: generator => generator.applicationType === MONOLITH && generator.authenticationType === SESSION,
+      path: SERVER_MAIN_SRC_DIR,
+      templates: [
+        {
+          file: 'package/web/rest/__init__.py',
+          renameTo: generator => `${generator.javaDir}rest/__init__.py`,
+        },
+        {
+          file: 'package/web/rest/UserSessionController.py',
+          renameTo: generator => `${generator.javaDir}rest/UserSessionController.py`,
+        },
+        {
+          file: 'package/web/rest/LogoutResource.py',
+          renameTo: generator => `${generator.javaDir}rest/LogoutResource.py`,
         },
       ],
     },
@@ -859,7 +679,7 @@ const baseServerFiles = {
   serverPythonApp: [
     {
       path: SERVER_MAIN_SRC_DIR,
-      templates: [{ file: 'package/application.py', renameTo: generator => `${generator.javaDir}${generator.mainClass}.py` }],
+      templates: [{ file: 'package/application.py', renameTo: generator => `${generator.javaDir}${generator.capitalizedBaseName}.py` }],
     },
     {
       path: SERVER_MAIN_SRC_DIR,
@@ -886,44 +706,6 @@ const baseServerFiles = {
       path: SERVER_MAIN_SRC_DIR,
       templates: [{ file: 'package/__init__.py', renameTo: generator => `${generator.javaDir}security/__init__.py` }],
     }
-  ],
-  serverJavaApp: [
-    // {
-    //   path: SERVER_MAIN_SRC_DIR,
-    //   templates: [{ file: 'package/Application.java', renameTo: generator => `${generator.javaDir}${generator.mainClass}.java` }],
-    // },
-    // {
-    //   condition: generator => !generator.reactive,
-    //   path: SERVER_MAIN_SRC_DIR,
-    //   templates: [{ file: 'package/ApplicationWebXml.java', renameTo: generator => `${generator.javaDir}ApplicationWebXml.java` }],
-    // },
-    // {
-    //   path: SERVER_TEST_SRC_DIR,
-    //   templates: [
-    //     {
-    //       file: 'package/TechnicalStructureTest.java',
-    //       renameTo: generator => `${generator.testDir}TechnicalStructureTest.java`,
-    //     },
-    //   ],
-    // },
-    // {
-    //   path: SERVER_TEST_SRC_DIR,
-    //   templates: [
-    //     {
-    //       file: 'package/IntegrationTest.java',
-    //       renameTo: generator => `${generator.testDir}/IntegrationTest.java`,
-    //     },
-    //   ],
-    // },
-    // {
-    //   path: SERVER_MAIN_SRC_DIR,
-    //   templates: [
-    //     {
-    //       file: 'package/GeneratedByJHipster.java',
-    //       renameTo: generator => `${generator.javaDir}GeneratedByJHipster.java`,
-    //     },
-    //   ],
-    // },
   ],
   serverJavaConfig: [
     // {
@@ -1175,24 +957,6 @@ const baseServerFiles = {
         },
       ],
     },
-  ],
-  serverJavaPackageInfo: [
-    // {
-    //   condition: generator => generator.searchEngine === ELASTICSEARCH,
-    //   path: SERVER_MAIN_SRC_DIR,
-    //   templates: [
-    //     {
-    //       file: 'package/repository/search/package-info.java',
-    //       renameTo: generator => `${generator.javaDir}repository/search/package-info.java`,
-    //     },
-    //   ],
-    // },
-    // {
-    //   path: SERVER_MAIN_SRC_DIR,
-    //   templates: [
-    //     { file: 'package/repository/package-info.java', renameTo: generator => `${generator.javaDir}repository/package-info.java` },
-    //   ],
-    // },
   ],
   serverJavaServiceError: [
     // {

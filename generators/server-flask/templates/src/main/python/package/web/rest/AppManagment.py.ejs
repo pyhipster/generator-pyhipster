@@ -16,6 +16,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
+from flask import current_app
 from flask_restx import Resource, Namespace
 import logging
 
@@ -32,3 +33,11 @@ class AppManagementInfoResource(Resource):
             "display-ribbon-on-profiles": "dev",
             "activeProfiles": ["dev"],
         }, 200
+
+<%_ if (authenticationTypeJwt) { _%>
+class AppManagementConfigurationResource(Resource):
+    def get(self):
+        config = current_app.config
+        print(config)
+        return {}, 200
+<%_ } _%>

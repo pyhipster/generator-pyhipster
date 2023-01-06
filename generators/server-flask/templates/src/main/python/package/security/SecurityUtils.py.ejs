@@ -17,23 +17,31 @@
  limitations under the License.
 -%>
 
-from flask_jwt_extended import verify_jwt_in_request, get_jwt
-from functools import wraps
 
+from functools import wraps
+<%_ if (authenticationTypeJwt) { _%>
+from flask_jwt_extended import verify_jwt_in_request, get_jwt
+<%_ } else if (authenticationTypeSession) { _%>
+from flask_login import login_required, current_user as logged_in_user
+<%_ } _%>
 
 def has_role(ROLE):
     def wrapper(fn):
         @wraps(fn)
         def decorator(*args, **kwargs):
+            <%_ if (authenticationTypeJwt) { _%>
             verify_jwt_in_request()
             claims = get_jwt()
-            if ROLE in claims["auth"] :
+            if ROLE in claims["auth"]:
                 return fn(*args, **kwargs)
+            <%_ } else if (authenticationTypeSession) { _%>
+            current_user_roles = logged_in_user.roles
+            if ROLE in current_user_roles:
+                return fn(*args, **kwargs)
+            <%_ } _%>
             else:
-                return {"message": "You are not allowed to perform this operation"}, 500
-
+                return {"message": "You are not allowed to perform this operation"}, 401
         return decorator
-
     return wrapper
     
 
@@ -41,13 +49,18 @@ def has_any_role(*ROLES):
     def wrapper(fn):
         @wraps(fn)
         def decorator(*args, **kwargs):
+            <%_ if (authenticationTypeJwt) { _%>
             verify_jwt_in_request()
             claims = get_jwt()
             if any(role in ROLES for role in claims["auth"]):
                 return fn(*args, **kwargs)
+            <%_ } else if (authenticationTypeSession) { _%>
+            current_user_roles = logged_in_user.roles
+            if any(role in ROLES for role in current_user_roles):
+                return fn(*args, **kwargs)
+            <%_ } _%>
             else:
-                return {"message": "You are not allowed to perform this operation"}, 500
-
+                return {"message": "You are not allowed to perform this operation"}, 401
         return decorator
-
-    return wrapper
+    return 
+    

@@ -18,7 +18,11 @@
 -%>
 from .PublicUserResource import public_user_list_ns
 from .AuthorityResource import authority_list_ns
+<%_ if (authenticationTypeJwt) { _%>
 from .UserJWTController import jwt_authentication_ns
+<%_ } else if (authenticationTypeSession) { _%>
+from .UserSessionController import session_authentication_ns
+<%_ } _%>
 from .AccountResource import account_register_ns, account_authenticate_ns, account_ns, \
     account_activate_ns, passwd_reset_init_ns, passwd_reset_finish_ns, change_passwd_ns
 from .UserResource import user_list_ns
@@ -30,7 +34,11 @@ def add_api_namespace(api):
     # Registering the namespaces
     api.add_namespace(public_user_list_ns)
     api.add_namespace(authority_list_ns)
+    <%_ if (authenticationTypeJwt) { _%>
     api.add_namespace(jwt_authentication_ns)
+    <%_ } else if (authenticationTypeSession) { _%>
+    api.add_namespace(session_authentication_ns)
+    <%_ } _%>
     api.add_namespace(logout_ns)
     api.add_namespace(account_register_ns)
     api.add_namespace(account_authenticate_ns)
@@ -46,7 +54,11 @@ def add_api_namespace(api):
     # Adding resources to added namespaces
     public_user_list_ns.add_resource(PublicUserResource.PublicUserResourceList, "")
     authority_list_ns.add_resource(AuthorityResource.AuthorityResourceList, "")
+    <%_ if (authenticationTypeJwt) { _%>
     jwt_authentication_ns.add_resource(UserJWTController.UserJWTResource, "")
+    <%_ } else if (authenticationTypeSession) { _%>
+    session_authentication_ns.add_resource(UserSessionController.UserSessionResource, "")
+    <%_ } _%>
     logout_ns.add_resource(LogoutResource.LogoutResource, "")
     account_register_ns.add_resource(AccountResource.ManagedUserAccountRegister, "")
     account_authenticate_ns.add_resource(AccountResource.AccountAuthenticate, "")
@@ -58,6 +70,9 @@ def add_api_namespace(api):
     user_list_ns.add_resource(UserResource.UserResource, "/<string:login>")
     user_list_ns.add_resource(UserResource.UserResourceList, "")
     app_management_ns.add_resource(AppManagment.AppManagementInfoResource, "/info")
+    <%_ if (authenticationTypeJwt) { _%>
+    app_management_ns.add_resource(AppManagment.AppManagementConfigurationResource, "/configprops")
+    <%_ } _%>
     # pyhipster-needle-rest-api-list-add-resource
     # pyhipster-needle-rest-api-list-add-resource-list
     # pyhipster-needle-rest-api-list-add-resource-list-count

@@ -17,9 +17,16 @@
  limitations under the License.
 -%>
 
-from flask import Flask, Blueprint
+from flask import Flask, Blueprint<%_ if (authenticationTypeSession) { _%>, session
+<%_ } _%>    
 from flask_restx import Api
+from flask_session import Session
+<%_ if (authenticationTypeJwt) { _%>
 from flask_jwt_extended import JWTManager
+<%_ } else if (authenticationTypeSession) { _%>
+from flask_login import LoginManager
+from domain.User import User
+<%_ } _%>
 from rest import add_api_namespace
 from config.BaseConfig import BaseConfig
 from config.FakeDataLoader import load_fake_data
@@ -39,8 +46,16 @@ app.register_blueprint(bluePrint)
 app.config.from_object(BaseConfig)
 
 api = add_api_namespace(api)
+<%_ if (authenticationTypeJwt) { _%>
 jwt = JWTManager(app)
+<%_ } else if (authenticationTypeSession) { _%>
+sess = Session()
+login_manager = LoginManager()
 
+@login_manager.user_loader
+def load_user(user_id):
+    return User.get_by_id(int(user_id))
+<%_ } _%>
 
 @app.before_first_request
 def create_tables():
@@ -54,5 +69,9 @@ if __name__ == '__main__':
     mail.init_app(app)
     <%_ if (!cacheProviderNo) { _%>
     cache.init_app(app)
+    <%_ } _%>
+    <%_ if (authenticationTypeSession) { _%>
+    sess.init_app(app)
+    login_manager.init_app(app)
     <%_ } _%>
     app.run(debug=True, port=<%= serverPort %>)

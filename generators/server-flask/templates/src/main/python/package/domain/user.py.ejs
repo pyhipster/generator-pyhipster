@@ -18,7 +18,9 @@
 -%>
 from typing import List
 from DatabaseConfig import db
-
+<%_ if (authenticationTypeSession) { _%>
+from flask_login import UserMixin
+<%_ } _%>
 
 jhi_user_authority = db.Table('jhi_user_authority',
     db.Column('user_id', db.Integer, db.ForeignKey('jhi_user.id'), primary_key=True),
@@ -26,7 +28,7 @@ jhi_user_authority = db.Table('jhi_user_authority',
 )
 
 
-class User(db.Model):
+class User(<%_ if (authenticationTypeSession) { _%>UserMixin, <%_ } _%>db.Model):
     __tablename__ = "jhi_user"
     id = db.Column(db.Integer, primary_key=True)
     login = db.Column(db.String(50), unique=True, nullable=False)
