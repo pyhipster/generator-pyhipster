@@ -20,11 +20,11 @@
 from flask import Flask, Blueprint<%_ if (authenticationTypeSession) { _%>, session
 <%_ } _%>    
 from flask_restx import Api
-from flask_session import Session
 <%_ if (authenticationTypeJwt) { _%>
 from flask_jwt_extended import JWTManager
 <%_ } else if (authenticationTypeSession) { _%>
 from flask_login import LoginManager
+from flask_session import Session
 from domain.User import User
 <%_ } _%>
 from rest import add_api_namespace
