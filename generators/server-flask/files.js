@@ -679,7 +679,7 @@ const baseServerFiles = {
   serverPythonApp: [
     {
       path: SERVER_MAIN_SRC_DIR,
-      templates: [{ file: 'package/application.py', renameTo: generator => `${generator.javaDir}${generator.capitalizedBaseName}.py` }],
+      templates: [{ file: 'package/application.py', renameTo: generator => `${generator.javaDir}${generator.capitalizedBaseName}App.py` }],
     },
     {
       path: SERVER_MAIN_SRC_DIR,
