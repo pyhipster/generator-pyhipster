@@ -27,6 +27,7 @@ BASE_DIR = os.path.dirname(os.path.realpath(__file__))
 
 class BaseConfig:
     # Flask 
+    ENV = 'development'
     FLASK_ENV = 'development'
     SECRET_KEY = '<%= flaskSecret %>'
     <%_ if (authenticationTypeJwt) { _%>
@@ -98,6 +99,7 @@ class BaseConfig:
     
 class ProdConfig:
     # Flask 
+    ENV = 'production'
     FLASK_ENV = 'production'
     SECRET_KEY = '<%= flaskSecret %>'
     <%_ if (authenticationTypeJwt) { _%>
