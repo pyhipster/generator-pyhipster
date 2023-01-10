@@ -117,9 +117,17 @@ class UserResourceList(Resource):
         if 'id' in user_json:
             del user_json['id']
         user_json['langKey'] = '<%= nativeLanguage %>'
-        user_json['createdBy'] = <%_ if (authenticationTypeJwt) { _%>get_jwt_identity()<%_ } else if (authenticationTypeSession) { _%>logged_in_user.login<%_ } _%>
+        <%_ if (authenticationTypeJwt) { _%>
+        user_json['createdBy'] = get_jwt_identity()
+        <%_ } else if (authenticationTypeSession) { _%> 
+        user_json['createdBy'] = logged_in_user.login
+        <%_ } _%>
         user_json['createdDate'] = str(datetime.now(timezone.utc))
-        user_json['lastModifiedBy'] = <%_ if (authenticationTypeJwt) { _%>get_jwt_identity()<%_ } else if (authenticationTypeSession) { _%>logged_in_user.login<%_ } _%>
+        <%_ if (authenticationTypeJwt) { _%>
+        user_json['lastModifiedBy'] = get_jwt_identity()
+        <%_ } else if (authenticationTypeSession) { _%>
+        user_json['lastModifiedBy'] = logged_in_user.login
+        <%_ } _%>
         user_json['lastModifiedDate'] = str(datetime.now(timezone.utc))
         if not user_json['authorities']:
             user_json['authorities'] = [AuthoritiesConstants.USER]
