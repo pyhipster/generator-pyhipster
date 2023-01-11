@@ -24,13 +24,17 @@ import pandas as pd
 
 def load_fake_data(app):
     with app.app_context():
+        <%_ if (authenticationTypeJwt || authenticationTypeSession) { _%>
         default_fake_data = Path(__file__).resolve().parents[2] / "resources" / "config" / "liquibase" / "data"
+        <%_ } _%>
         user_fake_data = Path(__file__).resolve().parents[2] / "resources" / "config" / "liquibase" / "fake-data"
 
         data_load_object = [
+            <%_ if (authenticationTypeJwt || authenticationTypeSession) { _%>
             {"table": "jhi_user", "file": "user.csv", "file_location": default_fake_data},
             {"table": "jhi_authority", "file": "authority.csv", "file_location": default_fake_data},
             {"table": "jhi_user_authority", "file": "user_authority.csv", "file_location": default_fake_data},
+            <%_ } _%>
             # pyhipster-needle-user-defined-model-fake-data
         ]
 
