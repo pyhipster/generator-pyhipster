@@ -89,11 +89,11 @@ export const changeLogLevel: (name, configuredLevel) => AppThunk = (name, config
   dispatch(getLoggers());
 };
 
-export const getConfigurations = createAsyncThunk('administration/fetch_configurations', async () => axios.get<any>('management/configprops'), {
+export const getConfigurations = createAsyncThunk('administration/fetch_configurations', async () => axios.get<any>('api/management/configprops'), {
   serializeError: serializeAxiosError,
 });
 
-export const getEnv = createAsyncThunk('administration/fetch_env', async () => axios.get<any>('management/env'), {
+export const getEnv = createAsyncThunk('administration/fetch_env', async () => axios.get<any>('api/management/env'), {
   serializeError: serializeAxiosError,
 });
 <%_ } _%>

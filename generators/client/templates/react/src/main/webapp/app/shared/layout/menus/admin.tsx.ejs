@@ -33,6 +33,9 @@ const adminMenuItems = () => (
 <%_ if (!skipUserManagement) { _%>
     <MenuItem icon="users" to="/admin/user-management"><Translate contentKey="global.menu.admin.userManagement">User management</Translate></MenuItem>
 <%_ } _%>
+<%_ if (withAdminUi) { _%>
+  <MenuItem icon="cogs" to="/admin/configuration"><Translate contentKey="global.menu.admin.configuration">Configuration</Translate></MenuItem>
+<%_ } _%>
     {/* jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here */}
   </>
 );

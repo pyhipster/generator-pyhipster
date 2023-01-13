@@ -70,7 +70,8 @@ def add_api_namespace(api):
     user_list_ns.add_resource(UserResource.UserResource, "/<string:login>")
     user_list_ns.add_resource(UserResource.UserResourceList, "")
     app_management_ns.add_resource(AppManagment.AppManagementInfoResource, "/info")
-    <%_ if (authenticationTypeJwt) { _%>
+    <%_ if (withAdminUi) { _%>
+    app_management_ns.add_resource(AppManagment.AppManagementEnvironmentResource, "/env")
     app_management_ns.add_resource(AppManagment.AppManagementConfigurationResource, "/configprops")
     <%_ } _%>
     # pyhipster-needle-rest-api-list-add-resource

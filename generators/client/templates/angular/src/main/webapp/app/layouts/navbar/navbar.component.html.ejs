@@ -122,6 +122,12 @@
               <span <%= jhiPrefix %>Translate="global.menu.admin.apidocs">API</span>
             </a>
           </li>
+          <li>
+            <a class="dropdown-item" routerLink="admin/configuration" routerLinkActive="active" (click)="collapseNavbar()">
+              <fa-icon icon="cogs" [fixedWidth]="true"></fa-icon>
+              <span>Configuration</span>
+            </a>
+          </li>
 <%_ } _%>
           <!-- jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here -->
 <%_ if (devDatabaseTypeH2Any || devDatabaseTypeCouchbase) { _%>
