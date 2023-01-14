@@ -40,7 +40,12 @@ from CacheConfiguration import cache
 
 app = Flask(__name__, template_folder='../resources/templates/mail')
 bluePrint = Blueprint('api', __name__, url_prefix='/api')
-api = Api(bluePrint, doc='/v2/api-docs', title='<%= mainClass %> Application')
+<%_ if (withAdminUi) { _%>
+api = Api(bluePrint, doc='/v3/api-docs/default', title='<%= mainClass %> Application')
+<%_ } else { _%>
+api = Api(bluePrint, doc=False)
+<%_ } _%>
+
 
 app.register_blueprint(bluePrint)
 app.config.from_object(BaseConfig)

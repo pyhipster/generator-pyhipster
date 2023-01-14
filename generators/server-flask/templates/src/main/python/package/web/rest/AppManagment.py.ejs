@@ -33,7 +33,11 @@ class AppManagementInfoResource(Resource):
     def get(self):
         return {
             "display-ribbon-on-profiles": "dev",
+            <%_ if (withAdminUi) { _%>
+            "activeProfiles": ["dev", "api-docs"],
+            <%_ } else { _%>
             "activeProfiles": ["dev"],
+            <%_ } _%>
         }, 200
 
 <%_ if (withAdminUi) { _%>
@@ -91,7 +95,20 @@ class AppManagementEnvironmentResource(Resource):
             env_property_dict = { "name": str(k), "properties": {str(k): {"value": str(v) }}}
             env_variables.append(env_property_dict)
         return { 
+            <%_ if (withAdminUi) { _%>
+            "activeProfiles": ["dev", "api-docs"],
+            <%_ } else { _%>
             "activeProfiles": ["dev"],
+            <%_ } _%>
             "propertySources": env_variables 
         }, 200
+
+class AppManagementOpenAPIResource(Resource):
+    @has_role(AuthoritiesConstants.ADMIN)
+    def get(self):
+        return [ {
+            "description" : "<%= mainClass %> Application (default)",
+            "group" : "default"
+            }
+        ], 200
 <%_ } _%>

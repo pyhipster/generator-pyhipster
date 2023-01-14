@@ -73,6 +73,7 @@ def add_api_namespace(api):
     <%_ if (withAdminUi) { _%>
     app_management_ns.add_resource(AppManagment.AppManagementEnvironmentResource, "/env")
     app_management_ns.add_resource(AppManagment.AppManagementConfigurationResource, "/configprops")
+    app_management_ns.add_resource(AppManagment.AppManagementOpenAPIResource, "/jhiopenapigroups")
     <%_ } _%>
     # pyhipster-needle-rest-api-list-add-resource
     # pyhipster-needle-rest-api-list-add-resource-list
