@@ -116,12 +116,6 @@
             <span v-text="$t('global.menu.account.password')">Password</span>
           </b-dropdown-item>
 <%_ } _%>
-<%_ if (authenticationTypeSession && !skipUserManagement) { _%>
-          <b-dropdown-item to="/account/sessions" tag="b-dropdown-item" v-if="authenticated" active-class="active">
-            <font-awesome-icon icon="cloud" />
-            <span v-text="$t('global.menu.account.sessions')">Sessions</span>
-          </b-dropdown-item>
-<%_ } _%>
           <b-dropdown-item data-cy="logout" v-if="authenticated"  v-on:click="logout()" id="logout" active-class="active">
             <font-awesome-icon icon="sign-out-alt" />
             <span v-text="$t('global.menu.account.logout')">Sign out</span>

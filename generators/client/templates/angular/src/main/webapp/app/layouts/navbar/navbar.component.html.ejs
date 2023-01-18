@@ -180,14 +180,6 @@
             </a>
           </li>
 <%_ } _%>
-<%_ if (authenticationTypeSession && !skipUserManagement) { _%>
-          <li *ngSwitchCase="true">
-            <a class="dropdown-item" routerLink="account/sessions" routerLinkActive="active" (click)="collapseNavbar()">
-              <fa-icon icon="cloud" [fixedWidth]="true"></fa-icon>
-              <span <%= jhiPrefix %>Translate="global.menu.account.sessions">Sessions</span>
-            </a>
-          </li>
-<%_ } _%>
           <li *ngSwitchCase="true">
             <a class="dropdown-item" (click)="logout()" id="logout" data-cy="logout">
               <fa-icon icon="sign-out-alt" [fixedWidth]="true"></fa-icon>
