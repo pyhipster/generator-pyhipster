@@ -1506,10 +1506,10 @@ const baseServerFiles = {
           file: 'package/web/rest/PublicUserResource.py',
           renameTo: generator => `${generator.javaDir}rest/PublicUserResource.py`,
         },
-    {
-      file: 'package/web/rest/UserRepository.py',
-      renameTo: generator => `${generator.javaDir}rest/UserRepository.py`,
-    },
+    // {
+    //   file: 'package/web/rest/UserRepository.py',
+    //   renameTo: generator => `${generator.javaDir}rest/UserRepository.py`,
+    // },
     //     {
     //       file: 'package/web/rest/vm/ManagedUserVM.java',
     //       renameTo: generator => `${generator.javaDir}web/rest/vm/ManagedUserVM.java`,
