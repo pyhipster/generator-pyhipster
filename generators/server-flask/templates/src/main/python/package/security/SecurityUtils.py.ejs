@@ -35,7 +35,7 @@ def has_role(ROLE):
             if ROLE in claims["auth"]:
                 return fn(*args, **kwargs)
             <%_ } else if (authenticationTypeSession) { _%>
-            current_user_roles = logged_in_user.roles
+            current_user_roles = list(map(lambda n: n.name, logged_in_user.roles))
             if ROLE in current_user_roles:
                 return fn(*args, **kwargs)
             <%_ } _%>
@@ -55,7 +55,7 @@ def has_any_role(*ROLES):
             if any(role in ROLES for role in claims["auth"]):
                 return fn(*args, **kwargs)
             <%_ } else if (authenticationTypeSession) { _%>
-            current_user_roles = logged_in_user.roles
+            current_user_roles = list(map(lambda n: n.name, logged_in_user.roles))
             if any(role in ROLES for role in current_user_roles):
                 return fn(*args, **kwargs)
             <%_ } _%>
