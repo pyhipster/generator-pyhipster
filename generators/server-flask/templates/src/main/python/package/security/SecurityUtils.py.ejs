@@ -40,7 +40,7 @@ def has_role(ROLE):
                 return fn(*args, **kwargs)
             <%_ } _%>
             else:
-                return {"message": "You are not allowed to perform this operation"}, 401
+                return {"message": "You are not allowed to perform this operation"}, 405
         return decorator
     return wrapper
     
@@ -60,7 +60,7 @@ def has_any_role(*ROLES):
                 return fn(*args, **kwargs)
             <%_ } _%>
             else:
-                return {"message": "You are not allowed to perform this operation"}, 401
+                return {"message": "You are not allowed to perform this operation"}, 405
         return decorator
     return 
     
