@@ -24,7 +24,6 @@ from flask_jwt_extended import JWTManager
 <%_ } else if (authenticationTypeSession) { _%>
 from flask import session
 from flask_login import LoginManager
-from flask_session import Session
 from domain.User import User
 <%_ } _%>
 from rest import add_api_namespace
@@ -54,7 +53,6 @@ api = add_api_namespace(api)
 <%_ if (authenticationTypeJwt) { _%>
 jwt = JWTManager(app)
 <%_ } else if (authenticationTypeSession) { _%>
-sess = Session()
 login_manager = LoginManager()
 
 @login_manager.user_loader
@@ -76,7 +74,6 @@ if __name__ == '__main__':
     cache.init_app(app)
     <%_ } _%>
     <%_ if (authenticationTypeSession) { _%>
-    sess.init_app(app)
     login_manager.init_app(app)
     <%_ } _%>
     app.run(debug=True, port=<%= serverPort %>)
