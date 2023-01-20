@@ -1844,7 +1844,7 @@ function writeFiles() {
       this.javaDir = ''; // `${this.packageFolder}/`;
       this.testDir = ''; //`${this.packageFolder}/`;
 
-      this.generateKeyStore();
+      // this.generateKeyStore();
     },
 
     cleanupFiles() {
