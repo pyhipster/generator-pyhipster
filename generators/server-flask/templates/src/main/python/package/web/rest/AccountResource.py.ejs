@@ -1,7 +1,7 @@
 <%#
  Copyright 2022 the original author or authors from the PyHipster project.
 
- This file is part of the PyHipster project, see https://github.com/sudeephazra/generator-pyhipster
+ This file is part of the PyHipster project, see https://github.com/pyhipster/generator-pyhipster
  for more information.
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,7 +28,11 @@ from datetime import datetime, timezone
 import string
 import secrets
 from MailConfiguration import send_activation_mail, send_reset_mail, send_creation_mail
+<%_ if (authenticationTypeJwt) { _%>
 from flask_jwt_extended import jwt_required, get_jwt_identity
+<%_ } else if (authenticationTypeSession) { _%>
+from flask_login import login_required, current_user as logged_in_user
+<%_ } _%>
 from sqlalchemy.exc import SQLAlchemyError
 
 
@@ -109,10 +113,18 @@ admin_user_schema = AdminUserSchema()
 
 
 class AdminAccountDetails(Resource):
+    <%_ if (authenticationTypeJwt) { _%>
     @jwt_required()
+    <%_ } else if (authenticationTypeSession) { _%>
+    @login_required
+    <%_ } _%>
     def post(self):
         logging.info("POST request received on AdminAccountDetails")
+        <%_ if (authenticationTypeJwt) { _%>
         login = get_jwt_identity()
+        <%_ } else if (authenticationTypeSession) { _%>
+        login = logged_in_user.login
+        <%_ } _%>
         user_json = request.get_json()
         if user_json["id"] is None:
             return {"message": "No User found"}, 400
@@ -139,14 +151,25 @@ class AdminAccountDetails(Resource):
             return {"message": str(e.__dict__['orig'])}, 400
         return admin_user_schema.dump(updated_user), 200
 
+    
+    <%_ if (authenticationTypeJwt) { _%>
     @jwt_required(optional=True)
+    <%_ } _%>
     def get(self):
         logging.info("GET request received on AdminAccountDetails")
+        <%_ if (authenticationTypeJwt) { _%>
         login = get_jwt_identity()
+        <%_ } else if (authenticationTypeSession) { _%>
+        login = None
+        if logged_in_user.is_authenticated: 
+            login = logged_in_user.login
+        <%_ } _%>
         if login is None:
             <%_ if (clientFrameworkAngular) { %>
             return {}, 404
             <%_ } else { %>
+            # anon_user = User(login='anonymous', roles=[AuthoritiesConstants.ANONYMOUS]) 
+            # return admin_user_schema.dump(anon_user), 200
             return {}, 200
             <%_ } %>
         current_user = User.get_by_login(login)
@@ -155,17 +178,25 @@ class AdminAccountDetails(Resource):
         return admin_user_schema.dump(current_user), 200
 
 
-account_authenticate_ns = Namespace('account-resource', path="/authenticate")
+account_authenticate_ns = Namespace('account-resource', path="/<%_ if (authenticationTypeJwt) { _%>authenticate<%_ } else if (authenticationTypeSession) { _%>authentication<%_ } _%>")
 
 
 class AccountAuthenticate(Resource):
+    <%_ if (authenticationTypeJwt) { _%>
     @jwt_required()
+    <%_ } else if (authenticationTypeSession) { _%>
+    @login_required
+    <%_ } _%>
     def get(self):
         logging.info("GET request received on AccountAuthenticate")
-        user_login = get_jwt_identity()
-        if user_login is None:
+        <%_ if (authenticationTypeJwt) { _%>
+        login = get_jwt_identity()
+        <%_ } else if (authenticationTypeSession) { _%>
+        login = logged_in_user.login
+        <%_ } _%>
+        if login is None:
             return {"message": "No authenticated User not found"}, 404
-        return user_login, 200
+        return login, 200
 
 
 account_activate_ns = Namespace('account-resource', path="/activate")
@@ -255,11 +286,19 @@ change_passwd_ns = Namespace('account-resource', path="/account/change-password"
 
 
 class AccountChangePassword(Resource):
+    <%_ if (authenticationTypeJwt) { _%>
     @jwt_required()
+    <%_ } else if (authenticationTypeSession) { _%>
+    @login_required
+    <%_ } _%>
     def post(self):
         logging.info("POST request received on AccountChangePassword")
-        current_login = get_jwt_identity()
-        current_user = User.get_by_login(current_login)
+        <%_ if (authenticationTypeJwt) { _%>
+        login = get_jwt_identity()
+        <%_ } else if (authenticationTypeSession) { _%>
+        login = logged_in_user.login
+        <%_ } _%>
+        current_user = User.get_by_login(login)
         if current_user is None:
             return {"message": "Current logged in User not found"}, 404
         password_reset_finish = request.get_json()

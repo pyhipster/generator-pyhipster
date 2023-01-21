@@ -1,7 +1,7 @@
 <%#
  Copyright 2022 the original author or authors from the PyHipster project.
 
- This file is part of the PyHipster project, see https://github.com/sudeephazra/generator-pyhipster
+ This file is part of the PyHipster project, see https://github.com/pyhipster/generator-pyhipster
  for more information.
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,8 +16,11 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
+from flask import current_app
 from flask_restx import Resource, Namespace
-import logging
+from security.SecurityUtils import has_role
+from security.AuthoritiesConstants import AuthoritiesConstants
+import logging, os
 
 
 logging.basicConfig(format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
@@ -30,5 +33,82 @@ class AppManagementInfoResource(Resource):
     def get(self):
         return {
             "display-ribbon-on-profiles": "dev",
+            <%_ if (withAdminUi) { _%>
+            "activeProfiles": ["dev", "api-docs"],
+            <%_ } else { _%>
             "activeProfiles": ["dev"],
+            <%_ } _%>
         }, 200
+
+<%_ if (withAdminUi) { _%>
+class AppManagementConfigurationResource(Resource):
+    @has_role(AuthoritiesConstants.ADMIN)
+    def get(self):
+        flask_config = current_app.config
+        config_vars = (
+            "ENV", 
+            <%_ if (authenticationTypeJwt) { _%>
+            "JWT_ALGORITHM",
+            <%_ } _%>
+            "SQLALCHEMY_DATABASE_URI",
+            "SQLALCHEMY_TRACK_MODIFICATIONS",
+            "PROPAGATE_EXCEPTIONS",
+            "SQLALCHEMY_EXPIRE_ON_COMMIT",
+            "MAIL_SERVER",
+            "MAIL_PORT",
+            "MAIL_USERNAME",
+            "MAIL_USE_TLS",
+            "MAIL_USE_SSL",
+            <%_ if (!cacheProviderNo) { _%>
+            "CACHE_TYPE",
+            "CACHE_DEFAULT_TIMEOUT",
+            "CACHE_IGNORE_ERRORS",
+            <%_ } _%>
+            <%_ if (cacheProviderFileSystem) { _%> 
+            "CACHE_DIR",
+            <%_ } else if (cacheProviderMemcached) { _%>
+            "CACHE_MEMCACHED_SERVERS",
+            <%_ } else if (cacheProviderRedis) { _%>
+            "CACHE_KEY_PREFIX",
+            "CACHE_REDIS_HOST",
+            "CACHE_REDIS_PORT",
+            "CACHE_REDIS_DB",
+            "CACHE_REDIS_URL",
+            <%_ } _%>
+        )
+        flask_config_variables = {}
+        flask_config_variables["contexts"] = {}
+        flask_config_variables["contexts"]["<%= baseName %>"] = {}
+        flask_config_variables["contexts"]["<%= baseName %>"]["beans"] = {}
+        for var in config_vars:
+            config_dict = {"prefix": var, "properties": {var: str(flask_config[var])}}
+            flask_config_variables["contexts"]["<%= baseName %>"]["beans"][var] = config_dict
+        return flask_config_variables, 200
+
+
+class AppManagementEnvironmentResource(Resource):
+    @has_role(AuthoritiesConstants.ADMIN)
+    def get(self):
+        env_variables = []
+        for k, v in os.environ.items():
+            # env_variables[k] = v
+            env_property_dict = { "name": str(k), "properties": {str(k): {"value": str(v) }}}
+            env_variables.append(env_property_dict)
+        return { 
+            <%_ if (withAdminUi) { _%>
+            "activeProfiles": ["dev", "api-docs"],
+            <%_ } else { _%>
+            "activeProfiles": ["dev"],
+            <%_ } _%>
+            "propertySources": env_variables 
+        }, 200
+
+class AppManagementOpenAPIResource(Resource):
+    @has_role(AuthoritiesConstants.ADMIN)
+    def get(self):
+        return [ {
+            "description" : "<%= mainClass %> Application (default)",
+            "group" : "default"
+            }
+        ], 200
+<%_ } _%>

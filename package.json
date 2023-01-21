@@ -1,6 +1,6 @@
 {
   "name": "generator-pyhipster",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Python (Flask) + Angular/React/Vue in one handy generator",
   "keywords": [
     "Python 3",
@@ -15,11 +15,11 @@
     "JDL",
     "yeoman-generator"
   ],
-  "homepage": "https://sudeephazra.github.io/generator-pyhipster/",
-  "bugs": "https://github.com/sudeephazra/generator-pyhipster/issues",
+  "homepage": "https://pyhipster.github.io/generator-pyhipster/",
+  "bugs": "https://github.com/pyhipster/generator-pyhipster/issues",
   "repository": {
     "type": "git",
-    "url": "git://github.com/sudeephazra/generator-pyhipster.git"
+    "url": "git://github.com/pyhipster/generator-pyhipster.git"
   },
   "funding": {
     "type": "buymeacoffee",
@@ -58,6 +58,22 @@
     "jdl",
     "lib",
     "utils",
+    "!generators/aws",
+    "!generators/azure-app-service",
+    "!generators/azure-spring-cloud",
+    "!generators/ci-cd",
+    "!generators/cloudfoundry",
+    "!generators/docker-compose",
+    "!generators/java",
+    "!generators/heroku",
+    "!generators/gradle",
+    "!generators/server",
+    "!generators/spring-boot",
+    "!generators/kubernetes*",
+    "!generators/openshift",
+    "!generators/spring-*",
+    "!generators/server-flask/**/*.java.?(c|m|e)js",
+    "!generators/maven",
     "!**/*.snap",
     "!**/*.spec.?(c|m)js"
   ],
@@ -88,7 +104,7 @@
     "conf": "10.1.2",
     "debug": "4.3.4",
     "didyoumean": "1.2.2",
-    "ejs": "3.1.6",
+    "ejs": "3.1.7",
     "glob": "7.2.0",
     "insight": "0.11.1",
     "js-yaml": "4.1.0",
@@ -108,7 +124,7 @@
     "randexp": "0.5.3",
     "semver": "7.3.5",
     "shelljs": "0.8.5",
-    "simple-git": "3.5.0",
+    "simple-git": "3.15.1",
     "then-request": "6.0.2",
     "uuid": "8.3.2",
     "winston": "3.6.0",
@@ -117,7 +133,7 @@
   },
   "devDependencies": {
     "chai": "4.3.6",
-    "ejs-lint": "1.2.1",
+    "ejs-lint": "1.2.2",
     "eslint": "8.12.0",
     "eslint-config-airbnb-base": "15.0.0",
     "eslint-config-prettier": "8.5.0",

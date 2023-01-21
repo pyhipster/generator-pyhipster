@@ -56,9 +56,11 @@ Please see below for an explanation of each of these questions.
 ```
 *Explanation* - Provide a name for your project
 ```
-? Which *type* of authentication would you like to use? JWT authentication (stateless, with a token)
+? Which *type* of authentication would you like to use? 
+> JWT authentication (stateless, with a token)
+HTTP Session Authentication (stateful)
 ```
-*Explanation* - Currently only JWT is supported. 
+*Explanation* - Select the desired authentication mechanism. 
 ```
 ? Which *type* of database would you like to use? (Use arrow keys)
 > SQL (SQLite, MySQL, PostgreSQL, Oracle, MS SQL Server)

@@ -20,13 +20,13 @@ If you have a question on using PyHipster, or if you need help with your PyHipst
 
 ## <a name="issue"></a> Issues and Bugs
 
-If you find a bug in the source code or a mistake in the documentation, you can help us by [submitting a ticket](https://opensource.guide/how-to-contribute/#opening-an-issue) to our [GitHub issues](https://github.com/sudeephazra/generator-pyhipster/issues). Even better, you can submit a Pull Request to our [PyHipster generator project](https://github.com/sudeephazra/generator-pyhipster/).
+If you find a bug in the source code or a mistake in the documentation, you can help us by [submitting a ticket](https://opensource.guide/how-to-contribute/#opening-an-issue) to our [GitHub issues](https://github.com/pyhipster/generator-pyhipster/issues). Even better, you can submit a Pull Request to our [PyHipster generator project](https://github.com/pyhipster/generator-pyhipster/).
 
 **Please see the Submission Guidelines below**.
 
 ## <a name="feature"></a> Feature Requests
 
-You can request a new feature by submitting a ticket to our [GitHub issues](https://github.com/sudeephazra/generator-pyhipster/issues). If you
+You can request a new feature by submitting a ticket to our [GitHub issues](https://github.com/pyhipster/generator-pyhipster/issues). If you
 would like to implement a new feature then consider what kind of change it is:
 
 - **Major Changes** that you wish to contribute to the project should be discussed first. Please open a ticket which clearly states that it is a feature request in the title and explain clearly what you want to achieve in the description, and the JHipster team will discuss with you what should be done in that ticket. You can then start working on a Pull Request. In order to communicate major changes proposals and receive reviews from the core team, you can also submit an RFC.
@@ -56,7 +56,7 @@ Note: The PyHipster RFC process is inspired by JHipster, whose RFC process is in
 
 ### [Submitting an Issue](https://opensource.guide/how-to-contribute/#opening-an-issue)
 
-Before you submit your issue search the [archive](https://github.com/sudeephazra/generator-pyhipster/issues), maybe your question was already answered.
+Before you submit your issue search the [archive](https://github.com/pyhipster/generator-pyhipster/issues), maybe your question was already answered.
 
 If your issue appears to be a bug, and has not been reported, open a new issue.
 Help us to maximize the effort we can spend fixing issues and adding new

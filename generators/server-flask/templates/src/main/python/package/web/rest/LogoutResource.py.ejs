@@ -1,7 +1,7 @@
 <%#
  Copyright 2022 the original author or authors from the PyHipster project.
 
- This file is part of the PyHipster project, see https://github.com/sudeephazra/generator-pyhipster
+ This file is part of the PyHipster project, see https://github.com/pyhipster/generator-pyhipster
  for more information.
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,20 +16,38 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
-from flask import request, session
+from flask import request, make_response
 from flask_restx import Resource, Namespace
 import logging
+<%_ if (authenticationTypeJwt) { _%>
 from flask_jwt_extended import jwt_required
-
+<%_ } else if (authenticationTypeSession) { _%>
+from flask_login import login_required, logout_user
+<%_ } _%>
 
 logging.basicConfig(format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
 
-
+<%_ if (authenticationTypeJwt) { _%>
 logout_ns = Namespace('user-jwt-controller', path="/logout")
-
+<%_ } else if (authenticationTypeSession) { _%>
+logout_ns = Namespace('user-session-controller', path="/logout")
+<%_ } _%>
 
 class LogoutResource(Resource):
+     <%_ if (authenticationTypeJwt) { _%>
      @jwt_required()
+     <%_ } else if (authenticationTypeSession) { _%>
+     # @login_required
+     <%_ } _%>
      def post(self):
           logging.info("POST request received on LogoutResource")
+          <%_ if (authenticationTypeSession) { _%>
+          logout_user()
+          # session.clear()
+          response = make_response()
+          response.delete_cookie('X-XSRF-TOKEN')
+          response.delete_cookie('JSESSIONID')
+          return response
+          <%_ } else if (authenticationTypeJwt) { _%>
           session.clear()
+          <%_ } _%>

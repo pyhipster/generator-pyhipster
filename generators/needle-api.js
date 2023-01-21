@@ -23,11 +23,11 @@ const ClientReact = require('./client/needle-api/needle-client-react');
 const ClientVue = require('./client/needle-api/needle-client-vue');
 const ClientWebpack = require('./client/needle-api/needle-client-webpack');
 const ClientI18n = require('./client/needle-api/needle-client-i18n');
-const ServerMaven = require('./server/needle-api/needle-server-maven');
-const ServerGradle = require('./server/needle-api/needle-server-gradle');
-const ServerCache = require('./server/needle-api/needle-server-cache');
-const ServerLiquibase = require('./server/needle-api/needle-server-liquibase');
-const ServerLog = require('./server/needle-api/needle-server-logback-spring');
+const ServerMaven = require('./server-flask/needle-api/needle-server-maven');
+const ServerGradle = require('./server-flask/needle-api/needle-server-gradle');
+const ServerCache = require('./server-flask/needle-api/needle-server-cache');
+const ServerLiquibase = require('./server-flask/needle-api/needle-server-liquibase');
+const ServerLog = require('./server-flask/needle-api/needle-server-logback-spring');
 const ServerEntities = require('./entity-server/needle-api/needle-server-entities');
 
 module.exports = class NeedleApi {

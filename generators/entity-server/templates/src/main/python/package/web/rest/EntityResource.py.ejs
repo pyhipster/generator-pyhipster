@@ -1,7 +1,7 @@
 <%#
  Copyright 2022 the original author or authors from the PyHipster project.
 
- This file is part of the PyHipster project, see https://github.com/sudeephazra/generator-pyhipster
+ This file is part of the PyHipster project, see https://github.com/pyhipster/generator-pyhipster
  for more information.
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,7 +29,11 @@ const entityMethod = _.replace(entityApiUrl, new RegExp("-","g"), '_');
 _%>
 from domain.<%= entityClass %> import <%= entityClass %>
 from schema.<%= entityClass %>Schema import <%= entityClass %>Schema
+<%_ if (authenticationTypeJwt) { _%>
 from flask_jwt_extended import jwt_required
+<%_ } else if (authenticationTypeSession) { _%>
+from flask_login import login_required
+<%_ } _%>
 from security.SecurityUtils import has_role
 from security.AuthoritiesConstants import AuthoritiesConstants
 from sqlalchemy.exc import SQLAlchemyError
@@ -46,7 +50,11 @@ logging.basicConfig(format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:
 
 
 class <%= entityClass %>Resource(Resource):
+    <%_ if (authenticationTypeJwt) { _%>
     @jwt_required()
+    <%_ } else if (authenticationTypeSession) { _%>
+    @login_required
+    <%_ } _%>
     def get(self, <%= primaryKey.name %>):
         logging.info("GET request received on <%= entityClass %>Resource")
         <%= entityMethod %> = <%= entityClass %>.find_by_<%= primaryKey.name %>(<%= primaryKey.name %>)
@@ -54,7 +62,11 @@ class <%= entityClass %>Resource(Resource):
             return <%= entityMethod %>_schema.dump(<%= entityMethod %>), 200
         return {"message": "<%= entityClass %> not found"}, 404
 
+    <%_ if (authenticationTypeJwt) { _%>
     @jwt_required()
+    <%_ } else if (authenticationTypeSession) { _%>
+    @login_required
+    <%_ } _%>
     def put(self, <%= primaryKey.name %>):
         logging.info("PUT request received on <%= entityClass %>Resource")
         <%= entityMethod %>_json = request.get_json()
@@ -78,7 +90,11 @@ class <%= entityClass %>Resource(Resource):
         <%_ } _%>
         return <%= entityMethod %>_schema.dump(updated_<%= entityMethod %>), 200
     
+    <%_ if (authenticationTypeJwt) { _%>
     @jwt_required()
+    <%_ } else if (authenticationTypeSession) { _%>
+    @login_required
+    <%_ } _%>
     def patch(self, <%= primaryKey.name %>):
         logging.info("PATCH request received on <%= entityClass %>Resource")
         <%= entityMethod %>_json = request.get_json()
@@ -102,7 +118,11 @@ class <%= entityClass %>Resource(Resource):
         <%_ } _%>
         return <%= entityMethod %>_schema.dump(updated_<%= entityMethod %>), 200
 
+    <%_ if (authenticationTypeJwt) { _%>
     @jwt_required()
+    <%_ } else if (authenticationTypeSession) { _%>
+    @login_required
+    <%_ } _%>
     @has_role(AuthoritiesConstants.ADMIN)
     def delete(self, <%= primaryKey.name %>):
         logging.info("DELETE request received on <%= entityClass %>Resource")
@@ -120,7 +140,11 @@ class <%= entityClass %>Resource(Resource):
 
 
 class <%= entityClass %>ResourceList(Resource):
+    <%_ if (authenticationTypeJwt) { _%>
     @jwt_required()
+    <%_ } else if (authenticationTypeSession) { _%>
+    @login_required
+    <%_ } _%>
     def get(self):
         logging.info("GET request received on <%= entityClass %>ResourceList")
         page = request.args.get('page', default=1, type=int)
@@ -137,7 +161,11 @@ class <%= entityClass %>ResourceList(Resource):
             return <%= entityMethod %>_list_schema.dump(<%= entityMethod %>), 200
         return {"message": "<%= entityClass %> not found"}, 404
 
+    <%_ if (authenticationTypeJwt) { _%>
     @jwt_required()
+    <%_ } else if (authenticationTypeSession) { _%>
+    @login_required
+    <%_ } _%>
     def post(self):
         logging.info("POST request received on <%= entityClass %>ResourceList")
         <%= entityMethod %>_json = request.get_json()
@@ -156,7 +184,11 @@ class <%= entityClass %>ResourceList(Resource):
 
 
 class <%= entityClass %>ResourceListCount(Resource):
+    <%_ if (authenticationTypeJwt) { _%>
     @jwt_required()
+    <%_ } else if (authenticationTypeSession) { _%>
+    @login_required
+    <%_ } _%>
     def get(self):
         logging.info("GET request received on <%= entityClass %>ResourceListCount")
         <%= entityMethod %>_count = <%= entityClass %>.find_all_count()

@@ -19,18 +19,13 @@
 import './footer.<%= styleSheetExt %>';
 
 import React from 'react';
-import { Translate } from 'react-jhipster';
-import { Col, Row } from 'reactstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Footer = () => (
-  <div className="footer page-content">
-    <Row>
-      <Col md="12">
-        <p>
-          <Translate contentKey="footer">Your footer</Translate>
-        </p>
-      </Col>
-    </Row>
+  <div className="footer">
+    <div className='d-flex justify-content-center'>
+      <p>Made with <FontAwesomeIcon icon="heart" style={{color: "#D8165A"}}/> using PyHipster</p>
+    </div>
   </div>
 );
 

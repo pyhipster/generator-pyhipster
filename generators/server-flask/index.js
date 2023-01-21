@@ -704,13 +704,17 @@ module.exports = class JHipsterServerGenerator extends BaseBlueprintGenerator {
       config.authenticationType = JWT;
     }
 
+    if (config.authenticationType === SESSION  || config.authenticationType === JWT || config.authenticationType === OAUTH2) {
+      config.flaskSecret = getRandomHex();
+    }
+
     // Generate JWT secret key if key does not already exist in config
     if (
       (config.authenticationType === JWT || config.applicationType === MICROSERVICE || config.applicationType === GATEWAY) &&
       config.jwtSecretKey === undefined
     ) {
       config.jwtSecretKey = getBase64Secret.call(this, null, 64);
-      config.flaskSecret = getRandomHex();
+      // config.flaskSecret = getRandomHex();
     }
     // Generate remember me key if key does not already exist in config
     if (config.authenticationType === SESSION && !config.rememberMeKey) {

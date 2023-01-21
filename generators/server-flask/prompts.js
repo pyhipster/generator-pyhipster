@@ -132,12 +132,12 @@ function askForServerSideOpts() {
         //   value: OAUTH2,
         //   name: 'OAuth 2.0 / OIDC Authentication (stateful, works with Keycloak and Okta)',
         // });
-        // if (applicationType === MONOLITH && answers.serviceDiscoveryType !== EUREKA) {
-        //   opts.push({
-        //     value: SESSION,
-        //     name: 'HTTP Session Authentication (stateful, default Spring Security mechanism)',
-        //   });
-        // }
+        if (applicationType === MONOLITH && answers.serviceDiscoveryType !== EUREKA) {
+          opts.push({
+            value: SESSION,
+            name: 'HTTP Session Authentication (stateful)',
+          });
+        }
         return opts;
       },
       default: serverDefaultConfig.authenticationType,

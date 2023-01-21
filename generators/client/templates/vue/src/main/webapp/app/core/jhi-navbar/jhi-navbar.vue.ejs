@@ -69,6 +69,10 @@
             <font-awesome-icon icon="book" />
             <span v-text="$t('global.menu.admin.apidocs')">API</span>
           </b-dropdown-item>
+          <b-dropdown-item  to="/admin/configuration" active-class="active">
+            <font-awesome-icon icon="cogs" />
+            <span v-text="$t('global.menu.admin.configuration')">Configuration</span>
+          </b-dropdown-item>
 <%_ if (devDatabaseTypeH2Any || devDatabaseTypeCouchbase) { _%>
           <b-dropdown-item v-if="!inProduction"  href='<% if (devDatabaseTypeCouchbase) { %>http://localhost:8092/<% } else if (reactive) { %>http://localhost:8092/<% } else { %>./h2-console/<% } %>' target="_tab">
             <font-awesome-icon icon="database" />
@@ -110,12 +114,6 @@
           <b-dropdown-item data-cy="passwordItem" to="/account/password" tag="b-dropdown-item" v-if="authenticated" active-class="active">
             <font-awesome-icon icon="lock" />
             <span v-text="$t('global.menu.account.password')">Password</span>
-          </b-dropdown-item>
-<%_ } _%>
-<%_ if (authenticationTypeSession && !skipUserManagement) { _%>
-          <b-dropdown-item to="/account/sessions" tag="b-dropdown-item" v-if="authenticated" active-class="active">
-            <font-awesome-icon icon="cloud" />
-            <span v-text="$t('global.menu.account.sessions')">Sessions</span>
           </b-dropdown-item>
 <%_ } _%>
           <b-dropdown-item data-cy="logout" v-if="authenticated"  v-on:click="logout()" id="logout" active-class="active">

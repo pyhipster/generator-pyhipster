@@ -1,7 +1,7 @@
 <%#
  Copyright 2022 the original author or authors from the PyHipster project.
 
- This file is part of the PyHipster project, see https://github.com/sudeephazra/generator-pyhipster
+ This file is part of the PyHipster project, see https://github.com/pyhipster/generator-pyhipster
  for more information.
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,10 +27,17 @@ BASE_DIR = os.path.dirname(os.path.realpath(__file__))
 
 class BaseConfig:
     # Flask 
+    ENV = 'development'
     FLASK_ENV = 'development'
     SECRET_KEY = '<%= flaskSecret %>'
+    <%_ if (authenticationTypeJwt) { _%>
     JWT_SECRET_KEY = '<%= jwtSecretKey %>'
     JWT_ALGORITHM = 'HS512'
+    <%_ } else if (authenticationTypeSession) { _%>
+    SESSION_KEY_PREFIX = 'pyhipster:'
+    SESSION_TYPE = 'filesystem'
+    SESSION_USE_SIGNER = True
+    <%_ } _%>
 
     # Database
     <%_ if (devDatabaseTypeSQLiteAny) { _%>
@@ -91,6 +98,15 @@ class BaseConfig:
     <%_ } _%>
     
 class ProdConfig:
+    # Flask 
+    ENV = 'production'
+    FLASK_ENV = 'production'
+    SECRET_KEY = '<%= flaskSecret %>'
+    <%_ if (authenticationTypeJwt) { _%>
+    JWT_SECRET_KEY = '<%= jwtSecretKey %>'
+    JWT_ALGORITHM = 'HS512'
+    <%_ } _%>
+
     # Database
     <%_ if (prodDatabaseTypeMariadb) { _%>
     # SQLALCHEMY_DATABASE_URI = 'mariadb+mariadbconnector://<user>:<password>@<host>[:<port>]/<dbname>'
@@ -107,3 +123,42 @@ class ProdConfig:
     <%_ } _%>
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     PROPAGATE_EXCEPTIONS = False
+    SQLALCHEMY_EXPIRE_ON_COMMIT = False
+
+    # Mail Configurations
+    MAIL_SERVER = 'smtp.gmail.com'
+    MAIL_PORT = 587
+    MAIL_USE_TLS = True
+    MAIL_USE_SSL = False
+    MAIL_USERNAME = 'my-email-id@gmail.com'
+    MAIL_PASSWORD = 'my-email-password'
+
+    # Cache Configurations
+    <%_ if (cacheProviderSimple) { _%>
+    CACHE_TYPE = "SimpleCache"
+    CACHE_DEFAULT_TIMEOUT = 60
+    CACHE_IGNORE_ERRORS = True
+    # CACHE_THRESHOLD  
+    <%_ } else if (cacheProviderFileSystem) { _%> 
+    CACHE_TYPE = 'FileSystemCache' 
+    CACHE_DEFAULT_TIMEOUT = 60
+    CACHE_IGNORE_ERRORS = True
+    CACHE_DIR = tempfile.gettempdir()
+    # CACHE_THRESHOLD
+    # CACHE_OPTIONS
+    <%_ } else if (cacheProviderMemcached) { _%>
+    CACHE_TYPE = 'MemcachedCache'
+    CACHE_DEFAULT_TIMEOUT = 60
+    # CACHE_KEY_PREFIX = ''
+    CACHE_MEMCACHED_SERVERS = ''
+    <%_ } else if (cacheProviderRedis) { _%>
+    CACHE_TYPE = 'RedisCache'
+    CACHE_DEFAULT_TIMEOUT = 60
+    CACHE_KEY_PREFIX = ''
+    # CACHE_OPTIONS
+    CACHE_REDIS_HOST = ''
+    CACHE_REDIS_PORT = 6379
+    CACHE_REDIS_PASSWORD = ''
+    CACHE_REDIS_DB = ''
+    CACHE_REDIS_URL = ''
+    <%_ } _%>
