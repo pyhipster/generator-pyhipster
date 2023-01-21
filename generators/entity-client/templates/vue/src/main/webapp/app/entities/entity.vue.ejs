@@ -43,7 +43,7 @@
             <span v-text="$t('<%= i18nKeyPrefix %>.home.notFound')">No <%=entityInstancePlural %> found</span>
         </div>
         <div class="table-responsive" v-if="<%= entityInstancePlural %> && <%= entityInstancePlural %>.length > 0">
-            <table class="table table-striped" aria-describedby="<%= entityInstancePlural %>">
+            <table class="table table-striped table-hover" aria-describedby="<%= entityInstancePlural %>">
                 <thead>
                 <tr>
                     <th scope="row"<% if (!paginationNo) { %> v-on:click="changeOrder('id')"<% } %>><span v-text="$t('global.field.id')">ID</span><% if (!paginationNo) { %> <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'id'"></jhi-sort-indicator><% } %></th>

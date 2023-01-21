@@ -18,26 +18,26 @@
 -%>
 from flask_restx import Namespace, Resource
 import logging
-from flask import request, session
-from flask_jwt_extended import create_access_token
+from flask import request, session, make_response
 from domain.User import User
 import bcrypt
-from datetime import timedelta
+from datetime import timedelta, datetime
 from sqlalchemy.exc import SQLAlchemyError
+from flask_login import login_user, current_user
 
 
 logging.basicConfig(format='%(asctime)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
 
 
-jwt_authentication_ns = Namespace('user-jwt-controller', path="/authenticate")
+session_authentication_ns = Namespace('user-session-controller', path="/<%_ if (authenticationTypeJwt) { _%>authenticate<%_ } else if (authenticationTypeSession) { _%>authentication<%_ } _%>")
 
 
-class UserJWTResource(Resource):
+class UserSessionResource(Resource):
     def post(self):
-        logging.info("GET request received on UserJWTResource")
-        username = request.json.get("username", None)
-        password = request.json.get("password", None)
-        remember_me = request.json.get("rememberMe", False)
+        logging.info("GET request received on UserSessionResource")
+        username = request.form.get("username", None)
+        password = request.form.get("password", None)
+        remember_me = request.form.get("rememberMe", False)
         # Check if any of the inputs is empty
         if username is None or password is None:
             return {"message": "Username and/or password cannot be empty"}, 400
@@ -55,17 +55,23 @@ class UserJWTResource(Resource):
         token_expiry = timedelta(hours=3)
         if remember_me:
             token_expiry = timedelta(hours=24)
+        login_user(user, remember=remember_me, duration=token_expiry)
         # Get the role from the DB
         user_roles = []
         for role in user.roles:
             user_roles.append(role.name)
         auth = ",".join(user_roles)
-        authorizations = {"auth": auth}
-        # Generate the JWT based on the above parameters
-        <%_ if (clientFrameworkAngular) { %>
-        access_token = create_access_token(identity=username, expires_delta=token_expiry, additional_claims=authorizations)
-        <%_ } else { %>
-        access_token = 'Bearer ' + create_access_token(identity=username, expires_delta=token_expiry, additional_claims=authorizations)
-        <%_ } %>
-        return {"id_token": access_token}, 200, {'Authorization': access_token}
+        session_details = {"username": username, "roles": auth}
+        # Generate the session based on the above parameters
+        csrf = request.cookies.get('XSRF-TOKEN')
+        if csrf is None:
+            csrf = session['_id']
+        response = make_response()
+        if remember_me:
+            response.set_cookie('X-XSRF-TOKEN', bytes(csrf, 'utf-8'), expires=(datetime.now() + timedelta(hours=24)))
+            response.set_cookie('JSESSIONID', bytes(csrf, 'utf-8'), expires=(datetime.now() + timedelta(hours=24)))
+        else:
+            response.set_cookie('X-XSRF-TOKEN', bytes(csrf, 'utf-8'), expires=(datetime.now() + timedelta(hours=3)))
+            response.set_cookie('JSESSIONID', bytes(csrf, 'utf-8'), expires=(datetime.now() + timedelta(hours=3)))
+        return response
 

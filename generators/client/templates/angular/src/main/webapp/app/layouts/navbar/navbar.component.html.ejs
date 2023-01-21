@@ -122,6 +122,12 @@
               <span <%= jhiPrefix %>Translate="global.menu.admin.apidocs">API</span>
             </a>
           </li>
+          <li>
+            <a class="dropdown-item" routerLink="admin/configuration" routerLinkActive="active" (click)="collapseNavbar()">
+              <fa-icon icon="cogs" [fixedWidth]="true"></fa-icon>
+              <span>Configuration</span>
+            </a>
+          </li>
 <%_ } _%>
           <!-- jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here -->
 <%_ if (devDatabaseTypeH2Any || devDatabaseTypeCouchbase) { _%>
@@ -171,14 +177,6 @@
             <a class="dropdown-item" routerLink="account/password" routerLinkActive="active" (click)="collapseNavbar()" data-cy="passwordItem">
               <fa-icon icon="lock" [fixedWidth]="true"></fa-icon>
               <span <%= jhiPrefix %>Translate="global.menu.account.password">Password</span>
-            </a>
-          </li>
-<%_ } _%>
-<%_ if (authenticationTypeSession && !skipUserManagement) { _%>
-          <li *ngSwitchCase="true">
-            <a class="dropdown-item" routerLink="account/sessions" routerLinkActive="active" (click)="collapseNavbar()">
-              <fa-icon icon="cloud" [fixedWidth]="true"></fa-icon>
-              <span <%= jhiPrefix %>Translate="global.menu.account.sessions">Sessions</span>
             </a>
           </li>
 <%_ } _%>

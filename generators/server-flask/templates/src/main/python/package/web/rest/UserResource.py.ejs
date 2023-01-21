@@ -1,7 +1,7 @@
 <%#
  Copyright 2022 the original author or authors from the PyHipster project.
 
- This file is part of the PyHipster project, see https://github.com/sudeephazra/generator-pyhipster
+ This file is part of the PyHipster project, see https://github.com/pyhipster/generator-pyhipster
  for more information.
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +21,11 @@ from domain.User import User
 from schema.UserSchema import AdminUserSchema
 import logging
 from flask import request, session
+<%_ if (authenticationTypeJwt) { _%>
 from flask_jwt_extended import jwt_required, get_jwt_identity
+<%_ } else if (authenticationTypeSession) { _%>
+from flask_login import login_required, current_user as logged_in_user
+<%_ } _%>
 from datetime import datetime, timezone
 from sqlalchemy.exc import SQLAlchemyError
 from marshmallow.exceptions import ValidationError
@@ -51,7 +55,11 @@ user_list_schema = AdminUserSchema(many=True)
 
 
 class UserResource(Resource):
+    <%_ if (authenticationTypeJwt) { _%>
     @jwt_required()
+    <%_ } else if (authenticationTypeSession) { _%>
+    @login_required
+    <%_ } _%>
     def get(self, login):
         logging.info("GET request received on UserResource")
         users = User.get_by_login(login)
@@ -59,7 +67,12 @@ class UserResource(Resource):
             return {"message": "User not found"}, 404
         return user_schema.dump(users), 200
 
+        
+    <%_ if (authenticationTypeJwt) { _%>
     @jwt_required()
+    <%_ } else if (authenticationTypeSession) { _%>
+    @login_required
+    <%_ } _%>
     def delete(self, login):
         logging.info("DELETE request received on UserResource")
         users = User.get_by_login(login)
@@ -76,7 +89,11 @@ class UserResource(Resource):
 
 
 class UserResourceList(Resource):
+    <%_ if (authenticationTypeJwt) { _%>
     @jwt_required()
+    <%_ } else if (authenticationTypeSession) { _%>
+    @login_required
+    <%_ } _%>
     def get(self):
         logging.info("GET request received on UserResourceList")
         <%_ if (!cacheProviderNo) { _%>
@@ -89,16 +106,28 @@ class UserResourceList(Resource):
         <%_ } _%>
         return user_list_schema.dump(users), 200
 
+    <%_ if (authenticationTypeJwt) { _%>
     @jwt_required()
+    <%_ } else if (authenticationTypeSession) { _%>
+    @login_required
+    <%_ } _%>
     def post(self):
         logging.info("POST request received on UserResourceList")
         user_json = request.get_json()
         if 'id' in user_json:
             del user_json['id']
         user_json['langKey'] = '<%= nativeLanguage %>'
+        <%_ if (authenticationTypeJwt) { _%>
         user_json['createdBy'] = get_jwt_identity()
+        <%_ } else if (authenticationTypeSession) { _%> 
+        user_json['createdBy'] = logged_in_user.login
+        <%_ } _%>
         user_json['createdDate'] = str(datetime.now(timezone.utc))
+        <%_ if (authenticationTypeJwt) { _%>
         user_json['lastModifiedBy'] = get_jwt_identity()
+        <%_ } else if (authenticationTypeSession) { _%>
+        user_json['lastModifiedBy'] = logged_in_user.login
+        <%_ } _%>
         user_json['lastModifiedDate'] = str(datetime.now(timezone.utc))
         if not user_json['authorities']:
             user_json['authorities'] = [AuthoritiesConstants.USER]
@@ -124,10 +153,18 @@ class UserResourceList(Resource):
             return {"message": "User is created but unable to send mail"}, 400
         return user_schema.dump(user_data), 201
 
+    <%_ if (authenticationTypeJwt) { _%>
     @jwt_required()
+    <%_ } else if (authenticationTypeSession) { _%>
+    @login_required
+    <%_ } _%>
     def put(self):
         logging.info("PUT request received on UserResourceList")
-        current_login = get_jwt_identity()
+        <%_ if (authenticationTypeJwt) { _%>
+        login = get_jwt_identity()
+        <%_ } else if (authenticationTypeSession) { _%>
+        login = logged_in_user.login
+        <%_ } _%>
         user_json = request.get_json()
         if user_json["login"] is None:
             return {"message": "Invalid User"}, 400
@@ -138,7 +175,7 @@ class UserResourceList(Resource):
             updated_user = user_schema.load(user_json, instance=users)
         except ValidationError as err:
             return {"message": json.dumps(err.messages)}, 400
-        updated_user.set_last_modified_by(current_login)
+        updated_user.set_last_modified_by(login)
         updated_user.set_last_modified_date(datetime.now(timezone.utc))
         try:
             updated_user.save_to_db()

@@ -1,7 +1,7 @@
 <%#
  Copyright 2022 the original author or authors from the PyHipster project.
 
- This file is part of the PyHipster project, see https://github.com/sudeephazra/generator-pyhipster
+ This file is part of the PyHipster project, see https://github.com/pyhipster/generator-pyhipster
  for more information.
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,10 +33,10 @@ from DatabaseConfig import db
         "LocalDate": "Date",
         "Duration": "Interval",
         "Double": "Float",
-        "Blob": "LargeBinary",
-        "byte[]": "LargeBinary",
-        "AnyBlob": "LargeBinary",
-        "ImageBlob": "LargeBinary",
+        "Blob": "String",
+        "byte[]": "String",
+        "AnyBlob": "String",
+        "ImageBlob": "String",
         "TextBlob": "UnicodeText"
     }
 %> 
@@ -96,7 +96,7 @@ class <%= persistClass %>(db.Model):
 
     @classmethod
     def find_all(cls, page, per_page) -> List["<%= persistClass %>"]:
-        paginate = cls.query.paginate(page=page, per_page=per_page)
+        paginate = cls.query.order_by(cls.<%= primaryKey.name %>).paginate(page=page, per_page=per_page)
         return paginate.items
 
     @classmethod
