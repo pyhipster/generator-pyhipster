@@ -13,13 +13,14 @@ The current version of the tool is available as an alpha release and not suitabl
 ## Features
 - Python 3 Flask backend
 - Angular/React/Vue frontend
-- JWT Support
-- SQL Databse Support
-- User defined data model
+- JWT, HTTP Session Support
+- SQL Database Support (MySQL, MariaDB, PostgreSQL, SQL Server, Oracle, CockroachDB, SQLite)
+- CRUD operations for user defined data model
 - Caching
-- Multilingual
+- Multilingual *(in progress)*   
 - Email integration
 - User Management
+- Swagger Documentation
 
 ## Technology Stack
 ### Frontend
@@ -28,7 +29,7 @@ Single Web page application:
 - Responsive Web Design with Twitter Bootstrap  
 - HTML5 Boilerplate  
 - Compatible with modern browsers (Chrome, FireFox, Microsoft Edge)    
-- Full internationalization support  
+- Full internationalization support *(in progress)*   
 - Optional Sass support for CSS design  
 
 With the great development workflow:
@@ -37,11 +38,11 @@ With the great development workflow:
 
 ### Backend
 - Micro web-development framework [Flask 2.2](https://flask.palletsprojects.com/en/2.2.x/)   
-- REST API support using [flask-restx](https://flask-restx.readthedocs.io/en/latest/)
+- REST API support using [flask-restx](https://flask-restx.readthedocs.io/en/latest/) with Swagger Documentation
 - Database integration using [Flask-SQLAlchemy 3](https://flask-sqlalchemy.palletsprojects.com/en/3.0.x/)    
 - Server side caching using [Flask-Caching](https://flask-caching.readthedocs.io/en/latest/)
 - (De-)Serialization support through [Marshmallow](https://marshmallow.readthedocs.io/en/stable/index.html), [Flask-Marshmallow](https://flask-marshmallow.readthedocs.io/en/latest/), and  [marshmallow-sqlalchemy](https://marshmallow-sqlalchemy.readthedocs.io/en/latest/index.html)    
-- JWT token access [Flask-JWT-Extended](https://flask-jwt-extended.readthedocs.io/en/stable/)    
+- JWT authentication [Flask-JWT-Extended](https://flask-jwt-extended.readthedocs.io/en/stable/), HTTP Session Authentication [Flask-Login](https://flask-login.readthedocs.io/en/latest/)    
 - Email support using [Flask-Mail](https://pythonhosted.org/Flask-Mail/) 
 
 ## Limitations
