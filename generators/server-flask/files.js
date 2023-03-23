@@ -1520,10 +1520,10 @@ const baseServerFiles = {
       condition: generator => generator.skipUserManagement && [MONOLITH, GATEWAY].includes(generator.applicationType),
       path: SERVER_MAIN_SRC_DIR,
       templates: [
-        {
-          file: 'package/web/rest/AccountResource.java',
-          renameTo: generator => `${generator.javaDir}rest/AccountResource.java`,
-        },
+        // {
+        //   file: 'package/web/rest/AccountResource.java',
+        //   renameTo: generator => `${generator.javaDir}rest/AccountResource.java`,
+        // },
         {
           file: 'package/web/rest/AccountResource.py',
           renameTo: generator => `${generator.javaDir}rest/AccountResource.py`,
@@ -1567,28 +1567,28 @@ const baseServerFiles = {
     //     },
     //   ],
     // },
-    {
-      condition: generator =>
-        generator.skipUserManagement && generator.authenticationType !== OAUTH2 && [MONOLITH, GATEWAY].includes(generator.applicationType),
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/web/rest/AccountResourceIT_skipUserManagement.java',
-          renameTo: generator => `${generator.testDir}rest/AccountResourceIT.java`,
-        },
-      ],
-    },
-    {
-      condition: generator =>
-        generator.skipUserManagement && generator.authenticationType === OAUTH2 && [MONOLITH, GATEWAY].includes(generator.applicationType),
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        {
-          file: 'package/web/rest/AccountResourceIT_oauth2.java',
-          renameTo: generator => `${generator.testDir}rest/AccountResourceIT.java`,
-        },
-      ],
-    },
+    // {
+    //   condition: generator =>
+    //     generator.skipUserManagement && generator.authenticationType !== OAUTH2 && [MONOLITH, GATEWAY].includes(generator.applicationType),
+    //   path: SERVER_TEST_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/web/rest/AccountResourceIT_skipUserManagement.java',
+    //       renameTo: generator => `${generator.testDir}rest/AccountResourceIT.java`,
+    //     },
+    //   ],
+    // },
+    // {
+    //   condition: generator =>
+    //     generator.skipUserManagement && generator.authenticationType === OAUTH2 && [MONOLITH, GATEWAY].includes(generator.applicationType),
+    //   path: SERVER_TEST_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/web/rest/AccountResourceIT_oauth2.java',
+    //       renameTo: generator => `${generator.testDir}rest/AccountResourceIT.java`,
+    //     },
+    //   ],
+    // },
     // {
     //   condition: generator => generator.authenticationType === OAUTH2 && generator.searchEngine === ELASTICSEARCH,
     //   path: SERVER_MAIN_SRC_DIR,

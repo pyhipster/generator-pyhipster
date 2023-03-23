@@ -848,7 +848,7 @@ module.exports = class JHipsterBasePrivateGenerator extends Generator {
       if (err) {
         this.warning('Python is not found on your computer.');
       } else {
-        const pythonVersion = stdout.match(/(?:Python) (\d.\d)/)[1];
+        const pythonVersion = stdout.match(/(?:Python) (\d.\d.*)/)[1];
         if (!pythonVersion.match(new RegExp(`(${PYTHON_COMPATIBLE_VERSIONS.map(ver => `^${ver}`).join('|')})`))) {
           const [latest, ...others] = PYTHON_COMPATIBLE_VERSIONS.concat().reverse();
           this.warning(
