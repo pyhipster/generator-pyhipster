@@ -41,7 +41,7 @@ class BaseConfig:
 
     # Database
     <%_ if (devDatabaseTypeSQLiteAny) { _%>
-    SQLALCHEMY_DATABASE_URI = 'sqlite://<%_ if (devDatabaseTypeSQLiteDisk) { _%>/../../../pyhipster.db3<%_ } _%><%_ if (devDatabaseTypeSQLiteMemory) { _%>:memory:<%_ } _%>'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///<%_ if (devDatabaseTypeSQLiteDisk) { _%>../../../pyhipster.db3<%_ } _%><%_ if (devDatabaseTypeSQLiteMemory) { _%>:memory:<%_ } _%>'
     <%_ } else if (devDatabaseTypeMariadb) { _%>
     SQLALCHEMY_DATABASE_URI = 'mariadb+mariadbconnector://<user>:<password>@<host>[:<port>]/<dbname>'
     <%_ } else if (devDatabaseTypeMysql) { _%>
