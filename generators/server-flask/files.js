@@ -129,12 +129,12 @@ const mongoDbFiles = {
 };
 
 const neo4jFiles = {
-  // docker: [
-  //   {
-  //     path: DOCKER_DIR,
-  //     templates: ['neo4j.yml'],
-  //   },
-  // ],
+  docker: [
+    {
+      path: DOCKER_DIR,
+      templates: ['neo4j.yml'],
+    },
+  ],
   serverResource: [
     {
       condition: generator => !generator.skipUserManagement || generator.authenticationType === OAUTH2,
@@ -166,22 +166,22 @@ const neo4jFiles = {
 };
 
 const cassandraFiles = {
-  // docker: [
-  //   {
-  //     path: DOCKER_DIR,
-  //     templates: [
-  //       // docker-compose files
-  //       'cassandra.yml',
-  //       'cassandra-cluster.yml',
-  //       'cassandra-migration.yml',
-  //       // dockerfiles
-  //       'cassandra/Cassandra-Migration.Dockerfile',
-  //       // scripts
-  //       'cassandra/scripts/autoMigrate.sh',
-  //       'cassandra/scripts/execute-cql.sh',
-  //     ],
-  //   },
-  // ],
+  docker: [
+    {
+      path: DOCKER_DIR,
+      templates: [
+        // docker-compose files
+        'cassandra.yml',
+        'cassandra-cluster.yml',
+        'cassandra-migration.yml',
+        // dockerfiles
+        'cassandra/Cassandra-Migration.Dockerfile',
+        // scripts
+        'cassandra/scripts/autoMigrate.sh',
+        'cassandra/scripts/execute-cql.sh',
+      ],
+    },
+  ],
   serverResource: [
     {
       path: SERVER_MAIN_RES_DIR,
@@ -258,107 +258,102 @@ const baseServerFiles = {
       templates: ['package.json'],
     },
   ],
-  // docker: [
-  //   {
-  //     path: DOCKER_DIR,
-  //     templates: [
-  //       'app.yml',
-  //       'jhipster-control-center.yml',
-  //       'sonar.yml',
-  //       'monitoring.yml',
-  //       'prometheus/prometheus.yml',
-  //       'grafana/provisioning/dashboards/dashboard.yml',
-  //       'grafana/provisioning/dashboards/JVM.json',
-  //       'grafana/provisioning/datasources/datasource.yml',
-  //     ],
-  //   },
-  //   {
-  //     condition: generator => generator.databaseTypeSql && !generator.prodDatabaseTypeOracle,
-  //     path: DOCKER_DIR,
-  //     templates: [{ file: generator => `${generator.prodDatabaseType}.yml` }],
-  //   },
-  //   {
-  //     condition: generator => generator.cacheProvider === HAZELCAST,
-  //     path: DOCKER_DIR,
-  //     templates: ['hazelcast-management-center.yml'],
-  //   },
-  //   {
-  //     condition: generator => generator.cacheProvider === MEMCACHED,
-  //     path: DOCKER_DIR,
-  //     templates: ['memcached.yml'],
-  //   },
-  //   {
-  //     condition: generator => generator.cacheProvider === REDIS,
-  //     path: DOCKER_DIR,
-  //     templates: ['redis.yml', 'redis-cluster.yml', 'redis/Redis-Cluster.Dockerfile', 'redis/connectRedisCluster.sh'],
-  //   },
-  //   {
-  //     condition: generator => generator.searchEngine === ELASTICSEARCH,
-  //     path: DOCKER_DIR,
-  //     templates: ['elasticsearch.yml'],
-  //   },
-  //   {
-  //     condition: generator => generator.messageBroker === KAFKA,
-  //     path: DOCKER_DIR,
-  //     templates: ['kafka.yml'],
-  //   },
-  //   {
-  //     condition: generator => !!generator.serviceDiscoveryType,
-  //     path: DOCKER_DIR,
-  //     templates: [{ file: 'config/README.md', renameTo: () => 'central-server-config/README.md' }],
-  //   },
-  //   {
-  //     condition: generator => generator.serviceDiscoveryType && generator.serviceDiscoveryType === CONSUL,
-  //     path: DOCKER_DIR,
-  //     templates: [
-  //       'consul.yml',
-  //       { file: 'config/git2consul.json', method: 'copy' },
-  //       { file: 'config/consul-config/application.yml', renameTo: () => 'central-server-config/application.yml' },
-  //     ],
-  //   },
-  //   {
-  //     condition: generator => generator.serviceDiscoveryType && generator.serviceDiscoveryType === EUREKA,
-  //     path: DOCKER_DIR,
-  //     templates: [
-  //       'jhipster-registry.yml',
-  //       {
-  //         file: 'config/docker-config/application.yml',
-  //         renameTo: () => 'central-server-config/docker-config/application.yml',
-  //       },
-  //       {
-  //         file: 'config/localhost-config/application.yml',
-  //         renameTo: () => 'central-server-config/localhost-config/application.yml',
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     condition: generator => !!generator.enableSwaggerCodegen,
-  //     path: DOCKER_DIR,
-  //     templates: ['swagger-editor.yml'],
-  //   },
-  //   {
-  //     condition: generator => generator.authenticationType === OAUTH2 && generator.applicationType !== MICROSERVICE,
-  //     path: DOCKER_DIR,
-  //     templates: [
-  //       'keycloak.yml',
-  //       { file: 'config/realm-config/jhipster-realm.json', renameTo: () => 'realm-config/jhipster-realm.json' },
-  //       { file: 'config/realm-config/jhipster-users-0.json', method: 'copy', renameTo: () => 'realm-config/jhipster-users-0.json' },
-  //     ],
-  //   },
-  //   {
-  //     condition: generator => generator.serviceDiscoveryType || generator.applicationTypeGateway || generator.applicationTypeMicroservice,
-  //     path: DOCKER_DIR,
-  //     templates: ['zipkin.yml'],
-  //   },
-  // ],
+  docker: [
+    {
+      path: DOCKER_DIR,
+      templates: [
+        'app.yml',
+        'jhipster-control-center.yml',
+        'sonar.yml',
+        'monitoring.yml',
+        'prometheus/prometheus.yml',
+        'grafana/provisioning/dashboards/dashboard.yml',
+        'grafana/provisioning/dashboards/JVM.json',
+        'grafana/provisioning/datasources/datasource.yml',
+      ],
+    },
+    {
+      condition: generator => generator.databaseTypeSql && !generator.prodDatabaseTypeOracle,
+      path: DOCKER_DIR,
+      templates: [{ file: generator => `${generator.prodDatabaseType}.yml` }],
+    },
+    {
+      condition: generator => generator.cacheProvider === MEMCACHED,
+      path: DOCKER_DIR,
+      templates: ['memcached.yml'],
+    },
+    {
+      condition: generator => generator.cacheProvider === REDIS,
+      path: DOCKER_DIR,
+      templates: ['redis.yml', 'redis-cluster.yml', 'redis/Redis-Cluster.Dockerfile', 'redis/connectRedisCluster.sh'],
+    },
+    {
+      condition: generator => generator.searchEngine === ELASTICSEARCH,
+      path: DOCKER_DIR,
+      templates: ['elasticsearch.yml'],
+    },
+    {
+      condition: generator => generator.messageBroker === KAFKA,
+      path: DOCKER_DIR,
+      templates: ['kafka.yml'],
+    },
+    {
+      condition: generator => !!generator.serviceDiscoveryType,
+      path: DOCKER_DIR,
+      templates: [{ file: 'config/README.md', renameTo: () => 'central-server-config/README.md' }],
+    },
+    {
+      condition: generator => generator.serviceDiscoveryType && generator.serviceDiscoveryType === CONSUL,
+      path: DOCKER_DIR,
+      templates: [
+        'consul.yml',
+        { file: 'config/git2consul.json', method: 'copy' },
+        { file: 'config/consul-config/application.yml', renameTo: () => 'central-server-config/application.yml' },
+      ],
+    },
+    {
+      condition: generator => generator.serviceDiscoveryType && generator.serviceDiscoveryType === EUREKA,
+      path: DOCKER_DIR,
+      templates: [
+        'jhipster-registry.yml',
+        {
+          file: 'config/docker-config/application.yml',
+          renameTo: () => 'central-server-config/docker-config/application.yml',
+        },
+        {
+          file: 'config/localhost-config/application.yml',
+          renameTo: () => 'central-server-config/localhost-config/application.yml',
+        },
+      ],
+    },
+    {
+      condition: generator => !!generator.enableSwaggerCodegen,
+      path: DOCKER_DIR,
+      templates: ['swagger-editor.yml'],
+    },
+    {
+      condition: generator => generator.authenticationType === OAUTH2 && generator.applicationType !== MICROSERVICE,
+      path: DOCKER_DIR,
+      templates: [
+        'keycloak.yml',
+        { file: 'config/realm-config/jhipster-realm.json', renameTo: () => 'realm-config/jhipster-realm.json' },
+        { file: 'config/realm-config/jhipster-users-0.json', method: 'copy', renameTo: () => 'realm-config/jhipster-users-0.json' },
+      ],
+    },
+    {
+      condition: generator => generator.serviceDiscoveryType || generator.applicationTypeGateway || generator.applicationTypeMicroservice,
+      path: DOCKER_DIR,
+      templates: ['zipkin.yml'],
+    },
+  ],
   serverBuild: [
     {
       templates: [
         // { file: 'checkstyle.xml', options: { interpolate: INTERPOLATE_REGEX } },
-        // { file: 'devcontainer/devcontainer.json', renameTo: () => '.devcontainer/devcontainer.json' },
-        // { file: 'devcontainer/Dockerfile', renameTo: () => '.devcontainer/Dockerfile' },
-        { 
-          file: 'requirements.txt', 
+        { file: 'devcontainer/devcontainer.json', renameTo: () => '.devcontainer/devcontainer.json' },
+        { file: 'devcontainer/Dockerfile', renameTo: () => '.devcontainer/Dockerfile' },
+        {
+          file: 'requirements.txt',
           renameTo: () => 'requirements.txt'
         },
       ],
@@ -379,12 +374,12 @@ const baseServerFiles = {
     {
       condition: generator => !generator.skipServer,
       templates: [
-        { 
-          file: 'pvnw', 
+        {
+          file: 'pvnw',
           renameTo: () => 'pvnw'
         },
-        { 
-          file: 'pvnw.cmd', 
+        {
+          file: 'pvnw.cmd',
           renameTo: () => 'pvnw.cmd'
         },
       ],
