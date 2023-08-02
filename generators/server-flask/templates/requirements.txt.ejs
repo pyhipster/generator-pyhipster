@@ -53,9 +53,10 @@ mysql-connector-python
 <%_ } else if (databaseTypeMssql) { _%>
 pyodbc
 <%_ } else if (databaseTypeOracle) { _%>
-oracledb 
+oracledb
 <%_ } else if (databaseTypePostgres || databaseTypeCockroach) { _%>
 psycopg2
 <%_ } else if (databaseTypeCockroach) { _%>
 sqlalchemy-cockroachdb
 <%_ } _%>
+ruff
