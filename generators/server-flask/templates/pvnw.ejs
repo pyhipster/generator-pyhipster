@@ -2,22 +2,27 @@
 
 basedir=`dirname "$0"`
 
+#!/bin/sh
+
+basedir=`dirname "$0"`
+
 echo "Configuring project"
 echo "******************************"
 
-if [ -d "$basedir/.venv" ]; then
-echo "Virtual environment already exists"
+if [ ! -d "$basedir/.venv" ]; then
+  echo "Creating a new virtual environment..."
+  python3 -m venv .venv
 else
-echo "Creating a new virtual environment..."
-python3 -m venv .venv
+  echo "Virtual environment already exists"
 fi
 echo "******************************"
 
-if ["$VIRTUAL_ENV" = "$basedir/.venv"]; then
-echo "Virtual environment has been activated"
+# Check if the venv is activated.
+if [ -z "$VIRTUAL_ENV" ]; then
+  echo "Activating the virtual environment"
+  source ".venv/bin/activate"
 else
-echo "Activating the virtual environment"
-source ".venv/bin/activate"
+  echo "Virtual environment has been activated"
 fi
 echo "******************************"
 
