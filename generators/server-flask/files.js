@@ -352,6 +352,7 @@ const baseServerFiles = {
         // { file: 'checkstyle.xml', options: { interpolate: INTERPOLATE_REGEX } },
         { file: 'devcontainer/devcontainer.json', renameTo: () => '.devcontainer/devcontainer.json' },
         { file: 'devcontainer/Dockerfile', renameTo: () => '.devcontainer/Dockerfile' },
+        { file: 'version.py', renameTo: () => 'version.py' },
         {
           file: 'requirements.txt',
           renameTo: () => 'requirements.txt'
