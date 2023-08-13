@@ -155,16 +155,14 @@ Once the application is generated, the tool will automatically install all the n
 
 > ``New in version 0.0.9`` PyHipster takes care of running the backend and frontend code by itself, and you have to execute only one command.
 
-On the terminal, execute the following command to trigger a concurrent execution of the Flask and NodeJS code parallelly using the ``concurrent`` library.
+On the terminal, execute the following command to trigger an execution of the Flask and NodeJS code parallelly using the ``concurrent`` library.
 
 ```bash
+$> chmod 755 pvnw  # (additional step required for Docker/Linux/MacOS only)
 $> npm run pyhipster
 ```
 
-Once the application is running, we will see the following messages on the terminal   
-
-![Flask Server Started](images/flask-server-started.png)
-
+Once the application is running
 - On a local install, PyHipster will automatically open your default web browser and point to http://locahost:9000
 - For a Docker install, you will have to open your browser and point it to http://locahost:9000.
 
