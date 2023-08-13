@@ -2,29 +2,44 @@
 
 basedir=`dirname "$0"`
 
+#!/bin/sh
+
+basedir=`dirname "$0"`
+
 echo "Configuring project"
 echo "******************************"
 
-if [ -d "$basedir/.venv" ]; then
-echo "Virtual environment already exists"
+if [ ! -d "$basedir/.venv" ]; then
+  echo "Creating a new virtual environment..."
+  python -m venv .venv
 else
-echo "Creating a new virtual environment..."
-python3 -m venv .venv
+  echo "Virtual environment already exists"
 fi
 echo "******************************"
 
-if ["$VIRTUAL_ENV" = "$basedir/.venv"]; then
-echo "Virtual environment has been activated"
+# Check if the venv is activated.
+if [ -z "$VIRTUAL_ENV" ]; then
+  echo "Activating the virtual environment"
+  if . .venv/bin/activate; then
+    echo "Virtual environment has been activated"
+  else
+    echo "Unable to activate virtual environment. Exiting..."
+    exit 1
+  fi
 else
-echo "Activating the virtual environment"
-source ".venv/bin/activate"
+  echo "Virtual environment checked and activated"
 fi
 echo "******************************"
+echo "VIRTUAL_ENV: $VIRTUAL_ENV"
 
 echo "Installing required modules"
-pip3 install -r requirements.txt
+pip install -r requirements.txt
 echo "******************************"
+
+echo "Running Ruff code analysis"
+echo "******************************"
+ruff --select=ALL src/main/python
 
 echo "Starting the application"
 echo "******************************"
-python3 src/main/python/<%= capitalizedBaseName %>App.py
+python src/main/python/<%= capitalizedBaseName %>App.py

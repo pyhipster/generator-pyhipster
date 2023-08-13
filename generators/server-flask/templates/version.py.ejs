@@ -1,0 +1,12 @@
+import json
+import os
+
+def get_version():
+    package_json_path = 'package.json'
+    with open(package_json_path) as f:
+        data = json.load(f)
+        return data.get('version', '0.0.1-SNAPSHOT')  # Default version if 'version' is not present
+
+if __name__ == '__main__':
+    version = get_version()
+    print(version)
