@@ -601,6 +601,8 @@ module.exports = class JHipsterServerGenerator extends BaseBlueprintGenerator {
             'backend:doc:test': './mvnw -ntp javadoc:javadoc --batch-mode',
             'backend:nohttp:test': './mvnw -ntp checkstyle:check --batch-mode',
             'backend:start': `./mvnw${excludeWebapp}`,
+            'pyhipster:backend:start': "./pvnw",
+            'pyhipster': "concurrently 'npm run start' npm:pyhipster:backend:start",
             'java:jar': './mvnw -ntp verify -DskipTests --batch-mode',
             'java:war': './mvnw -ntp verify -DskipTests --batch-mode -Pwar',
             'java:docker': './mvnw -ntp verify -DskipTests -Pprod jib:dockerBuild',
