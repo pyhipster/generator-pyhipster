@@ -1,5 +1,5 @@
 ## Requirements
-The minimum requirements that need to be installed before we get started are 
+The minimum requirements that need to be installed before we get started are
 
  - Python 3.7.9  
  - Java 11.0.12  
@@ -7,7 +7,7 @@ The minimum requirements that need to be installed before we get started are
  - NPM 8.11.0  
  - Git 2.33  
 
-After this installation, you will need to add the programs to your PATH. Please refer to the guide for 
+After this installation, you will need to add the programs to your PATH. Please refer to the guide for
 [Linux](https://linuxize.com/post/how-to-add-directory-to-path-in-linux/) or [Windows](https://www.computerhope.com/issues/ch000549.htm)
 ### Validating the install
 Open your terminal (Linux) or Command Prompt (Windows) and run the following commands to validate your installation.
@@ -26,19 +26,54 @@ Open your terminal (Linux) or Command Prompt (Windows) and run the following com
 ``$> java --version``   
 ``$> npm --version``   
 
-## Installing PyHipster
+## Installing PyHipster (Locally)
 To install the generator run the following command
 
-``npm install -g generator-pyhipster``
+```bash
+$> npm install -g generator-pyhipster
+```
 
-## Creating Your First PyHipster Full-Stack Application
+## Installing PyHipster (Docker)
+You can use the following command to download the PyHipster Docker image and use that for all development
 
+```bash
+$> docker pull pyhipster/pyhipster
+```
+
+Then run the following command to deploy the image
+
+```bash
+$> docker run -d --name pyhipster-demo -p 8080:8080 -p 9000:9000 -p 3001:3001 -v <local_folder>:/home/pyhipster/app pyhipster/pyhipster
+```
+
+All generated files will be persisted in the <local_folder> of your development machine.
+
+## Development Setup
+
+### Local Installation
 Go to any folder and create the project folder
 
-``$> cd my-dir``   
-``$> mkdir my-project``   
-``$> cd my-project``   
-``$> pyhipster``   
+```bash
+$> mkdir my-project
+$> cd my-project   
+```   
+
+### Docker
+For setting up your environment on Docker, run the following command
+
+```bash
+$> docker run exec -it pyhipster-demo /bin/bash
+```
+You will be logged into the container at the location `/home/pyhipster/app`. This is the default location where you will be creating the application.
+
+## Creating Your First PyHipster Full-Stack Application
+The following steps are the same for both cases of local and Docker setup.
+
+On your terminal, run the `PyHipster` generator
+
+```bash
+$> pyhipster
+```
 
 This will start the generator and will ask you a couple of questions to generate the application
 
@@ -56,17 +91,17 @@ Please see below for an explanation of each of these questions.
 ```
 *Explanation* - Provide a name for your project
 ```
-? Which *type* of authentication would you like to use? 
+? Which *type* of authentication would you like to use?
 > JWT authentication (stateless, with a token)
 HTTP Session Authentication (stateful)
 ```
-*Explanation* - Select the desired authentication mechanism. 
+*Explanation* - Select the desired authentication mechanism.
 ```
 ? Which *type* of database would you like to use? (Use arrow keys)
 > SQL (SQLite, MySQL, PostgreSQL, Oracle, MS SQL Server)
   No database
 ```
-*Explanation* - Select any database type you want 
+*Explanation* - Select any database type you want
 ```
 ? Which *production* database would you like to use? (Use arrow keys)
 > PostgreSQL
@@ -92,7 +127,7 @@ HTTP Session Authentication (stateful)
   Memcached
   Redis
 ```
-*Explanation* - 
+*Explanation* -
 ```
 ? Which *Framework* would you like to use for the client? (Use arrow keys)
 > Angular
@@ -114,32 +149,28 @@ HTTP Session Authentication (stateful)
 
 After selecting the options, PyHipster will work to generate the Python and UI code based on your selections.
 
-Once the application is generated, the tool will automatically install all the necessary Node modules. 
+Once the application is generated, the tool will automatically install all the necessary Node modules.
 
 ![Installing Node Modules](images/node-modules-installed.png)
 
-We will need 2 terminal/command prompts for running the frontend and backend components simultaneously.
+> ``New in version 0.0.9`` PyHipster takes care of running the backend and frontend code by itself, and you have to execute only one command.
 
-#### Terminal 1 (Backend)
-``$> pvnw `` (Windows)   
-``$> ./pvnw`` (Linux/Mac)
+On the terminal, execute the following command to trigger a concurrent execution of the Flask and NodeJS code parallelly using the ``concurrent`` library.
+
+```bash
+$> npm run pyhipster
+```
 
 Once the application is running, we will see the following messages on the terminal   
 
 ![Flask Server Started](images/flask-server-started.png)
 
-#### Terminal 2 (Frontend)
-``$> npm start ``   
-
-Once the application is running, you will see the following messages.
-
-![Flask Server Started](images/node-server-started.png)
-
-PyHipster will open your default web browser and point to http://locahost:9000
+- On a local install, PyHipster will automatically open your default web browser and point to http://locahost:9000
+- For a Docker install, you will have to open your browser and point it to http://locahost:9000.
 
 ![Frontend Running](images/running-application-ui.png)
 
-Follow the onscreen instructions and login as "admin" or "user" and explore around. 
+Follow the onscreen instructions and login as "admin" or "user" and explore around.
 
 ## Data Model Definition
 
@@ -186,20 +217,21 @@ CACHE_REDIS_DB = ''
 CACHE_REDIS_URL = ''
 ```
 
-
-
-
 ## Errors
 ### OSError while using FileSystem cache
 ![FS Cache Error](images/cache_error.png)
 #### Cause: This is caused by the filesystem not being accessible for writing to the caching library
-#### Resolution: 
-- Go to ``src/main/python/config/BaseConfig.py`` 
+#### Resolution:
+- Go to ``src/main/python/config/BaseConfig.py``
 - Change the following line to any folder that the current user has write access
 ```python   
 CACHE_DIR = tempfile.gettempdir()  
 ```
  For example, ``/tmp`` (Linux) or ``C:\temp`` (Windows)
+
+### Docker: Execution fails with port error
+#### Cause: This is caused by the ports being in use on your local machine. Lot of security clients use port 9000.
+#### Resolution: Use a different local port to bind with the required ports 8080, 9000, and 3001 in the docker run command.
 
 ## Tools
 - [JHipster Studio](https://www.jhipster.tech/jdl-studio/) for writing JDL files
