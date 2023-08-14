@@ -12,7 +12,7 @@ echo ******************************
 :virtualEnvExists
 IF "%VIRTUAL_ENV%" == "%WDIR%\.venv" goto virtualEnvironmentActive
 echo Activating the virtual environment
-call .venv\Scripts\activate
+call .venv\Scripts\activate.bat
 echo ******************************
 
 :virtualEnvironmentActive
