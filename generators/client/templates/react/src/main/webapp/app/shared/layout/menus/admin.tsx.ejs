@@ -63,7 +63,7 @@ export const AdminMenu = ({ showOpenAPI <% if (devDatabaseTypeH2Any) { %>, showD
   <NavDropdown icon="users-cog" name={translate('global.menu.admin.main')} id="admin-menu" data-cy="adminMenu">
       {adminMenuItems()}
       {showOpenAPI && openAPIItem()}
-<% if (devDatabaseTypeH2Any) { %>
+<% if (devDatabaseTypeH2Any || devDatabaseTypeSQLiteAny) { %>
       {showDatabase && databaseItem()}
 <%_ } _%>
   </NavDropdown>
