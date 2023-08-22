@@ -357,6 +357,8 @@ const baseServerFiles = {
           file: 'requirements.txt',
           renameTo: () => 'requirements.txt'
         },
+        { file: 'pyproject.toml', renameTo: () => 'pyproject.toml' },
+        { file: 'poetry.toml', renameTo: () => 'poetry.toml' },
       ],
     },
     {
