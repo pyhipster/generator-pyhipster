@@ -40,6 +40,8 @@ const {
   SQL,
   MONGODB,
   NEO4J,
+  SQLITE_DISK,
+  SQLITE_MEMORY
 } = require('../../jdl/jhipster/database-types');
 const { CAFFEINE, EHCACHE, HAZELCAST, INFINISPAN, MEMCACHED, REDIS } = require('../../jdl/jhipster/cache-types');
 const { GRADLE, MAVEN } = require('../../jdl/jhipster/build-tool-types');
@@ -595,23 +597,39 @@ module.exports = class JHipsterServerGenerator extends BaseBlueprintGenerator {
         let e2ePackage = 'target/e2e';
         if (buildTool === MAVEN) {
           const excludeWebapp = this.jhipsterConfig.skipClient ? '' : ' -Dskip.installnodenpm -Dskip.npm';
-          scriptsStorage.set({
-            'app:start': './mvnw',
-            'backend:info': './mvnw -ntp enforcer:display-info --batch-mode',
-            'backend:doc:test': './mvnw -ntp javadoc:javadoc --batch-mode',
-            'backend:nohttp:test': './mvnw -ntp checkstyle:check --batch-mode',
-            'backend:start': `./mvnw${excludeWebapp}`,
-            'pyhipster': 'concurrently "npm:start" npm:pyhipster:backend:start',
-            'pyhipster:backend:start': 'poetry run task run_app',
-            'pyhipster:build': 'poetry build',
-            'java:jar': './mvnw -ntp verify -DskipTests --batch-mode',
-            'java:war': './mvnw -ntp verify -DskipTests --batch-mode -Pwar',
-            'java:docker': './mvnw -ntp verify -DskipTests -Pprod jib:dockerBuild',
-            'java:docker:arm64': 'npm run java:docker -- -Djib-maven-plugin.architecture=arm64',
-            'backend:unit:test': `./mvnw -ntp${excludeWebapp} verify --batch-mode ${javaCommonLog} ${javaTestLog}`,
-            'backend:build-cache': './mvnw dependency:go-offline',
-            'backend:debug': './mvnw -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000"',
-          });
+          const devDatabaseType = this.jhipsterConfig.devDatabaseType;
+          if (devDatabaseType === SQLITE_DISK) {
+            scriptsStorage.set({
+              'pyhipster': 'concurrently "npm:start" "npm:pyhipster:sqlite:start" npm:pyhipster:backend:start',
+              'pyhipster:backend:start': 'poetry run task run_app',
+              'pyhipster:sqlite:start': 'poetry run sqlite_web --port 8092 --url-prefix "/sqlite-console" --no-browser pyhipster.db3',
+              'pyhipster:build': 'poetry build',
+            });
+          } else {
+            scriptsStorage.set({
+              'pyhipster': 'concurrently "npm:start" npm:pyhipster:backend:start',
+              'pyhipster:backend:start': 'poetry run task run_app',
+              'pyhipster:build': 'poetry build',
+            });
+          }
+          // scriptsStorage.set({
+          //   'app:start': './mvnw',
+          //   'backend:info': './mvnw -ntp enforcer:display-info --batch-mode',
+          //   'backend:doc:test': './mvnw -ntp javadoc:javadoc --batch-mode',
+          //   'backend:nohttp:test': './mvnw -ntp checkstyle:check --batch-mode',
+          //   'backend:start': `./mvnw${excludeWebapp}`,
+          //   'pyhipster': 'concurrently "npm:start" "npm:pyhipster:sqlite:start" npm:pyhipster:backend:start',
+          //   'pyhipster:backend:start': 'poetry run task run_app',
+          //   'pyhipster:sqlite:start': 'poetry run sqlite_web --port 8092 --url-prefix "/sqlite-console" --no-browser pyhipster.db3',
+          //   'pyhipster:build': 'poetry build',
+          //   'java:jar': './mvnw -ntp verify -DskipTests --batch-mode',
+          //   'java:war': './mvnw -ntp verify -DskipTests --batch-mode -Pwar',
+          //   'java:docker': './mvnw -ntp verify -DskipTests -Pprod jib:dockerBuild',
+          //   'java:docker:arm64': 'npm run java:docker -- -Djib-maven-plugin.architecture=arm64',
+          //   'backend:unit:test': `./mvnw -ntp${excludeWebapp} verify --batch-mode ${javaCommonLog} ${javaTestLog}`,
+          //   'backend:build-cache': './mvnw dependency:go-offline',
+          //   'backend:debug': './mvnw -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000"',
+          // });
         } else if (buildTool === GRADLE) {
           const excludeWebapp = this.jhipsterConfig.skipClient ? '' : '-x webapp -x webapp_test';
           e2ePackage = 'e2e';
