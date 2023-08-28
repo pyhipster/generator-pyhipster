@@ -425,6 +425,11 @@ module.exports = class JHipsterBasePrivateGenerator extends Generator {
     return true;
   }
 
+  poetryInstall() {
+    this.info('Installing Python modules')
+    return !shelljs.exec(`poetry install`).code;
+  }
+
   /**
    * @returns default app name
    */
