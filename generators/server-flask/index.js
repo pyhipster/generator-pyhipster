@@ -703,12 +703,12 @@ module.exports = class JHipsterServerGenerator extends BaseBlueprintGenerator {
         // if (this.buildTool === GRADLE) {
         //   executable = 'gradlew';
         // }
-        let executable = 'pvnw';
-        let logMsgComment = '';
-        if (os.platform() === 'win32') {
-          logMsgComment = ` (${chalk.yellow.bold(executable)} if using Windows Command Prompt)`;
-        }
-        this.log(chalk.green(`Run your Python Flask application:\n${chalk.yellow.bold(`./${executable}`)}${logMsgComment}`));
+        // let executable = 'pvnw';
+        // let logMsgComment = '';
+        // if (os.platform() === 'win32') {
+        //   logMsgComment = ` (${chalk.yellow.bold(executable)} if using Windows Command Prompt)`;
+        // }
+        // this.log(chalk.green(`Run your Python Flask application:\n${chalk.yellow.bold(`./${executable}`)}${logMsgComment}`));
       },
     };
   }
