@@ -8,8 +8,12 @@ license = "UNLICENSED"
 homepage = ""
 repository = ""
 documentation = ""
+homepage = "https://pyhipster.github.io/generator-pyhipster/"
+repository = "https://github.com/pyhipster/generator-pyhipster/"
+documentation = "https://pyhipster.github.io/generator-pyhipster/"
 readme = "README.md"
 keywords = ["pyhipster", ""]
+keywords = ["pyhipster", "flask", "python3"]
 packages = [{include = "src/main/python"}]
 
 [tool.poetry.dependencies]
@@ -51,6 +55,7 @@ ruff = "^0.0.284"
 sqlite-web = "^0.5.2"
 <%_ } _%>
 bandit = "^1.7.5"
+black = "^23.7.0"
 [tool.bandit]
 targets = ["src/main/python"]
 
@@ -58,6 +63,7 @@ targets = ["src/main/python"]
 run_app = { cmd = "python src/main/python/<%= capitalizedBaseName _%>App.py", help = "Runs the main application" }
 code_quality_scan = { cmd = "ruff --select=ALL src/main/python", help = "Runs the Ruff code quality scan" }
 security_scan = { cmd = "bandit -c pyproject.toml -r .", help = "Runs the Bandit security scan" }
+code_formatting = { cmd = "black src/main/python", help = "Runs the Black code formatter"}
 
 [build-system]
 requires = ["poetry-core"]
