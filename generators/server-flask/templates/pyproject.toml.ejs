@@ -50,10 +50,14 @@ ruff = "^0.0.284"
 <%_ if (devDatabaseTypeSQLiteAny) { _%>
 sqlite-web = "^0.5.2"
 <%_ } _%>
+bandit = "^1.7.5"
+[tool.bandit]
+targets = ["src/main/python"]
 
 [tool.taskipy.tasks]
 run_app = { cmd = "python src/main/python/<%= capitalizedBaseName _%>App.py", help = "Runs the main application" }
 code_quality_scan = { cmd = "ruff --select=ALL src/main/python", help = "Runs the Ruff code quality scan" }
+security_scan = { cmd = "bandit -c pyproject.toml -r .", help = "Runs the Bandit security scan" }
 
 [build-system]
 requires = ["poetry-core"]
