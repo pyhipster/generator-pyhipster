@@ -603,11 +603,6 @@ module.exports = class JHipsterServerGenerator extends BaseBlueprintGenerator {
               'pyhipster': 'concurrently "npm:start" "npm:pyhipster:sqlite:start" npm:pyhipster:backend:start',
               'pyhipster:sqlite:start': 'poetry run sqlite_web --port 8092 --url-prefix "/sqlite-console" --no-browser pyhipster.db3',
             });
-          } else if (devDatabaseType === SQLITE_MEMORY) {
-            scriptsStorage.set({
-              'pyhipster': 'concurrently "npm:start" "npm:pyhipster:sqlite:start" npm:pyhipster:backend:start',
-              'pyhipster:sqlite:start': 'poetry run sqlite_web --port 8092 --url-prefix "/sqlite-console" --no-browser sqlite:///',
-            });
           } else {
             scriptsStorage.set({
               'pyhipster': 'concurrently "npm:start" npm:pyhipster:backend:start',

@@ -138,7 +138,7 @@
             </a>
           </li>
 <%_ } _%>
-<%_ if (devDatabaseTypeSQLiteAny) { _%>
+<%_ if (devDatabaseTypeSQLiteDisk) { _%>
           <li *ngIf="!inProduction">
             <a class="dropdown-item" href="/sqlite-console" target="_tab" (click)="collapseNavbar()">
               <fa-icon icon="database" [fixedWidth]="true"></fa-icon>
