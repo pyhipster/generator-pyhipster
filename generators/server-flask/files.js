@@ -734,6 +734,16 @@ const baseServerFiles = {
   ],
   serverPythonUserManagement: [
     {
+      condition: generator => !generator.skipServer,
+      path: SERVER_TEST_SRC_DIR,
+      templates: [
+        {
+          file: 'package/conftest.py',
+          renameTo: generator => `${generator.testDir}conftest.py`
+        },
+      ],
+    },
+    {
       condition: generator => generator.isUsingBuiltInUser(),
       path: SERVER_MAIN_SRC_DIR,
       templates: [
@@ -769,12 +779,12 @@ const baseServerFiles = {
       templates: [
         {
           file: 'package/unit_tests/Test_Authority.py',
-          renameTo: generator => `${generator.testDir}unit_tests/Test_${generator.asEntity('User')}.py`,
+          renameTo: generator => `${generator.testDir}unit_tests/Test_Authority.py`,
         },
       ],
     },
     {
-      condition: generator => authenticationType === JWT,
+      condition: generator => generator.authenticationType === JWT,
       path: SERVER_TEST_SRC_DIR,
       templates: [
         {
@@ -797,7 +807,7 @@ const baseServerFiles = {
       condition: generator => !generator.skipUserManagement,
       path: SERVER_MAIN_SRC_DIR,
       templates: [
-          {
+        {
           file: 'package/web/rest/AccountResource.py',
           renameTo: generator => `${generator.javaDir}rest/AccountResource.py`,
         },
@@ -805,6 +815,10 @@ const baseServerFiles = {
         {
           file: 'package/web/rest/PublicUserResource.py',
           renameTo: generator => `${generator.javaDir}rest/PublicUserResource.py`,
+        },
+        {
+          file: 'package/web/rest/LogoutResource.py',
+          renameTo: generator => `${generator.javaDir}rest/LogoutResource.py`,
         },
       ],
     },
@@ -893,26 +907,26 @@ const baseServerFiles = {
         //   file: 'package/config/NoOpMailConfiguration.java',
         //   renameTo: generator => `${generator.testDir}config/NoOpMailConfiguration.java`,
         // },
-        // {
-        //   file: 'package/web/rest/PublicUserResourceIT.java',
-        //   renameTo: generator => `${generator.testDir}web/rest/PublicUserResourceIT.java`,
-        // },
-        // {
-        //   file: 'package/web/rest/UserResourceIT.java',
-        //   renameTo: generator => `${generator.testDir}web/rest/UserResourceIT.java`,
-        // },
+        {
+          file: 'package/functional_tests/Test_PublicUserResource.py',
+          renameTo: generator => `${generator.testDir}functional_tests/Test_PublicUserResource.py`,
+        },
+        {
+          file: 'package/functional_tests/Test_UserResource.py',
+          renameTo: generator => `${generator.testDir}functional_tests/Test_UserResource.py`,
+        },
       ],
     },
-    // {
-    //   condition: generator => !generator.skipUserManagement && generator.authenticationType !== OAUTH2,
-    //   path: SERVER_TEST_SRC_DIR,
-    //   templates: [
-    //     {
-    //       file: 'package/web/rest/AccountResourceIT.java',
-    //       renameTo: generator => `${generator.testDir}web/rest/AccountResourceIT.java`,
-    //     },
-    //   ],
-    // },
+    {
+      condition: generator => !generator.skipUserManagement && generator.authenticationType !== OAUTH2,
+      path: SERVER_TEST_SRC_DIR,
+      templates: [
+        {
+          file: 'package/functional_tests/Test_AccountResource.py',
+          renameTo: generator => `${generator.testDir}functional_tests/Test_AccountResource.py`,
+        },
+      ],
+    },
     // {
     //   condition: generator => !generator.skipUserManagement && generator.authenticationType === OAUTH2,
     //   path: SERVER_TEST_SRC_DIR,

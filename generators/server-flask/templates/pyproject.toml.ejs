@@ -5,14 +5,10 @@ description = "Description for <%= baseName %>"
 authors = ["PyHipster <pyhipster@localhost.com>"]
 maintainers = ["Maintainer Name <maintainer@localhost.com>"]
 license = "UNLICENSED"
-homepage = ""
-repository = ""
-documentation = ""
 homepage = "https://pyhipster.github.io/generator-pyhipster/"
 repository = "https://github.com/pyhipster/generator-pyhipster/"
 documentation = "https://pyhipster.github.io/generator-pyhipster/"
 readme = "README.md"
-keywords = ["pyhipster", ""]
 keywords = ["pyhipster", "flask", "python3"]
 packages = [{include = "src/main/python"}]
 
@@ -51,13 +47,19 @@ taskipy = "^1.12.0"
 pytest = "7.4.0"
 pytest-flask = "1.2.0"
 ruff = "^0.0.284"
-<%_ if (devDatabaseTypeSQLiteAny) { _%>
+<%_ if (devDatabaseTypeSQLiteDisk) { _%>
 sqlite-web = "^0.5.2"
 <%_ } _%>
+requests = "^2.31.0"
+flask-testing = "^0.8.1"
 bandit = "^1.7.5"
 black = "^23.7.0"
+
 [tool.bandit]
 targets = ["src/main/python"]
+
+[tool.pytest.ini_options]
+pythonpath = "src/main/python"
 
 [tool.taskipy.tasks]
 run_app = { cmd = "python src/main/python/<%= capitalizedBaseName _%>App.py", help = "Runs the main application" }

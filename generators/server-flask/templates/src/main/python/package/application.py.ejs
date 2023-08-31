@@ -46,8 +46,8 @@ api = Api(bluePrint, doc=False)
 <%_ } _%>
 
 
-app.register_blueprint(bluePrint)
-app.config.from_object(BaseConfig)
+# app.register_blueprint(bluePrint)
+# app.config.from_object(BaseConfig)
 
 api = add_api_namespace(api)
 <%_ if (authenticationTypeJwt) { _%>
@@ -65,7 +65,7 @@ def create_tables():
     db.create_all()
     load_fake_data(app)
 
-
+'''
 if __name__ == '__main__':
     db.init_app(app)
     ma.init_app(app)
@@ -77,3 +77,20 @@ if __name__ == '__main__':
     login_manager.init_app(app)
     <%_ } _%>
     app.run(debug=True, port=<%= serverPort %>)
+'''
+
+def create_app(flaskapp):
+    flaskapp.register_blueprint(bluePrint)
+    flaskapp.config.from_object(BaseConfig)
+    <%_ if (!cacheProviderNo) { _%>
+    cache.init_app(app)
+    <%_ } _%>
+    db.init_app(flaskapp)
+    ma.init_app(flaskapp)
+    mail.init_app(flaskapp)
+    return flaskapp
+
+
+if __name__ == '__main__':
+    flask_app = create_app(app)
+    flask_app.run(debug=True, port=8080)

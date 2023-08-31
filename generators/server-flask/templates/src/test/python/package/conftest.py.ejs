@@ -1,0 +1,49 @@
+<%#
+ Copyright 2022 the original author or authors from the PyHipster project.
+
+ This file is part of the PyHipster project, see https://github.com/pyhipster/generator-pyhipster
+ for more information.
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      https://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-%>
+import pytest
+from <%= mainClass %> import create_app
+from flask import Flask
+from config.FakeDataLoader import load_fake_data
+from DatabaseConfig import db
+from flask_jwt_extended import JWTManager, create_access_token
+
+
+@pytest.fixture(scope='session')
+def test_client():
+    app = Flask(__name__)
+    app.config['JWT_COOKIE_CSRF_PROTECT'] = False
+    app.config['JWT_TOKEN_LOCATION'] = 'json'
+    jwt = JWTManager(app)
+
+    flask_app = create_app(app)
+
+    with flask_app.test_client() as testing_client:
+        with flask_app.app_context():
+            db.create_all()
+            load_fake_data(flask_app)
+            yield testing_client
+
+
+@pytest.fixture(scope='session')
+def admin_json_access_token(test_client):
+    # access_token = create_access_token({'username': 'admin', 'role': 'ROLE_ADMIN'})
+    access_token = create_access_token('admin')
+    return {
+        'access_token': access_token.encode('utf-8')
+    }
