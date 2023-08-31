@@ -38,6 +38,7 @@ With the great development workflow:
 - Build, optimization and live reload with Webpack  
 
 ### Backend
+- Project dependency management using [Poetry](https://python-poetry.org/)
 - Micro web-development framework [Flask 2.2](https://flask.palletsprojects.com/en/2.2.x/)   
 - REST API support using [flask-restx](https://flask-restx.readthedocs.io/en/latest/) with Swagger Documentation
 - Database integration using [Flask-SQLAlchemy 3](https://flask-sqlalchemy.palletsprojects.com/en/3.0.x/)    
@@ -45,6 +46,7 @@ With the great development workflow:
 - (De-)Serialization support through [Marshmallow](https://marshmallow.readthedocs.io/en/stable/index.html), [Flask-Marshmallow](https://flask-marshmallow.readthedocs.io/en/latest/), and  [marshmallow-sqlalchemy](https://marshmallow-sqlalchemy.readthedocs.io/en/latest/index.html)    
 - JWT authentication [Flask-JWT-Extended](https://flask-jwt-extended.readthedocs.io/en/stable/), HTTP Session Authentication [Flask-Login](https://flask-login.readthedocs.io/en/latest/)    
 - Email support using [Flask-Mail](https://pythonhosted.org/Flask-Mail/)
+- Integrated development database browser using [SQLite_Web](https://github.com/coleifer/sqlite-web)
 
 ## Limitations
 For the current version the tool has certain limitations

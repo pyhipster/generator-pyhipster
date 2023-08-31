@@ -1,8 +1,8 @@
 ## Requirements
 The minimum requirements that need to be installed before we get started are
 
- - Python 3.7.9  
- - Java 11.0.12  
+ - Python 3.10  
+ - Poetry
  - NodeJS 16.16.0 LTS  
  - NPM 8.11.0  
  - Git 2.33  
@@ -16,14 +16,12 @@ Open your terminal (Linux) or Command Prompt (Windows) and run the following com
 ``$> python --version``   
 ``$> git --version``   
 ``$> node --version``   
-``$> java --version``   
 ``$> npm --version``   
 
 #### On Linux
 ``$> python3 --version``   
 ``$> git --version``   
 ``$> node --version``   
-``$> java --version``   
 ``$> npm --version``   
 
 ## Installing PyHipster (Locally)
@@ -46,7 +44,7 @@ Then run the following command to deploy the image
 $> docker run -d --name pyhipster-demo -p 8080:8080 -p 9000:9000 -p 3001:3001 -v <local_folder>:/home/pyhipster/app pyhipster/pyhipster
 ```
 
-All generated files will be persisted in the <local_folder> of your development machine.
+The folder <local_folder> would be the development folder on your machine. 
 
 ## Development Setup
 
