@@ -49,16 +49,6 @@ const VUE = constants.SUPPORTED_CLIENT_FRAMEWORKS.VUE;
 const shouldSkipUserManagement = generator =>
   generator.skipUserManagement && (generator.applicationType !== MONOLITH || generator.authenticationType !== OAUTH2);
 
-const h2Files = {
-  serverResource: [
-    {
-      condition: generator => generator.devDatabaseTypeH2Any,
-      path: SERVER_MAIN_RES_DIR,
-      templates: [{ file: 'h2.server.properties', renameTo: () => '.h2.server.properties.flask-generator' }],
-    },
-  ],
-};
-
 const liquibaseFiles = {
   serverResource: [
     {
@@ -352,11 +342,11 @@ const baseServerFiles = {
         // { file: 'checkstyle.xml', options: { interpolate: INTERPOLATE_REGEX } },
         { file: 'devcontainer/devcontainer.json', renameTo: () => '.devcontainer/devcontainer.json' },
         { file: 'devcontainer/Dockerfile', renameTo: () => '.devcontainer/Dockerfile' },
-        { file: 'version.py', renameTo: () => 'version.py' },
-        {
-          file: 'requirements.txt',
-          renameTo: () => 'requirements.txt'
-        },
+        // { file: 'version.py', renameTo: () => 'version.py' },
+        // {
+        //   file: 'requirements.txt',
+        //   renameTo: () => 'requirements.txt'
+        // },
         { file: 'pyproject.toml', renameTo: () => 'pyproject.toml' },
         { file: 'poetry.toml', renameTo: () => 'poetry.toml' },
       ],
@@ -374,19 +364,19 @@ const baseServerFiles = {
     //     { file: 'npmw.cmd', method: 'copy', noEjs: true },
     //   ],
     // },
-    {
-      condition: generator => !generator.skipServer,
-      templates: [
-        {
-          file: 'pvnw',
-          renameTo: () => 'pvnw'
-        },
-        {
-          file: 'pvnw.cmd',
-          renameTo: () => 'pvnw.cmd'
-        },
-      ],
-    },
+    // {
+    //   condition: generator => !generator.skipServer,
+    //   templates: [
+    //     {
+    //       file: 'pvnw',
+    //       renameTo: () => 'pvnw'
+    //     },
+    //     {
+    //       file: 'pvnw.cmd',
+    //       renameTo: () => 'pvnw.cmd'
+    //     },
+    //   ],
+    // },
   ],
   serverResource: [
     {
@@ -442,18 +432,6 @@ const baseServerFiles = {
     },
   ],
   serverJavaAuthConfig: [
-    // {
-    //   condition: generator =>
-    //     !generator.reactive &&
-    //     (generator.databaseType === SQL || generator.databaseType === MONGODB || generator.databaseType === COUCHBASE),
-    //   path: SERVER_MAIN_SRC_DIR,
-    //   templates: [
-    //     {
-    //       file: 'package/security/SpringSecurityAuditorAware.java',
-    //       renameTo: generator => `${generator.javaDir}security/SpringSecurityAuditorAware.java`,
-    //     },
-    //   ],
-    // },
     {
       path: SERVER_MAIN_SRC_DIR,
       templates: [
@@ -499,53 +477,7 @@ const baseServerFiles = {
         },
       ],
     },
-    {
-      condition: generator => !!generator.enableSwaggerCodegen,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/config/OpenApiConfiguration.java',
-          renameTo: generator => `${generator.javaDir}config/OpenApiConfiguration.java`,
-        },
-      ],
-    },
-    // {
-    //   condition: generator => !generator.reactive && generator.authenticationType === OAUTH2 && generator.applicationType === MONOLITH,
-    //   path: SERVER_MAIN_SRC_DIR,
-    //   templates: [
-    //     {
-    //       file: 'package/security/oauth2/CustomClaimConverter.java',
-    //       renameTo: generator => `${generator.javaDir}security/oauth2/CustomClaimConverter.java`,
-    //     },
-    //   ],
-    // },
-    // {
-    //   condition: generator => !generator.reactive && generator.authenticationType === OAUTH2 && generator.applicationType === MONOLITH,
-    //   path: SERVER_TEST_SRC_DIR,
-    //   templates: [
-    //     {
-    //       file: 'package/security/oauth2/CustomClaimConverterIT.java',
-    //       renameTo: generator => `${generator.javaDir}security/oauth2/CustomClaimConverterIT.java`,
-    //     },
-    //   ],
-    // },
   ],
-  serverJavaGateway: [
-    {
-      condition: generator =>
-        (generator.authenticationType === OAUTH2 || generator.authenticationType === JWT) &&
-        !generator.reactive &&
-        (generator.applicationType === MONOLITH || generator.applicationType === GATEWAY),
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/web/rest/LogoutResource.py',
-          renameTo: generator => `${generator.javaDir}rest/LogoutResource.py`,
-        },
-      ],
-    },
-  ],
-
   serverPythonApp: [
     {
       path: SERVER_MAIN_SRC_DIR,
@@ -636,6 +568,9 @@ const baseServerFiles = {
         },
       ],
     },
+  ],
+  serverPythonUnitTests : [
+
   ],
   serverJavaService: [
     {
@@ -810,11 +745,41 @@ const baseServerFiles = {
     },
     {
       condition: generator => generator.isUsingBuiltInUser(),
+      path: SERVER_TEST_SRC_DIR,
+      templates: [
+        {
+          file: 'package/unit_tests/Test_User.py',
+          renameTo: generator => `${generator.testDir}unit_tests/Test_${generator.asEntity('User')}.py`,
+        },
+      ],
+    },
+    {
+      condition: generator => generator.isUsingBuiltInUser(),
       path: SERVER_MAIN_SRC_DIR,
       templates: [
         {
           file: 'package/domain/Authority.py',
           renameTo: generator => `${generator.javaDir}domain/Authority.py`,
+        },
+      ],
+    },
+    {
+      condition: generator => generator.isUsingBuiltInUser(),
+      path: SERVER_TEST_SRC_DIR,
+      templates: [
+        {
+          file: 'package/unit_tests/Test_Authority.py',
+          renameTo: generator => `${generator.testDir}unit_tests/Test_${generator.asEntity('User')}.py`,
+        },
+      ],
+    },
+    {
+      condition: generator => authenticationType === JWT,
+      path: SERVER_TEST_SRC_DIR,
+      templates: [
+        {
+          file: 'package/functional_tests/Test_UserJWTController.py',
+          renameTo: generator => `${generator.testDir}functional_tests/Test_UserJWTController.py`,
         },
       ],
     },
@@ -827,67 +792,6 @@ const baseServerFiles = {
           renameTo: generator => `${generator.javaDir}domain/__init__.py`,
         },
       ],
-    },
-    // {
-    //   condition: generator => generator.isUsingBuiltInAuthority(),
-    //   path: SERVER_MAIN_SRC_DIR,
-    //   templates: [
-    //     { file: 'package/domain/authority.py', renameTo: generator => `${generator.javaDir}domain/Authority.py` },
-    //     {
-    //       file: 'package/repository/authority_repository.py',
-    //       renameTo: generator => `${generator.javaDir}repository/authority_repository.py`,
-    //     },
-    //   ],
-    // },
-  ],
-  serverJavaUserManagement: [
-    {
-      condition: generator =>
-        (generator.authenticationType === OAUTH2 && generator.applicationType !== MICROSERVICE) ||
-        (!generator.skipUserManagement && generator.databaseType === SQL),
-      path: SERVER_MAIN_RES_DIR,
-      templates: ['config/liquibase/data/user.csv'],
-    },
-    {
-      condition: generator =>
-        (generator.authenticationType === OAUTH2 && generator.applicationType !== MICROSERVICE && generator.databaseType === SQL) ||
-        (!generator.skipUserManagement && generator.databaseType === SQL),
-      path: SERVER_MAIN_RES_DIR,
-      templates: ['config/liquibase/data/authority.csv', 'config/liquibase/data/user_authority.csv'],
-    },
-      {
-      condition: generator => generator.authenticationType === OAUTH2 && generator.databaseType !== NO_DATABASE,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/web/rest/PublicUserResource.py',
-          renameTo: generator => `${generator.javaDir}rest/PublicUserResource.py`,
-        },
-      ],
-    },
-    {
-      condition: generator => generator.skipUserManagement && [MONOLITH, GATEWAY].includes(generator.applicationType),
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/web/rest/AccountResource.py',
-          renameTo: generator => `${generator.javaDir}rest/AccountResource.py`,
-        },
-      ],
-    },
-    {
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/web/rest/AppManagment.py',
-          renameTo: generator => `${generator.javaDir}rest/AppManagment.py`,
-        },
-      ],
-    },
-    {
-      condition: generator => !generator.skipUserManagement,
-      path: SERVER_MAIN_RES_DIR,
-      templates: ['templates/mail/activationEmail.html', 'templates/mail/creationEmail.html', 'templates/mail/passwordResetEmail.html'],
     },
     {
       condition: generator => !generator.skipUserManagement,
@@ -904,38 +808,36 @@ const baseServerFiles = {
         },
       ],
     },
+  ],
+  serverJavaUserManagement: [
     {
-      condition: generator => generator.authenticationType === JWT,
-      path: SERVER_TEST_SRC_DIR,
+      condition: generator =>
+        (generator.authenticationType === OAUTH2 && generator.applicationType !== MICROSERVICE) ||
+        (!generator.skipUserManagement && generator.databaseType === SQL),
+      path: SERVER_MAIN_RES_DIR,
+      templates: ['config/liquibase/data/user.csv'],
+    },
+    {
+      condition: generator =>
+        (generator.authenticationType === OAUTH2 && generator.applicationType !== MICROSERVICE && generator.databaseType === SQL) ||
+        (!generator.skipUserManagement && generator.databaseType === SQL),
+      path: SERVER_MAIN_RES_DIR,
+      templates: ['config/liquibase/data/authority.csv', 'config/liquibase/data/user_authority.csv'],
+    },
+    {
+      path: SERVER_MAIN_SRC_DIR,
       templates: [
-        // {
-        //   file: 'package/management/SecurityMetersServiceTests.java',
-        //   renameTo: generator => `${generator.testDir}management/SecurityMetersServiceTests.java`,
-        // },
-        // {
-        //   file: 'package/security/jwt/TokenProviderTest.java',
-        //   renameTo: generator => `${generator.testDir}security/jwt/TokenProviderTest.java`,
-        // },
-        // {
-        //   file: 'package/security/jwt/TokenProviderSecurityMetersTests.java',
-        //   renameTo: generator => `${generator.testDir}security/jwt/TokenProviderSecurityMetersTests.java`,
-        // },
-        // {
-        //   file: 'package/security/jwt/JWTFilterTest.java',
-        //   renameTo: generator => `${generator.testDir}security/jwt/JWTFilterTest.java`,
-        // },
+        {
+          file: 'package/web/rest/AppManagment.py',
+          renameTo: generator => `${generator.javaDir}rest/AppManagment.py`,
+        },
       ],
     },
-    // {
-    //   condition: generator => generator.applicationType !== MICROSERVICE && generator.authenticationType === JWT,
-    //   path: SERVER_TEST_SRC_DIR,
-    //   templates: [
-    //     {
-    //       file: 'package/web/rest/UserJWTControllerIT.java',
-    //       renameTo: generator => `${generator.testDir}web/rest/UserJWTControllerIT.java`,
-    //     },
-    //   ],
-    // },
+    {
+      condition: generator => !generator.skipUserManagement,
+      path: SERVER_MAIN_RES_DIR,
+      templates: ['templates/mail/activationEmail.html', 'templates/mail/creationEmail.html', 'templates/mail/passwordResetEmail.html'],
+    },
     {
       condition: generator =>
         !generator.skipUserManagement && generator.cucumberTests && !generator.databaseTypeMongodb && !generator.databaseTypeCassandra,
