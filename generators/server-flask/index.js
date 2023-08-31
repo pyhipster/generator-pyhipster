@@ -577,14 +577,14 @@ module.exports = class JHipsterServerGenerator extends BaseBlueprintGenerator {
         });
         scriptsStorage.set({
           'docker:app:up': `docker-compose -f ${this.DOCKER_DIR}app.yml up -d`,
-          'docker:others:await': dockerAwaitScripts.join(' && '),
-          'predocker:others:up': dockerBuild.join(' && '),
-          'docker:others:up': dockerOthersUp.join(' && '),
-          'docker:others:down': dockerOthersDown.join(' && '),
-          'ci:e2e:prepare:docker': 'npm run docker:db:up && npm run docker:others:up && docker ps -a',
-          'ci:e2e:prepare': 'npm run ci:e2e:prepare:docker',
-          'ci:e2e:teardown:docker': 'npm run docker:db:down --if-present && npm run docker:others:down && docker ps -a',
-          'ci:e2e:teardown': 'npm run ci:e2e:teardown:docker',
+          // 'docker:others:await': dockerAwaitScripts.join(' && '),
+          // 'predocker:others:up': dockerBuild.join(' && '),
+          // 'docker:others:up': dockerOthersUp.join(' && '),
+          // 'docker:others:down': dockerOthersDown.join(' && '),
+          // 'ci:e2e:prepare:docker': 'npm run docker:db:up && npm run docker:others:up && docker ps -a',
+          // 'ci:e2e:prepare': 'npm run ci:e2e:prepare:docker',
+          // 'ci:e2e:teardown:docker': 'npm run docker:db:down --if-present && npm run docker:others:down && docker ps -a',
+          // 'ci:e2e:teardown': 'npm run ci:e2e:teardown:docker',
         });
       },
       packageJsonBackendScripts() {
@@ -620,13 +620,13 @@ module.exports = class JHipsterServerGenerator extends BaseBlueprintGenerator {
         const buildCmd = this.jhipsterConfig.buildTool === GRADLE ? 'gradlew' : 'mvnw';
         if (scriptsStorage.get('e2e')) {
           const applicationWaitTimeout = WAIT_TIMEOUT * (this.applicationTypeGateway ? 2 : 1);
-          scriptsStorage.set({
-            'ci:server:await': `echo "Waiting for server at port $npm_package_config_backend_port to start" && wait-on -t ${applicationWaitTimeout} http-get://localhost:$npm_package_config_backend_port/management/health && echo "Server at port $npm_package_config_backend_port started"`,
-            'pree2e:headless': 'npm run ci:server:await',
-            'ci:e2e:run': 'concurrently -k -s first "npm run ci:e2e:server:start" "npm run e2e:headless"',
-            'e2e:dev': `concurrently -k -s first "./${buildCmd}" "npm run e2e"`,
-            'e2e:devserver': `concurrently -k -s first "npm run backend:start" "npm start" "wait-on -t ${WAIT_TIMEOUT} http-get://localhost:9000 && npm run e2e:headless -- -c baseUrl=http://localhost:9000"`,
-          });
+          // scriptsStorage.set({
+          //   'ci:server:await': `echo "Waiting for server at port $npm_package_config_backend_port to start" && wait-on -t ${applicationWaitTimeout} http-get://localhost:$npm_package_config_backend_port/management/health && echo "Server at port $npm_package_config_backend_port started"`,
+          //   'pree2e:headless': 'npm run ci:server:await',
+          //   'ci:e2e:run': 'concurrently -k -s first "npm run ci:e2e:server:start" "npm run e2e:headless"',
+          //   'e2e:dev': `concurrently -k -s first "./${buildCmd}" "npm run e2e"`,
+          //   'e2e:devserver': `concurrently -k -s first "npm run backend:start" "npm start" "wait-on -t ${WAIT_TIMEOUT} http-get://localhost:9000 && npm run e2e:headless -- -c baseUrl=http://localhost:9000"`,
+          // });
         }
       },
     };
