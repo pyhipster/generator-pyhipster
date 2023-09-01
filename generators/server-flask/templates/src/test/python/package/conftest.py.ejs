@@ -21,15 +21,22 @@ from <%= mainClass %> import create_app
 from flask import Flask
 from config.FakeDataLoader import load_fake_data
 from DatabaseConfig import db
+<%_ if (authenticationTypeJwt) { _%>
 from flask_jwt_extended import JWTManager, create_access_token
+<%_ } else if (authenticationTypeSession) { _%>
+from flask import session
+from flask_login import LoginManager
+from domain.User import User
+<%_ } _%>
 
 
 @pytest.fixture(scope='session')
 def test_client():
     app = Flask(__name__)
+    <%_ if (authenticationTypeJwt) { _%>
     app.config['JWT_COOKIE_CSRF_PROTECT'] = False
-    app.config['JWT_TOKEN_LOCATION'] = 'json'
     jwt = JWTManager(app)
+    <%_ } _%>
 
     flask_app = create_app(app)
 
@@ -42,7 +49,6 @@ def test_client():
 
 @pytest.fixture(scope='session')
 def admin_json_access_token(test_client):
-    # access_token = create_access_token({'username': 'admin', 'role': 'ROLE_ADMIN'})
     access_token = create_access_token('admin')
     return {
         'access_token': access_token.encode('utf-8')

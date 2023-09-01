@@ -16,7 +16,14 @@ packages = [{include = "src/main/python"}]
 python = "^3.10"
 bcrypt = "^4.0.1"
 flask = "2.1.2"
-flask-jwt-extended = "4.4.4"
+<%_ if (!cacheProviderNo) { _%>
+Flask-Caching==2.0.1
+<%_ } _%>
+<%_ if (authenticationTypeJwt) { _%>
+Flask-JWT-Extended==4.4.4
+<%_ } else if (authenticationTypeSession) { _%>
+Flask-Login==0.6.2
+<%_ } _%>
 flask-mail = "0.9.1"
 flask-marshmallow = "0.14.0"
 flask-restx = "0.5.1"
