@@ -53,35 +53,21 @@ Node is required for generation and recommended for development. `package.json` 
 In the project root, PyHipster generates configuration files for tools like git, prettier, eslint, husk, and others that are well known and you can find references in the web.
 
 <%_ if (configOptions.backendName === 'Python') { %>
-`/src/*` structure follows default <%= configOptions.backendName %> structure.   
+`/src/*` structure follows default <%= configOptions.backendName %> structure.
 <%_ } _%>
-- `.yo-rc.json` - Yeoman configuration file   
-PyHipster configuration is stored in this file at `generator-pyhipster` key.   
-- `.pyhipster/*.json` - PyHipster entity configuration files   
-- `requirements.txt` - PyHipster Python module dependencies   
+- `.yo-rc.json` - Yeoman configuration file
+PyHipster configuration is stored in this file at `generator-pyhipster` key.
+- `.pyhipster/*.json` - PyHipster entity configuration files
+- `requirements.txt` - PyHipster Python module dependencies
 
 ## Development
 
-Before you can build this project, you must install and configure the following dependencies on your machine:
+We use npm scripts and [Webpack](https://webpack.js.org/) as our build system for the UI. The backend build system is powered by Poetry.
 
-1. [Node.js](https://nodejs.org/): We use Node to run a development web server and build the project.
-   Depending on your system, you can install Node either from source or as a pre-packaged bundle.
+Run the following command to create a blissful development experience where your browser auto-refreshes when files change in your project.
 
-After installing Node, you should be able to run the following command to install development tools.
-You will only need to run this command when dependencies change in [package.json](package.json).
-
-```
-npm install
-```
-
-We use npm scripts and [Webpack](https://webpack.js.org/) as our build system.
-
-Run the following commands in two separate terminals to create a blissful development experience where your browser
-auto-refreshes when files change on your hard drive.
-
-```
-./pvnw
-npm start
+```bash
+$> npm run pyhipster
 ```
 
 Npm is also used to manage CSS and JavaScript dependencies used in this application. You can upgrade dependencies by

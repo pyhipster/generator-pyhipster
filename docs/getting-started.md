@@ -44,7 +44,7 @@ Then run the following command to deploy the image
 $> docker run -d --name pyhipster-demo -p 8080:8080 -p 9000:9000 -p 3001:3001 -v <local_folder>:/home/pyhipster/app pyhipster/pyhipster
 ```
 
-The folder <local_folder> would be the development folder on your machine. 
+The folder <local_folder> would be the development folder on your machine.
 
 ## Development Setup
 
@@ -147,16 +147,13 @@ HTTP Session Authentication (stateful)
 
 After selecting the options, PyHipster will work to generate the Python and UI code based on your selections.
 
-Once the application is generated, the tool will automatically install all the necessary Node modules.
-
-![Installing Node Modules](images/node-modules-installed.png)
+Once the application is generated, the tool will automatically install all the necessary Python and Node modules.
 
 > ``New in version 0.0.9`` PyHipster takes care of running the backend and frontend code by itself, and you have to execute only one command.
 
 On the terminal, execute the following command to trigger an execution of the Flask and NodeJS code parallelly using the ``concurrent`` library.
 
 ```bash
-$> chmod 755 pvnw  # (additional step required for Docker/Linux/MacOS only)
 $> npm run pyhipster
 ```
 
