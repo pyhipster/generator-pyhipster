@@ -1,0 +1,23 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Get the version from package.json
+      run: echo '::set-env name=VERSION $(cat package.json | grep version | cut -d '"' -f 4)'
+      
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag pyhipster/pyhipster:${VERSION}
+
+    
