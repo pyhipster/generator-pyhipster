@@ -3,6 +3,7 @@
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![security: bandit](https://img.shields.io/badge/security-bandit-yellow.svg)](https://github.com/PyCQA/bandit)
 
+
 ![pyhipster-logo](docs/images/logo-pyhipster_100.png "PyHipster Logo")
 
 Greetings, Python Hipsters!
@@ -59,3 +60,7 @@ For the current version the tool has certain limitations
 - Only monolith support
 
 For more information, please continue your journey with the [getting started guide](docs/getting-started.md)
+
+PyHipster is proud to be supported by JetBrains
+
+![JetBrains Logo (Main) logo](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)
