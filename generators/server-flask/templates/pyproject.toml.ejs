@@ -53,6 +53,7 @@ sqlalchemy-cockroachdb = "2.0.1"
 taskipy = "^1.12.0"
 pytest = "7.4.0"
 pytest-flask = "1.2.0"
+pytest-cov = "^4.1.0"
 ruff = "^0.0.284"
 <%_ if (devDatabaseTypeSQLiteDisk) { _%>
 sqlite-web = "^0.5.2"
@@ -73,7 +74,6 @@ run_app = { cmd = "python src/main/python/<%= capitalizedBaseName _%>App.py", he
 code_quality_scan = { cmd = "ruff --select=ALL src/main/python", help = "Runs the Ruff code quality scan" }
 security_scan = { cmd = "bandit -c pyproject.toml -r .", help = "Runs the Bandit security scan" }
 code_formatting = { cmd = "black src/main/python", help = "Runs the Black code formatter"}
-test = { cmd = "pytest --html=report.html", help = "Runs the PyTest tests"}
 coverage = { cmd = "pytest --cov=src --cov-report=html", help = "Runs the PyTest code coverage"}
 
 [build-system]
