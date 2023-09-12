@@ -50,7 +50,6 @@ With the great development workflow:
 
 ## Limitations
 For the current version the tool has certain limitations
-- No Test coverage for the Python code
 - Only monolith support
 
 For more information, please continue your journey with the [getting started guide](docs/getting-started.md)

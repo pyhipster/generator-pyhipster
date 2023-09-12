@@ -76,9 +76,39 @@ Add the `help` flag on any command to see how you can use it. For example, `npm 
 
 The `npm run` command will list all of the scripts available to run for this project.
 
+## Testing
+PyHipster generates unit and functional test cases for the default user and authority entities at project generation. To run the tests, issue the following command
+```bash
+$> poetry run pytest
+```
+
+## Code Coverage
+
+```bash
+$> poetry run coverage
+```
+
+## Static Code Analysis
+
+```bash
+$> poetry run code_quality_scan
+```
+
+
+## Vulnerability Analysis
+
+```bash
+$> poetry run security_scan
+```
+
+## Code Formatting (Black)
+
+```bash
+$> poetry run code_formatting
+```
 For further instructions on how to develop with PyHipster, have a look at the documentation.
 
-[PyHipster Homepage and latest documentation]: <%= DOCUMENTATION_URL %>
-[Python]: https://www.python.org/
-[Node.js]: https://nodejs.org/
-[NPM]: https://www.npmjs.com/
+[PyHipster homepage and latest documentation](<%= DOCUMENTATION_URL %>)
+[Python](https://www.python.org/)
+[Node.js](https://nodejs.org/)
+[Npm](https://www.npmjs.com/)
