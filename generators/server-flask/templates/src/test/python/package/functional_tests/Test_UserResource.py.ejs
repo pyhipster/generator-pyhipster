@@ -19,6 +19,9 @@
 import pytest
 <%_ if (authenticationTypeJwt) { _%>
 from flask_jwt_extended import create_access_token
+<%_ } else if (authenticationTypeSession) { _%>
+from flask_login import FlaskLoginClient
+from domain.User import User
 <%_ } _%>
 from security.AuthoritiesConstants import AuthoritiesConstants
 
@@ -29,43 +32,61 @@ def test_get_all_users(test_client):
     WHEN the '/api/admin/users' endpoint is requested (GET)
     THEN check the response is valid
     """
+    <%_ if (authenticationTypeJwt) { _%>
     access_token = create_access_token('admin')
     headers = {
         'Authorization': 'Bearer {}'.format(access_token),
         'Content-Type': 'application/json'
     }
+    <%_ } else if (authenticationTypeSession) { _%>
+    headers = {
+        'Content-Type': 'application/json'
+    }
+    <%_ } _%>
 
-    response = test_client.get('/api/admin/users', headers=headers, json={'access_token': access_token})
+    response = test_client.get('/api/admin/users', headers=headers<%_ if (authenticationTypeJwt) { _%>, json={'access_token': access_token}<%_ } _%>)
     assert response.status_code == 200
 
 
 def test_get_admin_user(test_client):
     """
     GIVEN a Flask application configured for testing
-    WHEN the '/api/admin/users/admin' endpoint is requested (GET)
+    WHEN the '/api/admin/users/<user>' endpoint is requested (GET)
     THEN check the response is valid
     """
+    <%_ if (authenticationTypeJwt) { _%>
     access_token = create_access_token('admin')
     headers = {
         'Authorization': 'Bearer {}'.format(access_token),
         'Content-Type': 'application/json'
     }
+    <%_ } else if (authenticationTypeSession) { _%>
+    headers = {
+        'Content-Type': 'application/json'
+    }
+    <%_ } _%>
 
-    response = test_client.get('/api/admin/users/admin', headers=headers, json={'access_token': access_token})
+    response = test_client.get('/api/admin/users/admin', headers=headers<%_ if (authenticationTypeJwt) { _%>, json={'access_token': access_token}<%_ } _%>)
     assert response.status_code == 200
 
 
 def test_create_user(test_client):
     """
     GIVEN a Flask application configured for testing
-    WHEN the '/api/admin/users/admin' endpoint is requested (GET)
+    WHEN the '/api/admin/users' endpoint is requested (POST)
     THEN check the response is valid
     """
+    <%_ if (authenticationTypeJwt) { _%>
     access_token = create_access_token('admin')
     headers = {
         'Authorization': 'Bearer {}'.format(access_token),
         'Content-Type': 'application/json'
     }
+    <%_ } else if (authenticationTypeSession) { _%>
+    headers = {
+        'Content-Type': 'application/json'
+    }
+    <%_ } _%>
 
     user_info = {
         "login": "johndoe",
@@ -79,19 +100,28 @@ def test_create_user(test_client):
 def test_update_user(test_client):
     """
     GIVEN a Flask application configured for testing
-    WHEN the '/api/admin/users/admin' endpoint is requested (GET)
+    WHEN the '/api/admin/users' endpoint is requested (PUT) with a modified user object
     THEN check the response is valid
     """
+    <%_ if (authenticationTypeJwt) { _%>
     access_token = create_access_token('admin')
     headers = {
         'Authorization': 'Bearer {}'.format(access_token),
         'Content-Type': 'application/json'
     }
+    <%_ } else if (authenticationTypeSession) { _%>
+    headers = {
+        'Content-Type': 'application/json'
+    }
+    <%_ } _%>
 
     user_info = {
         "login": "johndoe",
-        "email": "janedoe@localhost",
-        "authorities": [AuthoritiesConstants.ADMIN]
+        "email": "johndoe@localhost",
+        "activated": True,
+        "firstName": "John",
+        "lastName": "Doe",
+        "authorities": [AuthoritiesConstants.ADMIN, AuthoritiesConstants.USER]
     }
 
     response = test_client.put('/api/admin/users', headers=headers, json=user_info)
@@ -101,14 +131,20 @@ def test_update_user(test_client):
 def test_delete_user(test_client):
     """
     GIVEN a Flask application configured for testing
-    WHEN the '/api/admin/users/admin' endpoint is requested (GET)
+    WHEN the '/api/admin/users/<user>' endpoint is requested (DELETE)
     THEN check the response is valid
     """
+    <%_ if (authenticationTypeJwt) { _%>
     access_token = create_access_token('admin')
     headers = {
         'Authorization': 'Bearer {}'.format(access_token),
         'Content-Type': 'application/json'
     }
+    <%_ } else if (authenticationTypeSession) { _%>
+    headers = {
+        'Content-Type': 'application/json'
+    }
+    <%_ } _%>
 
-    response = test_client.delete('/api/admin/users/johndoe', headers=headers, json={'access_token': access_token})
+    response = test_client.delete('/api/admin/users/johndoe', headers=headers<%_ if (authenticationTypeJwt) { _%>, json={'access_token': access_token}<%_ } _%>)
     assert response.status_code == 204

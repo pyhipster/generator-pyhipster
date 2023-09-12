@@ -915,6 +915,10 @@ const baseServerFiles = {
           file: 'package/functional_tests/Test_UserResource.py',
           renameTo: generator => `${generator.testDir}functional_tests/Test_UserResource.py`,
         },
+        {
+          file: 'package/functional_tests/Test_AuthorityResource.py',
+          renameTo: generator => `${generator.testDir}functional_tests/Test_AuthorityResource.py`,
+        },
       ],
     },
     {
@@ -924,6 +928,26 @@ const baseServerFiles = {
         {
           file: 'package/functional_tests/Test_AccountResource.py',
           renameTo: generator => `${generator.testDir}functional_tests/Test_AccountResource.py`,
+        },
+      ],
+    },
+    {
+      condition: generator => !generator.skipUserManagement && generator.authenticationType === JWT,
+      path: SERVER_TEST_SRC_DIR,
+      templates: [
+        {
+          file: 'package/functional_tests/Test_UserJWTController.py',
+          renameTo: generator => `${generator.testDir}functional_tests/Test_UserJWTController.py`,
+        },
+      ],
+    },
+    {
+      condition: generator => !generator.skipUserManagement && generator.authenticationType === SESSION,
+      path: SERVER_TEST_SRC_DIR,
+      templates: [
+        {
+          file: 'package/functional_tests/Test_UserSessionController.py',
+          renameTo: generator => `${generator.testDir}functional_tests/Test_UserSessionController.py`,
         },
       ],
     },

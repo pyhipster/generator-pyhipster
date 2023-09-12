@@ -73,6 +73,8 @@ run_app = { cmd = "python src/main/python/<%= capitalizedBaseName _%>App.py", he
 code_quality_scan = { cmd = "ruff --select=ALL src/main/python", help = "Runs the Ruff code quality scan" }
 security_scan = { cmd = "bandit -c pyproject.toml -r .", help = "Runs the Bandit security scan" }
 code_formatting = { cmd = "black src/main/python", help = "Runs the Black code formatter"}
+test = { cmd = "pytest --html=report.html", help = "Runs the PyTest tests"}
+coverage = { cmd = "pytest --cov=src --cov-report=html", help = "Runs the PyTest code coverage"}
 
 [build-system]
 requires = ["poetry-core"]

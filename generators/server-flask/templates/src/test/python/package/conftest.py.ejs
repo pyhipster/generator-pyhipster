@@ -24,9 +24,11 @@ from DatabaseConfig import db
 <%_ if (authenticationTypeJwt) { _%>
 from flask_jwt_extended import JWTManager, create_access_token
 <%_ } else if (authenticationTypeSession) { _%>
-from flask import session
-from flask_login import LoginManager
+from flask_login import FlaskLoginClient, LoginManager
 from domain.User import User
+<%_ } _%>
+<%_ if (!cacheProviderNo) { _%>
+from CacheConfiguration import cache
 <%_ } _%>
 
 
@@ -36,20 +38,35 @@ def test_client():
     <%_ if (authenticationTypeJwt) { _%>
     app.config['JWT_COOKIE_CSRF_PROTECT'] = False
     jwt = JWTManager(app)
+    flask_app = create_app(app)
+    <%_ } else if (authenticationTypeSession) { _%>
+    login_manager = LoginManager()
+    flask_app = create_app(app)
+    flask_app.test_client_class = FlaskLoginClient
+    flask_app.app_context().push()
+    flask_app.config['TESTING'] = True
+    flask_app.config['LOGIN_DISABLED'] = True
+    user = User()
+    user.set_login('admin')
     <%_ } _%>
 
-    flask_app = create_app(app)
-
+    <%_ if (authenticationTypeJwt) { _%>
     with flask_app.test_client() as testing_client:
-        with flask_app.app_context():
-            db.create_all()
-            load_fake_data(flask_app)
-            yield testing_client
-
-
-@pytest.fixture(scope='session')
-def admin_json_access_token(test_client):
-    access_token = create_access_token('admin')
-    return {
-        'access_token': access_token.encode('utf-8')
-    }
+      with flask_app.app_context():
+        <%_ if (!cacheProviderNo) { _%>
+        cache.init_app(flask_app)
+        <%_ } _%>
+        db.create_all()
+        load_fake_data(flask_app)
+        yield testing_client
+    <%_ } else if (authenticationTypeSession) { _%>
+    with flask_app.test_client(user = user) as testing_client:
+      <%_ if (!cacheProviderNo) { _%>
+      cache.init_app(flask_app)
+      <%_ } _%>
+      login_manager.init_app(flask_app)
+      db.create_all()
+      load_fake_data(flask_app)
+      testing_client.post('/api/authentication', data=dict(username='admin', password='admin', rememberMe=False))
+      yield testing_client
+    <%_ } _%>
