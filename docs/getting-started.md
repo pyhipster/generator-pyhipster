@@ -168,25 +168,25 @@ $> poetry run pytest
 ### Code Coverage
 
 ```bash
-$> poetry run coverage
+$> poetry run task coverage
 ```
-
+The coverage report is created under `<project_root>/htmlcov/index.html`
 ### Static Code Analysis
 
 ```bash
-$> poetry run code_quality_scan
+$> poetry run task code_quality_scan
 ```
 
 ### Vulnerability Analysis
 
 ```bash
-$> poetry run security_scan
+$> poetry run task security_scan
 ```
 
 ### Code Formatting (Black)
 
 ```bash
-$> poetry run code_formatting
+$> poetry run task code_formatting
 ```
 
 ## Data Model Definition
