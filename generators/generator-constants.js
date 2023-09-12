@@ -126,7 +126,7 @@ const SUPPORTED_CLIENT_FRAMEWORKS = {
 };
 
 // documentation constants
-const JHIPSTER_DOCUMENTATION_URL = 'https://sudeephazra.github.io/generator-pyhipster/';
+const JHIPSTER_DOCUMENTATION_URL = 'https://pyhipster.github.io/generator-pyhipster/';
 const JHIPSTER_DOCUMENTATION_ARCHIVE_PATH = '/documentation-archive/';
 
 const OFFICIAL_DATABASE_TYPE_NAMES = {
@@ -401,7 +401,7 @@ const constants = {
   GRADLE_VERSION,
   PYTHON_VERSION,
   PYTHON_COMPATIBLE_VERSIONS,
-  
+
   // Libraries
   JIB_VERSION,
   JHIPSTER_DEPENDENCIES_VERSION,
