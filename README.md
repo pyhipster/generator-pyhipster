@@ -44,9 +44,13 @@ With the great development workflow:
 - Database integration using [Flask-SQLAlchemy 3](https://flask-sqlalchemy.palletsprojects.com/en/3.0.x/)    
 - Server side caching using [Flask-Caching](https://flask-caching.readthedocs.io/en/latest/)
 - (De-)Serialization support through [Marshmallow](https://marshmallow.readthedocs.io/en/stable/index.html), [Flask-Marshmallow](https://flask-marshmallow.readthedocs.io/en/latest/), and  [marshmallow-sqlalchemy](https://marshmallow-sqlalchemy.readthedocs.io/en/latest/index.html)    
-- JWT authentication [Flask-JWT-Extended](https://flask-jwt-extended.readthedocs.io/en/stable/), HTTP Session Authentication [Flask-Login](https://flask-login.readthedocs.io/en/latest/)    
+- JWT authentication [Flask-JWT-Extended](https://flask-jwt-extended.readthedocs.io/en/stable/), and HTTP Session Authentication [Flask-Login](https://flask-login.readthedocs.io/en/latest/)    
 - Email support using [Flask-Mail](https://pythonhosted.org/Flask-Mail/)
 - Integrated development database browser using [SQLite_Web](https://github.com/coleifer/sqlite-web)
+- Tests using [PyTest](https://docs.pytest.org)
+- Code Quality Scan using [Ruff](https://beta.ruff.rs/docs/)
+- Code formatting using [Black](https://black.readthedocs.io/en/stable/)
+- Vulnerability Analysis using [Bandit](https://bandit.readthedocs.io/en/latest/)
 
 ## Limitations
 For the current version the tool has certain limitations
