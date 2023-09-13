@@ -179,10 +179,10 @@ function askForServerSideOpts() {
         //   value: NEO4J,
         //   name: '[BETA] Neo4j',
         // });
-        opts.push({
-          value: NO_DATABASE,
-          name: 'No database',
-        });
+        // opts.push({
+        //   value: NO_DATABASE,
+        //   name: 'No database',
+        // });
         return opts;
       },
       default: serverDefaultConfig.databaseType,

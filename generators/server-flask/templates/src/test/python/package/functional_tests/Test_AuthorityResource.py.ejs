@@ -1,7 +1,7 @@
 <%#
- Copyright 2013-2022 the original author or authors from the JHipster project.
+ Copyright 2022 the original author or authors from the PyHipster project.
 
- This file is part of the JHipster project, see https://www.jhipster.tech/
+ This file is part of the PyHipster project, see https://github.com/pyhipster/generator-pyhipster
  for more information.
 
  Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,13 +16,15 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -%>
-package <%= packageName %>.web.rest.errors;
+import pytest
 
-public class EmailAlreadyUsedException extends BadRequestAlertException {
 
-    private static final long serialVersionUID = 1L;
+def test_authority_get_request(test_client):
+    """
+    GIVEN a Flask application configured for testing
+    WHEN the '/api/authorities' page is requested (GET)
+    THEN check the response is valid
+    """
 
-    public EmailAlreadyUsedException() {
-        super(ErrorConstants.EMAIL_ALREADY_USED_TYPE, "Email is already in use!", "userManagement", "emailexists");
-    }
-}
+    response = test_client.get('/api/authorities')
+    assert response.status_code == 200

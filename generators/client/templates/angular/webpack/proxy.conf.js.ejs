@@ -43,6 +43,14 @@ function setupProxy({ tls }) {
       ws: true,
     },
 <%_ } _%>
+<%_ if (devDatabaseTypeSQLiteAny) { _%>
+    {
+      context: ['/sqlite-console'],
+      target: `http://localhost:8092`,
+      secure: false,
+      changeOrigin: options.tls,
+    },
+<% } %>
   ];
   return conf;
 }

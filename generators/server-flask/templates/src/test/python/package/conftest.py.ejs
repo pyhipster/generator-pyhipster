@@ -1,0 +1,72 @@
+<%#
+ Copyright 2022 the original author or authors from the PyHipster project.
+
+ This file is part of the PyHipster project, see https://github.com/pyhipster/generator-pyhipster
+ for more information.
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      https://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-%>
+import pytest
+from <%= mainClass %> import create_app
+from flask import Flask
+from config.FakeDataLoader import load_fake_data
+from DatabaseConfig import db
+<%_ if (authenticationTypeJwt) { _%>
+from flask_jwt_extended import JWTManager, create_access_token
+<%_ } else if (authenticationTypeSession) { _%>
+from flask_login import FlaskLoginClient, LoginManager
+from domain.User import User
+<%_ } _%>
+<%_ if (!cacheProviderNo) { _%>
+from CacheConfiguration import cache
+<%_ } _%>
+
+
+@pytest.fixture(scope='session')
+def test_client():
+    app = Flask(__name__)
+    <%_ if (authenticationTypeJwt) { _%>
+    app.config['JWT_COOKIE_CSRF_PROTECT'] = False
+    jwt = JWTManager(app)
+    flask_app = create_app(app)
+    <%_ } else if (authenticationTypeSession) { _%>
+    login_manager = LoginManager()
+    flask_app = create_app(app)
+    flask_app.test_client_class = FlaskLoginClient
+    flask_app.app_context().push()
+    flask_app.config['TESTING'] = True
+    flask_app.config['LOGIN_DISABLED'] = True
+    user = User()
+    user.set_login('admin')
+    <%_ } _%>
+
+    <%_ if (authenticationTypeJwt) { _%>
+    with flask_app.test_client() as testing_client:
+      with flask_app.app_context():
+        <%_ if (!cacheProviderNo) { _%>
+        cache.init_app(flask_app)
+        <%_ } _%>
+        db.create_all()
+        load_fake_data(flask_app)
+        yield testing_client
+    <%_ } else if (authenticationTypeSession) { _%>
+    with flask_app.test_client(user = user) as testing_client:
+      <%_ if (!cacheProviderNo) { _%>
+      cache.init_app(flask_app)
+      <%_ } _%>
+      login_manager.init_app(flask_app)
+      db.create_all()
+      load_fake_data(flask_app)
+      testing_client.post('/api/authentication', data=dict(username='admin', password='admin', rememberMe=False))
+      yield testing_client
+    <%_ } _%>

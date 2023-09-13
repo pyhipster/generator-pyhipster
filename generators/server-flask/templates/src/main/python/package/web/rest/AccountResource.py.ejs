@@ -103,7 +103,7 @@ class ManagedUserAccountRegister(Resource):
         try:
             send_creation_mail(managed_user_data)
         except:
-            return {"message": "User is created but unable to send mail"}, 400
+            return {"message": "User is created but unable to send mail"}, 200
         return {"message": "Successfully registered"}, 201
 
 
@@ -151,7 +151,7 @@ class AdminAccountDetails(Resource):
             return {"message": str(e.__dict__['orig'])}, 400
         return admin_user_schema.dump(updated_user), 200
 
-    
+
     <%_ if (authenticationTypeJwt) { _%>
     @jwt_required(optional=True)
     <%_ } _%>
@@ -161,14 +161,14 @@ class AdminAccountDetails(Resource):
         login = get_jwt_identity()
         <%_ } else if (authenticationTypeSession) { _%>
         login = None
-        if logged_in_user.is_authenticated: 
+        if logged_in_user.is_authenticated:
             login = logged_in_user.login
         <%_ } _%>
         if login is None:
             <%_ if (clientFrameworkAngular) { %>
             return {}, 404
             <%_ } else { %>
-            # anon_user = User(login='anonymous', roles=[AuthoritiesConstants.ANONYMOUS]) 
+            # anon_user = User(login='anonymous', roles=[AuthoritiesConstants.ANONYMOUS])
             # return admin_user_schema.dump(anon_user), 200
             return {}, 200
             <%_ } %>
@@ -319,5 +319,3 @@ class AccountChangePassword(Resource):
         except SQLAlchemyError as e:
             return {"message": str(e.__dict__['orig'])}, 400
         return {"message": "Password reset successfully"}, 200
-
-

@@ -425,6 +425,11 @@ module.exports = class JHipsterBasePrivateGenerator extends Generator {
     return true;
   }
 
+  poetryInstall() {
+    this.info('Installing Python modules')
+    return !shelljs.exec(`poetry install`).code;
+  }
+
   /**
    * @returns default app name
    */
@@ -848,7 +853,7 @@ module.exports = class JHipsterBasePrivateGenerator extends Generator {
       if (err) {
         this.warning('Python is not found on your computer.');
       } else {
-        const pythonVersion = stdout.match(/(?:Python) (\d.\d)/)[1];
+        const pythonVersion = stdout.match(/(?:Python) (\d.\d.?)/)[1];
         if (!pythonVersion.match(new RegExp(`(${PYTHON_COMPATIBLE_VERSIONS.map(ver => `^${ver}`).join('|')})`))) {
           const [latest, ...others] = PYTHON_COMPATIBLE_VERSIONS.concat().reverse();
           this.warning(

@@ -429,12 +429,12 @@ module.exports = class JHipsterClientGenerator extends BaseBlueprintGenerator {
         if (this.skipClient) return;
         this.log(chalk.green.bold('\nClient application generated successfully.\n'));
 
-        const logMsg = `Start your Webpack development server with:\n ${chalk.yellow.bold(`${this.clientPackageManager} start`)}\n`;
-
-        this.log(chalk.green(logMsg));
-        if (!this.options.skipInstall) {
-          this.spawnCommandSync(this.clientPackageManager, ['run', 'clean-www']);
-        }
+        // const logMsg = `Start your Webpack development server with:\n ${chalk.yellow.bold(`${this.clientPackageManager} start`)}\n`;
+        //
+        // this.log(chalk.green(logMsg));
+        // if (!this.options.skipInstall) {
+        //   this.spawnCommandSync(this.clientPackageManager, ['run', 'clean-www']);
+        // }
       },
     };
   }

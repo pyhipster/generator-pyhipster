@@ -51,12 +51,19 @@ const databaseItem = () => (
   </DropdownItem>
 );
 <%_ } _%>
+<%_ if (devDatabaseTypeSQLiteAny) { _%>
+const databaseItem = () => (
+  <DropdownItem tag="a" href="/sqlite-console" target="_tab">
+    <FontAwesomeIcon icon="database" fixedWidth /> Database
+  </DropdownItem>
+);
+<%_ } _%>
 
-export const AdminMenu = ({ showOpenAPI <% if (devDatabaseTypeH2Any) { %>, showDatabase <%_ } _%>}) => (
+export const AdminMenu = ({ showOpenAPI <% if (devDatabaseTypeH2Any || devDatabaseTypeSQLiteAny) { %>, showDatabase <%_ } _%>}) => (
   <NavDropdown icon="users-cog" name={translate('global.menu.admin.main')} id="admin-menu" data-cy="adminMenu">
       {adminMenuItems()}
       {showOpenAPI && openAPIItem()}
-<% if (devDatabaseTypeH2Any) { %>
+<% if (devDatabaseTypeH2Any || devDatabaseTypeSQLiteDisk) { %>
       {showDatabase && databaseItem()}
 <%_ } _%>
   </NavDropdown>

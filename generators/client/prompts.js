@@ -57,10 +57,10 @@ async function askForClient() {
       value: VUE,
       name: 'Vue',
     },
-    {
-      value: 'no',
-      name: 'No client',
-    },
+    // {
+    //   value: 'no',
+    //   name: 'No client',
+    // },
   ];
 
   const answers = await this.prompt({

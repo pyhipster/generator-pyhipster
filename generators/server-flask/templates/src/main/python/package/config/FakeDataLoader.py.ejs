@@ -40,7 +40,7 @@ def load_fake_data(app):
 
         for data_load in data_load_object:
             logging.info("Checking data load for " + data_load["table"])
-            <%_ if (databaseTypePostgres || databaseTypeCockroach) { _%>
+            <%_ if (devDatabaseTypePostgres || devDatabaseTypeCockroach) { _%>
             result = db.session.execute("SELECT count(1) FROM \"" + data_load["table"] + "\"").scalar()
             <%_ } else { _%>
             result = db.session.execute("SELECT count(1) FROM " + data_load["table"]).scalar()
@@ -52,13 +52,13 @@ def load_fake_data(app):
                     # Load data only if the table exists, and is empty and the corresponding file is available
                     print("Loading data file " + str(data_file) + " to table " + str(data_load["table"]))
                     df = pd.read_csv(data_file, delimiter=";", header=0)
-                    <%_ if (databaseTypeMssql) { _%>
+                    <%_ if (devDatabaseTypeMssql) { _%>
                     df = df.drop([x for x in ['id'] if x in df.columns], axis=1)
                     <%_ } _%>
                     df.to_sql(data_load["table"], con=db.get_engine(), if_exists="append", index=False)
-                    <%_ if (databaseTypePostgres || databaseTypeCockroach) { _%>
+                    <%_ if (devDatabaseTypePostgres || devDatabaseTypeCockroach) { _%>
                     if data_load["table"] not in ['jhi_authority', 'jhi_user_authority']:
                         seq_result = db.session.execute("SELECT setval('public.\"" + data_load["table"] + "_id_seq\"', 10, true)")
-                    <%_ } _%>    
+                    <%_ } _%>
             else:
                 logging.info(data_load["table"] + " is already populated. Skipping fake data load...")

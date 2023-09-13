@@ -1,0 +1,81 @@
+[tool.poetry]
+name = "<%= dasherizedBaseName %>"
+version = "0.0.1"
+description = "Description for <%= baseName %>"
+authors = ["PyHipster <pyhipster@localhost.com>"]
+maintainers = ["Maintainer Name <maintainer@localhost.com>"]
+license = "UNLICENSED"
+homepage = "https://pyhipster.github.io/generator-pyhipster/"
+repository = "https://github.com/pyhipster/generator-pyhipster/"
+documentation = "https://pyhipster.github.io/generator-pyhipster/"
+readme = "README.md"
+keywords = ["pyhipster", "flask", "python3"]
+packages = [{include = "src/main/python"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+bcrypt = "^4.0.1"
+flask = "2.1.2"
+<%_ if (!cacheProviderNo) { _%>
+Flask-Caching = "2.0.1"
+<%_ } _%>
+<%_ if (authenticationTypeJwt) { _%>
+flask-jwt-extended = "4.4.4"
+<%_ } else if (authenticationTypeSession) { _%>
+Flask-Login = "0.6.2"
+<%_ } _%>
+flask-mail = "0.9.1"
+flask-marshmallow = "0.14.0"
+flask-restx = "0.5.1"
+flask-sqlalchemy = "2.5.1"
+flask-wtf = "1.0.1"
+marshmallow = "3.18.0"
+marshmallow-sqlalchemy = "0.28.1"
+pandas = "1.3.5"
+sqlalchemy = "1.4.40"
+typing-extensions = "4.3.0"
+werkzeug = "2.1.2"
+<%_ if (databaseTypeMariadb) { _%>
+mariadb = "1.1.7"
+<%_ } else if (databaseTypeMysql) { _%>
+mysql-connector-python = "8.1.0"
+<%_ } else if (databaseTypeMssql) { _%>
+pyodbc = "4.0.39"
+<%_ } else if (databaseTypeOracle) { _%>
+oracledb = "1.4.0"
+<%_ } else if (databaseTypePostgres || databaseTypeCockroach) { _%>
+psycopg2-binary = "^2.9.7"
+<%_ } else if (databaseTypeCockroach) { _%>
+sqlalchemy-cockroachdb = "2.0.1"
+<%_ } _%>
+
+[tool.poetry.group.dev.dependencies]
+taskipy = "^1.12.0"
+pytest = "7.4.0"
+pytest-flask = "1.2.0"
+pytest-cov = "^4.1.0"
+ruff = "^0.0.284"
+<%_ if (devDatabaseTypeSQLiteDisk) { _%>
+sqlite-web = "^0.5.2"
+<%_ } _%>
+requests = "^2.31.0"
+flask-testing = "^0.8.1"
+bandit = "^1.7.5"
+black = "^23.7.0"
+
+[tool.bandit]
+targets = ["src/main/python"]
+
+[tool.pytest.ini_options]
+pythonpath = "src/main/python"
+
+[tool.taskipy.tasks]
+run_app = { cmd = "python src/main/python/<%= capitalizedBaseName _%>App.py", help = "Runs the main application" }
+code_quality_scan = { cmd = "ruff --select=ALL src/main/python", help = "Runs the Ruff code quality scan" }
+security_scan = { cmd = "bandit -c pyproject.toml -r .", help = "Runs the Bandit security scan" }
+code_formatting = { cmd = "black src/main/python", help = "Runs the Black code formatter"}
+coverage = { cmd = "pytest --cov=src --cov-report=html", help = "Runs the PyTest code coverage"}
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
