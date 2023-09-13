@@ -83,6 +83,14 @@ module.exports = async (env, options) => {
             ws: true
           }
 <%_ } _%>
+<%_ if (devDatabaseTypeSQLiteAny) { _%>
+          {
+            context: ['/sqlite-console'],
+            target: `http://localhost:8092`,
+            secure: false,
+            changeOrigin: options.tls,
+          },
+<% } %>
         ],
         historyApiFallback: true
       },
@@ -156,7 +164,7 @@ module.exports = async (env, options) => {
               globOptions: { ignore: ['**/index.html'] },
             },
             {
-              from: require.resolve('axios/dist/axios.min.js'), 
+              from: require.resolve('axios/dist/axios.min.js'),
               to: 'swagger-ui/',
             },
             { from: './<%= CLIENT_MAIN_SRC_DIR %>swagger-ui/', to: 'swagger-ui/' },

@@ -1,6 +1,6 @@
 {
   "name": "generator-pyhipster",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Python (Flask) + Angular/React/Vue in one handy generator",
   "keywords": [
     "Python 3",

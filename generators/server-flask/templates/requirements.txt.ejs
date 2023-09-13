@@ -1,12 +1,4 @@
-aniso8601==9.0.1
-attrs==22.1.0
 bcrypt==4.0.0
-blinker==1.5
-cachelib==0.9.0
-click==8.1.3
-colorama==0.4.5
-dnspython==2.2.1
-email-validator==1.2.1
 Flask==2.1.2
 <%_ if (!cacheProviderNo) { _%>
 Flask-Caching==2.0.1
@@ -21,31 +13,12 @@ flask-marshmallow==0.14.0
 flask-restx==0.5.1
 Flask-SQLAlchemy==2.5.1
 Flask-WTF==1.0.1
-greenlet==1.1.3
-idna==3.3
-importlib-metadata==4.12.0
-importlib-resources==5.9.0
-itsdangerous==2.1.2
-Jinja2==3.1.2
-jsonschema==4.14.0
-MarkupSafe==2.1.1
 marshmallow==3.18.0
 marshmallow-sqlalchemy==0.28.1
-numpy==1.21.6
-packaging==21.3
 pandas==1.3.5
-passlib==1.7.4
-pkgutil-resolve-name==1.3.10
-pyparsing==3.0.9
-pyrsistent==0.18.1
-python-dateutil==2.8.2
-pytz==2022.2.1
-six==1.16.0
 SQLAlchemy==1.4.40
 typing-extensions==4.3.0
 Werkzeug==2.1.2
-WTForms==3.0.1
-zipp==3.8.1
 <%_ if (databaseTypeMariadb) { _%>
 mariadb
 <%_ } else if (databaseTypeMysql) { _%>
@@ -53,9 +26,13 @@ mysql-connector-python
 <%_ } else if (databaseTypeMssql) { _%>
 pyodbc
 <%_ } else if (databaseTypeOracle) { _%>
-oracledb 
+oracledb
 <%_ } else if (databaseTypePostgres || databaseTypeCockroach) { _%>
-psycopg2
+psycopg2-binary
 <%_ } else if (databaseTypeCockroach) { _%>
 sqlalchemy-cockroachdb
 <%_ } _%>
+<%_ if (devDatabaseTypeSQLiteAny) { _%>
+sqlite-web
+<%_ } _%>
+ruff

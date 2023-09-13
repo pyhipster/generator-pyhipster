@@ -56,22 +56,16 @@ class UserSessionResource(Resource):
         if remember_me:
             token_expiry = timedelta(hours=24)
         login_user(user, remember=remember_me, duration=token_expiry)
-        # Get the role from the DB
-        user_roles = []
-        for role in user.roles:
-            user_roles.append(role.name)
-        auth = ",".join(user_roles)
-        session_details = {"username": username, "roles": auth}
         # Generate the session based on the above parameters
         csrf = request.cookies.get('XSRF-TOKEN')
         if csrf is None:
             csrf = session['_id']
-        response = make_response()
+        response = make_response('')
         if remember_me:
             response.set_cookie('X-XSRF-TOKEN', bytes(csrf, 'utf-8'), expires=(datetime.now() + timedelta(hours=24)))
             response.set_cookie('JSESSIONID', bytes(csrf, 'utf-8'), expires=(datetime.now() + timedelta(hours=24)))
         else:
             response.set_cookie('X-XSRF-TOKEN', bytes(csrf, 'utf-8'), expires=(datetime.now() + timedelta(hours=3)))
             response.set_cookie('JSESSIONID', bytes(csrf, 'utf-8'), expires=(datetime.now() + timedelta(hours=3)))
+        response.status_code = 200
         return response
-
