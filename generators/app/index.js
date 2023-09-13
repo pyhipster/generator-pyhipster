@@ -538,6 +538,9 @@ module.exports = class JHipsterAppGenerator extends BaseBlueprintGenerator {
           this.initializeGitRepository();
         }
       },
+      installPythonModules() {
+        this.poetryInstall();
+      }
     };
   }
 

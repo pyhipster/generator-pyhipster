@@ -40,6 +40,12 @@ echo "Running Ruff code analysis"
 echo "******************************"
 ruff --select=ALL src/main/python
 
+<%_ if (devDatabaseTypeSQLiteAny) { _%>
+echo "Starting Development DB browser"
+echo ******************************
+sqlite_web -p 8092 -x -u "/sqlite-console" <%_ if (devDatabaseTypeSQLiteMemory) { _%>:memory:<%_ } else { _%>pyhipster.db3<%_ } _%>
+<%_ } _%>
+
 echo "Starting the application"
 echo "******************************"
 python src/main/python/<%= capitalizedBaseName %>App.py

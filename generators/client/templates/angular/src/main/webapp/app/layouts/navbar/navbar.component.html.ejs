@@ -138,6 +138,14 @@
             </a>
           </li>
 <%_ } _%>
+<%_ if (devDatabaseTypeSQLiteDisk) { _%>
+          <li *ngIf="!inProduction">
+            <a class="dropdown-item" href="/sqlite-console" target="_tab" (click)="collapseNavbar()">
+              <fa-icon icon="database" [fixedWidth]="true"></fa-icon>
+              <span <%= jhiPrefix %>Translate="global.menu.admin.database">Database</span>
+            </a>
+          </li>
+<%_ } _%>
         </ul>
       </li>
 <%_ if (enableTranslation) { _%>

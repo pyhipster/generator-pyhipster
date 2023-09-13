@@ -32,4 +32,7 @@ psycopg2-binary
 <%_ } else if (databaseTypeCockroach) { _%>
 sqlalchemy-cockroachdb
 <%_ } _%>
+<%_ if (devDatabaseTypeSQLiteAny) { _%>
+sqlite-web
+<%_ } _%>
 ruff

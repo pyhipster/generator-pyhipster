@@ -1,0 +1,75 @@
+<%#
+ Copyright 2022 the original author or authors from the PyHipster project.
+
+ This file is part of the PyHipster project, see https://github.com/pyhipster/generator-pyhipster
+ for more information.
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      https://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-%>
+import pytest
+<%_ if (authenticationTypeJwt) { _%>
+from flask_jwt_extended import create_access_token
+<%_ } else if (authenticationTypeSession) { _%>
+from flask_login import FlaskLoginClient
+<%_ } _%>
+from domain.User import User
+
+
+def test_register_account(test_client):
+    """
+    GIVEN a Flask application configured for testing
+    WHEN the '/api/admin/users' endpoint is requested (GET)
+    THEN check the response is valid
+    """
+    <%_ if (authenticationTypeJwt) { _%>
+    access_token = create_access_token('admin')
+    headers = {
+        'Authorization': 'Bearer {}'.format(access_token),
+        'Content-Type': 'application/json'
+    }
+    <%_ } else if (authenticationTypeSession) { _%>
+    headers = {
+        'Content-Type': 'application/json'
+    }
+    <%_ } _%>
+
+    user_info = {
+        "login": "janedoe",
+        "email": "janedoe@localhost",
+        "password": "janedoe123"
+    }
+
+    response = test_client.post('/api/register', headers=headers, json=user_info)
+    assert (response.status_code == 201 or response.status_code == 200)
+
+
+def test_delete_user(test_client):
+    """
+    GIVEN a Flask application configured for testing
+    WHEN the '/api/admin/users/admin' endpoint is requested (GET)
+    THEN check the response is valid
+    """
+    <%_ if (authenticationTypeJwt) { _%>
+    access_token = create_access_token('admin')
+    headers = {
+        'Authorization': 'Bearer {}'.format(access_token),
+        'Content-Type': 'application/json'
+    }
+    <%_ } else if (authenticationTypeSession) { _%>
+    headers = {
+        'Content-Type': 'application/json'
+    }
+    <%_ } _%>
+
+    response = test_client.delete('/api/admin/users/janedoe', headers=headers)
+    assert response.status_code == 204
