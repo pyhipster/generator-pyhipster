@@ -19,28 +19,31 @@
 from flask_mail import Mail, Message
 from flask import render_template, request
 from config.BaseConfig import BaseConfig
+from flask_executor import Executor
 import os
 
 
 mail = Mail()
+executor = Executor()
 directory = os.path.dirname(os.getcwd())
 
 
 def send_activation_mail(user):
     template_variable = render_template('activationEmail.html', activationKey=user.activation_key, login=user.login, baseUrl=request.url_root)
-    send_mail("PyHipster activation", user.email, template_variable)
+    send_mail.submit("PyHipster activation", user.email, template_variable)
 
 
 def send_creation_mail(user):
     template_variable = render_template('creationEmail.html', resetKey=user.reset_key, login=user.login, baseUrl=request.url_root)
-    send_mail("PyHipster creation", user.email, template_variable)
+    send_mail.submit("PyHipster creation", user.email, template_variable)
 
 
 def send_reset_mail(user):
     template_variable = render_template('passwordResetEmail.html', resetKey=user.reset_key, login=user.login, baseUrl=request.url_root)
-    send_mail("PyHipster Password Reset", user.email, template_variable)
+    send_mail.submit("PyHipster Password Reset", user.email, template_variable)
 
 
+@executor.job
 def send_mail(subject, recipient, body):
     msg = Message(
         subject,

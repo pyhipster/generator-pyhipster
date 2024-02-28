@@ -31,7 +31,7 @@ from config.BaseConfig import BaseConfig
 from config.FakeDataLoader import load_fake_data
 from DatabaseConfig import db
 from WebSerializer import ma
-from MailConfiguration import mail
+from MailConfiguration import mail, executor
 <%_ if (!cacheProviderNo) { _%>
 from CacheConfiguration import cache
 <%_ } _%>
@@ -75,6 +75,7 @@ def create_app(flaskapp):
     login_manager.init_app(app)
     <%_ } _%>
     mail.init_app(flaskapp)
+    executor.init_app(flaskapp)
     return flaskapp
 
 
