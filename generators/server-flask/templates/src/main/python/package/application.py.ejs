@@ -55,7 +55,8 @@ login_manager = LoginManager()
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--tls', help='TLS parameter')
+parser.add_argument('--tls', default=False, help='Enable TLS')
+parser.add_argument('--env', default='dev', choices=['dev', 'prod'], help='Environment (dev or prod)')
 args = parser.parse_args()
 
 
@@ -73,7 +74,12 @@ def create_tables():
 
 def create_app(flaskapp):
     flaskapp.register_blueprint(bluePrint)
-    flaskapp.config.from_object(BaseConfig)
+    if args.env == 'dev':
+        flaskapp.config.from_object(DevConfig)
+    elif args.env == 'prod':
+        flaskapp.config.from_object(ProdConfig)
+    else:
+        flaskapp.config.from_object(DevConfig)
     <%_ if (!cacheProviderNo) { _%>
     cache.init_app(app)
     <%_ } _%>
@@ -89,7 +95,13 @@ def create_app(flaskapp):
 
 if __name__ == '__main__':
     flask_app = create_app(app)
-    if args.tls:
+    if args.tls and args.env == 'dev':
         flask_app.run(debug=True, port=8080, ssl_context='adhoc')
+    elif not args.tls and args.env == 'dev':
+        flask_app.run(debug=True, port=8080)
+    elif args.tls and args.env == 'prod':
+        flask_app.run(debug=False, port=8080, ssl_context='adhoc')
+    elif not args.tls and args.env == 'prod':
+        flask_app.run(debug=False, port=8080)
     else:
         flask_app.run(debug=True, port=8080)
