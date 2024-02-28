@@ -157,6 +157,16 @@ Once the application is running
 
 ![Frontend Running](images/running-application-ui.png)
 
+> ``New in version 0.1.0`` PyHipster supports TLS as well
+ 
+Execute the following command to run PyHipster with TLS support
+```bash
+$> npm run pyhipster-tls
+```
+In this case, the application is available on https://localhost:9000
+
+For more details about supporting TLS with custom certificates, please refer to https://blog.miguelgrinberg.com/post/running-your-flask-application-over-https
+
 Follow the onscreen instructions and login as "admin" or "user" and explore around.
 
 ### Testing

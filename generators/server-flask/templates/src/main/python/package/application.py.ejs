@@ -32,6 +32,7 @@ from config.FakeDataLoader import load_fake_data
 from DatabaseConfig import db
 from WebSerializer import ma
 from MailConfiguration import mail, executor
+import argparse
 <%_ if (!cacheProviderNo) { _%>
 from CacheConfiguration import cache
 <%_ } _%>
@@ -51,6 +52,11 @@ api = add_api_namespace(api)
 jwt = JWTManager(app)
 <%_ } else if (authenticationTypeSession) { _%>
 login_manager = LoginManager()
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--tls', help='TLS parameter')
+args = parser.parse_args()
 
 
 @login_manager.user_loader
@@ -83,4 +89,7 @@ def create_app(flaskapp):
 
 if __name__ == '__main__':
     flask_app = create_app(app)
-    flask_app.run(debug=True, port=8080)
+    if args.tls:
+        flask_app.run(debug=True, port=8080, ssl_context='adhoc')
+    else:
+        flask_app.run(debug=True, port=8080)
