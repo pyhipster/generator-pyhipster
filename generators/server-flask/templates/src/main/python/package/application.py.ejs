@@ -52,10 +52,12 @@ jwt = JWTManager(app)
 <%_ } else if (authenticationTypeSession) { _%>
 login_manager = LoginManager()
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.get_by_id(int(user_id))
 <%_ } _%>
+
 
 @app.before_first_request
 def create_tables():

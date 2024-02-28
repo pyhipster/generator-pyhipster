@@ -40,13 +40,14 @@ class AppManagementInfoResource(Resource):
             <%_ } _%>
         }, 200
 
+
 <%_ if (withAdminUi) { _%>
 class AppManagementConfigurationResource(Resource):
     @has_role(AuthoritiesConstants.ADMIN)
     def get(self):
         flask_config = current_app.config
         config_vars = (
-            "ENV", 
+            "ENV",
             <%_ if (authenticationTypeJwt) { _%>
             "JWT_ALGORITHM",
             <%_ } _%>
@@ -64,7 +65,7 @@ class AppManagementConfigurationResource(Resource):
             "CACHE_DEFAULT_TIMEOUT",
             "CACHE_IGNORE_ERRORS",
             <%_ } _%>
-            <%_ if (cacheProviderFileSystem) { _%> 
+            <%_ if (cacheProviderFileSystem) { _%>
             "CACHE_DIR",
             <%_ } else if (cacheProviderMemcached) { _%>
             "CACHE_MEMCACHED_SERVERS",
@@ -94,14 +95,15 @@ class AppManagementEnvironmentResource(Resource):
             # env_variables[k] = v
             env_property_dict = { "name": str(k), "properties": {str(k): {"value": str(v) }}}
             env_variables.append(env_property_dict)
-        return { 
+        return {
             <%_ if (withAdminUi) { _%>
             "activeProfiles": ["dev", "api-docs"],
             <%_ } else { _%>
             "activeProfiles": ["dev"],
             <%_ } _%>
-            "propertySources": env_variables 
+            "propertySources": env_variables
         }, 200
+
 
 class AppManagementOpenAPIResource(Resource):
     @has_role(AuthoritiesConstants.ADMIN)

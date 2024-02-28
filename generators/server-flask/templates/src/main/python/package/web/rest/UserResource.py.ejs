@@ -67,7 +67,6 @@ class UserResource(Resource):
             return {"message": "User not found"}, 404
         return user_schema.dump(users), 200
 
-
     <%_ if (authenticationTypeJwt) { _%>
     @jwt_required()
     <%_ } else if (authenticationTypeSession) { _%>
