@@ -21,6 +21,7 @@ from flask import Flask, Blueprint
 from flask_restx import Api
 <%_ if (authenticationTypeJwt) { _%>
 from flask_jwt_extended import JWTManager
+from jwt import ExpiredSignatureError
 <%_ } else if (authenticationTypeSession) { _%>
 from flask import session
 from flask_login import LoginManager
@@ -45,11 +46,15 @@ api = Api(bluePrint, doc='/v3/api-docs/default', title='<%= mainClass %> Applica
 <%_ } else { _%>
 api = Api(bluePrint, doc=False)
 <%_ } _%>
-
-
 api = add_api_namespace(api)
 <%_ if (authenticationTypeJwt) { _%>
 jwt = JWTManager(app)
+
+@api.errorhandler(ExpiredSignatureError)
+def handle_custom_exception(error):
+# Returns an error message when the toke has expired
+return {'message': 'Login has expired. Please login again'}, 401
+
 <%_ } else if (authenticationTypeSession) { _%>
 login_manager = LoginManager()
 
