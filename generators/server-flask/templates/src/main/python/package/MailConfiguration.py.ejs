@@ -18,7 +18,7 @@
 -%>
 from flask_mail import Mail, Message
 from flask import render_template, request
-from config.BaseConfig import BaseConfig
+from config.BaseConfig import DevConfig, ProdConfig
 from flask_executor import Executor
 import os
 
@@ -47,7 +47,6 @@ def send_reset_mail(user):
 def send_mail(subject, recipient, body):
     msg = Message(
         subject,
-        sender=BaseConfig.MAIL_USERNAME,
         recipients=[recipient]
     )
     msg.html = body

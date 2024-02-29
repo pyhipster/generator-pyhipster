@@ -27,7 +27,7 @@ from flask_login import LoginManager
 from domain.User import User
 <%_ } _%>
 from rest import add_api_namespace
-from config.BaseConfig import BaseConfig
+from config.BaseConfig import DevConfig, ProdConfig
 from config.FakeDataLoader import load_fake_data
 from DatabaseConfig import db
 from WebSerializer import ma
@@ -53,17 +53,15 @@ jwt = JWTManager(app)
 <%_ } else if (authenticationTypeSession) { _%>
 login_manager = LoginManager()
 
+@login_manager.user_loader
+def load_user(user_id):
+    return User.get_by_id(int(user_id))
+<%_ } _%>
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--tls', default=False, help='Enable TLS')
 parser.add_argument('--env', default='dev', choices=['dev', 'prod'], help='Environment (dev or prod)')
 args = parser.parse_args()
-
-
-@login_manager.user_loader
-def load_user(user_id):
-    return User.get_by_id(int(user_id))
-<%_ } _%>
 
 
 @app.before_first_request

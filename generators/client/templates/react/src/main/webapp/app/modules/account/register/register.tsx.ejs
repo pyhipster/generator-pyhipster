@@ -51,6 +51,7 @@ export const RegisterPage = () => {
   const updatePassword = event => setPassword(event.target.value);
 
   const successMessage = useAppSelector(state => state.register.successMessage);
+  const loading = useAppSelector(state => state.register.loading);
 
   useEffect(() => {
     if (successMessage) {
@@ -73,6 +74,9 @@ export const RegisterPage = () => {
       </Row>
       <Row className="justify-content-center">
         <Col md="8">
+          {loading ? (
+          <p>Loading...</p>
+          ) : (
           <ValidatedForm id="register-form" onSubmit={handleValidSubmit}>
             <ValidatedField
               name="username"
@@ -133,6 +137,7 @@ export const RegisterPage = () => {
               <Translate contentKey="register.form.button">Register</Translate>
             </Button>
           </ValidatedForm>
+          )}
           <p>&nbsp;</p>
           <Alert color="warning">
             <span>
