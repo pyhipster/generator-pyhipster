@@ -52,8 +52,8 @@ jwt = JWTManager(app)
 
 @api.errorhandler(ExpiredSignatureError)
 def handle_custom_exception(error):
-# Returns an error message when the toke has expired
-return {'message': 'Login has expired. Please login again'}, 401
+    # Returns an error message when the toke has expired
+    return {'message': 'Login has expired. Please login again'}, 401
 
 <%_ } else if (authenticationTypeSession) { _%>
 login_manager = LoginManager()
