@@ -110,17 +110,17 @@ class ProdConfig:
 
     # Database
     <%_ if (prodDatabaseTypeMariadb) { _%>
-    SQLALCHEMY_DATABASE_URI = 'mariadb+mariadbconnector://<user>:<password>@<host>[:<port>]/<dbname>'
+    SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI', 'mariadb+mariadbconnector://<user>:<password>@<host>[:<port>]/<dbname>')
     <%_ } else if (prodDatabaseTypeMysql) { _%>
-    SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://<user>:<password>@<host>[:<port>]/<dbname>'
+    SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI', 'mysql+mysqlconnector://<user>:<password>@<host>[:<port>]/<dbname>')
     <%_ } else if (prodDatabaseTypeMssql) { _%>
-    SQLALCHEMY_DATABASE_URI = 'mssql+pyodbc://<username>:<password>@<hostname>:<port>/<dbname>?driver=ODBC+Driver+17+for+SQL+Server'
+    SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI', 'mssql+pyodbc://<username>:<password>@<hostname>:<port>/<dbname>?driver=ODBC+Driver+17+for+SQL+Server')
     <%_ } else if (prodDatabaseTypeOracle) { _%>
-    SQLALCHEMY_DATABASE_URI = 'oracle+cx_oracle://user:pass@hostname:port[/dbname][?service_name=<service>[&key=value&key=value...]]'
+    SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI', 'oracle+cx_oracle://user:pass@hostname:port[/dbname][?service_name=<service>[&key=value&key=value...]]')
     <%_ } else if (prodDatabaseTypePostgres) { _%>
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://user:password@host:port/dbname[?key=value&key=value...]'
+    SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI', 'postgresql+psycopg2://user:password@host:port/dbname[?key=value&key=value...]')
     <%_ } else if (prodDatabaseTypeCockroach) { _%>
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://user:password@host:port/dbname[?key=value&key=value...]'
+    SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI', 'postgresql+psycopg2://user:password@host:port/dbname[?key=value&key=value...]')
     <%_ } _%>
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     PROPAGATE_EXCEPTIONS = False
