@@ -137,9 +137,9 @@ module.exports = class extends BaseBlueprintGenerator {
   // Public API method used by the getter and also by Blueprints
   _prompting() {
     return {
-      // Adding Language 
-      // askI18n: prompts.askI18n,
-      // askForLanguages: prompts.askForLanguages,
+      // Adding Language
+      askI18n: prompts.askI18n,
+      askForLanguages: prompts.askForLanguages,
     };
   }
 
