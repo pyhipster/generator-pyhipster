@@ -122,15 +122,15 @@ class ProdConfig:
     <%_ } else if (prodDatabaseTypeCockroach) { _%>
     SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI', 'postgresql+psycopg2://user:password@host:port/dbname[?key=value&key=value...]')
     <%_ } _%>
-    SQLALCHEMY_TRACK_MODIFICATIONS = os.environ.get(SQLALCHEMY_TRACK_MODIFICATIONS, False)
-    PROPAGATE_EXCEPTIONS = os.environ.get(PROPAGATE_EXCEPTIONS, False)
-    SQLALCHEMY_EXPIRE_ON_COMMIT = os.environ.get(SQLALCHEMY_EXPIRE_ON_COMMIT, False)
+    SQLALCHEMY_TRACK_MODIFICATIONS = os.environ.get('SQLALCHEMY_TRACK_MODIFICATIONS', 'False')
+    PROPAGATE_EXCEPTIONS = os.environ.get('PROPAGATE_EXCEPTIONS', 'False')
+    SQLALCHEMY_EXPIRE_ON_COMMIT = os.environ.get('SQLALCHEMY_EXPIRE_ON_COMMIT', 'False')
 
     # Mail Configurations
     MAIL_SERVER = os.environ.get('MAIL_SERVER', 'smtp.gmail.com')
-    MAIL_PORT = os.environ.get(MAIL_PORT, 587)
-    MAIL_USE_TLS = os.environ.get(MAIL_USE_TLS, True)
-    MAIL_USE_SSL = os.environ.get(MAIL_USE_SSL, False)
+    MAIL_PORT = os.environ.get('MAIL_PORT', '587')
+    MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', 'True')
+    MAIL_USE_SSL = os.environ.get('MAIL_USE_SSL', 'False')
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME', 'my-email-id@gmail.com')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD', 'my-email-password')
     MAIL_DEFAULT_SENDER = os.environ.get('MAIL_DEFAULT_SENDER', 'my-email-id@gmail.com')
@@ -138,28 +138,28 @@ class ProdConfig:
     # Cache Configurations
     <%_ if (cacheProviderSimple) { _%>
     CACHE_TYPE = os.environ.get("CACHE_TYPE", "SimpleCache")
-    CACHE_DEFAULT_TIMEOUT = os.environ.get(CACHE_DEFAULT_TIMEOUT, 60)
-    CACHE_IGNORE_ERRORS = os.environ.get(CACHE_IGNORE_ERRORS, True)
+    CACHE_DEFAULT_TIMEOUT = os.environ.get('CACHE_DEFAULT_TIMEOUT', '60')
+    CACHE_IGNORE_ERRORS = os.environ.get('CACHE_IGNORE_ERRORS', 'True')
     # CACHE_THRESHOLD
     <%_ } else if (cacheProviderFileSystem) { _%>
     CACHE_TYPE = os.environ.get("CACHE_TYPE", 'FileSystemCache')
-    CACHE_DEFAULT_TIMEOUT = os.environ.get(CACHE_DEFAULT_TIMEOUT, 60)
-    CACHE_IGNORE_ERRORS = os.environ.get(CACHE_IGNORE_ERRORS, True)
-    CACHE_DIR = os.environ.get(CACHE_DIR, tempfile.gettempdir())
+    CACHE_DEFAULT_TIMEOUT = os.environ.get('CACHE_DEFAULT_TIMEOUT', '60')
+    CACHE_IGNORE_ERRORS = os.environ.get('CACHE_IGNORE_ERRORS', 'True')
+    CACHE_DIR = os.environ.get('CACHE_DIR', 'tempfile.gettempdir()')
     # CACHE_THRESHOLD
     # CACHE_OPTIONS
     <%_ } else if (cacheProviderMemcached) { _%>
     CACHE_TYPE = os.environ.get("CACHE_TYPE", 'MemcachedCache')
-    CACHE_DEFAULT_TIMEOUT = os.environ.get(CACHE_DEFAULT_TIMEOUT, 60)
+    CACHE_DEFAULT_TIMEOUT = os.environ.get('CACHE_DEFAULT_TIMEOUT', '60')
     # CACHE_KEY_PREFIX = os.environ.get("CACHE_KEY_PREFIX", '')
     CACHE_MEMCACHED_SERVERS = os.environ.get("CACHE_MEMCACHED_SERVERS", '')
     <%_ } else if (cacheProviderRedis) { _%>
     CACHE_TYPE = os.environ.get("CACHE_TYPE", 'RedisCache')
-    CACHE_DEFAULT_TIMEOUT = os.environ.get(CACHE_DEFAULT_TIMEOUT, 60)
+    CACHE_DEFAULT_TIMEOUT = os.environ.get('CACHE_DEFAULT_TIMEOUT', '60')
     CACHE_KEY_PREFIX = os.environ.get("CACHE_KEY_PREFIX", '')
     # CACHE_OPTIONS
     CACHE_REDIS_HOST = os.environ.get("CACHE_REDIS_HOST", '')
-    CACHE_REDIS_PORT = os.environ.get(CACHE_REDIS_PORT, 6379)
+    CACHE_REDIS_PORT = os.environ.get('CACHE_REDIS_PORT', '6379')
     CACHE_REDIS_PASSWORD = os.environ.get("CACHE_REDIS_PASSWORD", '')
     CACHE_REDIS_DB = os.environ.get("CACHE_REDIS_DB", '')
     CACHE_REDIS_URL = os.environ.get("CACHE_REDIS_URL", '')
