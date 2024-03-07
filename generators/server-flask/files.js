@@ -349,6 +349,7 @@ const baseServerFiles = {
         // },
         { file: 'pyproject.toml', renameTo: () => 'pyproject.toml' },
         { file: 'poetry.toml', renameTo: () => 'poetry.toml' },
+        { file: 'Dockerfile', method: 'copy', noEjs: true },
       ],
     },
     {
