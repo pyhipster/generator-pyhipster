@@ -28,10 +28,10 @@ const JAVA_COMPATIBLE_VERSIONS = ['11', '12', '13', '14', '15', '16', '17', '18'
 
 // Version of Java
 const PYTHON_VERSION = '3';
-const PYTHON_COMPATIBLE_VERSIONS = ['3.7', '3.8', '3.9', '3.10', '3.11'];
+const PYTHON_COMPATIBLE_VERSIONS = ['3.7', '3.8', '3.9', '3.10', '3.11', '3.12'];
 
 // Version of Node, NPM
-const NODE_VERSION = '16.14.0';
+const NODE_VERSION = '20.11.1';
 const NPM_VERSION = commonPackageJson.devDependencies.npm;
 const OPENAPI_GENERATOR_CLI_VERSION = '1.0.13-4.3.1';
 
