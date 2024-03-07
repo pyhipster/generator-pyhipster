@@ -602,16 +602,19 @@ module.exports = class JHipsterServerGenerator extends BaseBlueprintGenerator {
             scriptsStorage.set({
               'pyhipster': 'concurrently "npm:start" "npm:pyhipster:sqlite:start" npm:pyhipster:backend:start',
               'pyhipster:sqlite:start': 'poetry run sqlite_web --port 8092 --url-prefix "/sqlite-console" --no-browser pyhipster.db3',
+              'pyhipster-tls': 'concurrently "npm:start-tls" "npm:pyhipster:sqlite:start" npm:pyhipster:backend:start-tls',
             });
           } else {
             scriptsStorage.set({
               'pyhipster': 'concurrently "npm:start" npm:pyhipster:backend:start',
+              'pyhipster-tls': 'concurrently "npm:start-tls" npm:pyhipster:backend:start-tls',
             });
           }
           scriptsStorage.set({
               'pyhipster:backend:start': 'poetry run task run_app',
               'pyhipster:build': 'poetry build',
               'pyhipster:cleanup': 'rimraf ./dist',
+              'pyhipster:backend:start-tls': 'poetry run task run_app_tls',
           });
         }
       },

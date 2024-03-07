@@ -25,6 +25,7 @@ flask-jwt-extended = "4.4.4"
 Flask-Login = "0.6.2"
 <%_ } _%>
 flask-mail = "0.9.1"
+flask-executor = "^1.0.0"
 flask-marshmallow = "0.14.0"
 flask-restx = "0.5.1"
 flask-sqlalchemy = "2.5.1"
@@ -56,7 +57,7 @@ pytest-flask = "1.2.0"
 pytest-cov = "^4.1.0"
 ruff = "^0.0.284"
 <%_ if (devDatabaseTypeSQLiteDisk) { _%>
-sqlite-web = "^0.5.2"
+sqlite-web = "^0.6.3"
 <%_ } _%>
 requests = "^2.31.0"
 flask-testing = "^0.8.1"
@@ -71,6 +72,7 @@ pythonpath = "src/main/python"
 
 [tool.taskipy.tasks]
 run_app = { cmd = "python src/main/python/<%= capitalizedBaseName _%>App.py", help = "Runs the main application" }
+run_app_tls = { cmd = "python src/main/python/Async_mailApp.py --tls True", help = "Runs the main application with TLS" }
 code_quality_scan = { cmd = "ruff --select=ALL src/main/python", help = "Runs the Ruff code quality scan" }
 security_scan = { cmd = "bandit -c pyproject.toml -r .", help = "Runs the Bandit security scan" }
 code_formatting = { cmd = "black src/main/python", help = "Runs the Black code formatter"}

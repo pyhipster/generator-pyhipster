@@ -18,6 +18,7 @@ RUN \
   # install utilities
   apt-get --no-install-recommends install -y \
     build-essential \
+    jq \
     procps \
     wget \
     curl \
@@ -40,7 +41,8 @@ RUN \
          exit 1; \
          ;; \
     esac; \
-    JHI_NODE_VERSION="$(/home/pyhipster/generator-pyhipster/test-integration/scripts/99-print-node-version.sh)" && \
+    # JHI_NODE_VERSION="$(/home/pyhipster/generator-pyhipster/test-integration/scripts/99-print-node-version.sh)" && \
+    JHI_NODE_VERSION="$(curl -sL https://nodejs.org/dist/index.json | jq -r '.[] | select(.lts != "False") | .version' | head -n1)" && \
     wget https://nodejs.org/dist/v$JHI_NODE_VERSION/node-v$JHI_NODE_VERSION-linux-$ARCH.tar.gz -O /tmp/node.tar.gz && \
     tar -C /usr/local --strip-components 1 -xzf /tmp/node.tar.gz && \
   # install yeoman
@@ -63,7 +65,7 @@ RUN \
 
 # expose the working directory, the Tomcat port, the BrowserSync ports
 USER pyhipster
-ENV PATH $PATH:/usr/bin
+ENV PATH $PATH:/usr/bin:/home/pyhipster/.local/bin
 WORKDIR "/home/pyhipster/app"
 VOLUME ["/home/pyhipster/app"]
 EXPOSE 8080 9000 3001

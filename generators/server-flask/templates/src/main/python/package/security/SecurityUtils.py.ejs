@@ -25,6 +25,7 @@ from flask_jwt_extended import verify_jwt_in_request, get_jwt
 from flask_login import login_required, current_user as logged_in_user
 <%_ } _%>
 
+
 def has_role(ROLE):
     def wrapper(fn):
         @wraps(fn)
@@ -62,5 +63,5 @@ def has_any_role(*ROLES):
             else:
                 return {"message": "You are not allowed to perform this operation"}, 405
         return decorator
-    return 
-    
+    return
+

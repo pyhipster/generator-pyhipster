@@ -253,13 +253,13 @@ const baseServerFiles = {
       path: DOCKER_DIR,
       templates: [
         'app.yml',
-        'jhipster-control-center.yml',
-        'sonar.yml',
-        'monitoring.yml',
-        'prometheus/prometheus.yml',
-        'grafana/provisioning/dashboards/dashboard.yml',
-        'grafana/provisioning/dashboards/JVM.json',
-        'grafana/provisioning/datasources/datasource.yml',
+        // 'jhipster-control-center.yml',
+        // 'sonar.yml',
+        // 'monitoring.yml',
+        // 'prometheus/prometheus.yml',
+        // 'grafana/provisioning/dashboards/dashboard.yml',
+        // 'grafana/provisioning/dashboards/JVM.json',
+        // 'grafana/provisioning/datasources/datasource.yml',
       ],
     },
     {
@@ -349,6 +349,7 @@ const baseServerFiles = {
         // },
         { file: 'pyproject.toml', renameTo: () => 'pyproject.toml' },
         { file: 'poetry.toml', renameTo: () => 'poetry.toml' },
+        { file: 'Dockerfile', method: 'copy', noEjs: true },
       ],
     },
     {

@@ -60,7 +60,7 @@ const TYPE_BYTE_BUFFER = dbTypes.RelationalOnlyDBTypes.BYTE_BUFFER;
 
 const databaseTypes = require('../jdl/jhipster/database-types');
 
-const { MONGODB, NEO4J, COUCHBASE, CASSANDRA, SQL, ORACLE, MYSQL, POSTGRESQL, MARIADB, MSSQL, H2_DISK, H2_MEMORY } = databaseTypes;
+const { MONGODB, NEO4J, COUCHBASE, CASSANDRA, SQL, ORACLE, MYSQL, POSTGRESQL, MARIADB, MSSQL, COCKROACHDB, SQLITE_DISK, SQLITE_MEMORY, H2_DISK, H2_MEMORY } = databaseTypes;
 
 const { MAVEN } = require('../jdl/jhipster/build-tool-types');
 
@@ -1265,21 +1265,21 @@ module.exports = class JHipsterBasePrivateGenerator extends Generator {
     let dbcUrl;
     let extraOptions;
     if (databaseType === MYSQL) {
-      dbcUrl = `${protocol}:mysql://${options.hostname}:3306/${options.databaseName}`;
+      dbcUrl = `mysql+mysqlconnector://user:password@${options.hostname}:3306/${options.databaseName}`;
       extraOptions =
         '?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true';
     } else if (databaseType === MARIADB) {
-      dbcUrl = `${protocol}:mariadb://${options.hostname}:3306/${options.databaseName}`;
+      dbcUrl = `mariadb+mariadbconnector://user:password@${options.hostname}:3306/${options.databaseName}`;
       extraOptions = '?useLegacyDatetimeCode=false&serverTimezone=UTC';
-    } else if (databaseType === POSTGRESQL) {
-      dbcUrl = `${protocol}:postgresql://${options.hostname}:5432/${options.databaseName}`;
+    } else if (databaseType === POSTGRESQL || databaseType === COCKROACHDB) {
+      dbcUrl = `postgresql+psycopg2://user:password@${options.hostname}:5432/${options.databaseName}`;
     } else if (databaseType === ORACLE) {
-      dbcUrl = `${protocol}:oracle:thin:@${options.hostname}:1521:${options.databaseName}`;
+      dbcUrl = `oracle+cx_oracle://user:password@${options.hostname}:1521:${options.databaseName}`;
     } else if (databaseType === MSSQL) {
       if (protocol === 'r2dbc') {
-        dbcUrl = `${protocol}:mssql://${options.hostname}:1433/${options.databaseName}`;
+        dbcUrl = `mssql+pyodbc://user:password@${options.hostname}:1433/${options.databaseName}`;
       } else {
-        dbcUrl = `${protocol}:sqlserver://${options.hostname}:1433;database=${options.databaseName}`;
+        dbcUrl = `mssql+pyodbc://user:password@${options.hostname}:1433;database=${options.databaseName}`;
       }
     } else if (databaseType === H2_DISK) {
       if (!options.localDirectory) {
