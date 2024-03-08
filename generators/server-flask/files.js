@@ -339,14 +339,8 @@ const baseServerFiles = {
   serverBuild: [
     {
       templates: [
-        // { file: 'checkstyle.xml', options: { interpolate: INTERPOLATE_REGEX } },
         { file: 'devcontainer/devcontainer.json', renameTo: () => '.devcontainer/devcontainer.json' },
         { file: 'devcontainer/Dockerfile', renameTo: () => '.devcontainer/Dockerfile' },
-        // { file: 'version.py', renameTo: () => 'version.py' },
-        // {
-        //   file: 'requirements.txt',
-        //   renameTo: () => 'requirements.txt'
-        // },
         { file: 'pyproject.toml', renameTo: () => 'pyproject.toml' },
         { file: 'poetry.toml', renameTo: () => 'poetry.toml' },
         { file: 'Dockerfile', method: 'copy', noEjs: true },
@@ -358,26 +352,6 @@ const baseServerFiles = {
         { file: 'pyhipster.db3', method: 'copy', noEjs: true },
       ],
     },
-    // {
-    //   condition: generator => !generator.skipClient,
-    //   templates: [
-    //     { file: 'npmw', method: 'copy', noEjs: true },
-    //     { file: 'npmw.cmd', method: 'copy', noEjs: true },
-    //   ],
-    // },
-    // {
-    //   condition: generator => !generator.skipServer,
-    //   templates: [
-    //     {
-    //       file: 'pvnw',
-    //       renameTo: () => 'pvnw'
-    //     },
-    //     {
-    //       file: 'pvnw.cmd',
-    //       renameTo: () => 'pvnw.cmd'
-    //     },
-    //   ],
-    // },
   ],
   serverResource: [
     {
@@ -444,6 +418,10 @@ const baseServerFiles = {
           file: 'package/security/SecurityUtils.py',
           renameTo: generator => `${generator.javaDir}security/SecurityUtils.py`,
         },
+        {
+          file: 'package/web/rest/__init__.py',
+          renameTo: generator => `${generator.javaDir}rest/__init__.py`,
+        },
       ],
     },
     {
@@ -454,20 +432,20 @@ const baseServerFiles = {
           file: 'package/web/rest/UserJWTController.py',
           renameTo: generator => `${generator.javaDir}rest/UserJWTController.py`,
         },
-        {
-          file: 'package/web/rest/__init__.py',
-          renameTo: generator => `${generator.javaDir}rest/__init__.py`,
-        },
+        // {
+        //   file: 'package/web/rest/__init__.py',
+        //   renameTo: generator => `${generator.javaDir}rest/__init__.py`,
+        // },
       ],
     },
     {
       condition: generator => generator.applicationType === MONOLITH && generator.authenticationType === SESSION,
       path: SERVER_MAIN_SRC_DIR,
       templates: [
-        {
-          file: 'package/web/rest/__init__.py',
-          renameTo: generator => `${generator.javaDir}rest/__init__.py`,
-        },
+        // {
+        //   file: 'package/web/rest/__init__.py',
+        //   renameTo: generator => `${generator.javaDir}rest/__init__.py`,
+        // },
         {
           file: 'package/web/rest/UserSessionController.py',
           renameTo: generator => `${generator.javaDir}rest/UserSessionController.py`,
@@ -607,33 +585,16 @@ const baseServerFiles = {
     },
   ],
   springBootOauth2: [
-    {
-      condition: generator => generator.authenticationTypeOauth2 && generator.applicationTypeMonolith,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: 'package/config/OAuth2Configuration.java',
-          renameTo: generator => `${generator.javaDir}config/OAuth2Configuration.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => generator.authenticationTypeOauth2 && !generator.applicationTypeMicroservice,
-      path: SERVER_MAIN_SRC_DIR,
-      templates: [
-        {
-          file: generator => `package/web/filter/OAuth2${generator.reactive ? 'Reactive' : ''}RefreshTokensWebFilter.java`,
-          renameTo: generator => `${generator.javaDir}web/filter/OAuth2${generator.reactive ? 'Reactive' : ''}RefreshTokensWebFilter.java`,
-        },
-      ],
-    },
-    {
-      condition: generator => generator.authenticationTypeOauth2 && !generator.applicationTypeMicroservice,
-      path: SERVER_TEST_SRC_DIR,
-      templates: [
-        { file: 'package/test/util/OAuth2TestUtil.java', renameTo: generator => `${generator.testDir}test/util/OAuth2TestUtil.java` },
-      ],
-    },
+    // {
+    //   condition: generator => generator.authenticationTypeOauth2 && generator.applicationTypeMonolith,
+    //   path: SERVER_MAIN_SRC_DIR,
+    //   templates: [
+    //     {
+    //       file: 'package/config/OAuth2Configuration.java',
+    //       renameTo: generator => `${generator.javaDir}config/OAuth2Configuration.java`,
+    //     },
+    //   ],
+    // },
   ],
   serverTestFw: [
       {
