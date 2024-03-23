@@ -20,6 +20,7 @@
 import os
 from datetime import timedelta
 import tempfile
+from decouple import config
 
 
 BASE_DIR = os.path.dirname(os.path.realpath(__file__))
@@ -49,11 +50,9 @@ class DevConfig:
     <%_ } else if (devDatabaseTypeMssql) { _%>
     SQLALCHEMY_DATABASE_URI = 'mssql+pyodbc://<user>:%s@<host>[:<port>]/<dbname>?driver=ODBC+Driver+17+for+SQL+Server' % quote_plus(<password>)
     <%_ } else if (devDatabaseTypeOracle) { _%>
-    SQLALCHEMY_DATABASE_URI = 'oracle+cx_oracle://<user>:<password>@<host>[:<port>][/<dbname>][?service_name=<service>[&key=value&key=value...]]'
-    <%_ } else if (devDatabaseTypePostgres) { _%>
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://<user>:<password>@<host>[:<port>]/<dbname>[?key=value&key=value...]'
-    <%_ } else if (devDatabaseTypeCockroach) { _%>
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://<user>:<password>@<host>[:<port>]/<dbname>[?key=value&key=value...]'
+    SQLALCHEMY_DATABASE_URI = 'oracle+cx_oracle://<user>:<password>@<host>[:<port>][/<dbname>][?service_name=<service>]'
+    <%_ } else if (devDatabaseTypePostgres || devDatabaseTypeCockroach) { _%>
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://<user>:<password>@<host>[:<port>]/<dbname>'
     <%_ } _%>
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     PROPAGATE_EXCEPTIONS = False
@@ -110,57 +109,55 @@ class ProdConfig:
 
     # Database
     <%_ if (prodDatabaseTypeMariadb) { _%>
-    SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI', 'mariadb+mariadbconnector://<user>:<password>@<host>[:<port>]/<dbname>')
+    SQLALCHEMY_DATABASE_URI = config('SQLALCHEMY_DATABASE_URI', default='mariadb+mariadbconnector://<user>:<password>@<host>[:<port>]/<dbname>')
     <%_ } else if (prodDatabaseTypeMysql) { _%>
-    SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI', 'mysql+mysqlconnector://<user>:<password>@<host>[:<port>]/<dbname>')
+    SQLALCHEMY_DATABASE_URI = config('SQLALCHEMY_DATABASE_URI', default='mysql+mysqlconnector://<user>:<password>@<host>[:<port>]/<dbname>')
     <%_ } else if (prodDatabaseTypeMssql) { _%>
-    SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI', 'mssql+pyodbc://<username>:<password>@<hostname>:<port>/<dbname>?driver=ODBC+Driver+17+for+SQL+Server')
+    SQLALCHEMY_DATABASE_URI = config('SQLALCHEMY_DATABASE_URI', default='mssql+pyodbc://<username>:<password>@<hostname>:<port>/<dbname>?driver=ODBC+Driver+17+for+SQL+Server')
     <%_ } else if (prodDatabaseTypeOracle) { _%>
-    SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI', 'oracle+cx_oracle://user:pass@hostname:port[/dbname][?service_name=<service>[&key=value&key=value...]]')
-    <%_ } else if (prodDatabaseTypePostgres) { _%>
-    SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI', 'postgresql+psycopg2://user:password@host:port/dbname[?key=value&key=value...]')
-    <%_ } else if (prodDatabaseTypeCockroach) { _%>
-    SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI', 'postgresql+psycopg2://user:password@host:port/dbname[?key=value&key=value...]')
+    SQLALCHEMY_DATABASE_URI = config('SQLALCHEMY_DATABASE_URI', default='oracle+cx_oracle://user:pass@hostname:port[/dbname][?service_name=<service>]')
+    <%_ } else if (prodDatabaseTypePostgres || prodDatabaseTypeCockroach) { _%>
+    SQLALCHEMY_DATABASE_URI = config('SQLALCHEMY_DATABASE_URI', default='postgresql+psycopg2://user:password@host:port/dbname')
     <%_ } _%>
-    SQLALCHEMY_TRACK_MODIFICATIONS = os.environ.get('SQLALCHEMY_TRACK_MODIFICATIONS', 'False')
-    PROPAGATE_EXCEPTIONS = os.environ.get('PROPAGATE_EXCEPTIONS', 'False')
-    SQLALCHEMY_EXPIRE_ON_COMMIT = os.environ.get('SQLALCHEMY_EXPIRE_ON_COMMIT', 'False')
+    SQLALCHEMY_TRACK_MODIFICATIONS = config('SQLALCHEMY_TRACK_MODIFICATIONS', default=False, cast=bool)
+    PROPAGATE_EXCEPTIONS = config('PROPAGATE_EXCEPTIONS', default=False, cast=bool)
+    SQLALCHEMY_EXPIRE_ON_COMMIT = config('SQLALCHEMY_EXPIRE_ON_COMMIT', default=False, cast=bool)
 
     # Mail Configurations
-    MAIL_SERVER = os.environ.get('MAIL_SERVER', 'smtp.gmail.com')
-    MAIL_PORT = os.environ.get('MAIL_PORT', '587')
-    MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', 'True')
-    MAIL_USE_SSL = os.environ.get('MAIL_USE_SSL', 'False')
-    MAIL_USERNAME = os.environ.get('MAIL_USERNAME', 'my-email-id@gmail.com')
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD', 'my-email-password')
-    MAIL_DEFAULT_SENDER = os.environ.get('MAIL_DEFAULT_SENDER', 'my-email-id@gmail.com')
+    MAIL_SERVER = config('MAIL_SERVER', default='smtp.gmail.com')
+    MAIL_PORT = config('MAIL_PORT', default=587, cast=int)
+    MAIL_USE_TLS = config('MAIL_USE_TLS', default=True, cast=bool)
+    MAIL_USE_SSL = config('MAIL_USE_SSL', default=False, cast=bool)
+    MAIL_USERNAME = config('MAIL_USERNAME', default='my-email-id@gmail.com')
+    MAIL_PASSWORD = config('MAIL_PASSWORD', default='my-email-password')
+    MAIL_DEFAULT_SENDER = config('MAIL_DEFAULT_SENDER', default='my-email-id@gmail.com')
 
     # Cache Configurations
     <%_ if (cacheProviderSimple) { _%>
-    CACHE_TYPE = os.environ.get("CACHE_TYPE", "SimpleCache")
-    CACHE_DEFAULT_TIMEOUT = os.environ.get('CACHE_DEFAULT_TIMEOUT', '60')
-    CACHE_IGNORE_ERRORS = os.environ.get('CACHE_IGNORE_ERRORS', 'True')
+    CACHE_TYPE = config("CACHE_TYPE", default="SimpleCache")
+    CACHE_DEFAULT_TIMEOUT = config('CACHE_DEFAULT_TIMEOUT', default=60, cast=int)
+    CACHE_IGNORE_ERRORS = config('CACHE_IGNORE_ERRORS', default=True, cast=bool)
     # CACHE_THRESHOLD
     <%_ } else if (cacheProviderFileSystem) { _%>
-    CACHE_TYPE = os.environ.get("CACHE_TYPE", 'FileSystemCache')
-    CACHE_DEFAULT_TIMEOUT = os.environ.get('CACHE_DEFAULT_TIMEOUT', '60')
-    CACHE_IGNORE_ERRORS = os.environ.get('CACHE_IGNORE_ERRORS', 'True')
-    CACHE_DIR = os.environ.get('CACHE_DIR', 'tempfile.gettempdir()')
+    CACHE_TYPE = config("CACHE_TYPE", default='FileSystemCache')
+    CACHE_DEFAULT_TIMEOUT = config('CACHE_DEFAULT_TIMEOUT', default=60, cast=int)
+    CACHE_IGNORE_ERRORS = config('CACHE_IGNORE_ERRORS', default=True, cast=bool)
+    CACHE_DIR = config('CACHE_DIR', default='tempfile.gettempdir()')
     # CACHE_THRESHOLD
     # CACHE_OPTIONS
     <%_ } else if (cacheProviderMemcached) { _%>
-    CACHE_TYPE = os.environ.get("CACHE_TYPE", 'MemcachedCache')
-    CACHE_DEFAULT_TIMEOUT = os.environ.get('CACHE_DEFAULT_TIMEOUT', '60')
-    # CACHE_KEY_PREFIX = os.environ.get("CACHE_KEY_PREFIX", '')
-    CACHE_MEMCACHED_SERVERS = os.environ.get("CACHE_MEMCACHED_SERVERS", '')
+    CACHE_TYPE = config("CACHE_TYPE", default='MemcachedCache')
+    CACHE_DEFAULT_TIMEOUT = config('CACHE_DEFAULT_TIMEOUT', default=60, cast=int)
+    # CACHE_KEY_PREFIX = config("CACHE_KEY_PREFIX", default='')
+    CACHE_MEMCACHED_SERVERS = config("CACHE_MEMCACHED_SERVERS", default='')
     <%_ } else if (cacheProviderRedis) { _%>
-    CACHE_TYPE = os.environ.get("CACHE_TYPE", 'RedisCache')
-    CACHE_DEFAULT_TIMEOUT = os.environ.get('CACHE_DEFAULT_TIMEOUT', '60')
-    CACHE_KEY_PREFIX = os.environ.get("CACHE_KEY_PREFIX", '')
+    CACHE_TYPE = config("CACHE_TYPE", default='RedisCache')
+    CACHE_DEFAULT_TIMEOUT = config('CACHE_DEFAULT_TIMEOUT', default=60, cast=int)
+    CACHE_KEY_PREFIX = config("CACHE_KEY_PREFIX", default='')
     # CACHE_OPTIONS
-    CACHE_REDIS_HOST = os.environ.get("CACHE_REDIS_HOST", '')
-    CACHE_REDIS_PORT = os.environ.get('CACHE_REDIS_PORT', '6379')
-    CACHE_REDIS_PASSWORD = os.environ.get("CACHE_REDIS_PASSWORD", '')
-    CACHE_REDIS_DB = os.environ.get("CACHE_REDIS_DB", '')
-    CACHE_REDIS_URL = os.environ.get("CACHE_REDIS_URL", '')
+    CACHE_REDIS_HOST = config("CACHE_REDIS_HOST", default='')
+    CACHE_REDIS_PORT = config('CACHE_REDIS_PORT', default=6379, cast=int)
+    CACHE_REDIS_PASSWORD = config("CACHE_REDIS_PASSWORD", default='')
+    CACHE_REDIS_DB = config("CACHE_REDIS_DB", default='')
+    CACHE_REDIS_URL = config("CACHE_REDIS_URL", default='')
     <%_ } _%>
