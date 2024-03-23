@@ -21,7 +21,7 @@ const chalk = require('chalk');
 const _ = require('lodash');
 
 const CLI_NAME = 'pyhipster';
-const GENERATOR_NAME = 'generator-phipster';
+const GENERATOR_NAME = 'generator-pyhipster';
 
 const SUCCESS_MESSAGE = 'Congratulations, PyHipster execution is complete!';
 const SPONSOR_MESSAGE = 'Show us some ❤️  by sponsoring us.';
